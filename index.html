@@ -339,20 +339,13 @@
                 <h3 id="sync-modal-title" class="text-sm font-semibold">雲端同步</h3>
                 <button onclick="closeSyncModal()" class="text-notion-muted hover:text-notion-text px-2" aria-label="關閉同步設定">✕</button>
             </div>
-            <p class="text-[11px] text-notion-muted leading-relaxed">手機與網頁使用同一個同步 ID。按「上傳」會把本機資料送到 Supabase；按「下載」會用雲端資料覆蓋本機。</p>
-            <input type="text" id="sync-id" placeholder="同步 ID，例如 my-fitness-2026" class="w-full text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted">
-            <input type="url" id="sync-url" value="https://iqbkizoojhcjeoabghvq.supabase.co" placeholder="Supabase URL" class="w-full text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted font-mono">
-            <textarea id="sync-key" rows="3" placeholder="Supabase publishable 或 anon key" class="w-full text-xs border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted resize-none font-mono">sb_publishable_UBILTYcAxnDMitdXDWCOoA_2ioS966t</textarea>
+            <p class="text-[11px] text-notion-muted leading-relaxed">請先用 Gmail 登入。登入後手機與網頁會使用同一個帳號同步資料。</p>
             <div class="bg-notion-hover border border-notion-border rounded p-3 space-y-2">
                 <p id="auth-status" class="text-[11px] text-notion-muted">尚未登入 Gmail</p>
                 <div class="grid grid-cols-2 gap-2">
                     <button onclick="signInWithGoogle()" class="py-2.5 text-sm bg-notion-btn text-white rounded-notion font-medium">Gmail 登入</button>
                     <button onclick="signOutGoogle()" class="py-2.5 text-sm bg-white text-notion-text border border-notion-border rounded-notion font-medium">登出</button>
                 </div>
-            </div>
-            <div class="grid grid-cols-2 gap-2">
-                <button onclick="saveSyncSettings()" class="py-2.5 text-sm bg-notion-hover text-notion-text border border-notion-border rounded-notion font-medium">儲存設定</button>
-                <button onclick="testCloudSync()" class="py-2.5 text-sm bg-notion-hover text-notion-text border border-notion-border rounded-notion font-medium">測試連線</button>
             </div>
             <div class="grid grid-cols-2 gap-2">
                 <button onclick="pushCloudSync()" class="py-2.5 text-sm bg-notion-btn text-white rounded-notion font-medium">上傳本機</button>
@@ -441,6 +434,8 @@
         ];
 
         const SYNC_SETTINGS_KEY = 'manifestation_sync_settings';
+        const SUPABASE_URL = 'https://iqbkizoojhcjeoabghvq.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_UBILTYcAxnDMitdXDWCOoA_2ioS966t';
 
         function getAllAppData() {
             return STORAGE_KEYS.reduce((acc, key) => {
@@ -617,11 +612,7 @@
         }
 
         function openSyncModal() {
-            const settings = getSyncSettings();
-            document.getElementById('sync-id').value = settings.syncId || '';
-            document.getElementById('sync-url').value = settings.url || document.getElementById('sync-url').value;
-            document.getElementById('sync-key').value = settings.key || document.getElementById('sync-key').value;
-            document.getElementById('sync-status').innerText = settings.url && settings.key ? '已載入 Supabase 同步設定' : '尚未設定雲端同步';
+            document.getElementById('sync-status').innerText = '請先登入 Gmail';
             refreshAuthStatus();
             document.getElementById('modal-sync').classList.remove('hidden');
             document.getElementById('modal-sync').classList.add('flex');
@@ -645,45 +636,10 @@
             if (status) status.innerText = message;
         }
 
-        function getSyncFormValues(requireSyncId = true) {
-            const syncId = document.getElementById('sync-id')?.value.trim() || '';
-            const url = document.getElementById('sync-url').value.trim().replace(/\/$/, '');
-            const key = document.getElementById('sync-key').value.trim();
-            if (requireSyncId && !syncId) throw new Error('missing-sync-id');
-            if (!url || !url.startsWith('https://') || !url.includes('.supabase.co')) throw new Error('invalid-url');
-            if (!key) throw new Error('missing-key');
-            return { syncId, url, key };
-        }
-
-        function saveSyncSettings() {
-            let values;
-            try {
-                values = getSyncFormValues(true);
-            } catch (error) {
-                if (error.message === 'missing-sync-id') return setSyncStatus('請填寫同步 ID，或先用 Gmail 登入');
-                if (error.message === 'invalid-url') return setSyncStatus('請填寫正確的 Supabase URL');
-                if (error.message === 'missing-key') return setSyncStatus('請填寫 Supabase publishable 或 anon key');
-                return setSyncStatus('同步設定不完整');
-            }
-            const { syncId, url, key } = values;
-            localStorage.setItem(SYNC_SETTINGS_KEY, JSON.stringify({ syncId, url, key }));
-            setSyncStatus('同步設定已儲存');
-            showToast('同步設定已儲存');
-        }
-
         async function createSupabaseFromSettings(requireSyncId = true) {
             const stored = getSyncSettings();
-            let settings = stored;
-            if (document.getElementById('sync-url')) {
-                try {
-                    settings = getSyncFormValues(requireSyncId);
-                    localStorage.setItem(SYNC_SETTINGS_KEY, JSON.stringify({ ...stored, ...settings }));
-                } catch (error) {
-                    if (stored.url && stored.key && (!requireSyncId || stored.syncId)) settings = stored;
-                    else throw error;
-                }
-            }
-            if ((!settings.syncId && requireSyncId) || !settings.url || !settings.key) throw new Error('missing-settings');
+            const settings = { ...stored, url: SUPABASE_URL, key: SUPABASE_KEY };
+            if (!settings.syncId && requireSyncId) throw new Error('missing-session');
             try {
                 const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
                 return { client: createClient(settings.url, settings.key), syncId: settings.syncId, settings };
@@ -714,8 +670,8 @@
                 const syncId = `gmail:${user.id}`;
                 const merged = { ...settings, syncId };
                 localStorage.setItem(SYNC_SETTINGS_KEY, JSON.stringify(merged));
-                document.getElementById('sync-id').value = syncId;
                 status.innerText = `已登入：${user.email || 'Google 帳號'}`;
+                setSyncStatus('已登入，可上傳或下載雲端資料');
             } catch {
                 status.innerText = '尚未連線 Supabase Auth';
             }
@@ -729,7 +685,7 @@
                     options: { redirectTo: window.location.href.split('#')[0] }
                 });
             } catch (error) {
-                setSyncStatus(error.message === 'invalid-url' ? '請先確認 Supabase URL' : '無法啟動 Gmail 登入，請檢查 Supabase Auth 設定');
+                setSyncStatus('無法啟動 Gmail 登入，請確認 Supabase 已啟用 Google provider');
             }
         }
 
@@ -739,7 +695,6 @@
                 await client.auth.signOut();
                 const settings = getSyncSettings();
                 localStorage.setItem(SYNC_SETTINGS_KEY, JSON.stringify({ ...settings, syncId: '' }));
-                document.getElementById('sync-id').value = '';
                 await refreshAuthStatus();
                 setSyncStatus('已登出 Gmail');
             } catch {
@@ -750,7 +705,6 @@
         async function pushCloudSync() {
             try {
                 await refreshAuthStatus();
-                saveSyncSettings();
                 setSyncStatus('上傳中...');
                 const { client, syncId } = await getSupabaseClient();
                 const { error } = await client.from('manifestation_sync').upsert({
@@ -762,7 +716,8 @@
                 setSyncStatus('已上傳到 Supabase');
                 showToast('Supabase 同步已上傳');
             } catch (error) {
-                if (error.message === 'missing-settings') setSyncStatus('請先儲存同步設定');
+                if (error.message === 'missing-session') setSyncStatus('請先 Gmail 登入');
+                else if (error.message === 'missing-settings') setSyncStatus('請先 Gmail 登入');
                 else if (error.message === 'supabase-load-failed') setSyncStatus('無法載入 Supabase SDK，請檢查網路');
                 else setSyncStatus(`上傳失敗：${error.message || '請檢查資料表與 RLS 權限'}`);
             }
@@ -771,7 +726,6 @@
         async function pullCloudSync() {
             try {
                 await refreshAuthStatus();
-                saveSyncSettings();
                 setSyncStatus('下載中...');
                 const { client, syncId } = await getSupabaseClient();
                 const { data, error } = await client.from('manifestation_sync').select('data, updated_at').eq('sync_id', syncId).maybeSingle();
@@ -781,23 +735,10 @@
                 setSyncStatus(`已下載並套用雲端資料${data.updated_at ? `｜${new Date(data.updated_at).toLocaleString()}` : ''}`);
                 showToast('雲端資料已套用');
             } catch (error) {
-                if (error.message === 'missing-settings') setSyncStatus('請先儲存同步設定');
+                if (error.message === 'missing-session') setSyncStatus('請先 Gmail 登入');
+                else if (error.message === 'missing-settings') setSyncStatus('請先 Gmail 登入');
                 else if (error.message === 'supabase-load-failed') setSyncStatus('無法載入 Supabase SDK，請檢查網路');
                 else setSyncStatus(`下載失敗：${error.message || '請檢查資料表與 RLS 權限'}`);
-            }
-        }
-
-        async function testCloudSync() {
-            try {
-                await refreshAuthStatus();
-                saveSyncSettings();
-                setSyncStatus('測試連線中...');
-                const { client } = await getSupabaseClient();
-                const { error } = await client.from('manifestation_sync').select('sync_id').limit(1);
-                if (error) throw error;
-                setSyncStatus('Supabase 連線成功');
-            } catch {
-                setSyncStatus('連線測試失敗，請檢查 URL、key、資料表與 RLS 權限');
             }
         }
 
