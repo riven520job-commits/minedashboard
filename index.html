@@ -108,30 +108,57 @@
         .suggestion-chip:active {
             background: #F1F1EF;
         }
+        .feature-tile {
+            border: 1px solid #EAEAEA;
+            background: #FFFFFF;
+            border-radius: 8px;
+            padding: 16px;
+            text-align: left;
+            min-height: 92px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+        }
+        .feature-tile:active {
+            background: #F1F1EF;
+            transform: scale(0.99);
+        }
     </style>
 </head>
 <body class="flex flex-col h-[100dvh] max-w-md mx-auto select-none font-sans border-x border-notion-border relative">
 
-    <header class="py-4 px-6 bg-notion-card border-b border-notion-border flex justify-between items-center sticky top-0 z-10 gap-3">
-        <div class="flex items-center gap-2">
+    <header class="py-3 px-5 bg-notion-card border-b border-notion-border sticky top-0 z-10">
+        <button id="back-home" onclick="switchTab('home')" class="hidden text-sm bg-notion-hover border border-notion-border text-notion-text px-3 py-2 rounded-notion active:bg-gray-200" aria-label="回到首頁">← 首頁</button>
+        <div id="home-brand" class="flex justify-between items-center gap-3">
+            <div class="flex items-center gap-2 min-w-0">
             <div class="app-mark" aria-hidden="true">MF</div>
             <div id="header-icon" class="text-notion-text hidden min-[360px]:block" aria-hidden="true"></div>
             <h1 id="header-title" class="text-base font-semibold tracking-wide leading-snug">我會成為我想成為的人</h1>
-        </div>
-        <div class="flex items-center gap-2 shrink-0">
+            </div>
             <span class="text-xs text-notion-muted font-medium hidden min-[360px]:inline" id="current-date"></span>
-            <button onclick="exportData()" class="text-[11px] bg-notion-hover border border-notion-border text-notion-text px-2 py-1 rounded-notion active:bg-gray-200" aria-label="匯出備份資料">備份</button>
-            <button onclick="openSyncModal()" class="text-[11px] bg-notion-hover border border-notion-border text-notion-text px-2 py-1 rounded-notion active:bg-gray-200" aria-label="開啟雲端同步設定">同步</button>
-            <label class="text-[11px] bg-notion-hover border border-notion-border text-notion-text px-2 py-1 rounded-notion active:bg-gray-200 cursor-pointer" aria-label="匯入備份資料">
-                還原
-                <input type="file" id="import-data" accept="application/json" class="sr-only">
-            </label>
         </div>
     </header>
 
-    <main class="flex-1 overflow-y-auto pb-24 px-6 pt-6 space-y-6 hide-scrollbar">
+    <main class="flex-1 overflow-y-auto pb-8 px-5 pt-5 space-y-6 hide-scrollbar">
         
-        <div id="page-home" class="space-y-4">
+        <div id="page-home" class="space-y-5">
+            <div class="space-y-1">
+                <p class="text-xs text-notion-muted font-medium tracking-wider uppercase">Manifest Atelier</p>
+                <h2 class="text-2xl font-semibold leading-tight text-notion-text">今天想照顧哪一部分？</h2>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <button onclick="switchTab('goals')" class="feature-tile"><span class="text-lg font-semibold">目標</span><span class="text-xs text-notion-muted">日曆與待辦</span></button>
+                <button onclick="switchTab('workout')" class="feature-tile"><span class="text-lg font-semibold">運動</span><span class="text-xs text-notion-muted">減肥影片庫</span></button>
+                <button onclick="switchTab('log')" class="feature-tile"><span class="text-lg font-semibold">紀錄</span><span class="text-xs text-notion-muted">體重飲食照片</span></button>
+                <button onclick="switchTab('journal')" class="feature-tile"><span class="text-lg font-semibold">日記</span><span class="text-xs text-notion-muted">顯化筆記</span></button>
+                <button onclick="switchTab('shrine')" class="feature-tile"><span class="text-lg font-semibold">神社</span><span class="text-xs text-notion-muted">參拜與願望</span></button>
+                <button onclick="switchTab('meditation')" class="feature-tile"><span class="text-lg font-semibold">冥想</span><span class="text-xs text-notion-muted">計時與導引</span></button>
+            </div>
+            <button onclick="switchTab('settings')" class="w-full py-3 text-sm bg-notion-btn text-white rounded-notion font-medium">設定 / 同步 / 備份</button>
+        </div>
+
+        <div id="page-goals" class="space-y-4 hidden">
             <div class="flex items-center justify-between pb-2 border-b border-notion-border">
                 <button onclick="changeMonth(-1)" class="px-2 py-1 text-notion-muted hover:text-notion-text active:scale-90 transition-transform" aria-label="上一個月">◀</button>
                 <span class="text-sm font-semibold text-notion-text tracking-wider" id="calendar-month-year"></span>
@@ -292,34 +319,22 @@
                 <div id="meditation-list" class="space-y-2"></div>
             </div>
         </div>
-    </main>
 
-    <nav class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-notion-card border-t border-notion-border flex justify-between px-1 pb-[env(safe-area-inset-bottom)] pt-2 shadow-[0_-2px_10px_rgba(0,0,0,0.02)] z-20" aria-label="主要功能">
-        <button onclick="switchTab('home')" id="nav-home" class="flex flex-col items-center gap-1 flex-1 text-notion-text py-1" aria-label="目標日曆">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-            <span class="text-[9px] font-medium tracking-widest">目標</span>
-        </button>
-        <button onclick="switchTab('workout')" id="nav-workout" class="flex flex-col items-center gap-1 flex-1 text-notion-muted py-1" aria-label="運動影片庫">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
-            <span class="text-[9px] font-medium tracking-widest">運動</span>
-        </button>
-        <button onclick="switchTab('log')" id="nav-log" class="flex flex-col items-center gap-1 flex-1 text-notion-muted py-1" aria-label="每日狀態紀錄">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
-            <span class="text-[9px] font-medium tracking-widest">紀錄</span>
-        </button>
-        <button onclick="switchTab('journal')" id="nav-journal" class="flex flex-col items-center gap-1 flex-1 text-notion-muted py-1" aria-label="顯化日記">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-            <span class="text-[9px] font-medium tracking-widest">日記</span>
-        </button>
-        <button onclick="switchTab('shrine')" id="nav-shrine" class="flex flex-col items-center gap-1 flex-1 text-notion-muted py-1" aria-label="神社參拜紀錄">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M6 6v16M18 6v16M4 10h16M9 10v6M15 10v6"/><path d="M2 6h20"/></svg>
-            <span class="text-[9px] font-medium tracking-widest">神社</span>
-        </button>
-        <button onclick="switchTab('meditation')" id="nav-meditation" class="flex flex-col items-center gap-1 flex-1 text-notion-muted py-1" aria-label="冥想與靜心">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg>
-            <span class="text-[9px] font-medium tracking-widest">冥想</span>
-        </button>
-    </nav>
+        <div id="page-settings" class="space-y-5 hidden">
+            <div class="space-y-1">
+                <h2 class="text-xl font-semibold text-notion-text">設定</h2>
+                <p class="text-xs text-notion-muted">資料備份、還原與雲端同步</p>
+            </div>
+            <div class="bg-notion-card border border-notion-border rounded-notion p-4 space-y-3 shadow-sm">
+                <button onclick="openSyncModal()" class="w-full py-3 text-sm bg-notion-btn text-white rounded-notion font-medium">Gmail / 雲端同步</button>
+                <button onclick="exportData()" class="w-full py-3 text-sm bg-notion-hover border border-notion-border text-notion-text rounded-notion font-medium">備份到本機</button>
+                <label class="block w-full py-3 text-center text-sm bg-notion-hover border border-notion-border text-notion-text rounded-notion font-medium cursor-pointer">
+                    從本機還原
+                    <input type="file" id="import-data" accept="application/json" class="sr-only">
+                </label>
+            </div>
+        </div>
+    </main>
 
     <div id="modal-journal" class="fixed inset-0 bg-black/40 backdrop-blur-sm hidden justify-center items-center px-6 z-50" role="dialog" aria-modal="true" aria-labelledby="journal-modal-title">
         <div class="bg-notion-card w-full max-w-sm rounded-notion p-5 space-y-4 shadow-2xl">
@@ -526,7 +541,7 @@
                 if(e.target.files[0]) importData(e.target.files[0]);
                 e.target.value = '';
             });
-            refreshAuthStatus();
+            handleAuthRedirect();
             document.addEventListener('keydown', e => {
                 if (e.key === 'Escape') {
                     if (!document.getElementById('modal-journal').classList.contains('hidden')) closeJournalModal();
@@ -537,17 +552,13 @@
         });
 
         function switchTab(tabName) {
-            ['home', 'workout', 'log', 'journal', 'shrine', 'meditation'].forEach(tab => {
+            ['home', 'goals', 'workout', 'log', 'journal', 'shrine', 'meditation', 'settings'].forEach(tab => {
                 document.getElementById(`page-${tab}`).classList.add('hidden');
-                document.getElementById(`nav-${tab}`).classList.remove('text-notion-text');
-                document.getElementById(`nav-${tab}`).classList.add('text-notion-muted');
             });
             document.getElementById(`page-${tabName}`).classList.remove('hidden');
-            document.getElementById(`nav-${tabName}`).classList.remove('text-notion-muted');
-            document.getElementById(`nav-${tabName}`).classList.add('text-notion-text');
-            document.getElementById('header-icon').innerHTML = ICONS[tabName];
-            const titles = { home: "我會成為我想成為的人", workout: "運動影片庫", log: "每日狀態紀錄", journal: "顯化日記清單", shrine: "神社參拜紀錄", meditation: "冥想與靜心" };
-            document.getElementById('header-title').innerText = titles[tabName];
+            const isHome = tabName === 'home';
+            document.getElementById('home-brand').classList.toggle('hidden', !isHome);
+            document.getElementById('back-home').classList.toggle('hidden', isHome);
             window.scrollTo(0,0);
         }
 
@@ -642,7 +653,17 @@
             if (!settings.syncId && requireSyncId) throw new Error('missing-session');
             try {
                 const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
-                return { client: createClient(settings.url, settings.key), syncId: settings.syncId, settings };
+                return {
+                    client: createClient(settings.url, settings.key, {
+                        auth: {
+                            persistSession: true,
+                            autoRefreshToken: true,
+                            detectSessionInUrl: true
+                        }
+                    }),
+                    syncId: settings.syncId,
+                    settings
+                };
             } catch {
                 throw new Error('supabase-load-failed');
             }
@@ -677,12 +698,41 @@
             }
         }
 
+        function getRedirectUrl() {
+            return `${window.location.origin}${window.location.pathname}`;
+        }
+
+        async function handleAuthRedirect() {
+            const params = new URLSearchParams(window.location.search);
+            const hash = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+            const errorDescription = params.get('error_description') || hash.get('error_description');
+            if (errorDescription) {
+                localStorage.setItem('manifestation_auth_error', errorDescription);
+                window.history.replaceState({}, document.title, getRedirectUrl());
+            }
+            if (params.get('code')) {
+                try {
+                    const { client } = await getAuthClient();
+                    await client.auth.exchangeCodeForSession(params.get('code'));
+                    window.history.replaceState({}, document.title, getRedirectUrl());
+                } catch {
+                    localStorage.setItem('manifestation_auth_error', '登入回傳處理失敗，請重新登入');
+                }
+            }
+            await refreshAuthStatus();
+            const pendingError = localStorage.getItem('manifestation_auth_error');
+            if (pendingError) {
+                setSyncStatus(`登入失敗：${pendingError}`);
+                localStorage.removeItem('manifestation_auth_error');
+            }
+        }
+
         async function signInWithGoogle() {
             try {
                 const { client } = await getAuthClient();
                 await client.auth.signInWithOAuth({
                     provider: 'google',
-                    options: { redirectTo: window.location.href.split('#')[0] }
+                    options: { redirectTo: getRedirectUrl() }
                 });
             } catch (error) {
                 setSyncStatus('無法啟動 Gmail 登入，請確認 Supabase 已啟用 Google provider');
