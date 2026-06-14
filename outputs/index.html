@@ -1,0 +1,1976 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>顯化人生 - Notion極簡版</title>
+    <meta name="theme-color" content="#0B0B0B">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="MANIFEST">
+    <link rel="icon" href='data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"%3E%3Crect width="512" height="512" rx="82" fill="%230b0b0b"/%3E%3Crect x="54" y="54" width="404" height="404" rx="22" fill="none" stroke="%23f7f5ef" stroke-width="10"/%3E%3Ctext x="256" y="254" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="116" font-weight="700" fill="%23f7f5ef" letter-spacing="-8"%3EMF%3C/text%3E%3Ctext x="256" y="336" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="31" font-weight="700" fill="%23f7f5ef" letter-spacing="8"%3EATELIER%3C/text%3E%3C/svg%3E'>
+    <link rel="apple-touch-icon" href='data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"%3E%3Crect width="512" height="512" rx="82" fill="%230b0b0b"/%3E%3Crect x="54" y="54" width="404" height="404" rx="22" fill="none" stroke="%23f7f5ef" stroke-width="10"/%3E%3Ctext x="256" y="254" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="116" font-weight="700" fill="%23f7f5ef" letter-spacing="-8"%3EMF%3C/text%3E%3Ctext x="256" y="336" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="31" font-weight="700" fill="%23f7f5ef" letter-spacing="8"%3EATELIER%3C/text%3E%3C/svg%3E'>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['"Inter"', '"Noto Sans TC"', 'sans-serif'], },
+                    colors: {
+                        notion: { bg: '#FFFFFF', card: '#FFFFFF', text: '#37352F', muted: '#9B9B9B', border: '#EAEAEA', hover: '#F1F1EF', btn: '#2E2C27' }
+                    },
+                    borderRadius: { 'notion': '6px', }
+                }
+            }
+        }
+    </script>
+    <style>
+        html { touch-action: manipulation; }
+        body { background-color: #FFFFFF; color: #37352F; -webkit-tap-highlight-color: transparent; touch-action: manipulation; overscroll-behavior: none; }
+        button, a, input, textarea, select, label, summary { touch-action: manipulation; }
+        input[type="checkbox"]:checked + span { text-decoration: line-through; color: #9B9B9B; }
+        details > summary { list-style: none; outline: none; }
+        details > summary::-webkit-details-marker { display: none; }
+        details[open] summary svg { transform: rotate(90deg); }
+        button:focus-visible, input:focus-visible, textarea:focus-visible, summary:focus-visible, a:focus-visible {
+            outline: 2px solid #37352F;
+            outline-offset: 2px;
+        }
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+        
+        @keyframes fadeUp {
+            0% { opacity: 0; transform: translate(-50%, 10px); }
+            10% { opacity: 1; transform: translate(-50%, 0); }
+            90% { opacity: 1; transform: translate(-50%, 0); }
+            100% { opacity: 0; transform: translate(-50%, -10px); }
+        }
+        .toast-animate { animation: fadeUp 2.5s ease-in-out forwards; }
+        
+        .stamp-yoku {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-15deg);
+            border: 1.5px solid #D94F4F; color: #D94F4F; border-radius: 50%;
+            font-size: 8px; width: 40px; height: 40px;
+            display: flex; align-items: center; justify-content: center;
+            text-align: center; line-height: 1.1; font-weight: 700;
+            opacity: 0.85; pointer-events: none;
+            box-shadow: inset 0 0 0 1px rgba(217, 79, 79, 0.2); letter-spacing: -0.5px;
+        }
+        .app-mark {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            background: #0B0B0B;
+            color: #F7F5EF;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #0B0B0B;
+            box-shadow: inset 0 0 0 1px rgba(247, 245, 239, 0.18);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: -0.04em;
+        }
+        .today-cell {
+            border-color: #2E2C27;
+            box-shadow: inset 0 0 0 1px #2E2C27, 0 0 0 2px #F7F5EF;
+        }
+        .today-label {
+            position: absolute;
+            right: 4px;
+            bottom: 4px;
+            font-size: 7px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            color: #2E2C27;
+            border-top: 1px solid #2E2C27;
+            padding-top: 1px;
+        }
+        .suggestion-chip {
+            border: 1px solid #EAEAEA;
+            background: #FFFFFF;
+            color: #37352F;
+            border-radius: 999px;
+            padding: 6px 10px;
+            font-size: 11px;
+            line-height: 1;
+        }
+        .suggestion-chip:active {
+            background: #F1F1EF;
+        }
+        .feature-tile {
+            border: 1px solid #EAEAEA;
+            background: #FFFFFF;
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+            min-height: 92px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+        }
+        .feature-icon {
+            width: 28px;
+            height: 28px;
+            color: #2E2C27;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+        .feature-icon svg {
+            width: 16px;
+            height: 16px;
+        }
+        .feature-tile:active {
+            background: #F1F1EF;
+            transform: scale(0.99);
+        }
+    </style>
+</head>
+<body class="flex flex-col h-[100dvh] max-w-md mx-auto select-none font-sans border-x border-notion-border relative">
+
+    <header class="py-3 px-5 bg-notion-card border-b border-notion-border sticky top-0 z-10">
+        <button id="back-home" onclick="switchTab('home')" class="hidden text-sm bg-notion-hover border border-notion-border text-notion-text px-3 py-2 rounded-notion active:bg-gray-200" aria-label="回到首頁">← 首頁</button>
+        <div id="home-brand" class="flex justify-between items-center gap-3">
+            <div class="flex items-center gap-2 min-w-0">
+            <div class="app-mark" aria-hidden="true">MF</div>
+            <h1 id="header-title" class="text-base font-semibold tracking-wide leading-snug" data-i18n="appTitle">我會成為我想成為的人</h1>
+            </div>
+            <span class="text-xs text-notion-muted font-medium hidden min-[360px]:inline" id="current-date"></span>
+        </div>
+    </header>
+
+    <main class="flex-1 overflow-y-auto pb-8 px-5 pt-5 space-y-6 hide-scrollbar">
+        
+        <div id="page-home" class="space-y-5">
+            <div class="space-y-1">
+                <p class="text-xs text-notion-muted font-medium tracking-wider uppercase" data-i18n="homeEyebrow">Manifest Atelier</p>
+                <h2 class="text-2xl font-semibold leading-tight text-notion-text min-h-[3.5rem]" data-i18n="homeTitle" id="home-quote">今天想照顧哪一部分？</h2>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <button onclick="switchTab('goals')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></span><span class="text-lg font-semibold" data-i18n="calendar">日曆</span><span class="text-xs text-notion-muted" id="calendar-card-summary">今日 0/0｜本月 0%</span></button>
+                <button onclick="switchTab('workout')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m10 8 6 4-6 4V8z"/></svg></span><span class="text-lg font-semibold" data-i18n="workout">運動</span><span class="text-xs text-notion-muted" data-i18n="workoutSub">減肥影片庫</span></button>
+                <button onclick="switchTab('log')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span><span class="text-lg font-semibold" data-i18n="log">紀錄</span><span class="text-xs text-notion-muted" data-i18n="logSub">體重飲食照片</span></button>
+                <button onclick="switchTab('journal')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h6"/></svg></span><span class="text-lg font-semibold" data-i18n="journal">日記</span><span class="text-xs text-notion-muted" data-i18n="journalSub">顯化筆記</span></button>
+                <button onclick="switchTab('dictionary')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5z"/><path d="M9 7h6M9 11h4"/></svg></span><span class="text-lg font-semibold" data-i18n="dictionary">字典</span><span class="text-xs text-notion-muted" data-i18n="dictionarySub">日語查詢與複習</span></button>
+                <button onclick="switchTab('shrine')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M6 6v16M18 6v16M4 10h16M9 10v6M15 10v6"/></svg></span><span class="text-lg font-semibold" data-i18n="shrine">神社</span><span class="text-xs text-notion-muted" data-i18n="shrineSub">參拜與願望</span></button>
+                <button onclick="switchTab('meditation')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a14.5 14.5 0 0 0 0 20"/></svg></span><span class="text-lg font-semibold" data-i18n="meditation">冥想</span><span class="text-xs text-notion-muted" data-i18n="meditationSub">計時與導引</span></button>
+            </div>
+            <button onclick="switchTab('settings')" class="w-full py-3 text-sm bg-notion-btn text-white rounded-notion font-medium" data-i18n="settingsButton">設定 / 同步 / 備份</button>
+        </div>
+
+        <div id="page-dictionary" class="space-y-5 hidden">
+            <div class="flex items-center justify-between pb-2 border-b border-notion-border">
+                <span class="text-xs font-semibold text-notion-muted tracking-wider uppercase" data-i18n="dictionaryPageTitle">日語字典</span>
+            </div>
+            <div class="bg-notion-card border border-notion-border rounded-notion p-4 space-y-3 shadow-sm">
+                <div class="flex gap-2">
+                    <input type="text" id="dictionary-query" placeholder="輸入日文單字或句子..." data-i18n-placeholder="dictionarySearchPh" class="flex-1 text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted">
+                    <button onclick="searchDictionary()" class="text-xs bg-notion-btn text-white px-4 py-2 rounded-notion active:scale-95 transition-transform" data-i18n="search">查詢</button>
+                </div>
+                <p class="text-[10px] text-notion-muted leading-relaxed" data-i18n="dictionaryHint">會先查公開字典資料，再用本機 AI 風格整理重點；查詢後自動保存紀錄。</p>
+            </div>
+            <div id="dictionary-result" class="space-y-3"></div>
+            <div class="space-y-3 pb-4">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-medium text-notion-muted block" data-i18n="dictionaryHistory">查詢紀錄</span>
+                    <button onclick="clearDictionaryHistory()" class="text-[11px] text-notion-muted border border-notion-border px-2 py-1 rounded active:bg-notion-hover" data-i18n="clearHistory">清除</button>
+                </div>
+                <div id="dictionary-history" class="space-y-2"></div>
+            </div>
+        </div>
+
+        <div id="page-goals" class="space-y-4 hidden">
+            <div class="flex items-center justify-between pb-2 border-b border-notion-border">
+                <button onclick="changeMonth(-1)" class="px-2 py-1 text-notion-muted hover:text-notion-text active:scale-90 transition-transform" aria-label="上一個月" data-i18n-aria="prevMonth">◀</button>
+                <span class="text-sm font-semibold text-notion-text tracking-wider" id="calendar-month-year"></span>
+                <button onclick="changeMonth(1)" class="px-2 py-1 text-notion-muted hover:text-notion-text active:scale-90 transition-transform" aria-label="下一個月" data-i18n-aria="nextMonth">▶</button>
+            </div>
+            <div class="grid grid-cols-7 gap-1 text-center text-[10px] font-medium text-notion-muted mb-1" id="weekday-labels">
+                <div>日</div><div>一</div><div>二</div><div>三</div><div>四</div><div>五</div><div>六</div>
+            </div>
+            <div id="calendar-grid" class="grid grid-cols-7 gap-1.5"></div>
+            <p class="text-[10px] text-notion-muted text-center pt-2" data-i18n="calendarHint">點擊日期即可新增或管理目標</p>
+        </div>
+
+        <div id="page-workout" class="space-y-5 hidden">
+            <div class="flex items-center justify-between pb-2 border-b border-notion-border">
+                <span class="text-xs font-semibold text-notion-muted tracking-wider uppercase" data-i18n="workoutPageTitle">常用運動影片</span>
+            </div>
+            <div class="bg-notion-card border border-notion-border rounded-notion p-4 space-y-3 shadow-sm">
+                <input type="text" id="workout-title" placeholder="影片名稱 (例：15分鐘燃脂腹肌)" data-i18n-placeholder="workoutTitlePh" class="w-full text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted">
+                <input type="url" id="workout-url" placeholder="貼上 YouTube 連結..." data-i18n-placeholder="youtubeUrlPh" class="w-full text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted">
+                <select id="workout-part" class="w-full text-sm border border-notion-border rounded px-3 py-2 bg-white focus:outline-none focus:border-notion-muted" aria-label="選擇減肥部位" data-i18n-aria="selectWorkoutPart">
+                    <option value="全身" data-i18n="partFull">全身燃脂</option>
+                    <option value="腹部" data-i18n="partAbs">腹部核心</option>
+                    <option value="臀腿" data-i18n="partLegs">臀腿</option>
+                    <option value="手臂" data-i18n="partArms">手臂</option>
+                    <option value="背部" data-i18n="partBack">背部</option>
+                    <option value="有氧" data-i18n="partCardio">有氧</option>
+                    <option value="伸展" data-i18n="partStretch">伸展放鬆</option>
+                </select>
+                <button onclick="saveWorkout()" class="w-full py-2.5 text-sm bg-notion-btn text-white rounded-notion font-medium hover:opacity-90 active:scale-[0.98] transition-transform" data-i18n="addToVideoLibrary">新增至影片庫</button>
+            </div>
+            <div id="workout-filter" class="flex gap-2 overflow-x-auto pb-1" aria-label="減肥部位篩選" data-i18n-aria="workoutFilter"></div>
+            <div id="workout-list" class="grid grid-cols-2 gap-3 mt-4"></div>
+        </div>
+
+        <div id="page-log" class="space-y-5 hidden">
+            <div class="flex items-center justify-between pb-2 border-b border-notion-border">
+                <span class="text-xs font-semibold text-notion-muted tracking-wider uppercase" data-i18n="todayLogTitle">今日狀態紀錄</span>
+            </div>
+            <div class="bg-notion-card border border-notion-border rounded-notion p-4 space-y-4 shadow-sm">
+                <div class="flex items-center gap-3">
+                    <label for="log-weight" class="text-sm w-12 text-notion-text font-medium" data-i18n="weight">體重</label>
+                    <input type="number" step="0.1" id="log-weight" placeholder="kg" class="flex-1 text-sm border border-notion-border rounded px-2 py-2 focus:outline-none focus:border-notion-muted">
+                </div>
+                <div class="flex items-center gap-3">
+                    <label for="log-food" class="text-sm w-12 text-notion-text font-medium" data-i18n="food">飲食</label>
+                    <input type="text" id="log-food" placeholder="記錄飲食內容..." data-i18n-placeholder="foodPh" class="flex-1 text-sm border border-notion-border rounded px-2 py-2 focus:outline-none focus:border-notion-muted">
+                </div>
+                <div id="today-video-summary" class="hidden text-xs bg-notion-hover border border-notion-border rounded p-3 leading-relaxed"></div>
+                <div class="flex items-center gap-3 pt-1">
+                    <label for="log-image" class="text-sm w-12 text-notion-text font-medium" data-i18n="photo">照片</label>
+                    <input type="file" id="log-image" accept="image/*" class="flex-1 text-xs text-notion-muted file:mr-2 file:py-1.5 file:px-3 file:border-0 file:text-xs file:bg-notion-hover file:text-notion-text file:rounded cursor-pointer">
+                </div>
+                <button onclick="saveLog()" class="w-full py-3 text-sm bg-notion-btn text-white rounded-notion font-medium hover:opacity-90 mt-2 active:scale-[0.98] transition-transform" data-i18n="saveRecord">儲存紀錄</button>
+            </div>
+            <div class="space-y-3">
+                <span class="text-xs font-medium text-notion-muted block" data-i18n="history">歷史紀錄</span>
+                <div id="log-list" class="space-y-3"></div>
+            </div>
+        </div>
+
+        <div id="page-journal" class="space-y-4 hidden">
+            <div class="flex justify-between items-center pb-2 border-b border-notion-border">
+                <span class="text-xs font-semibold text-notion-muted tracking-wider uppercase" data-i18n="journalListTitle">顯化日記清單</span>
+                <button onclick="openJournalModal()" class="text-xs bg-notion-btn text-white px-4 py-1.5 rounded-notion active:scale-95 transition-transform" data-i18n="write">寫作</button>
+            </div>
+            <div id="journal-list" class="space-y-2"></div>
+        </div>
+
+        <div id="page-shrine" class="space-y-5 hidden">
+            <div class="bg-notion-card border border-notion-border rounded-notion p-4 space-y-3 shadow-sm">
+                <div class="flex items-center justify-between pb-2 border-b border-notion-border">
+                    <span class="text-sm font-semibold text-notion-text tracking-wider uppercase" data-i18n="shrineWishTitle">想去的神社清單</span>
+                </div>
+                <div class="flex gap-2">
+                    <input type="text" id="shrine-wish-input" placeholder="新增想去的神社名稱..." data-i18n-placeholder="shrineWishPh" class="flex-1 text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted">
+                    <button onclick="addShrineWish()" class="text-xs bg-notion-btn text-white px-4 py-2 rounded-notion active:scale-95 transition-transform" data-i18n="add">新增</button>
+                </div>
+                <p class="text-[10px] text-notion-muted" data-i18n="shrineWishHint">打勾後會自動將神社名稱帶入下方的參拜紀錄中</p>
+                <div id="shrine-wish-list" class="space-y-2 mt-2 max-h-48 overflow-y-auto pr-1"></div>
+            </div>
+
+            <div class="bg-notion-card border border-notion-border rounded-notion p-4 space-y-4 shadow-sm mt-6">
+                <div class="flex items-center justify-between pb-2 border-b border-notion-border">
+                    <span class="text-sm font-semibold text-notion-text tracking-wider uppercase" data-i18n="newShrineRecord">新增參拜紀錄</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <label for="shrine-name" class="text-sm w-12 text-notion-text font-medium" data-i18n="shrineName">神社</label>
+                    <input type="text" id="shrine-name" placeholder="例如：明治神宮" data-i18n-placeholder="shrineNamePh" class="flex-1 text-sm border border-notion-border rounded px-2 py-2 focus:outline-none focus:border-notion-muted transition-colors duration-300">
+                </div>
+                <div class="flex items-center gap-3">
+                    <label for="shrine-address" class="text-sm w-12 text-notion-text font-medium" data-i18n="address">地址</label>
+                    <input type="text" id="shrine-address" placeholder="(選填) 東京都涉谷區..." data-i18n-placeholder="addressPh" class="flex-1 text-sm border border-notion-border rounded px-2 py-2 focus:outline-none focus:border-notion-muted">
+                </div>
+                <div class="flex items-center gap-3">
+                    <label for="shrine-date" class="text-sm w-12 text-notion-text font-medium" data-i18n="date">日期</label>
+                    <input type="date" id="shrine-date" class="flex-1 text-sm border border-notion-border rounded px-2 py-2 focus:outline-none focus:border-notion-muted">
+                </div>
+                <div class="flex items-start gap-3">
+                    <label for="shrine-notes" class="text-sm w-12 text-notion-text font-medium pt-2" data-i18n="wish">祈願</label>
+                    <textarea id="shrine-notes" rows="2" placeholder="寫下祈求的願望或心情..." data-i18n-placeholder="wishPh" class="flex-1 text-sm border border-notion-border rounded px-2 py-2 focus:outline-none focus:border-notion-muted resize-none"></textarea>
+                </div>
+                <div class="flex items-center gap-3 pt-1">
+                    <label for="shrine-image" class="text-sm w-12 text-notion-text font-medium" data-i18n="goshuin">朱印</label>
+                    <input type="file" id="shrine-image" accept="image/*" class="flex-1 text-xs text-notion-muted file:mr-2 file:py-1.5 file:px-3 file:border-0 file:text-xs file:bg-notion-hover file:text-notion-text file:rounded cursor-pointer">
+                </div>
+                <button onclick="saveShrine()" class="w-full py-3 text-sm bg-notion-btn text-white rounded-notion font-medium hover:opacity-90 mt-2 active:scale-[0.98] transition-transform" data-i18n="saveRecord">儲存紀錄</button>
+            </div>
+            
+            <div class="space-y-3 pb-4">
+                <span class="text-xs font-medium text-notion-muted block" data-i18n="shrineHistory">參拜歷史</span>
+                <div id="shrine-list" class="space-y-3"></div>
+            </div>
+        </div>
+
+        <div id="page-meditation" class="space-y-5 hidden">
+            <div class="bg-notion-card border border-notion-border rounded-notion p-5 text-center shadow-sm space-y-5">
+                <h2 class="text-sm font-semibold text-notion-text tracking-widest uppercase pb-2 border-b border-notion-border" data-i18n="meditationTimer">冥想計時器</h2>
+                <div class="text-5xl font-light tracking-widest text-notion-text font-mono py-2" id="timer-display">15:00</div>
+                <div class="flex justify-center items-center gap-2">
+                    <label for="timer-input" class="sr-only" data-i18n="meditationMinutes">冥想分鐘數</label>
+                    <input type="number" id="timer-input" value="15" class="w-16 text-center text-base border-b border-notion-muted px-1 py-1 focus:outline-none" min="1" max="240">
+                    <span class="text-sm text-notion-muted" data-i18n="minutes">分鐘</span>
+                </div>
+                <div class="flex gap-3 justify-center pt-2">
+                    <button onclick="startTimer()" id="btn-timer-start" class="px-8 py-2.5 text-sm bg-notion-btn text-white rounded-notion font-medium active:scale-95 transition-transform" data-i18n="start">開始</button>
+                    <button onclick="stopTimer()" class="px-6 py-2.5 text-sm bg-notion-hover text-notion-text border border-notion-border rounded-notion font-medium active:bg-gray-200" data-i18n="stop">停止</button>
+                </div>
+                <div class="pt-4 border-t border-notion-border mt-4">
+                    <div class="flex flex-col gap-3 items-center">
+                        <span id="music-status" class="text-xs text-notion-muted bg-notion-hover px-3 py-1 rounded" data-i18n="musicNotLoaded">未載入預設本地音樂</span>
+                        <input type="file" id="bgm-upload" accept="audio/*" class="w-full text-xs text-notion-muted file:mr-2 file:py-1.5 file:px-3 file:border-0 file:text-xs file:bg-notion-hover file:text-notion-text file:rounded cursor-pointer">
+                        <button onclick="saveMusicToDB()" class="w-full py-2 text-sm bg-notion-hover border border-notion-border text-notion-text rounded-notion active:bg-gray-200" data-i18n="saveDefaultMusic">儲存為預設本地音樂</button>
+                        <audio id="med-audio" loop></audio>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-notion-card border border-notion-border rounded-notion p-4 space-y-3 shadow-sm">
+                <div class="flex items-center justify-between pb-2 border-b border-notion-border">
+                    <span class="text-sm font-semibold text-notion-text tracking-wider uppercase" data-i18n="medVideoLibrary">冥想導引影片庫</span>
+                </div>
+                <input type="text" id="med-video-title" placeholder="影片名稱 (例：10分鐘頌缽音療)" data-i18n-placeholder="medVideoTitlePh" class="w-full text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted">
+                <input type="url" id="med-video-url" placeholder="貼上 YouTube 連結..." data-i18n-placeholder="youtubeUrlPh" class="w-full text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted">
+                <button onclick="saveMeditationVideo()" class="w-full py-2.5 text-sm bg-notion-btn text-white rounded-notion font-medium hover:opacity-90 active:scale-[0.98] transition-transform" data-i18n="addGuideVideo">新增導引影片</button>
+                <div id="med-video-list" class="grid grid-cols-2 gap-3 mt-4 pt-2"></div>
+            </div>
+
+            <div class="bg-notion-card border border-notion-border rounded-notion p-4 space-y-4 shadow-sm">
+                <div class="flex items-start gap-3">
+                    <label for="med-notes" class="text-sm w-16 text-notion-text font-medium pt-2" data-i18n="awarenessNote">覺察筆記</label>
+                    <textarea id="med-notes" rows="2" placeholder="冥想後的感受或啟發..." data-i18n-placeholder="medNotesPh" class="flex-1 text-sm border border-notion-border rounded px-2 py-2 focus:outline-none focus:border-notion-muted resize-none"></textarea>
+                </div>
+                <button onclick="saveMeditation()" class="w-full py-3 text-sm bg-notion-btn text-white rounded-notion font-medium hover:opacity-90 active:scale-[0.98] transition-transform" data-i18n="saveRecord">儲存紀錄</button>
+            </div>
+            
+            <div class="space-y-3 pb-4">
+                <span class="text-xs font-medium text-notion-muted block" data-i18n="history">歷史紀錄</span>
+                <div id="meditation-list" class="space-y-2"></div>
+            </div>
+        </div>
+
+        <div id="page-settings" class="space-y-5 hidden">
+            <div class="space-y-1">
+                <h2 class="text-xl font-semibold text-notion-text" data-i18n="settings">設定</h2>
+                <p class="text-xs text-notion-muted" data-i18n="settingsSub">資料備份、還原與雲端同步</p>
+            </div>
+            <div class="bg-notion-card border border-notion-border rounded-notion p-4 space-y-3 shadow-sm">
+                <span class="text-xs font-semibold text-notion-muted tracking-wider uppercase" data-i18n="language">語言</span>
+                <div class="grid grid-cols-3 gap-2">
+                    <button onclick="setLanguage('zh')" id="lang-zh" class="py-2 text-xs border rounded-notion">繁中</button>
+                    <button onclick="setLanguage('ja')" id="lang-ja" class="py-2 text-xs border rounded-notion">日本語</button>
+                    <button onclick="setLanguage('en')" id="lang-en" class="py-2 text-xs border rounded-notion">English</button>
+                </div>
+            </div>
+            <div class="bg-notion-card border border-notion-border rounded-notion p-4 space-y-3 shadow-sm">
+                <button onclick="openSyncModal()" class="w-full py-3 text-sm bg-notion-btn text-white rounded-notion font-medium" data-i18n="gmailSync">Gmail / 雲端同步</button>
+                <button onclick="exportData()" class="w-full py-3 text-sm bg-notion-hover border border-notion-border text-notion-text rounded-notion font-medium" data-i18n="backupLocal">備份到本機</button>
+                <label class="block w-full py-3 text-center text-sm bg-notion-hover border border-notion-border text-notion-text rounded-notion font-medium cursor-pointer">
+                    <span data-i18n="restoreLocal">從本機還原</span>
+                    <input type="file" id="import-data" accept="application/json" class="sr-only">
+                </label>
+            </div>
+        </div>
+    </main>
+
+    <div id="modal-journal" class="fixed inset-0 bg-black/40 backdrop-blur-sm hidden justify-center items-center px-6 z-50" role="dialog" aria-modal="true" aria-labelledby="journal-modal-title">
+        <div class="bg-notion-card w-full max-w-sm rounded-notion p-5 space-y-4 shadow-2xl">
+            <h3 id="journal-modal-title" class="text-sm font-semibold border-b border-notion-border pb-2" data-i18n="newJournal">新增顯化日記</h3>
+            <input type="text" id="journal-title" placeholder="無標題" data-i18n-placeholder="untitled" class="w-full text-base font-medium placeholder-notion-muted border-none focus:outline-none">
+            <textarea id="journal-content" rows="6" placeholder="寫下你的靈感與覺察..." data-i18n-placeholder="journalContentPh" class="w-full text-sm placeholder-notion-muted border-none focus:outline-none resize-none"></textarea>
+            <div class="flex gap-2 pt-2 border-t border-notion-border mt-2">
+                <button onclick="closeJournalModal()" class="flex-1 py-2.5 text-sm bg-notion-hover text-notion-text rounded-notion font-medium" data-i18n="cancel">取消</button>
+                <button onclick="saveJournal()" class="flex-1 py-2.5 text-sm bg-notion-btn text-white rounded-notion font-medium" data-i18n="done">完成</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-sync" class="fixed inset-0 bg-black/40 backdrop-blur-sm hidden justify-center items-center px-6 z-50" role="dialog" aria-modal="true" aria-labelledby="sync-modal-title">
+        <div class="bg-notion-card w-full max-w-sm rounded-notion p-5 space-y-4 shadow-2xl">
+            <div class="flex justify-between items-center border-b border-notion-border pb-2">
+                <h3 id="sync-modal-title" class="text-sm font-semibold" data-i18n="cloudSync">雲端同步</h3>
+                <button onclick="closeSyncModal()" class="text-notion-muted hover:text-notion-text px-2" aria-label="關閉同步設定" data-i18n-aria="closeSync">✕</button>
+            </div>
+            <p class="text-[11px] text-notion-muted leading-relaxed" data-i18n="syncDesc">請先用 Gmail 登入。登入後手機與網頁會使用同一個帳號同步資料。</p>
+            <div class="bg-notion-hover border border-notion-border rounded p-3 space-y-2">
+                <p id="auth-status" class="text-[11px] text-notion-muted">尚未登入 Gmail</p>
+                <div class="grid grid-cols-2 gap-2">
+                    <button onclick="signInWithGoogle()" class="py-2.5 text-sm bg-notion-btn text-white rounded-notion font-medium" data-i18n="gmailLogin">Gmail 登入</button>
+                    <button onclick="signOutGoogle()" class="py-2.5 text-sm bg-white text-notion-text border border-notion-border rounded-notion font-medium" data-i18n="logout">登出</button>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+                <button onclick="pushCloudSync()" class="py-2.5 text-sm bg-notion-btn text-white rounded-notion font-medium" data-i18n="uploadLocal">上傳本機</button>
+                <button onclick="pullCloudSync()" class="py-2.5 text-sm bg-notion-btn text-white rounded-notion font-medium" data-i18n="downloadCloud">下載雲端</button>
+            </div>
+            <p id="sync-status" class="text-[11px] text-notion-muted min-h-4"></p>
+        </div>
+    </div>
+
+    <div id="modal-daily" class="fixed inset-0 bg-black/40 backdrop-blur-sm hidden justify-center items-end sm:items-center px-0 pb-0 sm:px-6 sm:pb-6 z-50" role="dialog" aria-modal="true" aria-labelledby="daily-modal-title">
+        <div class="bg-notion-card w-full max-w-sm rounded-t-xl sm:rounded-notion p-5 space-y-4 shadow-2xl transition-transform transform translate-y-full" id="modal-daily-content">
+            <div class="flex justify-between items-center border-b border-notion-border pb-2">
+                <h3 class="text-sm font-semibold text-notion-text" id="daily-modal-title">日期 目標</h3>
+                <button onclick="closeDailyModal()" class="text-notion-muted hover:text-notion-text px-2" aria-label="關閉日期目標視窗" data-i18n-aria="closeDaily">✕</button>
+            </div>
+            <div class="flex gap-2">
+                <input type="text" id="daily-todo-input" placeholder="新增今日目標..." data-i18n-placeholder="dailyTodoPh" class="flex-1 text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted">
+                <button onclick="addDailyTodo()" class="text-xs bg-notion-btn text-white px-4 py-2 rounded-notion active:scale-95 transition-transform" data-i18n="add">新增</button>
+            </div>
+            <div class="space-y-2">
+                <p class="text-[10px] text-notion-muted font-medium tracking-wider uppercase" data-i18n="suggestedGoals">建議目標</p>
+                <div id="goal-suggestions" class="flex flex-wrap gap-2"></div>
+            </div>
+            <div id="daily-todo-list" class="space-y-2 max-h-[50dvh] overflow-y-auto mt-2 pb-6"></div>
+        </div>
+    </div>
+
+    <div id="toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 bg-notion-text text-white px-4 py-2 rounded-full text-xs font-medium shadow-lg z-50 hidden opacity-0 pointer-events-none">操作成功</div>
+
+    <script>
+        const ICONS = {
+            home: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>`,
+            workout: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>`,
+            log: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>`,
+            journal: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>`,
+            shrine: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M6 6v16M18 6v16M4 10h16M9 10v6M15 10v6"/><path d="M2 6h20"/></svg>`,
+            meditation: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg>`
+        };
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.innerText = msg; toast.classList.remove('hidden'); toast.classList.add('toast-animate');
+            setTimeout(() => { toast.classList.remove('toast-animate'); toast.classList.add('hidden'); }, 2500);
+        }
+
+        function escapeHTML(value) {
+            return String(value ?? '').replace(/[&<>"']/g, char => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            }[char]));
+        }
+
+        function getStorageArray(key) {
+            try {
+                const value = JSON.parse(localStorage.getItem(key) || '[]');
+                return Array.isArray(value) ? value : [];
+            } catch {
+                return [];
+            }
+        }
+
+        function safeExternalURL(url) {
+            try {
+                const parsed = new URL(url);
+                return ['https:', 'http:'].includes(parsed.protocol) ? parsed.href : '#';
+            } catch {
+                return '#';
+            }
+        }
+
+        function getEmptyStateHTML(msg) { return `<div class="text-center py-6 col-span-2 text-notion-muted text-xs bg-notion-hover border border-dashed border-notion-border rounded w-full">${escapeHTML(msg)}</div>`; }
+
+        function getLanguage() {
+            return localStorage.getItem(LANGUAGE_KEY) || 'zh';
+        }
+
+        function t(key, fallback = '') {
+            const lang = getLanguage();
+            return (I18N[lang] && I18N[lang][key]) || I18N.zh[key] || fallback || key;
+        }
+
+        function applyLanguage() {
+            const lang = getLanguage();
+            const dict = I18N[lang] || I18N.zh;
+            document.documentElement.lang = lang === 'zh' ? 'zh-Hant' : lang;
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.dataset.i18n;
+                if (dict[key]) el.innerText = dict[key];
+            });
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.dataset.i18nPlaceholder;
+                if (dict[key]) el.setAttribute('placeholder', dict[key]);
+            });
+            document.querySelectorAll('[data-i18n-aria]').forEach(el => {
+                const key = el.dataset.i18nAria;
+                if (dict[key]) el.setAttribute('aria-label', dict[key]);
+            });
+            const weekdayLabels = document.getElementById('weekday-labels');
+            if (weekdayLabels) {
+                const weekdays = dict.weekdays || I18N.zh.weekdays;
+                weekdayLabels.innerHTML = weekdays.map(day => `<div>${day}</div>`).join('');
+            }
+            const back = document.getElementById('back-home');
+            if (back) {
+                back.innerText = dict.backHome;
+                back.setAttribute('aria-label', dict.backHome.replace('← ', ''));
+            }
+            ['zh', 'ja', 'en'].forEach(code => {
+                const button = document.getElementById(`lang-${code}`);
+                if (!button) return;
+                const active = code === lang;
+                button.className = `py-2 text-xs border rounded-notion ${active ? 'bg-notion-btn text-white border-notion-btn' : 'bg-white text-notion-text border-notion-border'}`;
+            });
+            renderCalendar();
+            updateCalendarCard();
+            rotateHomeQuote(true);
+            renderGoalSuggestions();
+            renderWorkoutFilters();
+            loadWorkouts();
+            loadLogs();
+            loadJournals();
+            loadDictionaryHistory();
+            loadShrineWishes();
+            loadShrines();
+            loadMeditations();
+            loadMeditationVideos();
+        }
+
+        function setLanguage(lang) {
+            localStorage.setItem(LANGUAGE_KEY, lang);
+            applyLanguage();
+            showToast(t('languageUpdated'));
+        }
+
+        const STORAGE_KEYS = [
+            'notion_todos_v2',
+            'notion_workouts',
+            'notion_logs_v2',
+            'notion_journals_v2',
+            'notion_dictionary_history',
+            'notion_shrine_wishes',
+            'notion_shrines',
+            'notion_med_videos',
+            'notion_meditation',
+            'notion_video_views'
+        ];
+
+        const SYNC_SETTINGS_KEY = 'manifestation_sync_settings';
+        const LANGUAGE_KEY = 'manifestation_language';
+        const SUPABASE_URL = 'https://iqbkizoojhcjeoabghvq.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlxYmtpem9vamhjamVvYWJnaHZxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEzNzIxOTEsImV4cCI6MjA5Njk0ODE5MX0.PXJ_prl5OCT9JiRr8KiI9WGw8-XGJUIEDgnfwpHH9eY';
+        const I18N = {
+            zh: {
+                homeEyebrow: 'Manifest Atelier',
+                appTitle: '我會成為我想成為的人',
+                homeTitle: '今天想照顧哪一部分？',
+                calendar: '日曆',
+                goals: '目標',
+                goalsSub: '日曆與待辦',
+                workout: '運動',
+                workoutSub: '減肥影片庫',
+                log: '紀錄',
+                logSub: '體重飲食照片',
+                journal: '日記',
+                journalSub: '顯化筆記',
+                dictionary: '字典',
+                dictionarySub: '日語查詢與複習',
+                shrine: '神社',
+                shrineSub: '參拜與願望',
+                meditation: '冥想',
+                meditationSub: '計時與導引',
+                settingsButton: '設定 / 同步 / 備份',
+                settings: '設定',
+                settingsSub: '資料備份、還原與雲端同步',
+                language: '語言',
+                gmailSync: 'Gmail / 雲端同步',
+                backupLocal: '備份到本機',
+                restoreLocal: '從本機還原',
+                backHome: '← 首頁',
+                weekdays: ['日', '一', '二', '三', '四', '五', '六'],
+                prevMonth: '上一個月',
+                nextMonth: '下一個月',
+                calendarHint: '點擊日期即可新增或管理目標',
+                workoutPageTitle: '常用運動影片',
+                workoutTitlePh: '影片名稱 (例：15分鐘燃脂腹肌)',
+                youtubeUrlPh: '貼上 YouTube 連結...',
+                selectWorkoutPart: '選擇減肥部位',
+                partAll: '全部',
+                partFull: '全身燃脂',
+                partAbs: '腹部核心',
+                partLegs: '臀腿',
+                partArms: '手臂',
+                partBack: '背部',
+                partCardio: '有氧',
+                partStretch: '伸展放鬆',
+                partUncategorized: '未分類',
+                addToVideoLibrary: '新增至影片庫',
+                workoutFilter: '減肥部位篩選',
+                todayLogTitle: '今日狀態紀錄',
+                weight: '體重',
+                food: '飲食',
+                foodPh: '記錄飲食內容...',
+                photo: '照片',
+                saveRecord: '儲存紀錄',
+                history: '歷史紀錄',
+                journalListTitle: '顯化日記清單',
+                write: '寫作',
+                shrineWishTitle: '想去的神社清單',
+                shrineWishPh: '新增想去的神社名稱...',
+                add: '新增',
+                shrineWishHint: '打勾後會自動將神社名稱帶入下方的參拜紀錄中',
+                newShrineRecord: '新增參拜紀錄',
+                shrineName: '神社',
+                shrineNamePh: '例如：明治神宮',
+                address: '地址',
+                addressPh: '(選填) 東京都涉谷區...',
+                date: '日期',
+                wish: '祈願',
+                wishPh: '寫下祈求的願望或心情...',
+                goshuin: '朱印',
+                shrineHistory: '參拜歷史',
+                meditationTimer: '冥想計時器',
+                meditationMinutes: '冥想分鐘數',
+                minutes: '分鐘',
+                start: '開始',
+                stop: '停止',
+                inProgress: '進行中...',
+                musicNotLoaded: '未載入預設本地音樂',
+                musicSelected: '當前選取：',
+                musicLoaded: '已載入預設本地音樂',
+                saveDefaultMusic: '儲存為預設本地音樂',
+                medVideoLibrary: '冥想導引影片庫',
+                medVideoTitlePh: '影片名稱 (例：10分鐘頌缽音療)',
+                addGuideVideo: '新增導引影片',
+                awarenessNote: '覺察筆記',
+                medNotesPh: '冥想後的感受或啟發...',
+                newJournal: '新增顯化日記',
+                untitled: '無標題',
+                journalContentPh: '寫下你的靈感與覺察...',
+                cancel: '取消',
+                done: '完成',
+                cloudSync: '雲端同步',
+                closeSync: '關閉同步設定',
+                syncDesc: '請先用 Gmail 登入。登入後手機與網頁會使用同一個帳號同步資料。',
+                gmailLogin: 'Gmail 登入',
+                logout: '登出',
+                uploadLocal: '上傳本機',
+                downloadCloud: '下載雲端',
+                closeDaily: '關閉日期目標視窗',
+                dailyTodoPh: '新增今日目標...',
+                suggestedGoals: '建議目標',
+                goalSuffix: '目標',
+                noDailyGoals: '本日尚未設定目標',
+                deleteGoal: '刪除目標',
+                goalAlreadyAdded: '這個目標已經加入',
+                suggestedGoalAdded: '已加入建議目標',
+                noWorkoutVideos: '還沒有儲存影片，貼上 YouTube 網址試試看！',
+                noWorkoutPartVideos: '這個部位還沒有影片',
+                unnamedVideo: '未命名影片',
+                watchAndRecord: '觀看並記錄',
+                deleteVideo: '刪除影片',
+                invalidLink: '請填寫有效連結',
+                videoSaved: '影片已儲存',
+                deleted: '已刪除',
+                noLogs: '尚無紀錄，記錄一下今天的狀態吧',
+                watchedVideos: '已觀看影片',
+                deleteRecord: '刪除紀錄',
+                recordSaved: '紀錄已儲存',
+                fillContent: '請填寫內容',
+                noJournals: '寫下今天第一篇顯化日記吧',
+                delete: '刪除',
+                journalSaved: '日記已儲存',
+                noShrineWishes: '還沒有想去的神社，新增一個吧！',
+                openInGoogleMap: '在 Google Map 開啟',
+                deleteShrineWish: '刪除想去的神社',
+                shrineWishAdded: '已加入願望清單',
+                shrineFilled: '已將「{name}」帶入表單',
+                noShrineRecords: '還沒有參拜紀錄',
+                viewOnMap: '在地圖中查看',
+                deleteShrineRecord: '刪除參拜紀錄',
+                shrineRecordSaved: '參拜紀錄已儲存',
+                shrineNameRequired: '請填寫神社名稱',
+                chooseMusic: '請先選擇音樂',
+                systemNotReady: '系統未準備好',
+                musicSaved: '音樂已儲存',
+                browserCantPlay: '瀏覽器暫時無法播放音樂',
+                noMeditationVideos: '這裡還空空的，新增你的靜心導引影片吧！',
+                deleteGuideVideo: '刪除導引影片',
+                guideVideoSaved: '導引影片已儲存',
+                noMeditations: '留點時間給自己，開始冥想吧',
+                deleteMeditation: '刪除冥想紀錄',
+                meditationSaved: '冥想紀錄已儲存',
+                languageUpdated: '語言已更新',
+                backupCreated: '備份檔已建立',
+                dataRestored: '資料已還原',
+                invalidBackup: '備份檔格式不正確',
+                videoUrlInvalid: '影片連結無效',
+                videoWatchedToast: '{label}已觀看 {count} 次',
+                authLoginRequired: '請先登入 Gmail',
+                authNotLoggedIn: '尚未登入 Gmail',
+                authLoggedIn: '已登入：{email}',
+                authReady: '已登入，可上傳或下載雲端資料',
+                authNoSupabase: '尚未連線 Supabase Auth',
+                authCallbackFailed: '登入回傳處理失敗，請重新登入',
+                authFailed: '登入失敗：{error}',
+                authStartFailed: '無法啟動 Gmail 登入，請確認 Supabase 已啟用 Google provider',
+                authLoggedOut: '已登出 Gmail',
+                authLogoutFailed: '登出失敗',
+                uploading: '上傳中...',
+                uploadedSupabase: '已上傳到 Supabase',
+                uploadToast: 'Supabase 同步已上傳',
+                supabaseLoadFailed: '無法載入 Supabase SDK，請檢查網路',
+                uploadFailed: '上傳失敗：{error}',
+                downloadFailed: '下載失敗：{error}',
+                checkingTable: '請檢查資料表與 RLS 權限',
+                downloading: '下載中...',
+                noCloudData: '雲端還沒有資料，請先在其中一台裝置上傳',
+                cloudApplied: '已下載並套用雲端資料',
+                cloudAppliedToast: '雲端資料已套用',
+                dictionaryPageTitle: '日語字典',
+                dictionarySearchPh: '輸入日文單字或句子...',
+                dictionaryHint: '會先查公開字典資料，再用本機 AI 風格整理重點；查詢後自動保存紀錄。',
+                search: '查詢',
+                dictionaryHistory: '查詢紀錄',
+                clearHistory: '清除',
+                dictionarySearching: '查詢中...',
+                dictionaryEmpty: '先輸入想查的日文',
+                dictionaryNoResult: '找不到字典資料，已保存成學習筆記',
+                dictionaryNetworkFallback: '公開字典暫時無法連線，已用本機模式建立筆記',
+                dictionarySaved: '已保存查詢紀錄',
+                dictionaryHistoryEmpty: '還沒有查詢紀錄',
+                dictionaryCleared: '查詢紀錄已清除',
+                reading: '讀音',
+                meanings: '意思',
+                partsOfSpeech: '詞性',
+                examples: '例句',
+                aiNotes: 'AI 重點整理',
+                memoryHint: '記憶提示',
+                copyAiPrompt: '複製 AI 提問',
+                favorite: '收藏',
+                unfavorite: '取消收藏',
+                dictionaryDelete: '刪除紀錄',
+                dictionaryUseAgain: '再查一次',
+                aiPromptCopied: 'AI 提問已複製',
+                aiExplainFallback: '把這個詞拆成「讀音、詞性、核心意思、3 個生活例句、常見錯誤、記憶法」來學。',
+                localAiNote: '可先掌握讀音與核心意思，再把它放進自己的生活句子中。',
+                aiEnhanced: '已加入 AI 解釋',
+                aiUnavailable: 'AI 暫時無法連線，已保留本機整理',
+                noReading: '無讀音',
+                noMeaning: '尚無解釋',
+                noPart: '未分類'
+            },
+            ja: {
+                homeEyebrow: 'Manifest Atelier',
+                appTitle: 'なりたい私になる',
+                homeTitle: '今日はどこを整える？',
+                calendar: 'カレンダー',
+                goals: '目標',
+                goalsSub: 'カレンダーとToDo',
+                workout: '運動',
+                workoutSub: 'ダイエット動画',
+                log: '記録',
+                logSub: '体重・食事・写真',
+                journal: '日記',
+                journalSub: 'マニフェストノート',
+                dictionary: '辞書',
+                dictionarySub: '日本語検索と復習',
+                shrine: '神社',
+                shrineSub: '参拝と願い',
+                meditation: '瞑想',
+                meditationSub: 'タイマーとガイド',
+                settingsButton: '設定 / 同期 / バックアップ',
+                settings: '設定',
+                settingsSub: 'バックアップ、復元、クラウド同期',
+                language: '言語',
+                gmailSync: 'Gmail / クラウド同期',
+                backupLocal: 'ローカルにバックアップ',
+                restoreLocal: 'ローカルから復元',
+                backHome: '← ホーム',
+                weekdays: ['日', '月', '火', '水', '木', '金', '土'],
+                prevMonth: '前の月',
+                nextMonth: '次の月',
+                calendarHint: '日付をタップして目標を追加・管理',
+                workoutPageTitle: 'よく使う運動動画',
+                workoutTitlePh: '動画名（例：15分脂肪燃焼）',
+                youtubeUrlPh: 'YouTubeリンクを貼り付け...',
+                selectWorkoutPart: '部位を選択',
+                partAll: 'すべて',
+                partFull: '全身燃焼',
+                partAbs: '腹筋・体幹',
+                partLegs: 'お尻・脚',
+                partArms: '腕',
+                partBack: '背中',
+                partCardio: '有酸素',
+                partStretch: 'ストレッチ',
+                partUncategorized: '未分類',
+                addToVideoLibrary: '動画庫に追加',
+                workoutFilter: '部位フィルター',
+                todayLogTitle: '今日の状態記録',
+                weight: '体重',
+                food: '食事',
+                foodPh: '食事内容を記録...',
+                photo: '写真',
+                saveRecord: '記録を保存',
+                history: '履歴',
+                journalListTitle: 'マニフェスト日記一覧',
+                write: '書く',
+                shrineWishTitle: '行きたい神社リスト',
+                shrineWishPh: '行きたい神社名を追加...',
+                add: '追加',
+                shrineWishHint: 'チェックすると下の参拝記録フォームに神社名が入ります',
+                newShrineRecord: '参拝記録を追加',
+                shrineName: '神社',
+                shrineNamePh: '例：明治神宮',
+                address: '住所',
+                addressPh: '任意：東京都渋谷区...',
+                date: '日付',
+                wish: '祈願',
+                wishPh: '願いごとや気持ちを書く...',
+                goshuin: '御朱印',
+                shrineHistory: '参拝履歴',
+                meditationTimer: '瞑想タイマー',
+                meditationMinutes: '瞑想分数',
+                minutes: '分',
+                start: '開始',
+                stop: '停止',
+                inProgress: '進行中...',
+                musicNotLoaded: 'デフォルト音楽は未読み込み',
+                musicSelected: '現在選択：',
+                musicLoaded: 'デフォルト音楽を読み込み済み',
+                saveDefaultMusic: 'デフォルト音楽として保存',
+                medVideoLibrary: '瞑想ガイド動画庫',
+                medVideoTitlePh: '動画名（例：10分シンギングボウル）',
+                addGuideVideo: 'ガイド動画を追加',
+                awarenessNote: '気づきメモ',
+                medNotesPh: '瞑想後の感覚や気づき...',
+                newJournal: 'マニフェスト日記を追加',
+                untitled: '無題',
+                journalContentPh: 'ひらめきや気づきを書く...',
+                cancel: 'キャンセル',
+                done: '完了',
+                cloudSync: 'クラウド同期',
+                closeSync: '同期設定を閉じる',
+                syncDesc: '先にGmailでログインしてください。ログイン後、スマホとWebは同じアカウントで同期します。',
+                gmailLogin: 'Gmailログイン',
+                logout: 'ログアウト',
+                uploadLocal: 'ローカルをアップロード',
+                downloadCloud: 'クラウドをダウンロード',
+                closeDaily: '日付目標を閉じる',
+                dailyTodoPh: '今日の目標を追加...',
+                suggestedGoals: 'おすすめ目標',
+                goalSuffix: '目標',
+                noDailyGoals: '今日はまだ目標がありません',
+                deleteGoal: '目標を削除',
+                goalAlreadyAdded: 'この目標は追加済みです',
+                suggestedGoalAdded: 'おすすめ目標を追加しました',
+                noWorkoutVideos: '保存した動画はまだありません。YouTubeリンクを貼ってみましょう。',
+                noWorkoutPartVideos: 'この部位の動画はまだありません',
+                unnamedVideo: '無題の動画',
+                watchAndRecord: '視聴して記録',
+                deleteVideo: '動画を削除',
+                invalidLink: '有効なリンクを入力してください',
+                videoSaved: '動画を保存しました',
+                deleted: '削除しました',
+                noLogs: 'まだ記録がありません。今日の状態を記録しましょう',
+                watchedVideos: '視聴済み動画',
+                deleteRecord: '記録を削除',
+                recordSaved: '記録を保存しました',
+                fillContent: '内容を入力してください',
+                noJournals: '今日最初のマニフェスト日記を書きましょう',
+                delete: '削除',
+                journalSaved: '日記を保存しました',
+                noShrineWishes: '行きたい神社はまだありません。追加してみましょう。',
+                openInGoogleMap: 'Google Mapで開く',
+                deleteShrineWish: '行きたい神社を削除',
+                shrineWishAdded: '願いリストに追加しました',
+                shrineFilled: '「{name}」をフォームに入力しました',
+                noShrineRecords: '参拝記録はまだありません',
+                viewOnMap: '地図で見る',
+                deleteShrineRecord: '参拝記録を削除',
+                shrineRecordSaved: '参拝記録を保存しました',
+                shrineNameRequired: '神社名を入力してください',
+                chooseMusic: '先に音楽を選択してください',
+                systemNotReady: 'システム準備中です',
+                musicSaved: '音楽を保存しました',
+                browserCantPlay: 'ブラウザが一時的に音楽を再生できません',
+                noMeditationVideos: 'まだ空です。静心ガイド動画を追加しましょう。',
+                deleteGuideVideo: 'ガイド動画を削除',
+                guideVideoSaved: 'ガイド動画を保存しました',
+                noMeditations: '自分のための時間を少し取り、瞑想を始めましょう',
+                deleteMeditation: '瞑想記録を削除',
+                meditationSaved: '瞑想記録を保存しました',
+                languageUpdated: '言語を更新しました',
+                backupCreated: 'バックアップファイルを作成しました',
+                dataRestored: 'データを復元しました',
+                invalidBackup: 'バックアップファイルの形式が正しくありません',
+                videoUrlInvalid: '動画リンクが無効です',
+                videoWatchedToast: '{label}を{count}回視聴しました',
+                authLoginRequired: '先にGmailでログインしてください',
+                authNotLoggedIn: 'Gmail未ログイン',
+                authLoggedIn: 'ログイン中：{email}',
+                authReady: 'ログイン済み。アップロードまたはダウンロードできます',
+                authNoSupabase: 'Supabase Authに未接続です',
+                authCallbackFailed: 'ログイン応答の処理に失敗しました。もう一度ログインしてください',
+                authFailed: 'ログイン失敗：{error}',
+                authStartFailed: 'Gmailログインを開始できません。SupabaseでGoogle providerが有効か確認してください',
+                authLoggedOut: 'Gmailからログアウトしました',
+                authLogoutFailed: 'ログアウトに失敗しました',
+                uploading: 'アップロード中...',
+                uploadedSupabase: 'Supabaseにアップロードしました',
+                uploadToast: 'Supabase同期をアップロードしました',
+                supabaseLoadFailed: 'Supabase SDKを読み込めません。ネットワークを確認してください',
+                uploadFailed: 'アップロード失敗：{error}',
+                downloadFailed: 'ダウンロード失敗：{error}',
+                checkingTable: 'テーブルとRLS権限を確認してください',
+                downloading: 'ダウンロード中...',
+                noCloudData: 'クラウドにデータがありません。先にどれかの端末でアップロードしてください',
+                cloudApplied: 'クラウドデータをダウンロードして適用しました',
+                cloudAppliedToast: 'クラウドデータを適用しました',
+                dictionaryPageTitle: '日本語辞書',
+                dictionarySearchPh: '日本語の単語や文を入力...',
+                dictionaryHint: '公開辞書を検索し、本機のAI風メモで要点を整理します。検索後は自動保存されます。',
+                search: '検索',
+                dictionaryHistory: '検索履歴',
+                clearHistory: 'クリア',
+                dictionarySearching: '検索中...',
+                dictionaryEmpty: '調べたい日本語を入力してください',
+                dictionaryNoResult: '辞書データが見つかりません。学習メモとして保存しました',
+                dictionaryNetworkFallback: '公開辞書に接続できません。本機モードでメモを作成しました',
+                dictionarySaved: '検索履歴に保存しました',
+                dictionaryHistoryEmpty: '検索履歴はまだありません',
+                dictionaryCleared: '検索履歴を削除しました',
+                reading: '読み',
+                meanings: '意味',
+                partsOfSpeech: '品詞',
+                examples: '例文',
+                aiNotes: 'AI要点整理',
+                memoryHint: '記憶ヒント',
+                copyAiPrompt: 'AI質問をコピー',
+                favorite: '保存',
+                unfavorite: '保存解除',
+                dictionaryDelete: '履歴を削除',
+                dictionaryUseAgain: 'もう一度検索',
+                aiPromptCopied: 'AI質問をコピーしました',
+                aiExplainFallback: 'この語を「読み、品詞、中心意味、生活例文3つ、よくある間違い、覚え方」に分けて学ぶ。',
+                localAiNote: 'まず読みと中心意味をつかみ、自分の生活文に入れて覚えましょう。',
+                aiEnhanced: 'AI解説を追加しました',
+                aiUnavailable: 'AIに接続できません。本機メモを残しました',
+                noReading: '読みなし',
+                noMeaning: '意味はまだありません',
+                noPart: '未分類'
+            },
+            en: {
+                homeEyebrow: 'Manifest Atelier',
+                appTitle: 'I become who I choose to be',
+                homeTitle: 'What are we caring for today?',
+                calendar: 'Calendar',
+                goals: 'Goals',
+                goalsSub: 'Calendar and tasks',
+                workout: 'Workout',
+                workoutSub: 'Weight-loss videos',
+                log: 'Log',
+                logSub: 'Weight, meals, photos',
+                journal: 'Journal',
+                journalSub: 'Manifest notes',
+                dictionary: 'Dictionary',
+                dictionarySub: 'Japanese lookup and review',
+                shrine: 'Shrines',
+                shrineSub: 'Visits and wishes',
+                meditation: 'Meditation',
+                meditationSub: 'Timer and guides',
+                settingsButton: 'Settings / Sync / Backup',
+                settings: 'Settings',
+                settingsSub: 'Backup, restore, and cloud sync',
+                language: 'Language',
+                gmailSync: 'Gmail / Cloud Sync',
+                backupLocal: 'Back up locally',
+                restoreLocal: 'Restore from local file',
+                backHome: '← Home',
+                weekdays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+                prevMonth: 'Previous month',
+                nextMonth: 'Next month',
+                calendarHint: 'Tap a date to add or manage goals',
+                workoutPageTitle: 'Favorite Workout Videos',
+                workoutTitlePh: 'Video title, e.g. 15-minute fat burn',
+                youtubeUrlPh: 'Paste a YouTube link...',
+                selectWorkoutPart: 'Choose workout area',
+                partAll: 'All',
+                partFull: 'Full body',
+                partAbs: 'Abs and core',
+                partLegs: 'Glutes and legs',
+                partArms: 'Arms',
+                partBack: 'Back',
+                partCardio: 'Cardio',
+                partStretch: 'Stretch',
+                partUncategorized: 'Uncategorized',
+                addToVideoLibrary: 'Add to video library',
+                workoutFilter: 'Body-area filter',
+                todayLogTitle: 'Today Status Log',
+                weight: 'Weight',
+                food: 'Meals',
+                foodPh: 'Record what you ate...',
+                photo: 'Photo',
+                saveRecord: 'Save record',
+                history: 'History',
+                journalListTitle: 'Manifest Journal List',
+                write: 'Write',
+                shrineWishTitle: 'Shrines I Want to Visit',
+                shrineWishPh: 'Add a shrine name...',
+                add: 'Add',
+                shrineWishHint: 'Checking an item fills the shrine name into the visit form below',
+                newShrineRecord: 'Add Shrine Visit',
+                shrineName: 'Shrine',
+                shrineNamePh: 'Example: Meiji Jingu',
+                address: 'Address',
+                addressPh: 'Optional: Shibuya, Tokyo...',
+                date: 'Date',
+                wish: 'Wish',
+                wishPh: 'Write your wish or feeling...',
+                goshuin: 'Goshuin',
+                shrineHistory: 'Visit History',
+                meditationTimer: 'Meditation Timer',
+                meditationMinutes: 'Meditation minutes',
+                minutes: 'min',
+                start: 'Start',
+                stop: 'Stop',
+                inProgress: 'Running...',
+                musicNotLoaded: 'No default local music loaded',
+                musicSelected: 'Selected: ',
+                musicLoaded: 'Default local music loaded',
+                saveDefaultMusic: 'Save as default local music',
+                medVideoLibrary: 'Meditation Guide Videos',
+                medVideoTitlePh: 'Video title, e.g. 10-minute sound bowl',
+                addGuideVideo: 'Add guide video',
+                awarenessNote: 'Awareness note',
+                medNotesPh: 'Feelings or insights after meditation...',
+                newJournal: 'New Manifest Journal',
+                untitled: 'Untitled',
+                journalContentPh: 'Write your inspiration and awareness...',
+                cancel: 'Cancel',
+                done: 'Done',
+                cloudSync: 'Cloud Sync',
+                closeSync: 'Close sync settings',
+                syncDesc: 'Sign in with Gmail first. After signing in, your phone and web app sync with the same account.',
+                gmailLogin: 'Gmail Login',
+                logout: 'Log out',
+                uploadLocal: 'Upload local',
+                downloadCloud: 'Download cloud',
+                closeDaily: 'Close date goals',
+                dailyTodoPh: 'Add today goal...',
+                suggestedGoals: 'Suggested goals',
+                goalSuffix: 'Goals',
+                noDailyGoals: 'No goals set for today',
+                deleteGoal: 'Delete goal',
+                goalAlreadyAdded: 'This goal is already added',
+                suggestedGoalAdded: 'Suggested goal added',
+                noWorkoutVideos: 'No saved videos yet. Try pasting a YouTube link.',
+                noWorkoutPartVideos: 'No videos for this body area yet',
+                unnamedVideo: 'Untitled video',
+                watchAndRecord: 'Watch and record',
+                deleteVideo: 'Delete video',
+                invalidLink: 'Please enter a valid link',
+                videoSaved: 'Video saved',
+                deleted: 'Deleted',
+                noLogs: 'No records yet. Log today’s status.',
+                watchedVideos: 'Watched videos',
+                deleteRecord: 'Delete record',
+                recordSaved: 'Record saved',
+                fillContent: 'Please enter something',
+                noJournals: 'Write your first manifest journal today',
+                delete: 'Delete',
+                journalSaved: 'Journal saved',
+                noShrineWishes: 'No shrines on your list yet. Add one.',
+                openInGoogleMap: 'Open in Google Maps',
+                deleteShrineWish: 'Delete shrine wish',
+                shrineWishAdded: 'Added to wish list',
+                shrineFilled: 'Filled “{name}” into the form',
+                noShrineRecords: 'No shrine visit records yet',
+                viewOnMap: 'View on map',
+                deleteShrineRecord: 'Delete shrine visit',
+                shrineRecordSaved: 'Shrine visit saved',
+                shrineNameRequired: 'Please enter the shrine name',
+                chooseMusic: 'Choose music first',
+                systemNotReady: 'System is not ready yet',
+                musicSaved: 'Music saved',
+                browserCantPlay: 'The browser cannot play music right now',
+                noMeditationVideos: 'Nothing here yet. Add a meditation guide video.',
+                deleteGuideVideo: 'Delete guide video',
+                guideVideoSaved: 'Guide video saved',
+                noMeditations: 'Take a little time for yourself and begin meditation',
+                deleteMeditation: 'Delete meditation record',
+                meditationSaved: 'Meditation record saved',
+                languageUpdated: 'Language updated',
+                backupCreated: 'Backup file created',
+                dataRestored: 'Data restored',
+                invalidBackup: 'Backup file format is invalid',
+                videoUrlInvalid: 'Invalid video link',
+                videoWatchedToast: '{label} watched {count} time(s)',
+                authLoginRequired: 'Please sign in with Gmail first',
+                authNotLoggedIn: 'Not signed in to Gmail',
+                authLoggedIn: 'Signed in: {email}',
+                authReady: 'Signed in. You can upload or download cloud data',
+                authNoSupabase: 'Supabase Auth is not connected',
+                authCallbackFailed: 'Login callback failed. Please sign in again',
+                authFailed: 'Login failed: {error}',
+                authStartFailed: 'Could not start Gmail login. Check that Google provider is enabled in Supabase',
+                authLoggedOut: 'Signed out of Gmail',
+                authLogoutFailed: 'Sign out failed',
+                uploading: 'Uploading...',
+                uploadedSupabase: 'Uploaded to Supabase',
+                uploadToast: 'Supabase sync uploaded',
+                supabaseLoadFailed: 'Could not load Supabase SDK. Check your network',
+                uploadFailed: 'Upload failed: {error}',
+                downloadFailed: 'Download failed: {error}',
+                checkingTable: 'Check the table and RLS permissions',
+                downloading: 'Downloading...',
+                noCloudData: 'No cloud data yet. Upload from one device first',
+                cloudApplied: 'Cloud data downloaded and applied',
+                cloudAppliedToast: 'Cloud data applied',
+                dictionaryPageTitle: 'Japanese Dictionary',
+                dictionarySearchPh: 'Enter a Japanese word or sentence...',
+                dictionaryHint: 'Searches public dictionary data first, then creates a local AI-style study note. Queries are saved automatically.',
+                search: 'Search',
+                dictionaryHistory: 'Lookup History',
+                clearHistory: 'Clear',
+                dictionarySearching: 'Searching...',
+                dictionaryEmpty: 'Enter Japanese to look up',
+                dictionaryNoResult: 'No dictionary entry found. Saved as a study note.',
+                dictionaryNetworkFallback: 'Public dictionary is unavailable. Created a local study note.',
+                dictionarySaved: 'Lookup saved',
+                dictionaryHistoryEmpty: 'No lookup history yet',
+                dictionaryCleared: 'Lookup history cleared',
+                reading: 'Reading',
+                meanings: 'Meanings',
+                partsOfSpeech: 'Part of speech',
+                examples: 'Examples',
+                aiNotes: 'AI Study Notes',
+                memoryHint: 'Memory hint',
+                copyAiPrompt: 'Copy AI prompt',
+                favorite: 'Favorite',
+                unfavorite: 'Unfavorite',
+                dictionaryDelete: 'Delete record',
+                dictionaryUseAgain: 'Search again',
+                aiPromptCopied: 'AI prompt copied',
+                aiExplainFallback: 'Study this term by breaking it into reading, part of speech, core meaning, 3 daily-life examples, common mistakes, and a memory hook.',
+                localAiNote: 'Start with the reading and core meaning, then place it into sentences from your own life.',
+                aiEnhanced: 'AI explanation added',
+                aiUnavailable: 'AI is unavailable. Local notes were kept',
+                noReading: 'No reading',
+                noMeaning: 'No meaning yet',
+                noPart: 'Uncategorized'
+            }
+        };
+
+        const HOME_QUOTES = {
+            zh: [
+                '你專注的方向，會慢慢長成你的生活。',
+                '先在心裡成為那個人，行動會跟上。',
+                '今天的一個小選擇，也在替未來投票。',
+                '把注意力放回想要的版本，世界會開始配合。',
+                '感覺已經擁有，然後溫柔地去完成。',
+                '你願意相信的事，會先改變你的步伐。',
+                '越清楚想成為誰，今天就越知道怎麼走。',
+                '讓願望不只被想起，也被今天照顧到。'
+            ],
+            ja: [
+                '意識を向けた場所から、毎日は少しずつ形になる。',
+                '先に心の中でその人になれば、行動はついてくる。',
+                '今日の小さな選択が、未来の自分をつくる。',
+                '望む自分に意識を戻すと、世界の見え方が変わる。',
+                'もう手にしている感覚で、静かに一歩進む。',
+                '信じることが、歩き方を先に変えてくれる。',
+                'なりたい姿が明確になるほど、今日の道が見える。',
+                '願いを思うだけでなく、今日の行動で育てる。'
+            ],
+            en: [
+                'What you keep choosing slowly becomes your life.',
+                'Become it inwardly first; your actions will follow.',
+                'One small choice today is a vote for your future self.',
+                'Return your attention to the version you are becoming.',
+                'Feel it as already yours, then move with quiet devotion.',
+                'What you dare to believe changes how you walk.',
+                'The clearer your becoming, the simpler today feels.',
+                'Let the wish be more than imagined; let it be cared for today.'
+            ]
+        };
+        let homeQuoteIndex = -1;
+        let homeQuoteTimer;
+
+        function rotateHomeQuote(forceRandom = false) {
+            const quote = document.getElementById('home-quote');
+            if (!quote) return;
+            const lang = getLanguage();
+            const quotes = HOME_QUOTES[lang] || HOME_QUOTES.zh;
+            if (!quotes.length) return;
+            let nextIndex = forceRandom ? Math.floor(Math.random() * quotes.length) : (homeQuoteIndex + 1) % quotes.length;
+            if (quotes.length > 1 && nextIndex === homeQuoteIndex) nextIndex = (nextIndex + 1) % quotes.length;
+            homeQuoteIndex = nextIndex;
+            quote.innerText = quotes[homeQuoteIndex];
+            clearInterval(homeQuoteTimer);
+            homeQuoteTimer = setInterval(() => rotateHomeQuote(false), 12000);
+        }
+
+        function getAllAppData() {
+            return STORAGE_KEYS.reduce((acc, key) => {
+                acc[key] = localStorage.getItem(key);
+                return acc;
+            }, {});
+        }
+
+        function applyAppData(data) {
+            STORAGE_KEYS.forEach(key => {
+                if (typeof data?.[key] === 'string') localStorage.setItem(key, data[key]);
+            });
+            renderCalendar(); loadWorkouts(); loadLogs(); loadJournals(); loadDictionaryHistory(); loadShrines(); loadShrineWishes(); loadMeditations(); loadMeditationVideos();
+        }
+
+        function exportData() {
+            const data = getAllAppData();
+            const blob = new Blob([JSON.stringify({ version: 1, exportedAt: new Date().toISOString(), data }, null, 2)], { type: 'application/json' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = `manifestation-backup-${getFormatDate(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate())}.json`;
+            a.click();
+            URL.revokeObjectURL(a.href);
+            showToast(t('backupCreated'));
+        }
+
+        function importData(file) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                try {
+                    const parsed = JSON.parse(reader.result);
+                    const data = parsed.data || {};
+                    applyAppData(data);
+                    showToast(t('dataRestored'));
+                } catch {
+                    showToast(t('invalidBackup'));
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        let db;
+        const initDB = () => {
+            const request = indexedDB.open("ManifestationAppDB", 1);
+            request.onupgradeneeded = e => {
+                const database = e.target.result;
+                if (!database.objectStoreNames.contains("settings")) database.createObjectStore("settings");
+            };
+            request.onsuccess = e => { db = e.target.result; loadSavedMusic(); };
+        };
+
+        let currentDate = new Date();
+        let currentMonth = currentDate.getMonth();
+        let currentYear = currentDate.getFullYear();
+        let selectedDateStr = "";
+        const padDate = n => n < 10 ? '0' + n : n;
+        const getFormatDate = (y, m, d) => `${y}-${padDate(m + 1)}-${padDate(d)}`;
+        const todayKey = () => getFormatDate(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+        const GOAL_SUGGESTIONS = {
+            zh: ['喝水 2000ml', '走路 8000 步', '完成 20 分鐘運動', '冥想 10 分鐘', '睡前不滑手機', '整理房間 10 分鐘', '寫下 3 件感謝', '蛋白質吃夠'],
+            ja: ['水を2000ml飲む', '8000歩歩く', '20分運動する', '10分瞑想する', '寝る前にスマホを見ない', '部屋を10分整える', '感謝を3つ書く', 'たんぱく質を意識する'],
+            en: ['Drink 2000ml water', 'Walk 8,000 steps', 'Exercise for 20 minutes', 'Meditate for 10 minutes', 'No phone before bed', 'Tidy for 10 minutes', 'Write 3 gratitudes', 'Get enough protein']
+        };
+        const WORKOUT_PARTS = ['全部', '全身', '腹部', '臀腿', '手臂', '背部', '有氧', '伸展', '未分類'];
+        const WORKOUT_PART_KEYS = { '全部': 'partAll', '全身': 'partFull', '腹部': 'partAbs', '臀腿': 'partLegs', '手臂': 'partArms', '背部': 'partBack', '有氧': 'partCardio', '伸展': 'partStretch', '未分類': 'partUncategorized' };
+        let workoutFilter = '全部';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('current-date').innerText = `${currentDate.getFullYear()}/${padDate(currentDate.getMonth()+1)}/${padDate(currentDate.getDate())}`;
+            document.getElementById('shrine-date').valueAsDate = new Date();
+            applyLanguage();
+
+            renderGoalSuggestions();
+            renderWorkoutFilters();
+            initDB(); renderCalendar(); loadWorkouts(); loadLogs(); loadJournals(); loadDictionaryHistory(); loadShrines(); loadShrineWishes(); loadMeditations(); loadMeditationVideos();
+
+            document.getElementById('bgm-upload').addEventListener('change', function(e) {
+                if(e.target.files[0]) {
+                    document.getElementById('med-audio').src = URL.createObjectURL(e.target.files[0]);
+                    document.getElementById('music-status').innerText = t('musicSelected') + e.target.files[0].name;
+                }
+            });
+            document.getElementById('import-data').addEventListener('change', function(e) {
+                if(e.target.files[0]) importData(e.target.files[0]);
+                e.target.value = '';
+            });
+            document.getElementById('dictionary-query').addEventListener('keydown', e => {
+                if (e.key === 'Enter') searchDictionary();
+            });
+            handleAuthRedirect();
+            document.addEventListener('keydown', e => {
+                if (e.key === 'Escape') {
+                    if (!document.getElementById('modal-journal').classList.contains('hidden')) closeJournalModal();
+                    if (!document.getElementById('modal-daily').classList.contains('hidden')) closeDailyModal();
+                    if (!document.getElementById('modal-sync').classList.contains('hidden')) closeSyncModal();
+                }
+            });
+        });
+
+        function switchTab(tabName) {
+            ['home', 'dictionary', 'goals', 'workout', 'log', 'journal', 'shrine', 'meditation', 'settings'].forEach(tab => {
+                document.getElementById(`page-${tab}`).classList.add('hidden');
+            });
+            document.getElementById(`page-${tabName}`).classList.remove('hidden');
+            const isHome = tabName === 'home';
+            document.getElementById('home-brand').classList.toggle('hidden', !isHome);
+            document.getElementById('back-home').classList.toggle('hidden', isHome);
+            window.scrollTo(0,0);
+        }
+
+        function getYouTubeId(url) {
+            const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})/);
+            return (match && match[1]) ? match[1] : null;
+        }
+
+        function recordVideoWatch(storeKey, index, label, event) {
+            if (event) event.preventDefault();
+            const videos = getStorageArray(storeKey);
+            const video = videos[index];
+            if (!video) return;
+            const url = safeExternalURL(video.url);
+            if (url === '#') return showToast(t('videoUrlInvalid'));
+
+            const dateKey = todayKey();
+            const title = video.title || t('unnamedVideo');
+            const views = getStorageArray('notion_video_views');
+            const view = views.find(v => v.date === dateKey && v.title === title && v.type === label);
+            if (view) {
+                view.count += 1;
+                view.lastWatchedAt = new Date().toISOString();
+            } else {
+                views.push({ date: dateKey, title, type: label, count: 1, lastWatchedAt: new Date().toISOString() });
+            }
+            localStorage.setItem('notion_video_views', JSON.stringify(views));
+
+            const logs = getStorageArray('notion_logs_v2');
+            const localeDate = new Date().toLocaleDateString();
+            let log = logs.find(item => item.date === localeDate && item.autoVideo);
+            if (!log) {
+                log = { date: localeDate, weight: '', food: '', image: null, videoViews: [], autoVideo: true };
+                logs.push(log);
+            }
+            if (!Array.isArray(log.videoViews)) log.videoViews = [];
+            const logView = log.videoViews.find(v => v.title === title && v.type === label);
+            if (logView) logView.count += 1;
+            else log.videoViews.push({ title, type: label, count: 1 });
+            while (logs.length > 30) logs.shift();
+            localStorage.setItem('notion_logs_v2', JSON.stringify(logs));
+            loadLogs();
+            const currentCount = log.videoViews.find(v => v.title === title && v.type === label).count;
+            showToast(t('videoWatchedToast').replace('{label}', label).replace('{count}', currentCount));
+            window.open(url, '_blank', 'noopener,noreferrer');
+        }
+
+        function getTodayVideoViews() {
+            return getStorageArray('notion_video_views').filter(v => v.date === todayKey());
+        }
+
+        function renderTodayVideoSummary() {
+            const box = document.getElementById('today-video-summary');
+            if (!box) return;
+            const views = getTodayVideoViews();
+            if (views.length === 0) {
+                box.classList.add('hidden');
+                box.innerHTML = '';
+                return;
+            }
+            box.classList.remove('hidden');
+            box.innerHTML = `<div class="text-[10px] text-notion-muted tracking-wider uppercase mb-2">${t('watchedVideos')}</div>${views.map(v => `<div class="flex justify-between gap-3 py-0.5"><span class="truncate">${escapeHTML(v.type)}｜${escapeHTML(v.title)}</span><span class="font-semibold shrink-0">${escapeHTML(v.count)} ${getLanguage() === 'en' ? 'x' : '次'}</span></div>`).join('')}`;
+        }
+
+        function openSyncModal() {
+            document.getElementById('sync-status').innerText = t('authLoginRequired');
+            refreshAuthStatus();
+            document.getElementById('modal-sync').classList.remove('hidden');
+            document.getElementById('modal-sync').classList.add('flex');
+        }
+
+        function closeSyncModal() {
+            document.getElementById('modal-sync').classList.add('hidden');
+            document.getElementById('modal-sync').classList.remove('flex');
+        }
+
+        function getSyncSettings() {
+            try {
+                return JSON.parse(localStorage.getItem(SYNC_SETTINGS_KEY) || '{}');
+            } catch {
+                return {};
+            }
+        }
+
+        function setSyncStatus(message) {
+            const status = document.getElementById('sync-status');
+            if (status) status.innerText = message;
+        }
+
+        function getAuthDebugText() {
+            const params = new URLSearchParams(window.location.search);
+            const hash = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+            const pairs = [
+                ['error', params.get('error') || hash.get('error')],
+                ['error_code', params.get('error_code') || hash.get('error_code')],
+                ['error_description', params.get('error_description') || hash.get('error_description')],
+                ['code', params.get('code') ? 'present' : null],
+                ['url', window.location.href]
+            ].filter(([, value]) => value);
+            return pairs.map(([key, value]) => `${key}: ${value}`).join('\n');
+        }
+
+        async function createSupabaseFromSettings(requireSyncId = true) {
+            const stored = getSyncSettings();
+            const settings = { ...stored, url: SUPABASE_URL, key: SUPABASE_KEY };
+            if (!settings.syncId && requireSyncId) throw new Error('missing-session');
+            try {
+                const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
+                return {
+                    client: createClient(settings.url, settings.key, {
+                        auth: {
+                            persistSession: true,
+                            autoRefreshToken: true,
+                            detectSessionInUrl: true
+                        }
+                    }),
+                    syncId: settings.syncId,
+                    settings
+                };
+            } catch {
+                throw new Error('supabase-load-failed');
+            }
+        }
+
+        async function getSupabaseClient() {
+            return createSupabaseFromSettings(true);
+        }
+
+        async function getAuthClient() {
+            return createSupabaseFromSettings(false);
+        }
+
+        async function refreshAuthStatus() {
+            const status = document.getElementById('auth-status');
+            if (!status) return;
+            try {
+                const { client, settings } = await getAuthClient();
+                const { data } = await client.auth.getSession();
+                const user = data.session?.user;
+                if (!user) {
+                    status.innerText = t('authNotLoggedIn');
+                    return;
+                }
+                const syncId = `gmail:${user.id}`;
+                const merged = { ...settings, syncId };
+                localStorage.setItem(SYNC_SETTINGS_KEY, JSON.stringify(merged));
+                status.innerText = t('authLoggedIn').replace('{email}', user.email || 'Google');
+                setSyncStatus(t('authReady'));
+            } catch {
+                status.innerText = t('authNoSupabase');
+            }
+        }
+
+        function getRedirectUrl() {
+            return `${window.location.origin}${window.location.pathname}`;
+        }
+
+        async function handleAuthRedirect() {
+            const params = new URLSearchParams(window.location.search);
+            const hash = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+            const errorDescription = params.get('error_description') || hash.get('error_description');
+            if (errorDescription) {
+                localStorage.setItem('manifestation_auth_error', getAuthDebugText() || errorDescription);
+                window.history.replaceState({}, document.title, getRedirectUrl());
+            }
+            if (params.get('code')) {
+                try {
+                    const { client } = await getAuthClient();
+                    const { error } = await client.auth.exchangeCodeForSession(params.get('code'));
+                    if (error) throw error;
+                    window.history.replaceState({}, document.title, getRedirectUrl());
+                } catch {
+                    localStorage.setItem('manifestation_auth_error', `${t('authCallbackFailed')}\n${getAuthDebugText()}`);
+                }
+            }
+            await refreshAuthStatus();
+            const pendingError = localStorage.getItem('manifestation_auth_error');
+            if (pendingError) {
+                setSyncStatus(t('authFailed').replace('{error}', pendingError));
+                localStorage.removeItem('manifestation_auth_error');
+            }
+        }
+
+        async function signInWithGoogle() {
+            try {
+                const { client } = await getAuthClient();
+                await client.auth.signInWithOAuth({
+                    provider: 'google',
+                    options: { redirectTo: getRedirectUrl() }
+                });
+            } catch (error) {
+                setSyncStatus(t('authStartFailed'));
+            }
+        }
+
+        async function signOutGoogle() {
+            try {
+                const { client } = await getAuthClient();
+                await client.auth.signOut();
+                const settings = getSyncSettings();
+                localStorage.setItem(SYNC_SETTINGS_KEY, JSON.stringify({ ...settings, syncId: '' }));
+                await refreshAuthStatus();
+                setSyncStatus(t('authLoggedOut'));
+            } catch {
+                setSyncStatus(t('authLogoutFailed'));
+            }
+        }
+
+        async function pushCloudSync() {
+            try {
+                await refreshAuthStatus();
+                setSyncStatus(t('uploading'));
+                const { client, syncId } = await getSupabaseClient();
+                const { error } = await client.from('manifestation_sync').upsert({
+                    sync_id: syncId,
+                    data: getAllAppData(),
+                    updated_at: new Date().toISOString()
+                }, { onConflict: 'sync_id' });
+                if (error) throw error;
+                setSyncStatus(t('uploadedSupabase'));
+                showToast(t('uploadToast'));
+            } catch (error) {
+                if (error.message === 'missing-session') setSyncStatus(t('authLoginRequired'));
+                else if (error.message === 'missing-settings') setSyncStatus(t('authLoginRequired'));
+                else if (error.message === 'supabase-load-failed') setSyncStatus(t('supabaseLoadFailed'));
+                else setSyncStatus(t('uploadFailed').replace('{error}', error.message || t('checkingTable')));
+            }
+        }
+
+        async function pullCloudSync() {
+            try {
+                await refreshAuthStatus();
+                setSyncStatus(t('downloading'));
+                const { client, syncId } = await getSupabaseClient();
+                const { data, error } = await client.from('manifestation_sync').select('data, updated_at').eq('sync_id', syncId).maybeSingle();
+                if (error) throw error;
+                if (!data) return setSyncStatus(t('noCloudData'));
+                applyAppData(data.data || {});
+                setSyncStatus(`${t('cloudApplied')}${data.updated_at ? `｜${new Date(data.updated_at).toLocaleString()}` : ''}`);
+                showToast(t('cloudAppliedToast'));
+            } catch (error) {
+                if (error.message === 'missing-session') setSyncStatus(t('authLoginRequired'));
+                else if (error.message === 'missing-settings') setSyncStatus(t('authLoginRequired'));
+                else if (error.message === 'supabase-load-failed') setSyncStatus(t('supabaseLoadFailed'));
+                else setSyncStatus(t('downloadFailed').replace('{error}', error.message || t('checkingTable')));
+            }
+        }
+
+        // ================= 目標日曆 =================
+        function changeMonth(dir) { currentMonth += dir; if (currentMonth < 0) { currentMonth = 11; currentYear--; } else if (currentMonth > 11) { currentMonth = 0; currentYear++; } renderCalendar(); }
+        function renderCalendar() {
+            const lang = getLanguage();
+            document.getElementById('calendar-month-year').innerText = lang === 'en' ? `${currentYear}/${padDate(currentMonth + 1)}` : `${currentYear}年 ${currentMonth + 1}月`;
+            const grid = document.getElementById('calendar-grid'); grid.innerHTML = '';
+            const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            const todos = getStorageArray('notion_todos_v2');
+            const todosByDate = {};
+            todos.forEach((t, i) => { if (!t.date) return; if (!todosByDate[t.date]) todosByDate[t.date] = []; todosByDate[t.date].push({ ...t, originalIndex: i }); });
+            for (let i = 0; i < firstDay; i++) { grid.innerHTML += `<div class="aspect-square bg-transparent"></div>`; }
+            const todayStr = getFormatDate(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+
+            for (let d = 1; d <= daysInMonth; d++) {
+                const dateStr = getFormatDate(currentYear, currentMonth, d); const dayTodos = todosByDate[dateStr] || []; const isToday = dateStr === todayStr;
+                let dayHTML = `<div onclick="openDailyModal('${dateStr}')" class="aspect-square border border-notion-border rounded relative bg-notion-card hover:bg-notion-hover active:bg-gray-100 cursor-pointer overflow-hidden flex flex-col items-center justify-center transition-colors ${isToday ? 'today-cell' : ''}" aria-label="${dateStr}${isToday ? ` ${t('todayLogTitle')}` : ''}">`;
+                const textStyle = isToday ? "text-notion-text font-bold" : "text-notion-text";
+                dayHTML += `<span class="absolute top-1 left-1 text-[10px] font-medium ${textStyle}">${d}</span>`;
+                if (isToday) dayHTML += `<span class="today-label">TODAY</span>`;
+                if (dayTodos.length > 0) {
+                    if (dayTodos.every(t => t.completed)) { dayHTML += `<div class="stamp-yoku">よく<br>できました</div>`; } 
+                    else {
+                        dayHTML += `<div class="flex gap-0.5 mt-4 flex-wrap justify-center px-1">`;
+                        for(let i=0; i<Math.min(dayTodos.length, 3); i++) { dayHTML += `<span class="w-1 h-1 rounded-full ${dayTodos[i].completed ? 'bg-green-500/50' : 'bg-notion-muted'}"></span>`; }
+                        if(dayTodos.length > 3) dayHTML += `<span class="text-[8px] text-notion-muted">+</span>`;
+                        dayHTML += `</div>`;
+                    }
+                }
+                dayHTML += `</div>`; grid.innerHTML += dayHTML;
+            }
+            updateCalendarCard();
+        }
+        function updateCalendarCard() {
+            const summary = document.getElementById('calendar-card-summary');
+            if (!summary) return;
+            const todos = getStorageArray('notion_todos_v2');
+            const today = todayKey();
+            const todayTodos = todos.filter(t => t.date === today);
+            const doneToday = todayTodos.filter(t => t.completed).length;
+            const monthPrefix = getFormatDate(currentYear, currentMonth, 1).slice(0, 7);
+            const monthTodos = todos.filter(t => typeof t.date === 'string' && t.date.startsWith(monthPrefix));
+            const doneMonth = monthTodos.filter(t => t.completed).length;
+            const monthRate = monthTodos.length ? Math.round((doneMonth / monthTodos.length) * 100) : 0;
+            const lang = getLanguage();
+            summary.innerText = lang === 'ja'
+                ? `今日 ${doneToday}/${todayTodos.length}｜今月 ${monthRate}%`
+                : lang === 'en'
+                    ? `Today ${doneToday}/${todayTodos.length} | Month ${monthRate}%`
+                    : `今日 ${doneToday}/${todayTodos.length}｜本月 ${monthRate}%`;
+        }
+        function openDailyModal(dateStr) { selectedDateStr = dateStr; document.getElementById('daily-modal-title').innerText = `${dateStr} ${t('goalSuffix')}`; const modal = document.getElementById('modal-daily'); const content = document.getElementById('modal-daily-content'); renderDailyTodos(); modal.classList.remove('hidden'); modal.classList.add('flex'); setTimeout(() => { content.classList.remove('translate-y-full'); }, 10); }
+        function closeDailyModal() { const modal = document.getElementById('modal-daily'); const content = document.getElementById('modal-daily-content'); content.classList.add('translate-y-full'); setTimeout(() => { modal.classList.add('hidden'); modal.classList.remove('flex'); }, 300); renderCalendar(); }
+        function renderGoalSuggestions() { const container = document.getElementById('goal-suggestions'); if (!container) return; const goals = GOAL_SUGGESTIONS[getLanguage()] || GOAL_SUGGESTIONS.zh; container.innerHTML = goals.map(goal => `<button type="button" onclick="addSuggestedGoal('${escapeHTML(goal)}')" class="suggestion-chip">${escapeHTML(goal)}</button>`).join(''); }
+        function renderDailyTodos() { const todos = getStorageArray('notion_todos_v2'); const list = document.getElementById('daily-todo-list'); list.innerHTML = ''; const dayTodos = todos.map((t, i) => ({...t, originalIndex: i})).filter(t => t.date === selectedDateStr); updateCalendarCard(); if (dayTodos.length === 0) { list.innerHTML = `<div class="text-center py-6 text-notion-muted text-xs">${t('noDailyGoals')}</div>`; return; } dayTodos.forEach(todo => { const div = document.createElement('div'); div.className = "flex justify-between items-center bg-notion-hover border border-notion-border rounded p-2 mb-1.5"; div.innerHTML = `<label class="flex items-center gap-3 cursor-pointer flex-1 min-w-0"><input type="checkbox" ${todo.completed ? 'checked' : ''} onchange="toggleDailyTodo(${todo.originalIndex})" class="w-4 h-4 accent-notion-muted"><span class="text-sm text-notion-text truncate flex-1">${escapeHTML(todo.text)}</span></label><button onclick="deleteDailyTodo(${todo.originalIndex})" class="text-notion-muted opacity-40 active:opacity-100 text-xs px-2 py-1" aria-label="${t('deleteGoal')}">✕</button>`; list.appendChild(div); }); }
+        function addDailyTodo() { const input = document.getElementById('daily-todo-input'); const text = input.value.trim(); if (text) { const todos = getStorageArray('notion_todos_v2'); todos.push({ text, date: selectedDateStr, completed: false }); localStorage.setItem('notion_todos_v2', JSON.stringify(todos)); input.value = ''; renderDailyTodos(); } }
+        function addSuggestedGoal(text) { if (!selectedDateStr) return; const todos = getStorageArray('notion_todos_v2'); const exists = todos.some(t => t.date === selectedDateStr && t.text === text); if (exists) return showToast(t('goalAlreadyAdded')); todos.push({ text, date: selectedDateStr, completed: false, suggested: true }); localStorage.setItem('notion_todos_v2', JSON.stringify(todos)); renderDailyTodos(); showToast(t('suggestedGoalAdded')); }
+        function toggleDailyTodo(i) { const todos = getStorageArray('notion_todos_v2'); if (!todos[i]) return; todos[i].completed = !todos[i].completed; localStorage.setItem('notion_todos_v2', JSON.stringify(todos)); renderDailyTodos(); }
+        function deleteDailyTodo(i) { const todos = getStorageArray('notion_todos_v2'); todos.splice(i, 1); localStorage.setItem('notion_todos_v2', JSON.stringify(todos)); renderDailyTodos(); }
+
+        // ================= 運動影片庫 =================
+        function renderWorkoutFilters() {
+            const container = document.getElementById('workout-filter');
+            if (!container) return;
+            const workouts = getStorageArray('notion_workouts');
+            container.innerHTML = WORKOUT_PARTS.map(part => {
+                const count = part === '全部' ? workouts.length : workouts.filter(w => (w.part || '未分類') === part).length;
+                const active = workoutFilter === part;
+                return `<button type="button" onclick="setWorkoutFilter('${part}')" class="shrink-0 text-[11px] border rounded-full px-3 py-1.5 ${active ? 'bg-notion-btn text-white border-notion-btn' : 'bg-white text-notion-text border-notion-border'}">${escapeHTML(t(WORKOUT_PART_KEYS[part], part))}${count ? ` ${count}` : ''}</button>`;
+            }).join('');
+        }
+        function setWorkoutFilter(part) { workoutFilter = part; renderWorkoutFilters(); loadWorkouts(); }
+        function loadWorkouts() { const workouts = getStorageArray('notion_workouts'); const filtered = workoutFilter === '全部' ? workouts : workouts.filter(w => (w.part || '未分類') === workoutFilter); const list = document.getElementById('workout-list'); renderWorkoutFilters(); list.innerHTML = ''; if (workouts.length === 0) { list.innerHTML = getEmptyStateHTML(t('noWorkoutVideos')); return; } if (filtered.length === 0) { list.innerHTML = getEmptyStateHTML(t('noWorkoutPartVideos')); return; } [...filtered].reverse().forEach((w) => { const realIdx = workouts.indexOf(w); const part = w.part || '未分類'; const thumbUrl = w.ytId ? `https://img.youtube.com/vi/${escapeHTML(w.ytId)}/hqdefault.jpg` : 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="%239B9B9B" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line><line x1="2" y1="7" x2="7" y2="7"></line><line x1="2" y1="17" x2="7" y2="17"></line><line x1="17" y1="17" x2="22" y2="17"></line><line x1="17" y1="7" x2="22" y2="7"></line></svg>'; const card = document.createElement('div'); card.className = "bg-notion-card border border-notion-border rounded flex flex-col relative group overflow-hidden shadow-sm"; card.innerHTML = `<button onclick="deleteWorkout(${realIdx})" class="absolute top-1 right-1 bg-black/50 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 active:opacity-100 z-10 backdrop-blur-sm" aria-label="${t('deleteVideo')}">✕</button><a href="${escapeHTML(safeExternalURL(w.url))}" target="_blank" rel="noopener noreferrer" onclick="recordVideoWatch('notion_workouts', ${realIdx}, '${t('workout')}', event)" class="flex flex-col h-full active:opacity-70 transition-opacity"><div class="aspect-video bg-notion-hover flex items-center justify-center overflow-hidden relative"><img src="${thumbUrl}" alt="" class="w-full h-full object-cover"><span class="absolute left-1.5 top-1.5 bg-white/90 border border-notion-border text-[10px] font-medium px-1.5 py-0.5 rounded">${escapeHTML(t(WORKOUT_PART_KEYS[part], part))}</span></div><div class="p-2 flex-1 flex flex-col justify-center gap-2"><h4 class="text-[11px] font-medium text-notion-text leading-tight line-clamp-2">${escapeHTML(w.title || t('unnamedVideo'))}</h4><span class="text-[10px] font-semibold tracking-wider uppercase border-t border-notion-border pt-1">${t('watchAndRecord')}</span></div></a>`; list.appendChild(card); }); }
+        function saveWorkout() { const title = document.getElementById('workout-title').value.trim(); const url = document.getElementById('workout-url').value.trim(); const part = document.getElementById('workout-part').value; if(url && safeExternalURL(url) !== '#') { const ytId = getYouTubeId(url); const workouts = getStorageArray('notion_workouts'); workouts.push({ title: title || t('unnamedVideo'), url, ytId, part }); localStorage.setItem('notion_workouts', JSON.stringify(workouts)); document.getElementById('workout-title').value = ''; document.getElementById('workout-url').value = ''; workoutFilter = part; loadWorkouts(); showToast(t('videoSaved')); } else { showToast(t('invalidLink')); } }
+        function deleteWorkout(i) { const w = getStorageArray('notion_workouts'); w.splice(i, 1); localStorage.setItem('notion_workouts', JSON.stringify(w)); loadWorkouts(); showToast(t('deleted')); }
+
+        // ================= 冥想影片庫 =================
+        function loadMeditationVideos() { const videos = getStorageArray('notion_med_videos'); const list = document.getElementById('med-video-list'); list.innerHTML = ''; if (videos.length === 0) { list.innerHTML = getEmptyStateHTML(t('noMeditationVideos')); return; } [...videos].reverse().forEach((v, i) => { const realIdx = videos.length - 1 - i; const thumbUrl = v.ytId ? `https://img.youtube.com/vi/${escapeHTML(v.ytId)}/hqdefault.jpg` : 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="%239B9B9B" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>'; const card = document.createElement('div'); card.className = "bg-notion-card border border-notion-border rounded flex flex-col relative group overflow-hidden shadow-sm"; card.innerHTML = `<button onclick="deleteMeditationVideo(${realIdx})" class="absolute top-1 right-1 bg-black/50 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 active:opacity-100 z-10 backdrop-blur-sm" aria-label="${t('deleteGuideVideo')}">✕</button><a href="${escapeHTML(safeExternalURL(v.url))}" target="_blank" rel="noopener noreferrer" onclick="recordVideoWatch('notion_med_videos', ${realIdx}, '${t('meditation')}', event)" class="flex flex-col h-full active:opacity-70 transition-opacity"><div class="aspect-video bg-notion-hover flex items-center justify-center overflow-hidden"><img src="${thumbUrl}" alt="" class="w-full h-full object-cover"></div><div class="p-2 flex-1 flex flex-col justify-center gap-2"><h4 class="text-[11px] font-medium text-notion-text leading-tight line-clamp-2">${escapeHTML(v.title || t('unnamedVideo'))}</h4><span class="text-[10px] font-semibold tracking-wider uppercase border-t border-notion-border pt-1">${t('watchAndRecord')}</span></div></a>`; list.appendChild(card); }); }
+        function saveMeditationVideo() { const title = document.getElementById('med-video-title').value.trim(); const url = document.getElementById('med-video-url').value.trim(); if(url && safeExternalURL(url) !== '#') { const ytId = getYouTubeId(url); const videos = getStorageArray('notion_med_videos'); videos.push({ title: title || t('unnamedVideo'), url, ytId }); localStorage.setItem('notion_med_videos', JSON.stringify(videos)); document.getElementById('med-video-title').value = ''; document.getElementById('med-video-url').value = ''; loadMeditationVideos(); showToast(t('guideVideoSaved')); } else { showToast(t('invalidLink')); } }
+        function deleteMeditationVideo(i) { const v = getStorageArray('notion_med_videos'); v.splice(i, 1); localStorage.setItem('notion_med_videos', JSON.stringify(v)); loadMeditationVideos(); showToast(t('deleted')); }
+
+        // ================= 其他功能 (日誌、日記、冥想紀錄) =================
+        function compressImage(file, callback) { const reader = new FileReader(); reader.readAsDataURL(file); reader.onload = e => { const img = new Image(); img.src = e.target.result; img.onload = () => { const canvas = document.createElement('canvas'); const scale = img.width > 600 ? 600 / img.width : 1; canvas.width = img.width * scale; canvas.height = img.height * scale; canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height); callback(canvas.toDataURL('image/jpeg', 0.6)); } } }
+        
+        function loadLogs() { renderTodayVideoSummary(); const logs = getStorageArray('notion_logs_v2'); const list = document.getElementById('log-list'); list.innerHTML = ''; if (logs.length === 0) { list.innerHTML = getEmptyStateHTML(t('noLogs')); return; } [...logs].reverse().forEach((log, i) => { const realIdx = logs.length - 1 - i; const div = document.createElement('div'); div.className = "bg-notion-card border border-notion-border rounded p-3 text-sm"; let imgHTML = log.image ? `<img src="${escapeHTML(log.image)}" alt="${t('photo')}" class="mt-2 rounded object-cover w-full max-h-48 border border-notion-border">` : ''; const videoHTML = Array.isArray(log.videoViews) && log.videoViews.length ? `<div class="mt-2 bg-notion-hover rounded p-2 space-y-1"><p class="text-[10px] text-notion-muted tracking-wider uppercase">${t('watchedVideos')}</p>${log.videoViews.map(v => `<p class="text-xs flex justify-between gap-3"><span class="truncate">${escapeHTML(v.type)}｜${escapeHTML(v.title)}</span><span class="font-semibold shrink-0">${escapeHTML(v.count)} ${getLanguage() === 'en' ? 'x' : '次'}</span></p>`).join('')}</div>` : ''; div.innerHTML = `<div class="flex justify-between items-start"><span class="text-[10px] text-notion-text font-medium bg-notion-hover px-2 py-0.5 rounded">${escapeHTML(log.date)}</span><button onclick="deleteLog(${realIdx})" class="text-notion-muted opacity-40 active:opacity-100 text-xs py-1 px-2" aria-label="${t('deleteRecord')}">✕</button></div><div class="mt-2 space-y-1">${log.weight ? `<p class="text-sm">⚖️ ${escapeHTML(log.weight)} kg</p>` : ''}${log.food ? `<p class="text-sm">🍽️ ${escapeHTML(log.food)}</p>` : ''}</div>${videoHTML}${imgHTML}`; list.appendChild(div); }); }
+        function saveLog() { const w = document.getElementById('log-weight').value; const f = document.getElementById('log-food').value; const file = document.getElementById('log-image').files[0]; const d = new Date().toLocaleDateString(); const todaysViews = getTodayVideoViews().map(v => ({ title: v.title, type: v.type, count: v.count })); const save = (img) => { const l = getStorageArray('notion_logs_v2'); l.push({weight:w, food:f, image:img, date:d, videoViews:todaysViews}); if(l.length>30) l.shift(); localStorage.setItem('notion_logs_v2', JSON.stringify(l)); document.getElementById('log-weight').value=''; document.getElementById('log-food').value=''; document.getElementById('log-image').value=''; loadLogs(); showToast(t('recordSaved')); }; if(file) compressImage(file, save); else if(w||f||todaysViews.length) save(null); else showToast(t('fillContent')); }
+        function deleteLog(i) { const l = getStorageArray('notion_logs_v2'); l.splice(i, 1); localStorage.setItem('notion_logs_v2', JSON.stringify(l)); loadLogs(); showToast(t('deleted')); }
+
+        function openJournalModal() { document.getElementById('modal-journal').classList.remove('hidden'); document.getElementById('modal-journal').classList.add('flex'); document.getElementById('journal-title').focus(); }
+        function closeJournalModal() { document.getElementById('modal-journal').classList.add('hidden'); }
+        function loadJournals() { const j = getStorageArray('notion_journals_v2'); const l = document.getElementById('journal-list'); l.innerHTML = ''; if (j.length === 0) { l.innerHTML = getEmptyStateHTML(t('noJournals')); return; } [...j].reverse().forEach((x, i) => { const div = document.createElement('details'); div.className="bg-notion-card border border-notion-border rounded mb-2"; div.innerHTML=`<summary class="flex items-center gap-2 cursor-pointer text-sm font-medium p-3 relative"><svg class="w-3 h-3 text-notion-muted transition-transform flex-shrink-0" viewBox="0 0 100 100" aria-hidden="true"><polygon points="20,10 80,50 20,90" fill="currentColor"/></svg><span class="flex-1 truncate">${escapeHTML(x.title || t('untitled'))}</span><span class="text-[10px] text-notion-muted">${escapeHTML(x.date)}</span></summary><div class="px-4 pb-3 pt-1 text-sm text-notion-text relative border-t border-notion-hover mt-1"><p class="whitespace-pre-wrap leading-relaxed mt-2">${escapeHTML(x.content)}</p><div class="mt-3 text-right"><button onclick="deleteJournal(${j.length-1-i})" class="text-xs text-notion-muted border border-notion-border px-3 py-1 rounded active:bg-notion-hover">${t('delete')}</button></div></div>`; l.appendChild(div); }); }
+        function saveJournal() { const title = document.getElementById('journal-title').value.trim(); const c = document.getElementById('journal-content').value.trim(); if(c) { const j = getStorageArray('notion_journals_v2'); j.push({title, content:c, date:new Date().toLocaleDateString()}); localStorage.setItem('notion_journals_v2', JSON.stringify(j)); document.getElementById('journal-title').value=''; document.getElementById('journal-content').value=''; closeJournalModal(); loadJournals(); showToast(t('journalSaved')); } }
+        function deleteJournal(i) { const j = getStorageArray('notion_journals_v2'); j.splice(i, 1); localStorage.setItem('notion_journals_v2', JSON.stringify(j)); loadJournals(); showToast(t('deleted')); }
+
+        // ================= 日語字典 =================
+        function getDictionaryHistory() {
+            return getStorageArray('notion_dictionary_history');
+        }
+
+        function normalizeDictionaryEntry(query, apiItem = null, fallbackMessage = '') {
+            const japanese = apiItem?.japanese?.[0] || {};
+            const senses = apiItem?.senses || [];
+            const meanings = senses.flatMap(s => s.english_definitions || []).filter(Boolean).slice(0, 8);
+            const parts = [...new Set(senses.flatMap(s => s.parts_of_speech || []).filter(Boolean))].slice(0, 4);
+            const examples = senses.flatMap(s => (s.sentences || []).map(sentence => sentence.english || sentence.japanese)).filter(Boolean).slice(0, 3);
+            const word = japanese.word || japanese.reading || query;
+            const reading = japanese.reading || (word === query ? '' : query);
+            return {
+                id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+                query,
+                word,
+                reading,
+                meanings: meanings.length ? meanings : [fallbackMessage || t('noMeaning')],
+                parts: parts.length ? parts : [t('noPart')],
+                examples,
+                favorite: false,
+                createdAt: new Date().toISOString(),
+                source: apiItem ? 'jisho' : 'local'
+            };
+        }
+
+        function buildDictionaryAiNotes(entry) {
+            if (entry.ai && typeof entry.ai === 'object') {
+                return [
+                    entry.ai.summary,
+                    entry.ai.readingTip,
+                    entry.ai.grammar,
+                    Array.isArray(entry.ai.examples) ? entry.ai.examples.join(' / ') : '',
+                    entry.ai.memoryHint,
+                    entry.ai.commonMistake
+                ].filter(Boolean);
+            }
+            const mainMeaning = entry.meanings?.[0] || t('noMeaning');
+            const reading = entry.reading || t('noReading');
+            const part = entry.parts?.[0] || t('noPart');
+            return [
+                `${t('reading')}: ${reading}`,
+                `${t('partsOfSpeech')}: ${part}`,
+                `${t('meanings')}: ${mainMeaning}`,
+                `${t('memoryHint')}: ${t('localAiNote')}`
+            ];
+        }
+
+        function renderDictionaryEntry(entry) {
+            const aiNotes = buildDictionaryAiNotes(entry);
+            const examplesHTML = entry.examples?.length
+                ? `<div><p class="text-[10px] text-notion-muted tracking-wider uppercase mb-1">${t('examples')}</p><div class="space-y-1">${entry.examples.map(x => `<p class="text-xs bg-notion-hover rounded px-2 py-1">${escapeHTML(x)}</p>`).join('')}</div></div>`
+                : '';
+            return `<div class="bg-notion-card border border-notion-border rounded-notion p-4 space-y-3 shadow-sm">
+                <div class="flex justify-between gap-3 items-start">
+                    <div class="min-w-0">
+                        <p class="text-xl font-semibold text-notion-text break-words">${escapeHTML(entry.word)}</p>
+                        <p class="text-xs text-notion-muted mt-1">${escapeHTML(entry.reading || t('noReading'))}</p>
+                    </div>
+                    <button onclick="toggleDictionaryFavorite('${entry.id}')" class="text-[11px] border border-notion-border rounded px-2 py-1 shrink-0 active:bg-notion-hover">${entry.favorite ? t('unfavorite') : t('favorite')}</button>
+                </div>
+                <div>
+                    <p class="text-[10px] text-notion-muted tracking-wider uppercase mb-1">${t('meanings')}</p>
+                    <div class="flex flex-wrap gap-1.5">${entry.meanings.map(x => `<span class="text-xs bg-notion-hover border border-notion-border rounded-full px-2 py-1">${escapeHTML(x)}</span>`).join('')}</div>
+                </div>
+                <div>
+                    <p class="text-[10px] text-notion-muted tracking-wider uppercase mb-1">${t('partsOfSpeech')}</p>
+                    <p class="text-xs text-notion-text">${entry.parts.map(escapeHTML).join(' / ')}</p>
+                </div>
+                ${examplesHTML}
+                <div class="border-t border-notion-border pt-3">
+                    <p class="text-[10px] text-notion-muted tracking-wider uppercase mb-2">${t('aiNotes')}${entry.ai ? ` · ${t('aiEnhanced')}` : ''}</p>
+                    <div class="space-y-1">${aiNotes.map(note => `<p class="text-xs leading-relaxed">${escapeHTML(note)}</p>`).join('')}</div>
+                </div>
+                <div class="grid grid-cols-2 gap-2 pt-1">
+                    <button onclick="copyDictionaryPrompt('${entry.id}')" class="py-2 text-xs bg-notion-hover border border-notion-border rounded-notion">${t('copyAiPrompt')}</button>
+                    <button onclick="deleteDictionaryEntry('${entry.id}')" class="py-2 text-xs bg-notion-hover border border-notion-border rounded-notion">${t('dictionaryDelete')}</button>
+                </div>
+            </div>`;
+        }
+
+        async function searchDictionary(queryOverride = '') {
+            const input = document.getElementById('dictionary-query');
+            const query = (queryOverride || input.value || '').trim();
+            if (!query) return showToast(t('dictionaryEmpty'));
+            const result = document.getElementById('dictionary-result');
+            result.innerHTML = `<div class="text-center py-6 text-notion-muted text-xs bg-notion-hover border border-dashed border-notion-border rounded">${t('dictionarySearching')}</div>`;
+            let entry;
+            try {
+                const response = await fetch(`${SUPABASE_URL}/functions/v1/japanese-ai`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_KEY}`
+                    },
+                    body: JSON.stringify({
+                        word: query,
+                        uiLanguage: getLanguage(),
+                        lookupOnly: true
+                    })
+                });
+                if (!response.ok) throw new Error('dictionary-network');
+                const payload = await response.json();
+                entry = normalizeDictionaryEntry(query, payload.dictionary, payload.dictionary ? '' : t('dictionaryNoResult'));
+                if (!payload.dictionary) showToast(t('dictionaryNoResult'));
+            } catch {
+                entry = normalizeDictionaryEntry(query, null, t('dictionaryNetworkFallback'));
+                showToast(t('dictionaryNetworkFallback'));
+            }
+            saveDictionaryEntry(entry);
+            result.innerHTML = renderDictionaryEntry(entry);
+            enhanceDictionaryEntryWithAI(entry.id);
+            input.value = '';
+        }
+
+        async function enhanceDictionaryEntryWithAI(id) {
+            const history = getDictionaryHistory();
+            const entry = history.find(item => item.id === id);
+            if (!entry) return;
+            try {
+                const response = await fetch(`${SUPABASE_URL}/functions/v1/japanese-ai`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_KEY}`
+                    },
+                    body: JSON.stringify({
+                        word: entry.word || entry.query,
+                        dictionaryData: entry,
+                        uiLanguage: getLanguage()
+                    })
+                });
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.error || 'AI failed');
+                entry.ai = data.result;
+                localStorage.setItem('notion_dictionary_history', JSON.stringify(history));
+                loadDictionaryHistory();
+                showDictionaryEntry(id);
+            } catch {
+                showToast(t('aiUnavailable'));
+            }
+        }
+
+        function saveDictionaryEntry(entry) {
+            const history = getDictionaryHistory().filter(item => item.query !== entry.query);
+            history.unshift(entry);
+            localStorage.setItem('notion_dictionary_history', JSON.stringify(history.slice(0, 80)));
+            loadDictionaryHistory();
+            showToast(t('dictionarySaved'));
+        }
+
+        function loadDictionaryHistory() {
+            const list = document.getElementById('dictionary-history');
+            if (!list) return;
+            const history = getDictionaryHistory();
+            if (!history.length) {
+                list.innerHTML = getEmptyStateHTML(t('dictionaryHistoryEmpty'));
+                return;
+            }
+            list.innerHTML = history.map(entry => `<div class="bg-notion-card border border-notion-border rounded p-3 text-sm">
+                <div class="flex justify-between gap-3 items-start">
+                    <button onclick="showDictionaryEntry('${entry.id}')" class="text-left min-w-0 flex-1">
+                        <span class="font-semibold text-notion-text block truncate">${escapeHTML(entry.word || entry.query)}</span>
+                        <span class="text-[11px] text-notion-muted block truncate">${escapeHTML(entry.reading || t('noReading'))}｜${escapeHTML((entry.meanings || [t('noMeaning')])[0])}</span>
+                    </button>
+                    <button onclick="toggleDictionaryFavorite('${entry.id}')" class="text-xs text-notion-muted px-1">${entry.favorite ? '★' : '☆'}</button>
+                </div>
+            </div>`).join('');
+        }
+
+        function showDictionaryEntry(id) {
+            const entry = getDictionaryHistory().find(item => item.id === id);
+            if (!entry) return;
+            document.getElementById('dictionary-result').innerHTML = renderDictionaryEntry(entry);
+            document.getElementById('dictionary-result').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function toggleDictionaryFavorite(id) {
+            const history = getDictionaryHistory();
+            const entry = history.find(item => item.id === id);
+            if (!entry) return;
+            entry.favorite = !entry.favorite;
+            localStorage.setItem('notion_dictionary_history', JSON.stringify(history));
+            loadDictionaryHistory();
+            showDictionaryEntry(id);
+        }
+
+        function deleteDictionaryEntry(id) {
+            const history = getDictionaryHistory().filter(item => item.id !== id);
+            localStorage.setItem('notion_dictionary_history', JSON.stringify(history));
+            document.getElementById('dictionary-result').innerHTML = '';
+            loadDictionaryHistory();
+            showToast(t('deleted'));
+        }
+
+        function clearDictionaryHistory() {
+            localStorage.setItem('notion_dictionary_history', JSON.stringify([]));
+            document.getElementById('dictionary-result').innerHTML = '';
+            loadDictionaryHistory();
+            showToast(t('dictionaryCleared'));
+        }
+
+        function copyDictionaryPrompt(id) {
+            const entry = getDictionaryHistory().find(item => item.id === id);
+            if (!entry) return;
+            const prompt = `${entry.word} / ${entry.reading || ''}\n${t('aiExplainFallback')}`;
+            navigator.clipboard?.writeText(prompt).then(() => showToast(t('aiPromptCopied'))).catch(() => showToast(prompt));
+        }
+
+        // ================= 神社願望清單 (自動帶入功能) =================
+        function loadShrineWishes() {
+            const wishes = getStorageArray('notion_shrine_wishes');
+            const list = document.getElementById('shrine-wish-list'); list.innerHTML = '';
+            if (wishes.length === 0) { list.innerHTML = `<div class="text-center py-4 text-notion-muted text-xs">${t('noShrineWishes')}</div>`; return; }
+            
+            wishes.forEach((w, i) => {
+                const div = document.createElement('div');
+                div.className = "flex justify-between items-center bg-notion-hover border border-notion-border rounded p-2 mb-1.5";
+                const mapQuery = encodeURIComponent(w.name);
+                const mapLink = `<a href="https://www.google.com/maps/search/?api=1&query=${mapQuery}" target="_blank" rel="noopener noreferrer" class="text-notion-muted hover:text-notion-text ml-2 active:opacity-70" title="${t('openInGoogleMap')}" aria-label="${t('openInGoogleMap')} ${escapeHTML(w.name)}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg></a>`;
+                
+                div.innerHTML = `
+                    <label class="flex items-center gap-3 cursor-pointer flex-1 min-w-0">
+                        <input type="checkbox" ${w.completed ? 'checked' : ''} onchange="toggleShrineWish(${i})" class="w-4 h-4 accent-notion-muted">
+                        <span class="text-sm text-notion-text truncate flex-1 flex items-center">${escapeHTML(w.name)} ${mapLink}</span>
+                    </label>
+                    <button onclick="deleteShrineWish(${i})" class="text-notion-muted opacity-40 active:opacity-100 text-xs px-2 py-1" aria-label="${t('deleteShrineWish')}">✕</button>
+                `;
+                list.appendChild(div);
+            });
+        }
+        function addShrineWish() {
+            const input = document.getElementById('shrine-wish-input'); const name = input.value.trim();
+            if (name) {
+                const wishes = getStorageArray('notion_shrine_wishes');
+                wishes.push({ name, completed: false }); localStorage.setItem('notion_shrine_wishes', JSON.stringify(wishes));
+                input.value = ''; loadShrineWishes(); showToast(t('shrineWishAdded'));
+            }
+        }
+        
+        // 核心修改：打勾後自動帶入參拜紀錄表單
+        function toggleShrineWish(i) { 
+            const wishes = getStorageArray('notion_shrine_wishes'); 
+            if (!wishes[i]) return;
+            wishes[i].completed = !wishes[i].completed; 
+            
+            // 如果被標記為完成(打勾)
+            if(wishes[i].completed) {
+                // 將神社名稱填寫進下方的輸入框
+                document.getElementById('shrine-name').value = wishes[i].name;
+                // 讓輸入框閃爍提示一下
+                const inputEl = document.getElementById('shrine-name');
+                inputEl.classList.add('bg-notion-hover');
+                setTimeout(() => inputEl.classList.remove('bg-notion-hover'), 800);
+                
+                showToast(t('shrineFilled').replace('{name}', wishes[i].name));
+                
+                // 平滑滾動到下方表單
+                setTimeout(() => {
+                    inputEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 100);
+            }
+            
+            localStorage.setItem('notion_shrine_wishes', JSON.stringify(wishes)); 
+            loadShrineWishes(); 
+        }
+        
+        function deleteShrineWish(i) { const wishes = getStorageArray('notion_shrine_wishes'); wishes.splice(i, 1); localStorage.setItem('notion_shrine_wishes', JSON.stringify(wishes)); loadShrineWishes(); showToast(t('deleted')); }
+
+        // ================= 神社參拜紀錄 (含地圖功能) =================
+        function loadShrines() { 
+            const shrines = getStorageArray('notion_shrines'); const list = document.getElementById('shrine-list'); list.innerHTML = ''; 
+            if (shrines.length === 0) { list.innerHTML = getEmptyStateHTML(t('noShrineRecords')); return; } 
+            
+            [...shrines].reverse().forEach((s, i) => { 
+                const realIdx = shrines.length - 1 - i; 
+                const div = document.createElement('div'); div.className = "bg-notion-card border border-notion-border rounded p-3 text-sm"; 
+                let imgHTML = s.image ? `<img src="${escapeHTML(s.image)}" alt="${t('goshuin')}" class="mt-2 rounded object-cover w-full max-h-48 border border-notion-border">` : ''; 
+                
+                const mapQuery = encodeURIComponent(s.address || s.name);
+                const mapLink = `<a href="https://www.google.com/maps/search/?api=1&query=${mapQuery}" target="_blank" rel="noopener noreferrer" class="text-[10px] text-notion-muted hover:text-notion-text flex items-center gap-1 mt-1.5 w-fit active:opacity-70 bg-notion-hover px-1.5 py-0.5 rounded transition-colors"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>${escapeHTML(s.address || t('viewOnMap'))}</a>`;
+                
+                div.innerHTML = `<div class="flex justify-between items-start"><span class="text-[10px] text-notion-text font-medium bg-notion-hover px-2 py-0.5 rounded">${escapeHTML(s.date)}</span><button onclick="deleteShrine(${realIdx})" class="text-notion-muted opacity-40 active:opacity-100 text-xs py-1 px-2" aria-label="${t('deleteShrineRecord')}">✕</button></div><div class="mt-2 space-y-1"><p class="text-sm font-semibold text-notion-text">${escapeHTML(s.name)}</p>${mapLink}${s.notes ? `<p class="text-xs text-notion-text mt-2 whitespace-pre-wrap bg-notion-hover p-2 rounded">${escapeHTML(s.notes)}</p>` : ''}</div>${imgHTML}`; 
+                list.appendChild(div); 
+            }); 
+        }
+        function saveShrine() { 
+            const n = document.getElementById('shrine-name').value.trim(); const a = document.getElementById('shrine-address').value.trim(); const d = document.getElementById('shrine-date').value; const text = document.getElementById('shrine-notes').value.trim(); const file = document.getElementById('shrine-image').files[0]; 
+            const save = (img) => { 
+                const s = getStorageArray('notion_shrines'); s.push({name:n, address:a, date:d, notes:text, image:img}); localStorage.setItem('notion_shrines', JSON.stringify(s)); 
+                document.getElementById('shrine-name').value=''; document.getElementById('shrine-address').value=''; document.getElementById('shrine-notes').value=''; document.getElementById('shrine-image').value=''; 
+                loadShrines(); showToast(t('shrineRecordSaved')); 
+            }; 
+            if(n) { if(file) compressImage(file, save); else save(null); } else showToast(t('shrineNameRequired')); 
+        }
+        function deleteShrine(i) { const s = getStorageArray('notion_shrines'); s.splice(i, 1); localStorage.setItem('notion_shrines', JSON.stringify(s)); loadShrines(); showToast(t('deleted')); }
+
+        let timerInterval; let timeLeft = 0;
+        function saveMusicToDB() { const file = document.getElementById('bgm-upload').files[0]; if (!file) return showToast(t('chooseMusic')); if (!db) return showToast(t('systemNotReady')); const tx = db.transaction("settings", "readwrite"); tx.objectStore("settings").put(file, "bgm"); tx.oncomplete = () => { document.getElementById('music-status').innerText = file.name; showToast(t('musicSaved')); }; }
+        function loadSavedMusic() { if (!db) return; const tx = db.transaction("settings", "readonly"); const req = tx.objectStore("settings").get("bgm"); req.onsuccess = () => { if (req.result) { document.getElementById('med-audio').src = URL.createObjectURL(req.result); document.getElementById('music-status').innerText = t('musicLoaded'); } }; }
+        function formatTime(sec) { return `${Math.floor(sec / 60).toString().padStart(2, '0')}:${(sec % 60).toString().padStart(2, '0')}`; }
+        function playDing() { const ctx = new (window.AudioContext || window.webkitAudioContext)(); const osc = ctx.createOscillator(); const gain = ctx.createGain(); osc.connect(gain); gain.connect(ctx.destination); osc.type = 'sine'; osc.frequency.setValueAtTime(800, ctx.currentTime); gain.gain.setValueAtTime(1, ctx.currentTime); gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 2); osc.start(ctx.currentTime); osc.stop(ctx.currentTime + 2); }
+        function getTimerMinutes() { return Math.min(240, Math.max(1, parseInt(document.getElementById('timer-input').value, 10) || 15)); }
+        function startTimer() { clearInterval(timerInterval); const minutes = getTimerMinutes(); document.getElementById('timer-input').value = minutes; timeLeft = minutes * 60; document.getElementById('timer-display').innerText = formatTime(timeLeft); const audio = document.getElementById('med-audio'); if(audio.src) audio.play().catch(() => showToast(t('browserCantPlay'))); document.getElementById('btn-timer-start').innerText = t('inProgress'); timerInterval = setInterval(() => { timeLeft--; document.getElementById('timer-display').innerText = formatTime(timeLeft); if (timeLeft <= 0) { stopTimer(); playDing(); } }, 1000); }
+        function stopTimer() { clearInterval(timerInterval); const audio = document.getElementById('med-audio'); audio.pause(); audio.currentTime = 0; document.getElementById('btn-timer-start').innerText = t('start'); document.getElementById('timer-display').innerText = formatTime(getTimerMinutes() * 60); }
+        function loadMeditations() { const meds = getStorageArray('notion_meditation'); const list = document.getElementById('meditation-list'); list.innerHTML = ''; if (meds.length === 0) { list.innerHTML = getEmptyStateHTML(t('noMeditations')); return; } [...meds].reverse().forEach((m, i) => { const div = document.createElement('div'); div.className = "bg-notion-card border border-notion-border rounded p-3 mb-2 flex justify-between items-start"; div.innerHTML = `<div class="flex-1 pr-2"><div class="flex items-center gap-2"><span class="text-xs font-semibold bg-notion-hover px-2 py-0.5 rounded text-notion-text">${escapeHTML(m.duration)} ${t('minutes')}</span><span class="text-[10px] text-notion-muted">${escapeHTML(m.date)}</span></div>${m.notes ? `<p class="text-sm text-notion-text mt-2 leading-relaxed bg-notion-hover p-2 rounded">${escapeHTML(m.notes)}</p>` : ''}</div><button onclick="deleteMeditation(${meds.length-1-i})" class="text-notion-muted opacity-40 active:opacity-100 text-xs py-1 px-2" aria-label="${t('deleteMeditation')}">✕</button>`; list.appendChild(div); }); }
+        function saveMeditation() { const duration = getTimerMinutes(); const notes = document.getElementById('med-notes').value.trim(); if (duration) { const meds = getStorageArray('notion_meditation'); meds.push({ duration, notes, date: new Date().toLocaleDateString() }); localStorage.setItem('notion_meditation', JSON.stringify(meds)); document.getElementById('med-notes').value = ''; loadMeditations(); showToast(t('meditationSaved')); } }
+        function deleteMeditation(i) { const m = getStorageArray('notion_meditation'); m.splice(i, 1); localStorage.setItem('notion_meditation', JSON.stringify(m)); loadMeditations(); showToast(t('deleted')); }
+    </script>
+</body>
+</html>
