@@ -464,9 +464,10 @@
             <p class="text-[11px] text-notion-muted leading-relaxed" data-i18n="syncDesc">請先用 Email 收取驗證碼登入。登入後手機與網頁會使用同一個帳號同步資料。</p>
             <div class="bg-notion-hover border border-notion-border rounded p-3 space-y-2">
                 <p id="auth-status" class="text-[11px] text-notion-muted">尚未登入 Email</p>
-                <div class="grid grid-cols-3 gap-2">
+                <div class="grid grid-cols-2 gap-2">
                     <button onclick="loginCloudSync()" class="py-2.5 text-xs bg-notion-btn text-white rounded-notion font-medium" data-i18n="sendLoginCode">寄送驗證碼</button>
                     <button onclick="verifyCloudOtp()" class="py-2.5 text-xs bg-white text-notion-text border border-notion-border rounded-notion font-medium" data-i18n="verifyLoginCode">輸入驗證碼</button>
+                    <button onclick="verifyCloudMagicLink()" class="py-2.5 text-xs bg-white text-notion-text border border-notion-border rounded-notion font-medium" data-i18n="pasteLoginLink">貼上驗證信連結</button>
                     <button onclick="signOutGoogle()" class="py-2.5 text-sm bg-white text-notion-text border border-notion-border rounded-notion font-medium" data-i18n="logout">登出</button>
                 </div>
             </div>
@@ -772,10 +773,14 @@
                 gmailLogin: 'Email 登入',
                 sendLoginCode: '寄送驗證碼',
                 verifyLoginCode: '輸入驗證碼',
+                pasteLoginLink: '貼上驗證信連結',
                 cloudEmailPrompt: '請輸入 Email',
                 cloudOtpPrompt: '請輸入 Email 收到的 6 位數驗證碼',
+                cloudLinkPrompt: '請貼上 Email 裡的驗證登入連結',
                 cloudEmailSent: '驗證碼已寄出，請查看信箱',
                 cloudOtpVerified: '驗證成功，已登入',
+                cloudLinkVerified: '驗證信連結已登入',
+                cloudLinkInvalid: '驗證連結格式不正確',
                 cloudOtpEmailMissing: '請先輸入 Email',
                 logout: '登出',
                 uploadLocal: '上傳本機',
@@ -1033,10 +1038,14 @@
                 gmailLogin: 'Emailログイン',
                 sendLoginCode: '認証コード送信',
                 verifyLoginCode: 'コード入力',
+                pasteLoginLink: '認証リンク貼付',
                 cloudEmailPrompt: 'Emailを入力してください',
                 cloudOtpPrompt: 'Emailに届いた6桁の認証コードを入力してください',
+                cloudLinkPrompt: 'Email内の認証ログインリンクを貼り付けてください',
                 cloudEmailSent: '認証コードを送信しました。メールを確認してください',
                 cloudOtpVerified: '認証しました。ログイン済みです',
+                cloudLinkVerified: '認証リンクでログインしました',
+                cloudLinkInvalid: '認証リンクの形式が正しくありません',
                 cloudOtpEmailMissing: '先にEmailを入力してください',
                 logout: 'ログアウト',
                 uploadLocal: 'ローカルをアップロード',
@@ -1294,10 +1303,14 @@
                 gmailLogin: 'Email Login',
                 sendLoginCode: 'Send code',
                 verifyLoginCode: 'Enter code',
+                pasteLoginLink: 'Paste email link',
                 cloudEmailPrompt: 'Enter your Email',
                 cloudOtpPrompt: 'Enter the 6-digit code from your Email',
+                cloudLinkPrompt: 'Paste the verification login link from your Email',
                 cloudEmailSent: 'Code sent. Please check your inbox.',
                 cloudOtpVerified: 'Verified and signed in',
+                cloudLinkVerified: 'Signed in with email link',
+                cloudLinkInvalid: 'Verification link format is invalid',
                 cloudOtpEmailMissing: 'Enter your Email first',
                 logout: 'Log out',
                 uploadLocal: 'Upload local',
@@ -1839,6 +1852,69 @@
                 showToast(t('cloudOtpVerified'));
             } catch (error) {
                 setSyncStatus(t('authFailed').replace('{error}', error.message || 'OTP failed'));
+            }
+        }
+
+        async function verifyCloudMagicLink() {
+            try {
+                const client = await getSupabaseClient();
+                const link = prompt(t('cloudLinkPrompt'));
+                if (!link || !link.trim()) return;
+                const url = new URL(link.trim());
+                const hash = new URLSearchParams(url.hash.replace(/^#/, ''));
+                const accessToken = hash.get('access_token');
+                const refreshToken = hash.get('refresh_token');
+                if (accessToken && refreshToken) {
+                    const { data, error } = await client.auth.setSession({
+                        access_token: accessToken,
+                        refresh_token: refreshToken
+                    });
+                    if (error) throw error;
+                    cloudUser = data.session?.user || null;
+                    await refreshAuthStatus();
+                    setSyncStatus(t('cloudLinkVerified'));
+                    showToast(t('cloudLinkVerified'));
+                    return;
+                }
+
+                const params = url.searchParams;
+                const tokenHash = params.get('token_hash');
+                const token = params.get('token');
+                const type = params.get('type') || 'magiclink';
+                if (tokenHash) {
+                    const { data, error } = await client.auth.verifyOtp({
+                        token_hash: tokenHash,
+                        type
+                    });
+                    if (error) throw error;
+                    cloudUser = data.user || data.session?.user || null;
+                    await refreshAuthStatus();
+                    setSyncStatus(t('cloudLinkVerified'));
+                    showToast(t('cloudLinkVerified'));
+                    return;
+                }
+
+                if (token) {
+                    const savedEmail = localStorage.getItem('manifestation_cloud_email') || '';
+                    const email = prompt(t('cloudEmailPrompt'), savedEmail);
+                    if (!email || !email.trim()) return setSyncStatus(t('cloudOtpEmailMissing'));
+                    const { data, error } = await client.auth.verifyOtp({
+                        email: email.trim(),
+                        token: token.trim(),
+                        type: 'email'
+                    });
+                    if (error) throw error;
+                    localStorage.setItem('manifestation_cloud_email', email.trim());
+                    cloudUser = data.user || null;
+                    await refreshAuthStatus();
+                    setSyncStatus(t('cloudLinkVerified'));
+                    showToast(t('cloudLinkVerified'));
+                    return;
+                }
+
+                setSyncStatus(t('cloudLinkInvalid'));
+            } catch (error) {
+                setSyncStatus(t('authFailed').replace('{error}', error.message || t('cloudLinkInvalid')));
             }
         }
 
