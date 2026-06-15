@@ -170,6 +170,8 @@
                 <button onclick="switchTab('dictionary')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5z"/><path d="M9 7h6M9 11h4"/></svg></span><span class="text-lg font-semibold" data-i18n="dictionary">字典</span><span class="text-xs text-notion-muted" data-i18n="dictionarySub">日語查詢與複習</span></button>
                 <button onclick="switchTab('shrine')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M6 6v16M18 6v16M4 10h16M9 10v6M15 10v6"/></svg></span><span class="text-lg font-semibold" data-i18n="shrine">神社</span><span class="text-xs text-notion-muted" data-i18n="shrineSub">參拜與願望</span></button>
                 <button onclick="switchTab('meditation')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a14.5 14.5 0 0 0 0 20"/></svg></span><span class="text-lg font-semibold" data-i18n="meditation">冥想</span><span class="text-xs text-notion-muted" data-i18n="meditationSub">計時與導引</span></button>
+                <button onclick="switchTab('reading')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H21"/><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H21v20H6.5A2.5 2.5 0 0 1 4 19.5z"/><path d="M9 7h7M9 11h7M9 15h4"/></svg></span><span class="text-lg font-semibold" data-i18n="readingFeature">閱讀</span><span class="text-xs text-notion-muted" data-i18n="readingSub">書籍與心得</span></button>
+                <button onclick="switchTab('items')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.3 7 12 12l8.7-5M12 22V12"/></svg></span><span class="text-lg font-semibold" data-i18n="items">物品</span><span class="text-xs text-notion-muted" data-i18n="itemsSub">擁有清單</span></button>
             </div>
             <button onclick="switchTab('settings')" class="w-full py-3 text-sm bg-notion-btn text-white rounded-notion font-medium" data-i18n="settingsButton">設定 / 同步 / 備份</button>
         </div>
@@ -183,7 +185,7 @@
                     <input type="text" id="dictionary-query" placeholder="輸入日文單字或句子..." data-i18n-placeholder="dictionarySearchPh" class="flex-1 text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted">
                     <button onclick="searchDictionary()" class="text-xs bg-notion-btn text-white px-4 py-2 rounded-notion active:scale-95 transition-transform" data-i18n="search">查詢</button>
                 </div>
-                <p class="text-[10px] text-notion-muted leading-relaxed" data-i18n="dictionaryHint">會先查公開字典資料，再用本機 AI 風格整理重點；查詢後自動保存紀錄。</p>
+                <p class="text-[10px] text-notion-muted leading-relaxed" data-i18n="dictionaryHint">會先查公開字典資料；無法連線時會自動建立本機學習筆記，查詢後保存紀錄。</p>
             </div>
             <div id="dictionary-result" class="space-y-3"></div>
             <div class="space-y-3 pb-4">
@@ -354,6 +356,66 @@
             <div class="space-y-3 pb-4">
                 <span class="text-xs font-medium text-notion-muted block" data-i18n="history">歷史紀錄</span>
                 <div id="meditation-list" class="space-y-2"></div>
+            </div>
+        </div>
+
+        <div id="page-reading" class="space-y-5 hidden">
+            <div class="bg-notion-card border border-notion-border rounded-notion p-4 space-y-3 shadow-sm">
+                <div class="flex items-center justify-between pb-2 border-b border-notion-border">
+                    <span class="text-sm font-semibold text-notion-text tracking-wider uppercase" data-i18n="readingPageTitle">閱讀書籍紀錄</span>
+                </div>
+                <input type="text" id="book-title" placeholder="書名" data-i18n-placeholder="bookTitlePh" class="w-full text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted">
+                <input type="text" id="book-author" placeholder="作者（選填）" data-i18n-placeholder="bookAuthorPh" class="w-full text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted">
+                <div class="grid grid-cols-2 gap-2">
+                    <select id="book-status" class="text-sm border border-notion-border rounded px-3 py-2 bg-white focus:outline-none focus:border-notion-muted" aria-label="閱讀狀態" data-i18n-aria="bookStatus">
+                        <option value="want" data-i18n="bookWant">想讀</option>
+                        <option value="reading" data-i18n="bookReading">閱讀中</option>
+                        <option value="done" data-i18n="bookDone">已讀完</option>
+                    </select>
+                    <input type="number" id="book-progress" min="0" max="100" placeholder="進度 %" data-i18n-placeholder="bookProgressPh" class="text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted">
+                </div>
+                <textarea id="book-note" rows="3" placeholder="一句心得、金句或行動..." data-i18n-placeholder="bookNotePh" class="w-full text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted resize-none"></textarea>
+                <button onclick="saveBook()" class="w-full py-3 text-sm bg-notion-btn text-white rounded-notion font-medium active:scale-[0.98] transition-transform" data-i18n="saveBook">儲存書籍</button>
+            </div>
+            <div class="grid grid-cols-3 gap-2" id="reading-filter" aria-label="閱讀篩選" data-i18n-aria="readingFilter"></div>
+            <div class="space-y-3 pb-4">
+                <span class="text-xs font-medium text-notion-muted block" data-i18n="readingHistory">閱讀紀錄</span>
+                <div id="book-list" class="space-y-3"></div>
+            </div>
+        </div>
+
+        <div id="page-items" class="space-y-5 hidden">
+            <div class="bg-notion-card border border-notion-border rounded-notion p-4 space-y-3 shadow-sm">
+                <div class="flex items-center justify-between pb-2 border-b border-notion-border">
+                    <span class="text-sm font-semibold text-notion-text tracking-wider uppercase" data-i18n="itemsPageTitle">擁有物品清單</span>
+                </div>
+                <input type="text" id="item-name" placeholder="物品名稱" data-i18n-placeholder="itemNamePh" class="w-full text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted">
+                <div class="grid grid-cols-2 gap-2">
+                    <select id="item-category" class="text-sm border border-notion-border rounded px-3 py-2 bg-white focus:outline-none focus:border-notion-muted" aria-label="物品分類" data-i18n-aria="itemCategory">
+                        <option value="衣物" data-i18n="itemCatClothes">衣物</option>
+                        <option value="美妝" data-i18n="itemCatBeauty">美妝</option>
+                        <option value="書籍" data-i18n="itemCatBooks">書籍</option>
+                        <option value="電子" data-i18n="itemCatTech">電子</option>
+                        <option value="家居" data-i18n="itemCatHome">家居</option>
+                        <option value="其他" data-i18n="itemCatOther">其他</option>
+                    </select>
+                    <select id="item-status" class="text-sm border border-notion-border rounded px-3 py-2 bg-white focus:outline-none focus:border-notion-muted" aria-label="物品狀態" data-i18n-aria="itemStatus">
+                        <option value="active" data-i18n="itemActive">常用</option>
+                        <option value="stored" data-i18n="itemStored">收納</option>
+                        <option value="declutter" data-i18n="itemDeclutter">考慮斷捨離</option>
+                    </select>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <input type="number" id="item-qty" min="1" value="1" placeholder="數量" data-i18n-placeholder="itemQtyPh" class="text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted">
+                    <input type="date" id="item-date" class="text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted">
+                </div>
+                <textarea id="item-note" rows="2" placeholder="尺寸、購入地、保養方式或整理提醒..." data-i18n-placeholder="itemNotePh" class="w-full text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted resize-none"></textarea>
+                <button onclick="saveItem()" class="w-full py-3 text-sm bg-notion-btn text-white rounded-notion font-medium active:scale-[0.98] transition-transform" data-i18n="saveItem">儲存物品</button>
+            </div>
+            <div id="item-filter" class="flex gap-2 overflow-x-auto pb-1" aria-label="物品分類篩選" data-i18n-aria="itemFilter"></div>
+            <div class="space-y-3 pb-4">
+                <span class="text-xs font-medium text-notion-muted block" data-i18n="itemHistory">物品清單</span>
+                <div id="item-list" class="space-y-3"></div>
             </div>
         </div>
 
@@ -535,6 +597,10 @@
             loadShrines();
             loadMeditations();
             loadMeditationVideos();
+            renderReadingFilters();
+            loadBooks();
+            renderItemFilters();
+            loadItems();
         }
 
         function setLanguage(lang) {
@@ -553,6 +619,8 @@
             'notion_shrines',
             'notion_med_videos',
             'notion_meditation',
+            'notion_books',
+            'notion_items',
             'notion_video_views'
         ];
 
@@ -580,6 +648,10 @@
                 shrineSub: '參拜與願望',
                 meditation: '冥想',
                 meditationSub: '計時與導引',
+                readingFeature: '閱讀',
+                readingSub: '書籍與心得',
+                items: '物品',
+                itemsSub: '擁有清單',
                 settingsButton: '設定 / 同步 / 備份',
                 settings: '設定',
                 settingsSub: '資料備份、還原與雲端同步',
@@ -614,6 +686,46 @@
                 photo: '照片',
                 saveRecord: '儲存紀錄',
                 history: '歷史紀錄',
+                readingPageTitle: '閱讀書籍紀錄',
+                bookTitlePh: '書名',
+                bookAuthorPh: '作者（選填）',
+                bookStatus: '閱讀狀態',
+                bookWant: '想讀',
+                bookReading: '閱讀中',
+                bookDone: '已讀完',
+                bookProgressPh: '進度 %',
+                bookNotePh: '一句心得、金句或行動...',
+                saveBook: '儲存書籍',
+                readingFilter: '閱讀篩選',
+                readingHistory: '閱讀紀錄',
+                noBooks: '還沒有書籍紀錄，先加一本想讀的書吧',
+                bookSaved: '書籍已儲存',
+                deleteBook: '刪除書籍',
+                author: '作者',
+                progress: '進度',
+                itemsPageTitle: '擁有物品清單',
+                itemNamePh: '物品名稱',
+                itemCategory: '物品分類',
+                itemStatus: '物品狀態',
+                itemCatAll: '全部',
+                itemCatClothes: '衣物',
+                itemCatBeauty: '美妝',
+                itemCatBooks: '書籍',
+                itemCatTech: '電子',
+                itemCatHome: '家居',
+                itemCatOther: '其他',
+                itemActive: '常用',
+                itemStored: '收納',
+                itemDeclutter: '考慮斷捨離',
+                itemQtyPh: '數量',
+                itemNotePh: '尺寸、購入地、保養方式或整理提醒...',
+                saveItem: '儲存物品',
+                itemFilter: '物品分類篩選',
+                itemHistory: '物品清單',
+                noItems: '還沒有物品紀錄，先加一個常用物吧',
+                itemSaved: '物品已儲存',
+                deleteItem: '刪除物品',
+                quantity: '數量',
                 journalListTitle: '顯化日記清單',
                 write: '寫作',
                 shrineWishTitle: '想去的神社清單',
@@ -636,6 +748,7 @@
                 start: '開始',
                 stop: '停止',
                 inProgress: '進行中...',
+                timerFinished: '冥想時間到了',
                 musicNotLoaded: '未載入預設本地音樂',
                 musicSelected: '當前選取：',
                 musicLoaded: '已載入預設本地音樂',
@@ -673,6 +786,8 @@
                 invalidLink: '請填寫有效連結',
                 videoSaved: '影片已儲存',
                 deleted: '已刪除',
+                edit: '修改',
+                updated: '已更新',
                 noLogs: '尚無紀錄，記錄一下今天的狀態吧',
                 watchedVideos: '已觀看影片',
                 deleteRecord: '刪除紀錄',
@@ -714,6 +829,7 @@
                 authNoSupabase: '尚未連線 Supabase Auth',
                 authCallbackFailed: '登入回傳處理失敗，請重新登入',
                 authFailed: '登入失敗：{error}',
+                authStarting: '正在開啟 Gmail 登入...',
                 authStartFailed: '無法啟動 Gmail 登入，請確認 Supabase 已啟用 Google provider',
                 authLoggedOut: '已登出 Gmail',
                 authLogoutFailed: '登出失敗',
@@ -730,7 +846,7 @@
                 cloudAppliedToast: '雲端資料已套用',
                 dictionaryPageTitle: '日語字典',
                 dictionarySearchPh: '輸入日文單字或句子...',
-                dictionaryHint: '會先查公開字典資料，再用本機 AI 風格整理重點；查詢後自動保存紀錄。',
+                dictionaryHint: '會先查公開字典資料；無法連線時會自動建立本機學習筆記，查詢後保存紀錄。',
                 search: '查詢',
                 dictionaryHistory: '查詢紀錄',
                 clearHistory: '清除',
@@ -739,6 +855,12 @@
                 dictionaryNoResult: '找不到字典資料，已保存成學習筆記',
                 dictionaryNetworkFallback: '公開字典暫時無法連線，已用本機模式建立筆記',
                 dictionarySaved: '已保存查詢紀錄',
+                dictionaryNote: '本機筆記',
+                dictionaryNotePh: '寫下你的理解、例句或記憶方法...',
+                dictionaryNoteSaved: '本機筆記已儲存',
+                saveNote: '儲存筆記',
+                localMode: '本機模式',
+                publicDictionary: '公開字典',
                 dictionaryHistoryEmpty: '還沒有查詢紀錄',
                 dictionaryCleared: '查詢紀錄已清除',
                 reading: '讀音',
@@ -780,6 +902,10 @@
                 shrineSub: '参拝と願い',
                 meditation: '瞑想',
                 meditationSub: 'タイマーとガイド',
+                readingFeature: '読書',
+                readingSub: '本と感想',
+                items: '持ち物',
+                itemsSub: '所有リスト',
                 settingsButton: '設定 / 同期 / バックアップ',
                 settings: '設定',
                 settingsSub: 'バックアップ、復元、クラウド同期',
@@ -814,6 +940,46 @@
                 photo: '写真',
                 saveRecord: '記録を保存',
                 history: '履歴',
+                readingPageTitle: '読書記録',
+                bookTitlePh: '書名',
+                bookAuthorPh: '著者（任意）',
+                bookStatus: '読書状態',
+                bookWant: '読みたい',
+                bookReading: '読書中',
+                bookDone: '読了',
+                bookProgressPh: '進捗 %',
+                bookNotePh: '感想、引用、次の行動を書く...',
+                saveBook: '本を保存',
+                readingFilter: '読書フィルター',
+                readingHistory: '読書履歴',
+                noBooks: '読書記録はまだありません。読みたい本を追加しましょう',
+                bookSaved: '本を保存しました',
+                deleteBook: '本を削除',
+                author: '著者',
+                progress: '進捗',
+                itemsPageTitle: '持ち物リスト',
+                itemNamePh: '物品名',
+                itemCategory: '分類',
+                itemStatus: '状態',
+                itemCatAll: 'すべて',
+                itemCatClothes: '衣類',
+                itemCatBeauty: '美容',
+                itemCatBooks: '本',
+                itemCatTech: '電子',
+                itemCatHome: '暮らし',
+                itemCatOther: 'その他',
+                itemActive: 'よく使う',
+                itemStored: '収納',
+                itemDeclutter: '手放し検討',
+                itemQtyPh: '数量',
+                itemNotePh: 'サイズ、購入場所、手入れ、整理メモ...',
+                saveItem: '物品を保存',
+                itemFilter: '物品分類フィルター',
+                itemHistory: '物品リスト',
+                noItems: '物品記録はまだありません。よく使う物を追加しましょう',
+                itemSaved: '物品を保存しました',
+                deleteItem: '物品を削除',
+                quantity: '数量',
                 journalListTitle: 'マニフェスト日記一覧',
                 write: '書く',
                 shrineWishTitle: '行きたい神社リスト',
@@ -836,6 +1002,7 @@
                 start: '開始',
                 stop: '停止',
                 inProgress: '進行中...',
+                timerFinished: '瞑想時間になりました',
                 musicNotLoaded: 'デフォルト音楽は未読み込み',
                 musicSelected: '現在選択：',
                 musicLoaded: 'デフォルト音楽を読み込み済み',
@@ -873,6 +1040,8 @@
                 invalidLink: '有効なリンクを入力してください',
                 videoSaved: '動画を保存しました',
                 deleted: '削除しました',
+                edit: '編集',
+                updated: '更新しました',
                 noLogs: 'まだ記録がありません。今日の状態を記録しましょう',
                 watchedVideos: '視聴済み動画',
                 deleteRecord: '記録を削除',
@@ -914,6 +1083,7 @@
                 authNoSupabase: 'Supabase Authに未接続です',
                 authCallbackFailed: 'ログイン応答の処理に失敗しました。もう一度ログインしてください',
                 authFailed: 'ログイン失敗：{error}',
+                authStarting: 'Gmailログインを開いています...',
                 authStartFailed: 'Gmailログインを開始できません。SupabaseでGoogle providerが有効か確認してください',
                 authLoggedOut: 'Gmailからログアウトしました',
                 authLogoutFailed: 'ログアウトに失敗しました',
@@ -930,7 +1100,7 @@
                 cloudAppliedToast: 'クラウドデータを適用しました',
                 dictionaryPageTitle: '日本語辞書',
                 dictionarySearchPh: '日本語の単語や文を入力...',
-                dictionaryHint: '公開辞書を検索し、本機のAI風メモで要点を整理します。検索後は自動保存されます。',
+                dictionaryHint: '公開辞書を検索します。接続できない場合は本機学習メモを作成し、検索後に保存します。',
                 search: '検索',
                 dictionaryHistory: '検索履歴',
                 clearHistory: 'クリア',
@@ -939,6 +1109,12 @@
                 dictionaryNoResult: '辞書データが見つかりません。学習メモとして保存しました',
                 dictionaryNetworkFallback: '公開辞書に接続できません。本機モードでメモを作成しました',
                 dictionarySaved: '検索履歴に保存しました',
+                dictionaryNote: '本機メモ',
+                dictionaryNotePh: '理解したこと、例文、覚え方を書く...',
+                dictionaryNoteSaved: '本機メモを保存しました',
+                saveNote: 'メモを保存',
+                localMode: '本機モード',
+                publicDictionary: '公開辞書',
                 dictionaryHistoryEmpty: '検索履歴はまだありません',
                 dictionaryCleared: '検索履歴を削除しました',
                 reading: '読み',
@@ -980,6 +1156,10 @@
                 shrineSub: 'Visits and wishes',
                 meditation: 'Meditation',
                 meditationSub: 'Timer and guides',
+                readingFeature: 'Reading',
+                readingSub: 'Books and notes',
+                items: 'Items',
+                itemsSub: 'Owned list',
                 settingsButton: 'Settings / Sync / Backup',
                 settings: 'Settings',
                 settingsSub: 'Backup, restore, and cloud sync',
@@ -1014,6 +1194,46 @@
                 photo: 'Photo',
                 saveRecord: 'Save record',
                 history: 'History',
+                readingPageTitle: 'Book Reading Log',
+                bookTitlePh: 'Book title',
+                bookAuthorPh: 'Author (optional)',
+                bookStatus: 'Reading status',
+                bookWant: 'Want to read',
+                bookReading: 'Reading',
+                bookDone: 'Finished',
+                bookProgressPh: 'Progress %',
+                bookNotePh: 'A thought, quote, or next action...',
+                saveBook: 'Save book',
+                readingFilter: 'Reading filter',
+                readingHistory: 'Reading history',
+                noBooks: 'No book records yet. Add one you want to read.',
+                bookSaved: 'Book saved',
+                deleteBook: 'Delete book',
+                author: 'Author',
+                progress: 'Progress',
+                itemsPageTitle: 'Owned Items List',
+                itemNamePh: 'Item name',
+                itemCategory: 'Item category',
+                itemStatus: 'Item status',
+                itemCatAll: 'All',
+                itemCatClothes: 'Clothes',
+                itemCatBeauty: 'Beauty',
+                itemCatBooks: 'Books',
+                itemCatTech: 'Tech',
+                itemCatHome: 'Home',
+                itemCatOther: 'Other',
+                itemActive: 'Active',
+                itemStored: 'Stored',
+                itemDeclutter: 'Declutter maybe',
+                itemQtyPh: 'Qty',
+                itemNotePh: 'Size, source, care, or declutter note...',
+                saveItem: 'Save item',
+                itemFilter: 'Item category filter',
+                itemHistory: 'Item list',
+                noItems: 'No item records yet. Add something you use often.',
+                itemSaved: 'Item saved',
+                deleteItem: 'Delete item',
+                quantity: 'Qty',
                 journalListTitle: 'Manifest Journal List',
                 write: 'Write',
                 shrineWishTitle: 'Shrines I Want to Visit',
@@ -1036,6 +1256,7 @@
                 start: 'Start',
                 stop: 'Stop',
                 inProgress: 'Running...',
+                timerFinished: 'Meditation time is complete',
                 musicNotLoaded: 'No default local music loaded',
                 musicSelected: 'Selected: ',
                 musicLoaded: 'Default local music loaded',
@@ -1073,6 +1294,8 @@
                 invalidLink: 'Please enter a valid link',
                 videoSaved: 'Video saved',
                 deleted: 'Deleted',
+                edit: 'Edit',
+                updated: 'Updated',
                 noLogs: 'No records yet. Log today’s status.',
                 watchedVideos: 'Watched videos',
                 deleteRecord: 'Delete record',
@@ -1114,6 +1337,7 @@
                 authNoSupabase: 'Supabase Auth is not connected',
                 authCallbackFailed: 'Login callback failed. Please sign in again',
                 authFailed: 'Login failed: {error}',
+                authStarting: 'Opening Gmail login...',
                 authStartFailed: 'Could not start Gmail login. Check that Google provider is enabled in Supabase',
                 authLoggedOut: 'Signed out of Gmail',
                 authLogoutFailed: 'Sign out failed',
@@ -1130,7 +1354,7 @@
                 cloudAppliedToast: 'Cloud data applied',
                 dictionaryPageTitle: 'Japanese Dictionary',
                 dictionarySearchPh: 'Enter a Japanese word or sentence...',
-                dictionaryHint: 'Searches public dictionary data first, then creates a local AI-style study note. Queries are saved automatically.',
+                dictionaryHint: 'Searches public dictionary data first. If unavailable, it creates a local study note and saves the lookup.',
                 search: 'Search',
                 dictionaryHistory: 'Lookup History',
                 clearHistory: 'Clear',
@@ -1139,6 +1363,12 @@
                 dictionaryNoResult: 'No dictionary entry found. Saved as a study note.',
                 dictionaryNetworkFallback: 'Public dictionary is unavailable. Created a local study note.',
                 dictionarySaved: 'Lookup saved',
+                dictionaryNote: 'Local note',
+                dictionaryNotePh: 'Write your understanding, examples, or memory hook...',
+                dictionaryNoteSaved: 'Local note saved',
+                saveNote: 'Save note',
+                localMode: 'Local mode',
+                publicDictionary: 'Public dictionary',
                 dictionaryHistoryEmpty: 'No lookup history yet',
                 dictionaryCleared: 'Lookup history cleared',
                 reading: 'Reading',
@@ -1223,7 +1453,7 @@
             STORAGE_KEYS.forEach(key => {
                 if (typeof data?.[key] === 'string') localStorage.setItem(key, data[key]);
             });
-            renderCalendar(); loadWorkouts(); loadLogs(); loadJournals(); loadDictionaryHistory(); loadShrines(); loadShrineWishes(); loadMeditations(); loadMeditationVideos();
+            renderCalendar(); loadWorkouts(); loadLogs(); loadJournals(); loadDictionaryHistory(); loadShrines(); loadShrineWishes(); loadMeditations(); loadMeditationVideos(); renderReadingFilters(); loadBooks(); renderItemFilters(); loadItems();
         }
 
         function exportData() {
@@ -1277,15 +1507,23 @@
         const WORKOUT_PARTS = ['全部', '全身', '腹部', '臀腿', '手臂', '背部', '有氧', '伸展', '未分類'];
         const WORKOUT_PART_KEYS = { '全部': 'partAll', '全身': 'partFull', '腹部': 'partAbs', '臀腿': 'partLegs', '手臂': 'partArms', '背部': 'partBack', '有氧': 'partCardio', '伸展': 'partStretch', '未分類': 'partUncategorized' };
         let workoutFilter = '全部';
+        const BOOK_STATUS_KEYS = { want: 'bookWant', reading: 'bookReading', done: 'bookDone' };
+        const BOOK_FILTERS = ['all', 'want', 'reading', 'done'];
+        let readingFilter = 'all';
+        const ITEM_CATEGORIES = ['全部', '衣物', '美妝', '書籍', '電子', '家居', '其他'];
+        const ITEM_CATEGORY_KEYS = { '全部': 'itemCatAll', '衣物': 'itemCatClothes', '美妝': 'itemCatBeauty', '書籍': 'itemCatBooks', '電子': 'itemCatTech', '家居': 'itemCatHome', '其他': 'itemCatOther' };
+        const ITEM_STATUS_KEYS = { active: 'itemActive', stored: 'itemStored', declutter: 'itemDeclutter' };
+        let itemFilter = '全部';
 
         document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('current-date').innerText = `${currentDate.getFullYear()}/${padDate(currentDate.getMonth()+1)}/${padDate(currentDate.getDate())}`;
             document.getElementById('shrine-date').valueAsDate = new Date();
+            document.getElementById('item-date').valueAsDate = new Date();
             applyLanguage();
 
             renderGoalSuggestions();
             renderWorkoutFilters();
-            initDB(); renderCalendar(); loadWorkouts(); loadLogs(); loadJournals(); loadDictionaryHistory(); loadShrines(); loadShrineWishes(); loadMeditations(); loadMeditationVideos();
+            initDB(); renderCalendar(); loadWorkouts(); loadLogs(); loadJournals(); loadDictionaryHistory(); loadShrines(); loadShrineWishes(); loadMeditations(); loadMeditationVideos(); renderReadingFilters(); loadBooks(); renderItemFilters(); loadItems();
 
             document.getElementById('bgm-upload').addEventListener('change', function(e) {
                 if(e.target.files[0]) {
@@ -1311,7 +1549,7 @@
         });
 
         function switchTab(tabName) {
-            ['home', 'dictionary', 'goals', 'workout', 'log', 'journal', 'shrine', 'meditation', 'settings'].forEach(tab => {
+            ['home', 'dictionary', 'goals', 'workout', 'log', 'journal', 'shrine', 'meditation', 'reading', 'items', 'settings'].forEach(tab => {
                 document.getElementById(`page-${tab}`).classList.add('hidden');
             });
             document.getElementById(`page-${tabName}`).classList.remove('hidden');
@@ -1415,6 +1653,8 @@
                 ['error_code', params.get('error_code') || hash.get('error_code')],
                 ['error_description', params.get('error_description') || hash.get('error_description')],
                 ['code', params.get('code') ? 'present' : null],
+                ['access_token', hash.get('access_token') ? 'present' : null],
+                ['refresh_token', hash.get('refresh_token') ? 'present' : null],
                 ['url', window.location.href]
             ].filter(([, value]) => value);
             return pairs.map(([key, value]) => `${key}: ${value}`).join('\n');
@@ -1429,6 +1669,8 @@
                 return {
                     client: createClient(settings.url, settings.key, {
                         auth: {
+                            flowType: 'pkce',
+                            storageKey: 'manifestation-supabase-auth',
                             persistSession: true,
                             autoRefreshToken: true,
                             detectSessionInUrl: true
@@ -1472,6 +1714,7 @@
         }
 
         function getRedirectUrl() {
+            if (window.location.protocol === 'file:') return window.location.href.split(/[?#]/)[0];
             return `${window.location.origin}${window.location.pathname}`;
         }
 
@@ -1493,6 +1736,19 @@
                     localStorage.setItem('manifestation_auth_error', `${t('authCallbackFailed')}\n${getAuthDebugText()}`);
                 }
             }
+            if (hash.get('access_token') && hash.get('refresh_token')) {
+                try {
+                    const { client } = await getAuthClient();
+                    const { error } = await client.auth.setSession({
+                        access_token: hash.get('access_token'),
+                        refresh_token: hash.get('refresh_token')
+                    });
+                    if (error) throw error;
+                    window.history.replaceState({}, document.title, getRedirectUrl());
+                } catch {
+                    localStorage.setItem('manifestation_auth_error', `${t('authCallbackFailed')}\n${getAuthDebugText()}`);
+                }
+            }
             await refreshAuthStatus();
             const pendingError = localStorage.getItem('manifestation_auth_error');
             if (pendingError) {
@@ -1503,13 +1759,21 @@
 
         async function signInWithGoogle() {
             try {
+                setSyncStatus(t('authStarting'));
+                localStorage.removeItem('manifestation_auth_error');
                 const { client } = await getAuthClient();
-                await client.auth.signInWithOAuth({
+                const { data, error } = await client.auth.signInWithOAuth({
                     provider: 'google',
-                    options: { redirectTo: getRedirectUrl() }
+                    options: {
+                        redirectTo: getRedirectUrl(),
+                        skipBrowserRedirect: true,
+                        queryParams: { prompt: 'select_account' }
+                    }
                 });
+                if (error) throw error;
+                if (data?.url) window.location.assign(data.url);
             } catch (error) {
-                setSyncStatus(t('authStartFailed'));
+                setSyncStatus(`${t('authStartFailed')}${error?.message ? `｜${error.message}` : ''}`);
             }
         }
 
@@ -1620,10 +1884,11 @@
         function openDailyModal(dateStr) { selectedDateStr = dateStr; document.getElementById('daily-modal-title').innerText = `${dateStr} ${t('goalSuffix')}`; const modal = document.getElementById('modal-daily'); const content = document.getElementById('modal-daily-content'); renderDailyTodos(); modal.classList.remove('hidden'); modal.classList.add('flex'); setTimeout(() => { content.classList.remove('translate-y-full'); }, 10); }
         function closeDailyModal() { const modal = document.getElementById('modal-daily'); const content = document.getElementById('modal-daily-content'); content.classList.add('translate-y-full'); setTimeout(() => { modal.classList.add('hidden'); modal.classList.remove('flex'); }, 300); renderCalendar(); }
         function renderGoalSuggestions() { const container = document.getElementById('goal-suggestions'); if (!container) return; const goals = GOAL_SUGGESTIONS[getLanguage()] || GOAL_SUGGESTIONS.zh; container.innerHTML = goals.map(goal => `<button type="button" onclick="addSuggestedGoal('${escapeHTML(goal)}')" class="suggestion-chip">${escapeHTML(goal)}</button>`).join(''); }
-        function renderDailyTodos() { const todos = getStorageArray('notion_todos_v2'); const list = document.getElementById('daily-todo-list'); list.innerHTML = ''; const dayTodos = todos.map((t, i) => ({...t, originalIndex: i})).filter(t => t.date === selectedDateStr); updateCalendarCard(); if (dayTodos.length === 0) { list.innerHTML = `<div class="text-center py-6 text-notion-muted text-xs">${t('noDailyGoals')}</div>`; return; } dayTodos.forEach(todo => { const div = document.createElement('div'); div.className = "flex justify-between items-center bg-notion-hover border border-notion-border rounded p-2 mb-1.5"; div.innerHTML = `<label class="flex items-center gap-3 cursor-pointer flex-1 min-w-0"><input type="checkbox" ${todo.completed ? 'checked' : ''} onchange="toggleDailyTodo(${todo.originalIndex})" class="w-4 h-4 accent-notion-muted"><span class="text-sm text-notion-text truncate flex-1">${escapeHTML(todo.text)}</span></label><button onclick="deleteDailyTodo(${todo.originalIndex})" class="text-notion-muted opacity-40 active:opacity-100 text-xs px-2 py-1" aria-label="${t('deleteGoal')}">✕</button>`; list.appendChild(div); }); }
+        function renderDailyTodos() { const todos = getStorageArray('notion_todos_v2'); const list = document.getElementById('daily-todo-list'); list.innerHTML = ''; const dayTodos = todos.map((t, i) => ({...t, originalIndex: i})).filter(t => t.date === selectedDateStr); updateCalendarCard(); if (dayTodos.length === 0) { list.innerHTML = `<div class="text-center py-6 text-notion-muted text-xs">${t('noDailyGoals')}</div>`; return; } dayTodos.forEach(todo => { const div = document.createElement('div'); div.className = "flex justify-between items-center bg-notion-hover border border-notion-border rounded p-2 mb-1.5"; div.innerHTML = `<label class="flex items-center gap-3 cursor-pointer flex-1 min-w-0"><input type="checkbox" ${todo.completed ? 'checked' : ''} onchange="toggleDailyTodo(${todo.originalIndex})" class="w-4 h-4 accent-notion-muted"><span class="text-sm text-notion-text truncate flex-1">${escapeHTML(todo.text)}</span></label><div class="flex items-center gap-1 shrink-0"><button onclick="editDailyTodo(${todo.originalIndex})" class="text-notion-muted opacity-60 active:opacity-100 text-xs px-2 py-1" aria-label="${t('edit')}">${t('edit')}</button><button onclick="deleteDailyTodo(${todo.originalIndex})" class="text-notion-muted opacity-40 active:opacity-100 text-xs px-2 py-1" aria-label="${t('deleteGoal')}">✕</button></div>`; list.appendChild(div); }); }
         function addDailyTodo() { const input = document.getElementById('daily-todo-input'); const text = input.value.trim(); if (text) { const todos = getStorageArray('notion_todos_v2'); todos.push({ text, date: selectedDateStr, completed: false }); localStorage.setItem('notion_todos_v2', JSON.stringify(todos)); input.value = ''; renderDailyTodos(); } }
         function addSuggestedGoal(text) { if (!selectedDateStr) return; const todos = getStorageArray('notion_todos_v2'); const exists = todos.some(t => t.date === selectedDateStr && t.text === text); if (exists) return showToast(t('goalAlreadyAdded')); todos.push({ text, date: selectedDateStr, completed: false, suggested: true }); localStorage.setItem('notion_todos_v2', JSON.stringify(todos)); renderDailyTodos(); showToast(t('suggestedGoalAdded')); }
         function toggleDailyTodo(i) { const todos = getStorageArray('notion_todos_v2'); if (!todos[i]) return; todos[i].completed = !todos[i].completed; localStorage.setItem('notion_todos_v2', JSON.stringify(todos)); renderDailyTodos(); }
+        function editDailyTodo(i) { const todos = getStorageArray('notion_todos_v2'); if (!todos[i]) return; const next = prompt(t('edit'), todos[i].text || ''); if (next === null) return; const text = next.trim(); if (!text) return; todos[i].text = text; localStorage.setItem('notion_todos_v2', JSON.stringify(todos)); renderDailyTodos(); showToast(t('updated')); }
         function deleteDailyTodo(i) { const todos = getStorageArray('notion_todos_v2'); todos.splice(i, 1); localStorage.setItem('notion_todos_v2', JSON.stringify(todos)); renderDailyTodos(); }
 
         // ================= 運動影片庫 =================
@@ -1638,26 +1903,30 @@
             }).join('');
         }
         function setWorkoutFilter(part) { workoutFilter = part; renderWorkoutFilters(); loadWorkouts(); }
-        function loadWorkouts() { const workouts = getStorageArray('notion_workouts'); const filtered = workoutFilter === '全部' ? workouts : workouts.filter(w => (w.part || '未分類') === workoutFilter); const list = document.getElementById('workout-list'); renderWorkoutFilters(); list.innerHTML = ''; if (workouts.length === 0) { list.innerHTML = getEmptyStateHTML(t('noWorkoutVideos')); return; } if (filtered.length === 0) { list.innerHTML = getEmptyStateHTML(t('noWorkoutPartVideos')); return; } [...filtered].reverse().forEach((w) => { const realIdx = workouts.indexOf(w); const part = w.part || '未分類'; const thumbUrl = w.ytId ? `https://img.youtube.com/vi/${escapeHTML(w.ytId)}/hqdefault.jpg` : 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="%239B9B9B" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line><line x1="2" y1="7" x2="7" y2="7"></line><line x1="2" y1="17" x2="7" y2="17"></line><line x1="17" y1="17" x2="22" y2="17"></line><line x1="17" y1="7" x2="22" y2="7"></line></svg>'; const card = document.createElement('div'); card.className = "bg-notion-card border border-notion-border rounded flex flex-col relative group overflow-hidden shadow-sm"; card.innerHTML = `<button onclick="deleteWorkout(${realIdx})" class="absolute top-1 right-1 bg-black/50 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 active:opacity-100 z-10 backdrop-blur-sm" aria-label="${t('deleteVideo')}">✕</button><a href="${escapeHTML(safeExternalURL(w.url))}" target="_blank" rel="noopener noreferrer" onclick="recordVideoWatch('notion_workouts', ${realIdx}, '${t('workout')}', event)" class="flex flex-col h-full active:opacity-70 transition-opacity"><div class="aspect-video bg-notion-hover flex items-center justify-center overflow-hidden relative"><img src="${thumbUrl}" alt="" class="w-full h-full object-cover"><span class="absolute left-1.5 top-1.5 bg-white/90 border border-notion-border text-[10px] font-medium px-1.5 py-0.5 rounded">${escapeHTML(t(WORKOUT_PART_KEYS[part], part))}</span></div><div class="p-2 flex-1 flex flex-col justify-center gap-2"><h4 class="text-[11px] font-medium text-notion-text leading-tight line-clamp-2">${escapeHTML(w.title || t('unnamedVideo'))}</h4><span class="text-[10px] font-semibold tracking-wider uppercase border-t border-notion-border pt-1">${t('watchAndRecord')}</span></div></a>`; list.appendChild(card); }); }
+        function loadWorkouts() { const workouts = getStorageArray('notion_workouts'); const filtered = workoutFilter === '全部' ? workouts : workouts.filter(w => (w.part || '未分類') === workoutFilter); const list = document.getElementById('workout-list'); renderWorkoutFilters(); list.innerHTML = ''; if (workouts.length === 0) { list.innerHTML = getEmptyStateHTML(t('noWorkoutVideos')); return; } if (filtered.length === 0) { list.innerHTML = getEmptyStateHTML(t('noWorkoutPartVideos')); return; } [...filtered].reverse().forEach((w) => { const realIdx = workouts.indexOf(w); const part = w.part || '未分類'; const thumbUrl = w.ytId ? `https://img.youtube.com/vi/${escapeHTML(w.ytId)}/hqdefault.jpg` : 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="%239B9B9B" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line><line x1="2" y1="7" x2="7" y2="7"></line><line x1="2" y1="17" x2="7" y2="17"></line><line x1="17" y1="17" x2="22" y2="17"></line><line x1="17" y1="7" x2="22" y2="7"></line></svg>'; const card = document.createElement('div'); card.className = "bg-notion-card border border-notion-border rounded flex flex-col relative group overflow-hidden shadow-sm"; card.innerHTML = `<div class="absolute top-1 right-1 flex gap-1 z-10"><button onclick="editWorkout(${realIdx})" class="bg-black/50 text-white rounded-full min-w-6 h-6 px-1.5 flex items-center justify-center text-[10px] opacity-0 group-hover:opacity-100 active:opacity-100 backdrop-blur-sm" aria-label="${t('edit')}">${t('edit')}</button><button onclick="deleteWorkout(${realIdx})" class="bg-black/50 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 active:opacity-100 backdrop-blur-sm" aria-label="${t('deleteVideo')}">✕</button></div><a href="${escapeHTML(safeExternalURL(w.url))}" target="_blank" rel="noopener noreferrer" onclick="recordVideoWatch('notion_workouts', ${realIdx}, '${t('workout')}', event)" class="flex flex-col h-full active:opacity-70 transition-opacity"><div class="aspect-video bg-notion-hover flex items-center justify-center overflow-hidden relative"><img src="${thumbUrl}" alt="" class="w-full h-full object-cover"><span class="absolute left-1.5 top-1.5 bg-white/90 border border-notion-border text-[10px] font-medium px-1.5 py-0.5 rounded">${escapeHTML(t(WORKOUT_PART_KEYS[part], part))}</span></div><div class="p-2 flex-1 flex flex-col justify-center gap-2"><h4 class="text-[11px] font-medium text-notion-text leading-tight line-clamp-2">${escapeHTML(w.title || t('unnamedVideo'))}</h4><span class="text-[10px] font-semibold tracking-wider uppercase border-t border-notion-border pt-1">${t('watchAndRecord')}</span></div></a>`; list.appendChild(card); }); }
         function saveWorkout() { const title = document.getElementById('workout-title').value.trim(); const url = document.getElementById('workout-url').value.trim(); const part = document.getElementById('workout-part').value; if(url && safeExternalURL(url) !== '#') { const ytId = getYouTubeId(url); const workouts = getStorageArray('notion_workouts'); workouts.push({ title: title || t('unnamedVideo'), url, ytId, part }); localStorage.setItem('notion_workouts', JSON.stringify(workouts)); document.getElementById('workout-title').value = ''; document.getElementById('workout-url').value = ''; workoutFilter = part; loadWorkouts(); showToast(t('videoSaved')); } else { showToast(t('invalidLink')); } }
+        function editWorkout(i) { const workouts = getStorageArray('notion_workouts'); if (!workouts[i]) return; const title = prompt(t('edit'), workouts[i].title || ''); if (title === null) return; const url = prompt('URL', workouts[i].url || ''); if (url === null) return; const part = prompt(t('selectWorkoutPart'), workouts[i].part || '全身'); if (part === null) return; if (url.trim() && safeExternalURL(url.trim()) !== '#') { workouts[i] = { ...workouts[i], title: title.trim() || t('unnamedVideo'), url: url.trim(), ytId: getYouTubeId(url.trim()), part: part.trim() || '全身' }; localStorage.setItem('notion_workouts', JSON.stringify(workouts)); loadWorkouts(); showToast(t('updated')); } else showToast(t('invalidLink')); }
         function deleteWorkout(i) { const w = getStorageArray('notion_workouts'); w.splice(i, 1); localStorage.setItem('notion_workouts', JSON.stringify(w)); loadWorkouts(); showToast(t('deleted')); }
 
         // ================= 冥想影片庫 =================
-        function loadMeditationVideos() { const videos = getStorageArray('notion_med_videos'); const list = document.getElementById('med-video-list'); list.innerHTML = ''; if (videos.length === 0) { list.innerHTML = getEmptyStateHTML(t('noMeditationVideos')); return; } [...videos].reverse().forEach((v, i) => { const realIdx = videos.length - 1 - i; const thumbUrl = v.ytId ? `https://img.youtube.com/vi/${escapeHTML(v.ytId)}/hqdefault.jpg` : 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="%239B9B9B" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>'; const card = document.createElement('div'); card.className = "bg-notion-card border border-notion-border rounded flex flex-col relative group overflow-hidden shadow-sm"; card.innerHTML = `<button onclick="deleteMeditationVideo(${realIdx})" class="absolute top-1 right-1 bg-black/50 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 active:opacity-100 z-10 backdrop-blur-sm" aria-label="${t('deleteGuideVideo')}">✕</button><a href="${escapeHTML(safeExternalURL(v.url))}" target="_blank" rel="noopener noreferrer" onclick="recordVideoWatch('notion_med_videos', ${realIdx}, '${t('meditation')}', event)" class="flex flex-col h-full active:opacity-70 transition-opacity"><div class="aspect-video bg-notion-hover flex items-center justify-center overflow-hidden"><img src="${thumbUrl}" alt="" class="w-full h-full object-cover"></div><div class="p-2 flex-1 flex flex-col justify-center gap-2"><h4 class="text-[11px] font-medium text-notion-text leading-tight line-clamp-2">${escapeHTML(v.title || t('unnamedVideo'))}</h4><span class="text-[10px] font-semibold tracking-wider uppercase border-t border-notion-border pt-1">${t('watchAndRecord')}</span></div></a>`; list.appendChild(card); }); }
+        function loadMeditationVideos() { const videos = getStorageArray('notion_med_videos'); const list = document.getElementById('med-video-list'); list.innerHTML = ''; if (videos.length === 0) { list.innerHTML = getEmptyStateHTML(t('noMeditationVideos')); return; } [...videos].reverse().forEach((v, i) => { const realIdx = videos.length - 1 - i; const thumbUrl = v.ytId ? `https://img.youtube.com/vi/${escapeHTML(v.ytId)}/hqdefault.jpg` : 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="%239B9B9B" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>'; const card = document.createElement('div'); card.className = "bg-notion-card border border-notion-border rounded flex flex-col relative group overflow-hidden shadow-sm"; card.innerHTML = `<div class="absolute top-1 right-1 flex gap-1 z-10"><button onclick="editMeditationVideo(${realIdx})" class="bg-black/50 text-white rounded-full min-w-6 h-6 px-1.5 flex items-center justify-center text-[10px] opacity-0 group-hover:opacity-100 active:opacity-100 backdrop-blur-sm" aria-label="${t('edit')}">${t('edit')}</button><button onclick="deleteMeditationVideo(${realIdx})" class="bg-black/50 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 active:opacity-100 backdrop-blur-sm" aria-label="${t('deleteGuideVideo')}">✕</button></div><a href="${escapeHTML(safeExternalURL(v.url))}" target="_blank" rel="noopener noreferrer" onclick="recordVideoWatch('notion_med_videos', ${realIdx}, '${t('meditation')}', event)" class="flex flex-col h-full active:opacity-70 transition-opacity"><div class="aspect-video bg-notion-hover flex items-center justify-center overflow-hidden"><img src="${thumbUrl}" alt="" class="w-full h-full object-cover"></div><div class="p-2 flex-1 flex flex-col justify-center gap-2"><h4 class="text-[11px] font-medium text-notion-text leading-tight line-clamp-2">${escapeHTML(v.title || t('unnamedVideo'))}</h4><span class="text-[10px] font-semibold tracking-wider uppercase border-t border-notion-border pt-1">${t('watchAndRecord')}</span></div></a>`; list.appendChild(card); }); }
         function saveMeditationVideo() { const title = document.getElementById('med-video-title').value.trim(); const url = document.getElementById('med-video-url').value.trim(); if(url && safeExternalURL(url) !== '#') { const ytId = getYouTubeId(url); const videos = getStorageArray('notion_med_videos'); videos.push({ title: title || t('unnamedVideo'), url, ytId }); localStorage.setItem('notion_med_videos', JSON.stringify(videos)); document.getElementById('med-video-title').value = ''; document.getElementById('med-video-url').value = ''; loadMeditationVideos(); showToast(t('guideVideoSaved')); } else { showToast(t('invalidLink')); } }
+        function editMeditationVideo(i) { const videos = getStorageArray('notion_med_videos'); if (!videos[i]) return; const title = prompt(t('edit'), videos[i].title || ''); if (title === null) return; const url = prompt('URL', videos[i].url || ''); if (url === null) return; if (url.trim() && safeExternalURL(url.trim()) !== '#') { videos[i] = { ...videos[i], title: title.trim() || t('unnamedVideo'), url: url.trim(), ytId: getYouTubeId(url.trim()) }; localStorage.setItem('notion_med_videos', JSON.stringify(videos)); loadMeditationVideos(); showToast(t('updated')); } else showToast(t('invalidLink')); }
         function deleteMeditationVideo(i) { const v = getStorageArray('notion_med_videos'); v.splice(i, 1); localStorage.setItem('notion_med_videos', JSON.stringify(v)); loadMeditationVideos(); showToast(t('deleted')); }
 
         // ================= 其他功能 (日誌、日記、冥想紀錄) =================
         function compressImage(file, callback) { const reader = new FileReader(); reader.readAsDataURL(file); reader.onload = e => { const img = new Image(); img.src = e.target.result; img.onload = () => { const canvas = document.createElement('canvas'); const scale = img.width > 600 ? 600 / img.width : 1; canvas.width = img.width * scale; canvas.height = img.height * scale; canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height); callback(canvas.toDataURL('image/jpeg', 0.6)); } } }
         
-        function loadLogs() { renderTodayVideoSummary(); const logs = getStorageArray('notion_logs_v2'); const list = document.getElementById('log-list'); list.innerHTML = ''; if (logs.length === 0) { list.innerHTML = getEmptyStateHTML(t('noLogs')); return; } [...logs].reverse().forEach((log, i) => { const realIdx = logs.length - 1 - i; const div = document.createElement('div'); div.className = "bg-notion-card border border-notion-border rounded p-3 text-sm"; let imgHTML = log.image ? `<img src="${escapeHTML(log.image)}" alt="${t('photo')}" class="mt-2 rounded object-cover w-full max-h-48 border border-notion-border">` : ''; const videoHTML = Array.isArray(log.videoViews) && log.videoViews.length ? `<div class="mt-2 bg-notion-hover rounded p-2 space-y-1"><p class="text-[10px] text-notion-muted tracking-wider uppercase">${t('watchedVideos')}</p>${log.videoViews.map(v => `<p class="text-xs flex justify-between gap-3"><span class="truncate">${escapeHTML(v.type)}｜${escapeHTML(v.title)}</span><span class="font-semibold shrink-0">${escapeHTML(v.count)} ${getLanguage() === 'en' ? 'x' : '次'}</span></p>`).join('')}</div>` : ''; div.innerHTML = `<div class="flex justify-between items-start"><span class="text-[10px] text-notion-text font-medium bg-notion-hover px-2 py-0.5 rounded">${escapeHTML(log.date)}</span><button onclick="deleteLog(${realIdx})" class="text-notion-muted opacity-40 active:opacity-100 text-xs py-1 px-2" aria-label="${t('deleteRecord')}">✕</button></div><div class="mt-2 space-y-1">${log.weight ? `<p class="text-sm">⚖️ ${escapeHTML(log.weight)} kg</p>` : ''}${log.food ? `<p class="text-sm">🍽️ ${escapeHTML(log.food)}</p>` : ''}</div>${videoHTML}${imgHTML}`; list.appendChild(div); }); }
+        function loadLogs() { renderTodayVideoSummary(); const logs = getStorageArray('notion_logs_v2'); const list = document.getElementById('log-list'); list.innerHTML = ''; if (logs.length === 0) { list.innerHTML = getEmptyStateHTML(t('noLogs')); return; } [...logs].reverse().forEach((log, i) => { const realIdx = logs.length - 1 - i; const div = document.createElement('div'); div.className = "bg-notion-card border border-notion-border rounded p-3 text-sm"; let imgHTML = log.image ? `<img src="${escapeHTML(log.image)}" alt="${t('photo')}" class="mt-2 rounded object-cover w-full max-h-48 border border-notion-border">` : ''; const videoHTML = Array.isArray(log.videoViews) && log.videoViews.length ? `<div class="mt-2 bg-notion-hover rounded p-2 space-y-1"><p class="text-[10px] text-notion-muted tracking-wider uppercase">${t('watchedVideos')}</p>${log.videoViews.map(v => `<p class="text-xs flex justify-between gap-3"><span class="truncate">${escapeHTML(v.type)}｜${escapeHTML(v.title)}</span><span class="font-semibold shrink-0">${escapeHTML(v.count)} ${getLanguage() === 'en' ? 'x' : '次'}</span></p>`).join('')}</div>` : ''; div.innerHTML = `<div class="flex justify-between items-start"><span class="text-[10px] text-notion-text font-medium bg-notion-hover px-2 py-0.5 rounded">${escapeHTML(log.date)}</span><div class="flex gap-1"><button onclick="editLog(${realIdx})" class="text-notion-muted opacity-60 active:opacity-100 text-xs py-1 px-2" aria-label="${t('edit')}">${t('edit')}</button><button onclick="deleteLog(${realIdx})" class="text-notion-muted opacity-40 active:opacity-100 text-xs py-1 px-2" aria-label="${t('deleteRecord')}">✕</button></div></div><div class="mt-2 space-y-1">${log.weight ? `<p class="text-sm">⚖️ ${escapeHTML(log.weight)} kg</p>` : ''}${log.food ? `<p class="text-sm">🍽️ ${escapeHTML(log.food)}</p>` : ''}</div>${videoHTML}${imgHTML}`; list.appendChild(div); }); }
         function saveLog() { const w = document.getElementById('log-weight').value; const f = document.getElementById('log-food').value; const file = document.getElementById('log-image').files[0]; const d = new Date().toLocaleDateString(); const todaysViews = getTodayVideoViews().map(v => ({ title: v.title, type: v.type, count: v.count })); const save = (img) => { const l = getStorageArray('notion_logs_v2'); l.push({weight:w, food:f, image:img, date:d, videoViews:todaysViews}); if(l.length>30) l.shift(); localStorage.setItem('notion_logs_v2', JSON.stringify(l)); document.getElementById('log-weight').value=''; document.getElementById('log-food').value=''; document.getElementById('log-image').value=''; loadLogs(); showToast(t('recordSaved')); }; if(file) compressImage(file, save); else if(w||f||todaysViews.length) save(null); else showToast(t('fillContent')); }
+        function editLog(i) { const logs = getStorageArray('notion_logs_v2'); if (!logs[i]) return; const weight = prompt(t('weight'), logs[i].weight || ''); if (weight === null) return; const food = prompt(t('food'), logs[i].food || ''); if (food === null) return; logs[i].weight = weight.trim(); logs[i].food = food.trim(); localStorage.setItem('notion_logs_v2', JSON.stringify(logs)); loadLogs(); showToast(t('updated')); }
         function deleteLog(i) { const l = getStorageArray('notion_logs_v2'); l.splice(i, 1); localStorage.setItem('notion_logs_v2', JSON.stringify(l)); loadLogs(); showToast(t('deleted')); }
 
         function openJournalModal() { document.getElementById('modal-journal').classList.remove('hidden'); document.getElementById('modal-journal').classList.add('flex'); document.getElementById('journal-title').focus(); }
         function closeJournalModal() { document.getElementById('modal-journal').classList.add('hidden'); }
-        function loadJournals() { const j = getStorageArray('notion_journals_v2'); const l = document.getElementById('journal-list'); l.innerHTML = ''; if (j.length === 0) { l.innerHTML = getEmptyStateHTML(t('noJournals')); return; } [...j].reverse().forEach((x, i) => { const div = document.createElement('details'); div.className="bg-notion-card border border-notion-border rounded mb-2"; div.innerHTML=`<summary class="flex items-center gap-2 cursor-pointer text-sm font-medium p-3 relative"><svg class="w-3 h-3 text-notion-muted transition-transform flex-shrink-0" viewBox="0 0 100 100" aria-hidden="true"><polygon points="20,10 80,50 20,90" fill="currentColor"/></svg><span class="flex-1 truncate">${escapeHTML(x.title || t('untitled'))}</span><span class="text-[10px] text-notion-muted">${escapeHTML(x.date)}</span></summary><div class="px-4 pb-3 pt-1 text-sm text-notion-text relative border-t border-notion-hover mt-1"><p class="whitespace-pre-wrap leading-relaxed mt-2">${escapeHTML(x.content)}</p><div class="mt-3 text-right"><button onclick="deleteJournal(${j.length-1-i})" class="text-xs text-notion-muted border border-notion-border px-3 py-1 rounded active:bg-notion-hover">${t('delete')}</button></div></div>`; l.appendChild(div); }); }
+        function loadJournals() { const j = getStorageArray('notion_journals_v2'); const l = document.getElementById('journal-list'); l.innerHTML = ''; if (j.length === 0) { l.innerHTML = getEmptyStateHTML(t('noJournals')); return; } [...j].reverse().forEach((x, i) => { const realIdx = j.length - 1 - i; const div = document.createElement('details'); div.className="bg-notion-card border border-notion-border rounded mb-2"; div.innerHTML=`<summary class="flex items-center gap-2 cursor-pointer text-sm font-medium p-3 relative"><svg class="w-3 h-3 text-notion-muted transition-transform flex-shrink-0" viewBox="0 0 100 100" aria-hidden="true"><polygon points="20,10 80,50 20,90" fill="currentColor"/></svg><span class="flex-1 truncate">${escapeHTML(x.title || t('untitled'))}</span><span class="text-[10px] text-notion-muted">${escapeHTML(x.date)}</span></summary><div class="px-4 pb-3 pt-1 text-sm text-notion-text relative border-t border-notion-hover mt-1"><p class="whitespace-pre-wrap leading-relaxed mt-2">${escapeHTML(x.content)}</p><div class="mt-3 text-right flex justify-end gap-2"><button onclick="editJournal(${realIdx})" class="text-xs text-notion-muted border border-notion-border px-3 py-1 rounded active:bg-notion-hover">${t('edit')}</button><button onclick="deleteJournal(${realIdx})" class="text-xs text-notion-muted border border-notion-border px-3 py-1 rounded active:bg-notion-hover">${t('delete')}</button></div></div>`; l.appendChild(div); }); }
         function saveJournal() { const title = document.getElementById('journal-title').value.trim(); const c = document.getElementById('journal-content').value.trim(); if(c) { const j = getStorageArray('notion_journals_v2'); j.push({title, content:c, date:new Date().toLocaleDateString()}); localStorage.setItem('notion_journals_v2', JSON.stringify(j)); document.getElementById('journal-title').value=''; document.getElementById('journal-content').value=''; closeJournalModal(); loadJournals(); showToast(t('journalSaved')); } }
+        function editJournal(i) { const journals = getStorageArray('notion_journals_v2'); if (!journals[i]) return; const title = prompt(t('untitled'), journals[i].title || ''); if (title === null) return; const content = prompt(t('journalContentPh'), journals[i].content || ''); if (content === null) return; if (!content.trim()) return showToast(t('fillContent')); journals[i].title = title.trim(); journals[i].content = content.trim(); localStorage.setItem('notion_journals_v2', JSON.stringify(journals)); loadJournals(); showToast(t('updated')); }
         function deleteJournal(i) { const j = getStorageArray('notion_journals_v2'); j.splice(i, 1); localStorage.setItem('notion_journals_v2', JSON.stringify(j)); loadJournals(); showToast(t('deleted')); }
 
         // ================= 日語字典 =================
@@ -1682,6 +1951,7 @@
                 parts: parts.length ? parts : [t('noPart')],
                 examples,
                 favorite: false,
+                note: '',
                 createdAt: new Date().toISOString(),
                 source: apiItem ? 'jisho' : 'local'
             };
@@ -1711,12 +1981,14 @@
 
         function renderDictionaryEntry(entry) {
             const aiNotes = buildDictionaryAiNotes(entry);
+            const sourceLabel = entry.source === 'jisho' ? t('publicDictionary') : t('localMode');
             const examplesHTML = entry.examples?.length
                 ? `<div><p class="text-[10px] text-notion-muted tracking-wider uppercase mb-1">${t('examples')}</p><div class="space-y-1">${entry.examples.map(x => `<p class="text-xs bg-notion-hover rounded px-2 py-1">${escapeHTML(x)}</p>`).join('')}</div></div>`
                 : '';
             return `<div class="bg-notion-card border border-notion-border rounded-notion p-4 space-y-3 shadow-sm">
                 <div class="flex justify-between gap-3 items-start">
                     <div class="min-w-0">
+                        <span class="inline-flex text-[10px] text-notion-muted bg-notion-hover border border-notion-border rounded-full px-2 py-0.5 mb-2">${escapeHTML(sourceLabel)}</span>
                         <p class="text-xl font-semibold text-notion-text break-words">${escapeHTML(entry.word)}</p>
                         <p class="text-xs text-notion-muted mt-1">${escapeHTML(entry.reading || t('noReading'))}</p>
                     </div>
@@ -1735,6 +2007,11 @@
                     <p class="text-[10px] text-notion-muted tracking-wider uppercase mb-2">${t('aiNotes')}${entry.ai ? ` · ${t('aiEnhanced')}` : ''}</p>
                     <div class="space-y-1">${aiNotes.map(note => `<p class="text-xs leading-relaxed">${escapeHTML(note)}</p>`).join('')}</div>
                 </div>
+                <div class="border-t border-notion-border pt-3 space-y-2">
+                    <label for="dictionary-note-${entry.id}" class="text-[10px] text-notion-muted tracking-wider uppercase block">${t('dictionaryNote')}</label>
+                    <textarea id="dictionary-note-${entry.id}" rows="3" placeholder="${escapeHTML(t('dictionaryNotePh'))}" class="w-full text-xs border border-notion-border rounded px-2 py-2 focus:outline-none focus:border-notion-muted resize-none">${escapeHTML(entry.note || '')}</textarea>
+                    <button onclick="saveDictionaryNote('${entry.id}')" class="w-full py-2 text-xs bg-notion-hover border border-notion-border rounded-notion">${t('saveNote')}</button>
+                </div>
                 <div class="grid grid-cols-2 gap-2 pt-1">
                     <button onclick="copyDictionaryPrompt('${entry.id}')" class="py-2 text-xs bg-notion-hover border border-notion-border rounded-notion">${t('copyAiPrompt')}</button>
                     <button onclick="deleteDictionaryEntry('${entry.id}')" class="py-2 text-xs bg-notion-hover border border-notion-border rounded-notion">${t('dictionaryDelete')}</button>
@@ -1750,8 +2027,11 @@
             result.innerHTML = `<div class="text-center py-6 text-notion-muted text-xs bg-notion-hover border border-dashed border-notion-border rounded">${t('dictionarySearching')}</div>`;
             let entry;
             try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 7000);
                 const response = await fetch(`${SUPABASE_URL}/functions/v1/japanese-ai`, {
                     method: 'POST',
+                    signal: controller.signal,
                     headers: {
                         'Content-Type': 'application/json',
                         'apikey': SUPABASE_KEY,
@@ -1763,6 +2043,7 @@
                         lookupOnly: true
                     })
                 });
+                clearTimeout(timeoutId);
                 if (!response.ok) throw new Error('dictionary-network');
                 const payload = await response.json();
                 entry = normalizeDictionaryEntry(query, payload.dictionary, payload.dictionary ? '' : t('dictionaryNoResult'));
@@ -1773,7 +2054,7 @@
             }
             saveDictionaryEntry(entry);
             result.innerHTML = renderDictionaryEntry(entry);
-            enhanceDictionaryEntryWithAI(entry.id);
+            if (entry.source === 'jisho') enhanceDictionaryEntryWithAI(entry.id);
             input.value = '';
         }
 
@@ -1828,7 +2109,11 @@
                         <span class="font-semibold text-notion-text block truncate">${escapeHTML(entry.word || entry.query)}</span>
                         <span class="text-[11px] text-notion-muted block truncate">${escapeHTML(entry.reading || t('noReading'))}｜${escapeHTML((entry.meanings || [t('noMeaning')])[0])}</span>
                     </button>
-                    <button onclick="toggleDictionaryFavorite('${entry.id}')" class="text-xs text-notion-muted px-1">${entry.favorite ? '★' : '☆'}</button>
+                    <div class="flex items-center gap-1 shrink-0">
+                        <button onclick="toggleDictionaryFavorite('${entry.id}')" class="text-xs text-notion-muted px-1">${entry.favorite ? '★' : '☆'}</button>
+                        <button onclick="editDictionaryEntry('${entry.id}')" class="text-[11px] text-notion-muted px-1">${t('edit')}</button>
+                        <button onclick="deleteDictionaryEntry('${entry.id}')" class="text-xs text-notion-muted px-1" aria-label="${t('dictionaryDelete')}">✕</button>
+                    </div>
                 </div>
             </div>`).join('');
         }
@@ -1848,6 +2133,41 @@
             localStorage.setItem('notion_dictionary_history', JSON.stringify(history));
             loadDictionaryHistory();
             showDictionaryEntry(id);
+        }
+
+        function saveDictionaryNote(id) {
+            const history = getDictionaryHistory();
+            const entry = history.find(item => item.id === id);
+            const noteInput = document.getElementById(`dictionary-note-${id}`);
+            if (!entry || !noteInput) return;
+            entry.note = noteInput.value.trim();
+            localStorage.setItem('notion_dictionary_history', JSON.stringify(history));
+            loadDictionaryHistory();
+            showToast(t('dictionaryNoteSaved'));
+        }
+
+        function editDictionaryEntry(id) {
+            const history = getDictionaryHistory();
+            const entry = history.find(item => item.id === id);
+            if (!entry) return;
+            const word = prompt(t('dictionarySearchPh'), entry.word || entry.query || '');
+            if (word === null) return;
+            const reading = prompt(t('reading'), entry.reading || '');
+            if (reading === null) return;
+            const meaning = prompt(t('meanings'), (entry.meanings || []).join(' / '));
+            if (meaning === null) return;
+            const note = prompt(t('dictionaryNote'), entry.note || '');
+            if (note === null) return;
+            entry.word = word.trim() || entry.word || entry.query;
+            entry.query = entry.word;
+            entry.reading = reading.trim();
+            entry.meanings = meaning.split('/').map(item => item.trim()).filter(Boolean);
+            if (!entry.meanings.length) entry.meanings = [t('noMeaning')];
+            entry.note = note.trim();
+            localStorage.setItem('notion_dictionary_history', JSON.stringify(history));
+            loadDictionaryHistory();
+            showDictionaryEntry(id);
+            showToast(t('updated'));
         }
 
         function deleteDictionaryEntry(id) {
@@ -1889,7 +2209,10 @@
                         <input type="checkbox" ${w.completed ? 'checked' : ''} onchange="toggleShrineWish(${i})" class="w-4 h-4 accent-notion-muted">
                         <span class="text-sm text-notion-text truncate flex-1 flex items-center">${escapeHTML(w.name)} ${mapLink}</span>
                     </label>
-                    <button onclick="deleteShrineWish(${i})" class="text-notion-muted opacity-40 active:opacity-100 text-xs px-2 py-1" aria-label="${t('deleteShrineWish')}">✕</button>
+                    <div class="flex items-center gap-1 shrink-0">
+                        <button onclick="editShrineWish(${i})" class="text-notion-muted opacity-60 active:opacity-100 text-xs px-2 py-1" aria-label="${t('edit')}">${t('edit')}</button>
+                        <button onclick="deleteShrineWish(${i})" class="text-notion-muted opacity-40 active:opacity-100 text-xs px-2 py-1" aria-label="${t('deleteShrineWish')}">✕</button>
+                    </div>
                 `;
                 list.appendChild(div);
             });
@@ -1930,6 +2253,7 @@
             loadShrineWishes(); 
         }
         
+        function editShrineWish(i) { const wishes = getStorageArray('notion_shrine_wishes'); if (!wishes[i]) return; const name = prompt(t('shrineName'), wishes[i].name || ''); if (name === null) return; if (!name.trim()) return showToast(t('shrineNameRequired')); wishes[i].name = name.trim(); localStorage.setItem('notion_shrine_wishes', JSON.stringify(wishes)); loadShrineWishes(); showToast(t('updated')); }
         function deleteShrineWish(i) { const wishes = getStorageArray('notion_shrine_wishes'); wishes.splice(i, 1); localStorage.setItem('notion_shrine_wishes', JSON.stringify(wishes)); loadShrineWishes(); showToast(t('deleted')); }
 
         // ================= 神社參拜紀錄 (含地圖功能) =================
@@ -1945,7 +2269,7 @@
                 const mapQuery = encodeURIComponent(s.address || s.name);
                 const mapLink = `<a href="https://www.google.com/maps/search/?api=1&query=${mapQuery}" target="_blank" rel="noopener noreferrer" class="text-[10px] text-notion-muted hover:text-notion-text flex items-center gap-1 mt-1.5 w-fit active:opacity-70 bg-notion-hover px-1.5 py-0.5 rounded transition-colors"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>${escapeHTML(s.address || t('viewOnMap'))}</a>`;
                 
-                div.innerHTML = `<div class="flex justify-between items-start"><span class="text-[10px] text-notion-text font-medium bg-notion-hover px-2 py-0.5 rounded">${escapeHTML(s.date)}</span><button onclick="deleteShrine(${realIdx})" class="text-notion-muted opacity-40 active:opacity-100 text-xs py-1 px-2" aria-label="${t('deleteShrineRecord')}">✕</button></div><div class="mt-2 space-y-1"><p class="text-sm font-semibold text-notion-text">${escapeHTML(s.name)}</p>${mapLink}${s.notes ? `<p class="text-xs text-notion-text mt-2 whitespace-pre-wrap bg-notion-hover p-2 rounded">${escapeHTML(s.notes)}</p>` : ''}</div>${imgHTML}`; 
+                div.innerHTML = `<div class="flex justify-between items-start"><span class="text-[10px] text-notion-text font-medium bg-notion-hover px-2 py-0.5 rounded">${escapeHTML(s.date)}</span><div class="flex gap-1"><button onclick="editShrine(${realIdx})" class="text-notion-muted opacity-60 active:opacity-100 text-xs py-1 px-2" aria-label="${t('edit')}">${t('edit')}</button><button onclick="deleteShrine(${realIdx})" class="text-notion-muted opacity-40 active:opacity-100 text-xs py-1 px-2" aria-label="${t('deleteShrineRecord')}">✕</button></div></div><div class="mt-2 space-y-1"><p class="text-sm font-semibold text-notion-text">${escapeHTML(s.name)}</p>${mapLink}${s.notes ? `<p class="text-xs text-notion-text mt-2 whitespace-pre-wrap bg-notion-hover p-2 rounded">${escapeHTML(s.notes)}</p>` : ''}</div>${imgHTML}`; 
                 list.appendChild(div); 
             }); 
         }
@@ -1958,18 +2282,204 @@
             }; 
             if(n) { if(file) compressImage(file, save); else save(null); } else showToast(t('shrineNameRequired')); 
         }
+        function editShrine(i) { const shrines = getStorageArray('notion_shrines'); if (!shrines[i]) return; const name = prompt(t('shrineName'), shrines[i].name || ''); if (name === null) return; const address = prompt(t('address'), shrines[i].address || ''); if (address === null) return; const date = prompt(t('date'), shrines[i].date || ''); if (date === null) return; const notes = prompt(t('wish'), shrines[i].notes || ''); if (notes === null) return; if (!name.trim()) return showToast(t('shrineNameRequired')); shrines[i] = { ...shrines[i], name: name.trim(), address: address.trim(), date: date.trim(), notes: notes.trim() }; localStorage.setItem('notion_shrines', JSON.stringify(shrines)); loadShrines(); showToast(t('updated')); }
         function deleteShrine(i) { const s = getStorageArray('notion_shrines'); s.splice(i, 1); localStorage.setItem('notion_shrines', JSON.stringify(s)); loadShrines(); showToast(t('deleted')); }
 
-        let timerInterval; let timeLeft = 0;
+        // ================= 閱讀書籍紀錄 =================
+        function getBookStatusLabel(status) { return t(BOOK_STATUS_KEYS[status] || 'bookWant'); }
+        function renderReadingFilters() {
+            const container = document.getElementById('reading-filter');
+            if (!container) return;
+            const books = getStorageArray('notion_books');
+            container.innerHTML = BOOK_FILTERS.map(status => {
+                const count = status === 'all' ? books.length : books.filter(book => (book.status || 'want') === status).length;
+                const label = status === 'all' ? t('partAll') : getBookStatusLabel(status);
+                const active = readingFilter === status;
+                return `<button type="button" onclick="setReadingFilter('${status}')" class="text-[11px] border rounded px-2 py-2 ${active ? 'bg-notion-btn text-white border-notion-btn' : 'bg-white text-notion-text border-notion-border'}">${escapeHTML(label)}${count ? ` ${count}` : ''}</button>`;
+            }).join('');
+        }
+        function setReadingFilter(status) { readingFilter = status; renderReadingFilters(); loadBooks(); }
+        function loadBooks() {
+            const books = getStorageArray('notion_books');
+            const filtered = readingFilter === 'all' ? books : books.filter(book => (book.status || 'want') === readingFilter);
+            const list = document.getElementById('book-list');
+            if (!list) return;
+            renderReadingFilters();
+            list.innerHTML = '';
+            if (!books.length) { list.innerHTML = getEmptyStateHTML(t('noBooks')); return; }
+            if (!filtered.length) { list.innerHTML = getEmptyStateHTML(t('noBooks')); return; }
+            [...filtered].reverse().forEach(book => {
+                const realIdx = books.indexOf(book);
+                const progress = Math.min(100, Math.max(0, parseInt(book.progress, 10) || 0));
+                const div = document.createElement('div');
+                div.className = 'bg-notion-card border border-notion-border rounded p-3 text-sm';
+                div.innerHTML = `<div class="flex justify-between gap-3 items-start"><div class="min-w-0"><p class="font-semibold text-notion-text truncate">${escapeHTML(book.title)}</p><p class="text-[11px] text-notion-muted mt-0.5">${book.author ? `${t('author')}：${escapeHTML(book.author)}｜` : ''}${escapeHTML(getBookStatusLabel(book.status || 'want'))}</p></div><div class="flex gap-1 shrink-0"><button onclick="editBook(${realIdx})" class="text-notion-muted opacity-60 active:opacity-100 text-xs px-2 py-1">${t('edit')}</button><button onclick="deleteBook(${realIdx})" class="text-notion-muted opacity-40 active:opacity-100 text-xs px-2 py-1" aria-label="${t('deleteBook')}">✕</button></div></div><div class="mt-3 h-1.5 bg-notion-hover rounded overflow-hidden"><div class="h-full bg-notion-btn" style="width:${progress}%"></div></div><p class="text-[11px] text-notion-muted mt-1">${t('progress')} ${progress}%</p>${book.note ? `<p class="mt-2 text-xs leading-relaxed bg-notion-hover rounded p-2 whitespace-pre-wrap">${escapeHTML(book.note)}</p>` : ''}<p class="text-[10px] text-notion-muted mt-2">${escapeHTML(book.date || '')}</p>`;
+                list.appendChild(div);
+            });
+        }
+        function saveBook() {
+            const title = document.getElementById('book-title').value.trim();
+            if (!title) return showToast(t('fillContent'));
+            const author = document.getElementById('book-author').value.trim();
+            const status = document.getElementById('book-status').value;
+            const progress = Math.min(100, Math.max(0, parseInt(document.getElementById('book-progress').value, 10) || (status === 'done' ? 100 : 0)));
+            const note = document.getElementById('book-note').value.trim();
+            const books = getStorageArray('notion_books');
+            books.push({ title, author, status, progress, note, date: new Date().toLocaleDateString() });
+            localStorage.setItem('notion_books', JSON.stringify(books));
+            document.getElementById('book-title').value = '';
+            document.getElementById('book-author').value = '';
+            document.getElementById('book-status').value = 'want';
+            document.getElementById('book-progress').value = '';
+            document.getElementById('book-note').value = '';
+            loadBooks();
+            showToast(t('bookSaved'));
+        }
+        function editBook(i) {
+            const books = getStorageArray('notion_books');
+            if (!books[i]) return;
+            const title = prompt(t('bookTitlePh'), books[i].title || '');
+            if (title === null) return;
+            const author = prompt(t('author'), books[i].author || '');
+            if (author === null) return;
+            const status = prompt(t('bookStatus'), books[i].status || 'want');
+            if (status === null) return;
+            const progress = prompt(t('progress'), books[i].progress ?? '');
+            if (progress === null) return;
+            const note = prompt(t('bookNotePh'), books[i].note || '');
+            if (note === null) return;
+            if (!title.trim()) return showToast(t('fillContent'));
+            books[i] = { ...books[i], title: title.trim(), author: author.trim(), status: BOOK_STATUS_KEYS[status] ? status : (books[i].status || 'want'), progress: Math.min(100, Math.max(0, parseInt(progress, 10) || 0)), note: note.trim() };
+            localStorage.setItem('notion_books', JSON.stringify(books));
+            loadBooks();
+            showToast(t('updated'));
+        }
+        function deleteBook(i) { const books = getStorageArray('notion_books'); books.splice(i, 1); localStorage.setItem('notion_books', JSON.stringify(books)); loadBooks(); showToast(t('deleted')); }
+
+        // ================= 擁有物品清單 =================
+        function getItemCategoryLabel(category) { return t(ITEM_CATEGORY_KEYS[category] || 'itemCatOther'); }
+        function getItemStatusLabel(status) { return t(ITEM_STATUS_KEYS[status] || 'itemActive'); }
+        function renderItemFilters() {
+            const container = document.getElementById('item-filter');
+            if (!container) return;
+            const items = getStorageArray('notion_items');
+            container.innerHTML = ITEM_CATEGORIES.map(category => {
+                const count = category === '全部' ? items.length : items.filter(item => (item.category || '其他') === category).length;
+                const active = itemFilter === category;
+                return `<button type="button" onclick="setItemFilter('${category}')" class="shrink-0 text-[11px] border rounded-full px-3 py-1.5 ${active ? 'bg-notion-btn text-white border-notion-btn' : 'bg-white text-notion-text border-notion-border'}">${escapeHTML(getItemCategoryLabel(category))}${count ? ` ${count}` : ''}</button>`;
+            }).join('');
+        }
+        function setItemFilter(category) { itemFilter = category; renderItemFilters(); loadItems(); }
+        function loadItems() {
+            const items = getStorageArray('notion_items');
+            const filtered = itemFilter === '全部' ? items : items.filter(item => (item.category || '其他') === itemFilter);
+            const list = document.getElementById('item-list');
+            if (!list) return;
+            renderItemFilters();
+            list.innerHTML = '';
+            if (!items.length) { list.innerHTML = getEmptyStateHTML(t('noItems')); return; }
+            if (!filtered.length) { list.innerHTML = getEmptyStateHTML(t('noItems')); return; }
+            [...filtered].reverse().forEach(item => {
+                const realIdx = items.indexOf(item);
+                const div = document.createElement('div');
+                div.className = 'bg-notion-card border border-notion-border rounded p-3 text-sm';
+                div.innerHTML = `<div class="flex justify-between gap-3 items-start"><div class="min-w-0"><p class="font-semibold text-notion-text truncate">${escapeHTML(item.name)}</p><p class="text-[11px] text-notion-muted mt-0.5">${escapeHTML(getItemCategoryLabel(item.category || '其他'))}｜${escapeHTML(getItemStatusLabel(item.status || 'active'))}｜${t('quantity')} ${escapeHTML(item.qty || 1)}</p></div><div class="flex gap-1 shrink-0"><button onclick="editItem(${realIdx})" class="text-notion-muted opacity-60 active:opacity-100 text-xs px-2 py-1">${t('edit')}</button><button onclick="deleteItem(${realIdx})" class="text-notion-muted opacity-40 active:opacity-100 text-xs px-2 py-1" aria-label="${t('deleteItem')}">✕</button></div></div>${item.note ? `<p class="mt-2 text-xs leading-relaxed bg-notion-hover rounded p-2 whitespace-pre-wrap">${escapeHTML(item.note)}</p>` : ''}<p class="text-[10px] text-notion-muted mt-2">${escapeHTML(item.date || '')}</p>`;
+                list.appendChild(div);
+            });
+        }
+        function saveItem() {
+            const name = document.getElementById('item-name').value.trim();
+            if (!name) return showToast(t('fillContent'));
+            const category = document.getElementById('item-category').value;
+            const status = document.getElementById('item-status').value;
+            const qty = Math.max(1, parseInt(document.getElementById('item-qty').value, 10) || 1);
+            const date = document.getElementById('item-date').value || new Date().toLocaleDateString();
+            const note = document.getElementById('item-note').value.trim();
+            const items = getStorageArray('notion_items');
+            items.push({ name, category, status, qty, date, note });
+            localStorage.setItem('notion_items', JSON.stringify(items));
+            document.getElementById('item-name').value = '';
+            document.getElementById('item-category').value = '衣物';
+            document.getElementById('item-status').value = 'active';
+            document.getElementById('item-qty').value = '1';
+            document.getElementById('item-date').valueAsDate = new Date();
+            document.getElementById('item-note').value = '';
+            loadItems();
+            showToast(t('itemSaved'));
+        }
+        function editItem(i) {
+            const items = getStorageArray('notion_items');
+            if (!items[i]) return;
+            const name = prompt(t('itemNamePh'), items[i].name || '');
+            if (name === null) return;
+            const category = prompt(t('itemCategory'), items[i].category || '其他');
+            if (category === null) return;
+            const status = prompt(t('itemStatus'), items[i].status || 'active');
+            if (status === null) return;
+            const qty = prompt(t('quantity'), items[i].qty || 1);
+            if (qty === null) return;
+            const note = prompt(t('itemNotePh'), items[i].note || '');
+            if (note === null) return;
+            if (!name.trim()) return showToast(t('fillContent'));
+            items[i] = { ...items[i], name: name.trim(), category: ITEM_CATEGORY_KEYS[category] ? category : (items[i].category || '其他'), status: ITEM_STATUS_KEYS[status] ? status : (items[i].status || 'active'), qty: Math.max(1, parseInt(qty, 10) || 1), note: note.trim() };
+            localStorage.setItem('notion_items', JSON.stringify(items));
+            loadItems();
+            showToast(t('updated'));
+        }
+        function deleteItem(i) { const items = getStorageArray('notion_items'); items.splice(i, 1); localStorage.setItem('notion_items', JSON.stringify(items)); loadItems(); showToast(t('deleted')); }
+
+        let timerInterval; let timeLeft = 0; let bellAudioContext = null;
         function saveMusicToDB() { const file = document.getElementById('bgm-upload').files[0]; if (!file) return showToast(t('chooseMusic')); if (!db) return showToast(t('systemNotReady')); const tx = db.transaction("settings", "readwrite"); tx.objectStore("settings").put(file, "bgm"); tx.oncomplete = () => { document.getElementById('music-status').innerText = file.name; showToast(t('musicSaved')); }; }
         function loadSavedMusic() { if (!db) return; const tx = db.transaction("settings", "readonly"); const req = tx.objectStore("settings").get("bgm"); req.onsuccess = () => { if (req.result) { document.getElementById('med-audio').src = URL.createObjectURL(req.result); document.getElementById('music-status').innerText = t('musicLoaded'); } }; }
         function formatTime(sec) { return `${Math.floor(sec / 60).toString().padStart(2, '0')}:${(sec % 60).toString().padStart(2, '0')}`; }
-        function playDing() { const ctx = new (window.AudioContext || window.webkitAudioContext)(); const osc = ctx.createOscillator(); const gain = ctx.createGain(); osc.connect(gain); gain.connect(ctx.destination); osc.type = 'sine'; osc.frequency.setValueAtTime(800, ctx.currentTime); gain.gain.setValueAtTime(1, ctx.currentTime); gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 2); osc.start(ctx.currentTime); osc.stop(ctx.currentTime + 2); }
+        function getBellAudioContext() {
+            const AudioCtx = window.AudioContext || window.webkitAudioContext;
+            if (!AudioCtx) return null;
+            if (!bellAudioContext) bellAudioContext = new AudioCtx();
+            if (bellAudioContext.state === 'suspended') bellAudioContext.resume().catch(() => {});
+            return bellAudioContext;
+        }
+        function unlockBellAudio() {
+            const ctx = getBellAudioContext();
+            if (!ctx) return;
+            const gain = ctx.createGain();
+            gain.gain.setValueAtTime(0.0001, ctx.currentTime);
+            gain.connect(ctx.destination);
+            const osc = ctx.createOscillator();
+            osc.frequency.setValueAtTime(440, ctx.currentTime);
+            osc.connect(gain);
+            osc.start(ctx.currentTime);
+            osc.stop(ctx.currentTime + 0.03);
+        }
+        function playBellTone(ctx, startAt, frequency) {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(frequency, startAt);
+            osc.frequency.exponentialRampToValueAtTime(frequency * 0.72, startAt + 1.8);
+            gain.gain.setValueAtTime(0.0001, startAt);
+            gain.gain.exponentialRampToValueAtTime(0.42, startAt + 0.03);
+            gain.gain.exponentialRampToValueAtTime(0.0001, startAt + 2.4);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(startAt);
+            osc.stop(startAt + 2.5);
+        }
+        function playDing() {
+            const ctx = getBellAudioContext();
+            if (!ctx) return;
+            [0, 0.9, 1.8].forEach((delay, index) => {
+                const startAt = ctx.currentTime + delay;
+                playBellTone(ctx, startAt, [880, 740, 660][index]);
+                playBellTone(ctx, startAt + 0.02, [1320, 1110, 990][index]);
+            });
+        }
         function getTimerMinutes() { return Math.min(240, Math.max(1, parseInt(document.getElementById('timer-input').value, 10) || 15)); }
-        function startTimer() { clearInterval(timerInterval); const minutes = getTimerMinutes(); document.getElementById('timer-input').value = minutes; timeLeft = minutes * 60; document.getElementById('timer-display').innerText = formatTime(timeLeft); const audio = document.getElementById('med-audio'); if(audio.src) audio.play().catch(() => showToast(t('browserCantPlay'))); document.getElementById('btn-timer-start').innerText = t('inProgress'); timerInterval = setInterval(() => { timeLeft--; document.getElementById('timer-display').innerText = formatTime(timeLeft); if (timeLeft <= 0) { stopTimer(); playDing(); } }, 1000); }
+        function startTimer() { clearInterval(timerInterval); unlockBellAudio(); const minutes = getTimerMinutes(); document.getElementById('timer-input').value = minutes; timeLeft = minutes * 60; document.getElementById('timer-display').innerText = formatTime(timeLeft); const audio = document.getElementById('med-audio'); if(audio.src) audio.play().catch(() => showToast(t('browserCantPlay'))); document.getElementById('btn-timer-start').innerText = t('inProgress'); timerInterval = setInterval(() => { timeLeft--; document.getElementById('timer-display').innerText = formatTime(timeLeft); if (timeLeft <= 0) { stopTimer(); playDing(); showToast(t('timerFinished')); } }, 1000); }
         function stopTimer() { clearInterval(timerInterval); const audio = document.getElementById('med-audio'); audio.pause(); audio.currentTime = 0; document.getElementById('btn-timer-start').innerText = t('start'); document.getElementById('timer-display').innerText = formatTime(getTimerMinutes() * 60); }
-        function loadMeditations() { const meds = getStorageArray('notion_meditation'); const list = document.getElementById('meditation-list'); list.innerHTML = ''; if (meds.length === 0) { list.innerHTML = getEmptyStateHTML(t('noMeditations')); return; } [...meds].reverse().forEach((m, i) => { const div = document.createElement('div'); div.className = "bg-notion-card border border-notion-border rounded p-3 mb-2 flex justify-between items-start"; div.innerHTML = `<div class="flex-1 pr-2"><div class="flex items-center gap-2"><span class="text-xs font-semibold bg-notion-hover px-2 py-0.5 rounded text-notion-text">${escapeHTML(m.duration)} ${t('minutes')}</span><span class="text-[10px] text-notion-muted">${escapeHTML(m.date)}</span></div>${m.notes ? `<p class="text-sm text-notion-text mt-2 leading-relaxed bg-notion-hover p-2 rounded">${escapeHTML(m.notes)}</p>` : ''}</div><button onclick="deleteMeditation(${meds.length-1-i})" class="text-notion-muted opacity-40 active:opacity-100 text-xs py-1 px-2" aria-label="${t('deleteMeditation')}">✕</button>`; list.appendChild(div); }); }
+        function loadMeditations() { const meds = getStorageArray('notion_meditation'); const list = document.getElementById('meditation-list'); list.innerHTML = ''; if (meds.length === 0) { list.innerHTML = getEmptyStateHTML(t('noMeditations')); return; } [...meds].reverse().forEach((m, i) => { const realIdx = meds.length - 1 - i; const div = document.createElement('div'); div.className = "bg-notion-card border border-notion-border rounded p-3 mb-2 flex justify-between items-start"; div.innerHTML = `<div class="flex-1 pr-2"><div class="flex items-center gap-2"><span class="text-xs font-semibold bg-notion-hover px-2 py-0.5 rounded text-notion-text">${escapeHTML(m.duration)} ${t('minutes')}</span><span class="text-[10px] text-notion-muted">${escapeHTML(m.date)}</span></div>${m.notes ? `<p class="text-sm text-notion-text mt-2 leading-relaxed bg-notion-hover p-2 rounded">${escapeHTML(m.notes)}</p>` : ''}</div><div class="flex gap-1 shrink-0"><button onclick="editMeditation(${realIdx})" class="text-notion-muted opacity-60 active:opacity-100 text-xs py-1 px-2" aria-label="${t('edit')}">${t('edit')}</button><button onclick="deleteMeditation(${realIdx})" class="text-notion-muted opacity-40 active:opacity-100 text-xs py-1 px-2" aria-label="${t('deleteMeditation')}">✕</button></div>`; list.appendChild(div); }); }
         function saveMeditation() { const duration = getTimerMinutes(); const notes = document.getElementById('med-notes').value.trim(); if (duration) { const meds = getStorageArray('notion_meditation'); meds.push({ duration, notes, date: new Date().toLocaleDateString() }); localStorage.setItem('notion_meditation', JSON.stringify(meds)); document.getElementById('med-notes').value = ''; loadMeditations(); showToast(t('meditationSaved')); } }
+        function editMeditation(i) { const meds = getStorageArray('notion_meditation'); if (!meds[i]) return; const duration = prompt(t('meditationMinutes'), meds[i].duration || getTimerMinutes()); if (duration === null) return; const notes = prompt(t('awarenessNote'), meds[i].notes || ''); if (notes === null) return; const minutes = Math.min(240, Math.max(1, parseInt(duration, 10) || meds[i].duration || 1)); meds[i].duration = minutes; meds[i].notes = notes.trim(); localStorage.setItem('notion_meditation', JSON.stringify(meds)); loadMeditations(); showToast(t('updated')); }
         function deleteMeditation(i) { const m = getStorageArray('notion_meditation'); m.splice(i, 1); localStorage.setItem('notion_meditation', JSON.stringify(m)); loadMeditations(); showToast(t('deleted')); }
     </script>
 </body>
