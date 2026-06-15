@@ -461,11 +461,12 @@
                 <h3 id="sync-modal-title" class="text-sm font-semibold" data-i18n="cloudSync">雲端同步</h3>
                 <button onclick="closeSyncModal()" class="text-notion-muted hover:text-notion-text px-2" aria-label="關閉同步設定" data-i18n-aria="closeSync">✕</button>
             </div>
-            <p class="text-[11px] text-notion-muted leading-relaxed" data-i18n="syncDesc">請先用 Gmail 登入。登入後手機與網頁會使用同一個帳號同步資料。</p>
+            <p class="text-[11px] text-notion-muted leading-relaxed" data-i18n="syncDesc">請先用 Email 收取驗證碼登入。登入後手機與網頁會使用同一個帳號同步資料。</p>
             <div class="bg-notion-hover border border-notion-border rounded p-3 space-y-2">
-                <p id="auth-status" class="text-[11px] text-notion-muted">尚未登入 Gmail</p>
-                <div class="grid grid-cols-2 gap-2">
-                    <button onclick="signInWithGoogle()" class="py-2.5 text-sm bg-notion-btn text-white rounded-notion font-medium" data-i18n="gmailLogin">Gmail 登入</button>
+                <p id="auth-status" class="text-[11px] text-notion-muted">尚未登入 Email</p>
+                <div class="grid grid-cols-3 gap-2">
+                    <button onclick="loginCloudSync()" class="py-2.5 text-xs bg-notion-btn text-white rounded-notion font-medium" data-i18n="sendLoginCode">寄送驗證碼</button>
+                    <button onclick="verifyCloudOtp()" class="py-2.5 text-xs bg-white text-notion-text border border-notion-border rounded-notion font-medium" data-i18n="verifyLoginCode">輸入驗證碼</button>
                     <button onclick="signOutGoogle()" class="py-2.5 text-sm bg-white text-notion-text border border-notion-border rounded-notion font-medium" data-i18n="logout">登出</button>
                 </div>
             </div>
@@ -628,6 +629,8 @@
         const LANGUAGE_KEY = 'manifestation_language';
         const SUPABASE_URL = 'https://iqbkizoojhcjeoabghvq.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlxYmtpem9vamhjamVvYWJnaHZxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEzNzIxOTEsImV4cCI6MjA5Njk0ODE5MX0.PXJ_prl5OCT9JiRr8KiI9WGw8-XGJUIEDgnfwpHH9eY';
+        let supabaseClient = null;
+        let cloudUser = null;
         const I18N = {
             zh: {
                 homeEyebrow: 'Manifest Atelier',
@@ -765,8 +768,15 @@
                 done: '完成',
                 cloudSync: '雲端同步',
                 closeSync: '關閉同步設定',
-                syncDesc: '請先用 Gmail 登入。登入後手機與網頁會使用同一個帳號同步資料。',
-                gmailLogin: 'Gmail 登入',
+                syncDesc: '請先用 Email 收取驗證碼登入。登入後手機與網頁會使用同一個帳號同步資料。',
+                gmailLogin: 'Email 登入',
+                sendLoginCode: '寄送驗證碼',
+                verifyLoginCode: '輸入驗證碼',
+                cloudEmailPrompt: '請輸入 Email',
+                cloudOtpPrompt: '請輸入 Email 收到的 6 位數驗證碼',
+                cloudEmailSent: '驗證碼已寄出，請查看信箱',
+                cloudOtpVerified: '驗證成功，已登入',
+                cloudOtpEmailMissing: '請先輸入 Email',
                 logout: '登出',
                 uploadLocal: '上傳本機',
                 downloadCloud: '下載雲端',
@@ -822,16 +832,16 @@
                 invalidBackup: '備份檔格式不正確',
                 videoUrlInvalid: '影片連結無效',
                 videoWatchedToast: '{label}已觀看 {count} 次',
-                authLoginRequired: '請先登入 Gmail',
-                authNotLoggedIn: '尚未登入 Gmail',
+                authLoginRequired: '請先用 Email 登入',
+                authNotLoggedIn: '尚未登入 Email',
                 authLoggedIn: '已登入：{email}',
                 authReady: '已登入，可上傳或下載雲端資料',
                 authNoSupabase: '尚未連線 Supabase Auth',
                 authCallbackFailed: '登入回傳處理失敗，請重新登入',
                 authFailed: '登入失敗：{error}',
-                authStarting: '正在開啟 Gmail 登入...',
-                authStartFailed: '無法啟動 Gmail 登入，請確認 Supabase 已啟用 Google provider',
-                authLoggedOut: '已登出 Gmail',
+                authStarting: '正在寄送驗證碼...',
+                authStartFailed: '無法啟動 Email 登入，請確認 Supabase 已啟用 Email provider',
+                authLoggedOut: '已登出 Email',
                 authLogoutFailed: '登出失敗',
                 uploading: '上傳中...',
                 uploadedSupabase: '已上傳到 Supabase',
@@ -1019,8 +1029,15 @@
                 done: '完了',
                 cloudSync: 'クラウド同期',
                 closeSync: '同期設定を閉じる',
-                syncDesc: '先にGmailでログインしてください。ログイン後、スマホとWebは同じアカウントで同期します。',
-                gmailLogin: 'Gmailログイン',
+                syncDesc: '先にEmailで認証コードを受け取りログインしてください。ログイン後、スマホとWebは同じアカウントで同期します。',
+                gmailLogin: 'Emailログイン',
+                sendLoginCode: '認証コード送信',
+                verifyLoginCode: 'コード入力',
+                cloudEmailPrompt: 'Emailを入力してください',
+                cloudOtpPrompt: 'Emailに届いた6桁の認証コードを入力してください',
+                cloudEmailSent: '認証コードを送信しました。メールを確認してください',
+                cloudOtpVerified: '認証しました。ログイン済みです',
+                cloudOtpEmailMissing: '先にEmailを入力してください',
                 logout: 'ログアウト',
                 uploadLocal: 'ローカルをアップロード',
                 downloadCloud: 'クラウドをダウンロード',
@@ -1076,16 +1093,16 @@
                 invalidBackup: 'バックアップファイルの形式が正しくありません',
                 videoUrlInvalid: '動画リンクが無効です',
                 videoWatchedToast: '{label}を{count}回視聴しました',
-                authLoginRequired: '先にGmailでログインしてください',
-                authNotLoggedIn: 'Gmail未ログイン',
+                authLoginRequired: '先にEmailでログインしてください',
+                authNotLoggedIn: 'Email未ログイン',
                 authLoggedIn: 'ログイン中：{email}',
                 authReady: 'ログイン済み。アップロードまたはダウンロードできます',
                 authNoSupabase: 'Supabase Authに未接続です',
                 authCallbackFailed: 'ログイン応答の処理に失敗しました。もう一度ログインしてください',
                 authFailed: 'ログイン失敗：{error}',
-                authStarting: 'Gmailログインを開いています...',
-                authStartFailed: 'Gmailログインを開始できません。SupabaseでGoogle providerが有効か確認してください',
-                authLoggedOut: 'Gmailからログアウトしました',
+                authStarting: '認証コードを送信しています...',
+                authStartFailed: 'Emailログインを開始できません。SupabaseでEmail providerが有効か確認してください',
+                authLoggedOut: 'Emailからログアウトしました',
                 authLogoutFailed: 'ログアウトに失敗しました',
                 uploading: 'アップロード中...',
                 uploadedSupabase: 'Supabaseにアップロードしました',
@@ -1273,8 +1290,15 @@
                 done: 'Done',
                 cloudSync: 'Cloud Sync',
                 closeSync: 'Close sync settings',
-                syncDesc: 'Sign in with Gmail first. After signing in, your phone and web app sync with the same account.',
-                gmailLogin: 'Gmail Login',
+                syncDesc: 'Sign in with an Email verification code first. After signing in, your phone and web app sync with the same account.',
+                gmailLogin: 'Email Login',
+                sendLoginCode: 'Send code',
+                verifyLoginCode: 'Enter code',
+                cloudEmailPrompt: 'Enter your Email',
+                cloudOtpPrompt: 'Enter the 6-digit code from your Email',
+                cloudEmailSent: 'Code sent. Please check your inbox.',
+                cloudOtpVerified: 'Verified and signed in',
+                cloudOtpEmailMissing: 'Enter your Email first',
                 logout: 'Log out',
                 uploadLocal: 'Upload local',
                 downloadCloud: 'Download cloud',
@@ -1330,16 +1354,16 @@
                 invalidBackup: 'Backup file format is invalid',
                 videoUrlInvalid: 'Invalid video link',
                 videoWatchedToast: '{label} watched {count} time(s)',
-                authLoginRequired: 'Please sign in with Gmail first',
-                authNotLoggedIn: 'Not signed in to Gmail',
+                authLoginRequired: 'Please sign in with Email first',
+                authNotLoggedIn: 'Not signed in to Email',
                 authLoggedIn: 'Signed in: {email}',
                 authReady: 'Signed in. You can upload or download cloud data',
                 authNoSupabase: 'Supabase Auth is not connected',
                 authCallbackFailed: 'Login callback failed. Please sign in again',
                 authFailed: 'Login failed: {error}',
-                authStarting: 'Opening Gmail login...',
-                authStartFailed: 'Could not start Gmail login. Check that Google provider is enabled in Supabase',
-                authLoggedOut: 'Signed out of Gmail',
+                authStarting: 'Sending verification code...',
+                authStartFailed: 'Could not start Email login. Check that Email provider is enabled in Supabase',
+                authLoggedOut: 'Signed out of Email',
                 authLogoutFailed: 'Sign out failed',
                 uploading: 'Uploading...',
                 uploadedSupabase: 'Uploaded to Supabase',
@@ -1539,6 +1563,7 @@
                 if (e.key === 'Enter') searchDictionary();
             });
             handleAuthRedirect();
+            initCloudSync();
             document.addEventListener('keydown', e => {
                 if (e.key === 'Escape') {
                     if (!document.getElementById('modal-journal').classList.contains('hidden')) closeJournalModal();
@@ -1660,53 +1685,65 @@
             return pairs.map(([key, value]) => `${key}: ${value}`).join('\n');
         }
 
-        async function createSupabaseFromSettings(requireSyncId = true) {
-            const stored = getSyncSettings();
-            const settings = { ...stored, url: SUPABASE_URL, key: SUPABASE_KEY };
-            if (!settings.syncId && requireSyncId) throw new Error('missing-session');
+        async function getSupabaseClient() {
+            if (supabaseClient) return supabaseClient;
             try {
                 const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
-                return {
-                    client: createClient(settings.url, settings.key, {
-                        auth: {
-                            flowType: 'pkce',
-                            storageKey: 'manifestation-supabase-auth',
-                            persistSession: true,
-                            autoRefreshToken: true,
-                            detectSessionInUrl: true
-                        }
-                    }),
-                    syncId: settings.syncId,
-                    settings
-                };
+                supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY, {
+                    auth: {
+                        storageKey: 'manifestation-supabase-auth',
+                        persistSession: true,
+                        autoRefreshToken: true,
+                        detectSessionInUrl: true
+                    }
+                });
+                return supabaseClient;
             } catch {
                 throw new Error('supabase-load-failed');
             }
         }
 
-        async function getSupabaseClient() {
-            return createSupabaseFromSettings(true);
+        async function getAuthClient() {
+            return getSupabaseClient();
         }
 
-        async function getAuthClient() {
-            return createSupabaseFromSettings(false);
+        async function getCloudUser() {
+            const client = await getSupabaseClient();
+            const { data, error } = await client.auth.getUser();
+            if (error) return null;
+            cloudUser = data.user || null;
+            return cloudUser;
+        }
+
+        async function initCloudSync() {
+            try {
+                const client = await getSupabaseClient();
+                const { data } = await client.auth.getSession();
+                cloudUser = data.session?.user || null;
+                await refreshAuthStatus();
+                client.auth.onAuthStateChange((_event, session) => {
+                    cloudUser = session?.user || null;
+                    refreshAuthStatus();
+                });
+            } catch {
+                const status = document.getElementById('auth-status');
+                if (status) status.innerText = t('authNoSupabase');
+            }
         }
 
         async function refreshAuthStatus() {
             const status = document.getElementById('auth-status');
             if (!status) return;
             try {
-                const { client, settings } = await getAuthClient();
-                const { data } = await client.auth.getSession();
-                const user = data.session?.user;
+                const user = cloudUser || await getCloudUser();
                 if (!user) {
                     status.innerText = t('authNotLoggedIn');
                     return;
                 }
-                const syncId = `gmail:${user.id}`;
-                const merged = { ...settings, syncId };
-                localStorage.setItem(SYNC_SETTINGS_KEY, JSON.stringify(merged));
-                status.innerText = t('authLoggedIn').replace('{email}', user.email || 'Google');
+                const settings = getSyncSettings();
+                const syncId = `email:${user.id}`;
+                localStorage.setItem(SYNC_SETTINGS_KEY, JSON.stringify({ ...settings, syncId, email: user.email || '' }));
+                status.innerText = t('authLoggedIn').replace('{email}', user.email || 'Email');
                 setSyncStatus(t('authReady'));
             } catch {
                 status.innerText = t('authNoSupabase');
@@ -1758,29 +1795,58 @@
         }
 
         async function signInWithGoogle() {
+            return loginCloudSync();
+        }
+
+        async function loginCloudSync() {
             try {
                 setSyncStatus(t('authStarting'));
-                localStorage.removeItem('manifestation_auth_error');
-                const { client } = await getAuthClient();
-                const { data, error } = await client.auth.signInWithOAuth({
-                    provider: 'google',
-                    options: {
-                        redirectTo: getRedirectUrl(),
-                        skipBrowserRedirect: true,
-                        queryParams: { prompt: 'select_account' }
-                    }
+                const client = await getSupabaseClient();
+                const email = prompt(t('cloudEmailPrompt'), localStorage.getItem('manifestation_cloud_email') || '');
+                if (!email || !email.trim()) return;
+                localStorage.setItem('manifestation_cloud_email', email.trim());
+                const redirectTo = window.location.protocol === 'file:' ? undefined : getRedirectUrl();
+                const { error } = await client.auth.signInWithOtp({
+                    email: email.trim(),
+                    options: redirectTo ? { emailRedirectTo: redirectTo } : {}
                 });
                 if (error) throw error;
-                if (data?.url) window.location.assign(data.url);
+                setSyncStatus(t('cloudEmailSent'));
+                showToast(t('cloudEmailSent'));
             } catch (error) {
                 setSyncStatus(`${t('authStartFailed')}${error?.message ? `｜${error.message}` : ''}`);
             }
         }
 
+        async function verifyCloudOtp() {
+            try {
+                const client = await getSupabaseClient();
+                const savedEmail = localStorage.getItem('manifestation_cloud_email') || '';
+                const email = prompt(t('cloudEmailPrompt'), savedEmail);
+                if (!email || !email.trim()) return setSyncStatus(t('cloudOtpEmailMissing'));
+                const token = prompt(t('cloudOtpPrompt'));
+                if (!token || !token.trim()) return;
+                const { data, error } = await client.auth.verifyOtp({
+                    email: email.trim(),
+                    token: token.trim(),
+                    type: 'email'
+                });
+                if (error) throw error;
+                localStorage.setItem('manifestation_cloud_email', email.trim());
+                cloudUser = data.user || null;
+                await refreshAuthStatus();
+                setSyncStatus(t('cloudOtpVerified'));
+                showToast(t('cloudOtpVerified'));
+            } catch (error) {
+                setSyncStatus(t('authFailed').replace('{error}', error.message || 'OTP failed'));
+            }
+        }
+
         async function signOutGoogle() {
             try {
-                const { client } = await getAuthClient();
+                const client = await getSupabaseClient();
                 await client.auth.signOut();
+                cloudUser = null;
                 const settings = getSyncSettings();
                 localStorage.setItem(SYNC_SETTINGS_KEY, JSON.stringify({ ...settings, syncId: '' }));
                 await refreshAuthStatus();
@@ -1792,9 +1858,11 @@
 
         async function pushCloudSync() {
             try {
-                await refreshAuthStatus();
                 setSyncStatus(t('uploading'));
-                const { client, syncId } = await getSupabaseClient();
+                const client = await getSupabaseClient();
+                const user = cloudUser || await getCloudUser();
+                if (!user) throw new Error('missing-session');
+                const syncId = `email:${user.id}`;
                 const { error } = await client.from('manifestation_sync').upsert({
                     sync_id: syncId,
                     data: getAllAppData(),
@@ -1813,9 +1881,11 @@
 
         async function pullCloudSync() {
             try {
-                await refreshAuthStatus();
                 setSyncStatus(t('downloading'));
-                const { client, syncId } = await getSupabaseClient();
+                const client = await getSupabaseClient();
+                const user = cloudUser || await getCloudUser();
+                if (!user) throw new Error('missing-session');
+                const syncId = `email:${user.id}`;
                 const { data, error } = await client.from('manifestation_sync').select('data, updated_at').eq('sync_id', syncId).maybeSingle();
                 if (error) throw error;
                 if (!data) return setSyncStatus(t('noCloudData'));
