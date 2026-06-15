@@ -468,6 +468,7 @@
                     <button onclick="loginCloudSync()" class="py-2.5 text-xs bg-notion-btn text-white rounded-notion font-medium" data-i18n="sendLoginCode">寄送驗證碼</button>
                     <button onclick="verifyCloudOtp()" class="py-2.5 text-xs bg-white text-notion-text border border-notion-border rounded-notion font-medium" data-i18n="verifyLoginCode">輸入驗證碼</button>
                     <button onclick="verifyCloudMagicLink()" class="py-2.5 text-xs bg-white text-notion-text border border-notion-border rounded-notion font-medium" data-i18n="pasteLoginLink">貼上驗證信連結</button>
+                    <button onclick="setManualSyncId()" class="py-2.5 text-xs bg-white text-notion-text border border-notion-border rounded-notion font-medium" data-i18n="manualSyncId">同步 ID</button>
                     <button onclick="signOutGoogle()" class="py-2.5 text-sm bg-white text-notion-text border border-notion-border rounded-notion font-medium" data-i18n="logout">登出</button>
                 </div>
             </div>
@@ -774,6 +775,10 @@
                 sendLoginCode: '寄送驗證碼',
                 verifyLoginCode: '輸入驗證碼',
                 pasteLoginLink: '貼上驗證信連結',
+                manualSyncId: '同步 ID',
+                manualSyncPrompt: '請輸入一組只有你知道的同步 ID。手機與網頁輸入同一組即可同步。',
+                manualSyncReady: '已使用同步 ID：{id}',
+                manualSyncSaved: '同步 ID 已儲存',
                 cloudEmailPrompt: '請輸入 Email',
                 cloudOtpPrompt: '請輸入 Email 收到的 6 位數驗證碼',
                 cloudLinkPrompt: '請貼上 Email 裡的驗證登入連結',
@@ -1039,6 +1044,10 @@
                 sendLoginCode: '認証コード送信',
                 verifyLoginCode: 'コード入力',
                 pasteLoginLink: '認証リンク貼付',
+                manualSyncId: '同期ID',
+                manualSyncPrompt: '自分だけが知っている同期IDを入力してください。スマホとWebで同じIDを使うと同期できます。',
+                manualSyncReady: '同期IDを使用中：{id}',
+                manualSyncSaved: '同期IDを保存しました',
                 cloudEmailPrompt: 'Emailを入力してください',
                 cloudOtpPrompt: 'Emailに届いた6桁の認証コードを入力してください',
                 cloudLinkPrompt: 'Email内の認証ログインリンクを貼り付けてください',
@@ -1304,6 +1313,10 @@
                 sendLoginCode: 'Send code',
                 verifyLoginCode: 'Enter code',
                 pasteLoginLink: 'Paste email link',
+                manualSyncId: 'Sync ID',
+                manualSyncPrompt: 'Enter a private Sync ID. Use the same ID on phone and web to sync.',
+                manualSyncReady: 'Using Sync ID: {id}',
+                manualSyncSaved: 'Sync ID saved',
                 cloudEmailPrompt: 'Enter your Email',
                 cloudOtpPrompt: 'Enter the 6-digit code from your Email',
                 cloudLinkPrompt: 'Paste the verification login link from your Email',
@@ -1749,11 +1762,16 @@
             if (!status) return;
             try {
                 const user = cloudUser || await getCloudUser();
+                const settings = getSyncSettings();
                 if (!user) {
+                    if (settings.syncId?.startsWith('manual:')) {
+                        status.innerText = t('manualSyncReady').replace('{id}', settings.syncId.replace(/^manual:/, ''));
+                        setSyncStatus(t('authReady'));
+                        return;
+                    }
                     status.innerText = t('authNotLoggedIn');
                     return;
                 }
-                const settings = getSyncSettings();
                 const syncId = `email:${user.id}`;
                 localStorage.setItem(SYNC_SETTINGS_KEY, JSON.stringify({ ...settings, syncId, email: user.email || '' }));
                 status.innerText = t('authLoggedIn').replace('{email}', user.email || 'Email');
@@ -1809,6 +1827,31 @@
 
         async function signInWithGoogle() {
             return loginCloudSync();
+        }
+
+        function getManualSyncId() {
+            const settings = getSyncSettings();
+            return settings.syncId?.startsWith('manual:') ? settings.syncId : '';
+        }
+
+        function setManualSyncId() {
+            const current = getManualSyncId().replace(/^manual:/, '');
+            const id = prompt(t('manualSyncPrompt'), current);
+            if (!id || !id.trim()) return;
+            const normalized = id.trim();
+            const settings = getSyncSettings();
+            localStorage.setItem(SYNC_SETTINGS_KEY, JSON.stringify({ ...settings, syncId: `manual:${normalized}`, manualSyncId: normalized }));
+            refreshAuthStatus();
+            setSyncStatus(t('manualSyncSaved'));
+            showToast(t('manualSyncSaved'));
+        }
+
+        async function getActiveSyncId() {
+            const user = cloudUser || await getCloudUser();
+            if (user) return `email:${user.id}`;
+            const manualId = getManualSyncId();
+            if (manualId) return manualId;
+            throw new Error('missing-session');
         }
 
         async function loginCloudSync() {
@@ -1936,9 +1979,7 @@
             try {
                 setSyncStatus(t('uploading'));
                 const client = await getSupabaseClient();
-                const user = cloudUser || await getCloudUser();
-                if (!user) throw new Error('missing-session');
-                const syncId = `email:${user.id}`;
+                const syncId = await getActiveSyncId();
                 const { error } = await client.from('manifestation_sync').upsert({
                     sync_id: syncId,
                     data: getAllAppData(),
@@ -1959,9 +2000,7 @@
             try {
                 setSyncStatus(t('downloading'));
                 const client = await getSupabaseClient();
-                const user = cloudUser || await getCloudUser();
-                if (!user) throw new Error('missing-session');
-                const syncId = `email:${user.id}`;
+                const syncId = await getActiveSyncId();
                 const { data, error } = await client.from('manifestation_sync').select('data, updated_at').eq('sync_id', syncId).maybeSingle();
                 if (error) throw error;
                 if (!data) return setSyncStatus(t('noCloudData'));
