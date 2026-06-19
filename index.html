@@ -140,6 +140,165 @@
             background: #F1F1EF;
             transform: scale(0.99);
         }
+        .reading-shell {
+            margin-left: -20px;
+            margin-right: -20px;
+            margin-top: -20px;
+            min-height: calc(100dvh - 58px);
+            background: #F8F7F1;
+            color: #1F2A20;
+            padding: 28px 24px 92px;
+            position: relative;
+        }
+        .reading-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 26px;
+        }
+        .reading-title {
+            color: #2E5A35;
+            font-size: clamp(34px, 11vw, 48px);
+            line-height: 0.95;
+            font-weight: 700;
+            letter-spacing: 0;
+        }
+        .reading-subtitle {
+            color: #1F2A20;
+            font-size: 18px;
+            line-height: 1.35;
+            margin-top: 12px;
+        }
+        .reading-gear {
+            width: 42px;
+            height: 42px;
+            border-radius: 999px;
+            color: #516255;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 auto;
+        }
+        .reading-card {
+            background: rgba(255,255,255,0.82);
+            border: 1px solid #E6E2DA;
+            border-radius: 22px;
+            box-shadow: 0 12px 28px rgba(34, 43, 32, 0.08);
+        }
+        .reading-kicker {
+            color: #2E5A35;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+        .book-cover {
+            width: 96px;
+            aspect-ratio: 0.68;
+            border-radius: 8px;
+            background: linear-gradient(160deg, #FFFDF2, #E8E3D8);
+            box-shadow: 0 14px 26px rgba(31,42,32,0.18);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 10px;
+            color: #1F2A20;
+            font-family: Georgia, serif;
+            font-size: 15px;
+            line-height: 1.05;
+            overflow: hidden;
+        }
+        .book-shelf {
+            display: grid;
+            grid-auto-flow: column;
+            grid-auto-columns: minmax(108px, 32%);
+            gap: 16px;
+            overflow-x: auto;
+            padding: 10px 2px 18px;
+            scroll-snap-type: x mandatory;
+        }
+        .book-shelf::-webkit-scrollbar { display: none; }
+        .book-tile {
+            scroll-snap-align: start;
+            position: relative;
+        }
+        .reading-progress {
+            height: 5px;
+            background: #E5E3DC;
+            border-radius: 999px;
+            overflow: hidden;
+        }
+        .reading-progress > span {
+            display: block;
+            height: 100%;
+            background: #4A764A;
+            border-radius: inherit;
+        }
+        .reading-bottom-nav {
+            position: fixed;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            width: min(100%, 448px);
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(16px);
+            border-top: 1px solid #E6E2DA;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            align-items: end;
+            gap: 0;
+            padding: 8px 8px calc(8px + env(safe-area-inset-bottom));
+            z-index: 18;
+        }
+        .reading-nav-btn {
+            min-height: 58px;
+            border-radius: 22px;
+            color: #8C8C89;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+        .reading-nav-btn svg {
+            width: 24px;
+            height: 24px;
+        }
+        .reading-nav-btn.active {
+            background: #EEF6EA;
+            color: #2E5A35;
+        }
+        .reading-add-btn {
+            width: 72px;
+            height: 72px;
+            margin: -28px auto 0;
+            border-radius: 999px;
+            background: #477344;
+            color: white;
+            border: 8px solid white;
+            box-shadow: 0 8px 22px rgba(31,42,32,0.18);
+            font-size: 34px;
+            line-height: 1;
+        }
+        .reading-search {
+            width: 100%;
+            border: 1px solid #E1DDD4;
+            border-radius: 12px;
+            background: #FFFDF9;
+            padding: 12px 14px;
+            color: #1F2A20;
+            font-size: 15px;
+            outline: none;
+        }
+        .vocab-entry + .vocab-entry {
+            border-top: 1px solid #E6E2DA;
+            margin-top: 22px;
+            padding-top: 22px;
+        }
     </style>
 </head>
 <body class="flex flex-col h-[100dvh] max-w-md mx-auto select-none font-sans border-x border-notion-border relative">
@@ -359,29 +518,40 @@
             </div>
         </div>
 
-        <div id="page-reading" class="space-y-5 hidden">
-            <div class="bg-notion-card border border-notion-border rounded-notion p-4 space-y-3 shadow-sm">
-                <div class="flex items-center justify-between pb-2 border-b border-notion-border">
-                    <span class="text-sm font-semibold text-notion-text tracking-wider uppercase" data-i18n="readingPageTitle">閱讀書籍紀錄</span>
+        <div id="page-reading" class="hidden">
+            <section class="reading-shell">
+                <div class="reading-top">
+                    <div>
+                        <h2 class="reading-title" id="reading-view-title">ReadGrow</h2>
+                        <p class="reading-subtitle" id="reading-view-subtitle" data-i18n="readingHomeSubtitle">今天的閱讀成長。</p>
+                    </div>
+                    <button onclick="switchTab('settings')" class="reading-gear" aria-label="設定" data-i18n-aria="settings">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 .6 1.7 1.7 0 0 0-.4 1.1V21a2 2 0 1 1-4 0v-.1A1.7 1.7 0 0 0 8.6 19.4a1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-.6-1A1.7 1.7 0 0 0 2.9 13H3a2 2 0 1 1 0-4h-.1A1.7 1.7 0 0 0 4.6 8.6a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-.6 1.7 1.7 0 0 0 .4-1.1V3a2 2 0 1 1 4 0v-.1A1.7 1.7 0 0 0 15.4 4.6a1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.4 9c.2.4.2.8.6 1 .3.3.7.4 1.1.4H21a2 2 0 1 1 0 4h.1c-.4 0-.8.1-1.1.4-.4.2-.4.6-.6 1.2z"/></svg>
+                    </button>
                 </div>
-                <input type="text" id="book-title" placeholder="書名" data-i18n-placeholder="bookTitlePh" class="w-full text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted">
-                <input type="text" id="book-author" placeholder="作者（選填）" data-i18n-placeholder="bookAuthorPh" class="w-full text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted">
-                <div class="grid grid-cols-2 gap-2">
-                    <select id="book-status" class="text-sm border border-notion-border rounded px-3 py-2 bg-white focus:outline-none focus:border-notion-muted" aria-label="閱讀狀態" data-i18n-aria="bookStatus">
-                        <option value="want" data-i18n="bookWant">想讀</option>
-                        <option value="reading" data-i18n="bookReading">閱讀中</option>
-                        <option value="done" data-i18n="bookDone">已讀完</option>
-                    </select>
-                    <input type="number" id="book-progress" min="0" max="100" placeholder="進度 %" data-i18n-placeholder="bookProgressPh" class="text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted">
-                </div>
-                <textarea id="book-note" rows="3" placeholder="一句心得、金句或行動..." data-i18n-placeholder="bookNotePh" class="w-full text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted resize-none"></textarea>
-                <button onclick="saveBook()" class="w-full py-3 text-sm bg-notion-btn text-white rounded-notion font-medium active:scale-[0.98] transition-transform" data-i18n="saveBook">儲存書籍</button>
-            </div>
-            <div class="grid grid-cols-3 gap-2" id="reading-filter" aria-label="閱讀篩選" data-i18n-aria="readingFilter"></div>
-            <div class="space-y-3 pb-4">
-                <span class="text-xs font-medium text-notion-muted block" data-i18n="readingHistory">閱讀紀錄</span>
-                <div id="book-list" class="space-y-3"></div>
-            </div>
+
+                <div id="reading-content" class="space-y-6"></div>
+
+                <nav class="reading-bottom-nav" aria-label="閱讀功能">
+                    <button type="button" class="reading-nav-btn active" data-reading-nav="home" onclick="setReadingView('home')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10.5V21h14V10.5"/><path d="M9 21v-6h6v6"/></svg>
+                        <span data-i18n="readingNavHome">首頁</span>
+                    </button>
+                    <button type="button" class="reading-nav-btn" data-reading-nav="books" onclick="setReadingView('books')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5V5a2 2 0 0 1 2-2h2v18H6a2 2 0 0 1-2-1.5z"/><path d="M10 3h4v18h-4z"/><path d="M16 3h2a2 2 0 0 1 2 2v14.5a2 2 0 0 1-2 1.5h-2z"/></svg>
+                        <span data-i18n="readingNavBooks">書庫</span>
+                    </button>
+                    <button type="button" class="reading-add-btn" onclick="setReadingView('add')" aria-label="新增">+</button>
+                    <button type="button" class="reading-nav-btn" data-reading-nav="vocab" onclick="setReadingView('vocab')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 11h8M10 15h4"/></svg>
+                        <span data-i18n="readingNavVocab">單字</span>
+                    </button>
+                    <button type="button" class="reading-nav-btn" data-reading-nav="notes" onclick="setReadingView('notes')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h12l4 4v12H4z"/><path d="M16 4v4h4"/><path d="M8 13h8M8 17h6"/></svg>
+                        <span data-i18n="readingNavNotes">筆記</span>
+                    </button>
+                </nav>
+            </section>
         </div>
 
         <div id="page-items" class="space-y-5 hidden">
@@ -526,6 +696,14 @@
             }[char]));
         }
 
+        function jsString(value) {
+            return JSON.stringify(String(value ?? '')).replace(/[<>&]/g, char => ({
+                '<': '\\u003C',
+                '>': '\\u003E',
+                '&': '\\u0026'
+            }[char]));
+        }
+
         function getStorageArray(key) {
             try {
                 const value = JSON.parse(localStorage.getItem(key) || '[]');
@@ -623,6 +801,7 @@
             'notion_med_videos',
             'notion_meditation',
             'notion_books',
+            'notion_reading_notes',
             'notion_items',
             'notion_video_views'
         ];
@@ -706,6 +885,49 @@
                 noBooks: '還沒有書籍紀錄，先加一本想讀的書吧',
                 bookSaved: '書籍已儲存',
                 deleteBook: '刪除書籍',
+                readingHomeSubtitle: '今天的閱讀成長。',
+                readingNavHome: '首頁',
+                readingNavBooks: '書庫',
+                readingNavVocab: '單字',
+                readingNavNotes: '筆記',
+                readingCurrently: '目前閱讀',
+                continueReading: '繼續閱讀',
+                todaysGrowth: '今日成長',
+                collectedVocabulary: '收集單字',
+                writtenNotes: '閱讀筆記',
+                wordsTodayHint: '今天收集的單字會顯示在這裡。',
+                notesTodayHint: '今天寫下的閱讀筆記會顯示在這裡。',
+                readingLibrary: '書庫',
+                readingVocabulary: '單字庫',
+                readingNotes: '筆記',
+                readingAdd: '新增',
+                currentlyReading: '閱讀中',
+                finishedBooks: '已讀完',
+                wantToRead: '想讀',
+                seeAll: '查看全部',
+                emptyShelf: '這個書架還是空的。',
+                searchVocabulary: '搜尋單字',
+                reviewVocabulary: '複習',
+                collected: '已收集',
+                remembered: '已記住',
+                learning: '學習中',
+                mastered: '已記住',
+                stillLearning: '還在學',
+                browse: '瀏覽',
+                noVocabulary: '還沒有單字。先到日語字典查詢幾個詞吧。',
+                noReadingNotes: '還沒有閱讀筆記。',
+                addReadingNote: '新增閱讀筆記',
+                noteTitlePh: '筆記標題',
+                noteBodyPh: '內容、金句或想法',
+                saveNote: '儲存筆記',
+                noteSaved: '筆記已儲存',
+                deleteNote: '刪除筆記',
+                editNote: '編輯筆記',
+                readingSeedling: '新芽',
+                readingGrowing: '成長中',
+                readingBlooming: '盛開',
+                readingComplete: '完成',
+                noCurrentBook: '還沒有閱讀中的書。',
                 author: '作者',
                 progress: '進度',
                 itemsPageTitle: '擁有物品清單',
@@ -975,6 +1197,49 @@
                 noBooks: '読書記録はまだありません。読みたい本を追加しましょう',
                 bookSaved: '本を保存しました',
                 deleteBook: '本を削除',
+                readingHomeSubtitle: '今日の読書の成長。',
+                readingNavHome: 'ホーム',
+                readingNavBooks: '本棚',
+                readingNavVocab: '単語',
+                readingNavNotes: 'ノート',
+                readingCurrently: '現在読書中',
+                continueReading: '続きを読む',
+                todaysGrowth: '今日の成長',
+                collectedVocabulary: '集めた単語',
+                writtenNotes: '読書ノート',
+                wordsTodayHint: '今日集めた単語がここに表示されます。',
+                notesTodayHint: '今日書いた読書ノートがここに表示されます。',
+                readingLibrary: '本棚',
+                readingVocabulary: '単語帳',
+                readingNotes: 'ノート',
+                readingAdd: '追加',
+                currentlyReading: '読書中',
+                finishedBooks: '読了',
+                wantToRead: '読みたい',
+                seeAll: 'すべて見る',
+                emptyShelf: 'この棚はまだ空です。',
+                searchVocabulary: '単語を検索',
+                reviewVocabulary: '復習',
+                collected: '収集済み',
+                remembered: '覚えた',
+                learning: '学習中',
+                mastered: '覚えた',
+                stillLearning: 'まだ学習中',
+                browse: '一覧',
+                noVocabulary: 'まだ単語がありません。日本語辞書で単語を調べてみましょう。',
+                noReadingNotes: 'まだ読書ノートがありません。',
+                addReadingNote: '読書ノートを追加',
+                noteTitlePh: 'ノートのタイトル',
+                noteBodyPh: '内容、引用、考え',
+                saveNote: 'ノートを保存',
+                noteSaved: 'ノートを保存しました',
+                deleteNote: 'ノートを削除',
+                editNote: 'ノートを編集',
+                readingSeedling: '芽',
+                readingGrowing: '成長中',
+                readingBlooming: '開花',
+                readingComplete: '完了',
+                noCurrentBook: '読書中の本はまだありません。',
                 author: '著者',
                 progress: '進捗',
                 itemsPageTitle: '持ち物リスト',
@@ -1244,6 +1509,49 @@
                 noBooks: 'No book records yet. Add one you want to read.',
                 bookSaved: 'Book saved',
                 deleteBook: 'Delete book',
+                readingHomeSubtitle: "Here's what happened in your reading today.",
+                readingNavHome: 'Home',
+                readingNavBooks: 'Books',
+                readingNavVocab: 'Vocabulary',
+                readingNavNotes: 'Notes',
+                readingCurrently: 'Currently Reading',
+                continueReading: 'Continue Reading',
+                todaysGrowth: "Today's Growth",
+                collectedVocabulary: 'Vocabulary',
+                writtenNotes: 'Notes',
+                wordsTodayHint: 'Words collected today will appear here.',
+                notesTodayHint: 'Notes written today will appear here.',
+                readingLibrary: 'Library',
+                readingVocabulary: 'Vocabulary',
+                readingNotes: 'Notes',
+                readingAdd: 'Add',
+                currentlyReading: 'Currently Reading',
+                finishedBooks: 'Finished',
+                wantToRead: 'Want to Read',
+                seeAll: 'See all',
+                emptyShelf: 'This shelf is still empty.',
+                searchVocabulary: 'Search vocabulary',
+                reviewVocabulary: 'Review',
+                collected: 'collected',
+                remembered: 'remembered',
+                learning: 'Learning',
+                mastered: 'Mastered',
+                stillLearning: 'Still Learning',
+                browse: 'Browse',
+                noVocabulary: 'No vocabulary yet. Look up a few words in the Japanese dictionary.',
+                noReadingNotes: 'No reading notes yet.',
+                addReadingNote: 'Add reading note',
+                noteTitlePh: 'Note title',
+                noteBodyPh: 'Body, quote, or idea',
+                saveNote: 'Save note',
+                noteSaved: 'Note saved',
+                deleteNote: 'Delete note',
+                editNote: 'Edit note',
+                readingSeedling: 'Seedling',
+                readingGrowing: 'Growing',
+                readingBlooming: 'Blooming',
+                readingComplete: 'Complete',
+                noCurrentBook: 'No current book yet.',
                 author: 'Author',
                 progress: 'Progress',
                 itemsPageTitle: 'Owned Items List',
@@ -1560,6 +1868,7 @@
         const BOOK_STATUS_KEYS = { want: 'bookWant', reading: 'bookReading', done: 'bookDone' };
         const BOOK_FILTERS = ['all', 'want', 'reading', 'done'];
         let readingFilter = 'all';
+        let readingView = 'home';
         const ITEM_CATEGORIES = ['全部', '衣物', '美妝', '書籍', '電子', '家居', '其他'];
         const ITEM_CATEGORY_KEYS = { '全部': 'itemCatAll', '衣物': 'itemCatClothes', '美妝': 'itemCatBeauty', '書籍': 'itemCatBooks', '電子': 'itemCatTech', '家居': 'itemCatHome', '其他': 'itemCatOther' };
         const ITEM_STATUS_KEYS = { active: 'itemActive', stored: 'itemStored', declutter: 'itemDeclutter' };
@@ -1607,6 +1916,7 @@
             const isHome = tabName === 'home';
             document.getElementById('home-brand').classList.toggle('hidden', !isHome);
             document.getElementById('back-home').classList.toggle('hidden', isHome);
+            if (tabName === 'reading') renderReadingPage();
             window.scrollTo(0,0);
         }
 
@@ -2472,35 +2782,223 @@
 
         // ================= 閱讀書籍紀錄 =================
         function getBookStatusLabel(status) { return t(BOOK_STATUS_KEYS[status] || 'bookWant'); }
-        function renderReadingFilters() {
-            const container = document.getElementById('reading-filter');
-            if (!container) return;
-            const books = getStorageArray('notion_books');
-            container.innerHTML = BOOK_FILTERS.map(status => {
-                const count = status === 'all' ? books.length : books.filter(book => (book.status || 'want') === status).length;
-                const label = status === 'all' ? t('partAll') : getBookStatusLabel(status);
-                const active = readingFilter === status;
-                return `<button type="button" onclick="setReadingFilter('${status}')" class="text-[11px] border rounded px-2 py-2 ${active ? 'bg-notion-btn text-white border-notion-btn' : 'bg-white text-notion-text border-notion-border'}">${escapeHTML(label)}${count ? ` ${count}` : ''}</button>`;
-            }).join('');
+        function getReadingProgress(book) {
+            return Math.min(100, Math.max(0, parseInt(book?.progress, 10) || ((book?.status || '') === 'done' ? 100 : 0)));
         }
-        function setReadingFilter(status) { readingFilter = status; renderReadingFilters(); loadBooks(); }
-        function loadBooks() {
-            const books = getStorageArray('notion_books');
-            const filtered = readingFilter === 'all' ? books : books.filter(book => (book.status || 'want') === readingFilter);
-            const list = document.getElementById('book-list');
-            if (!list) return;
-            renderReadingFilters();
-            list.innerHTML = '';
-            if (!books.length) { list.innerHTML = getEmptyStateHTML(t('noBooks')); return; }
-            if (!filtered.length) { list.innerHTML = getEmptyStateHTML(t('noBooks')); return; }
-            [...filtered].reverse().forEach(book => {
-                const realIdx = books.indexOf(book);
-                const progress = Math.min(100, Math.max(0, parseInt(book.progress, 10) || 0));
-                const div = document.createElement('div');
-                div.className = 'bg-notion-card border border-notion-border rounded p-3 text-sm';
-                div.innerHTML = `<div class="flex justify-between gap-3 items-start"><div class="min-w-0"><p class="font-semibold text-notion-text truncate">${escapeHTML(book.title)}</p><p class="text-[11px] text-notion-muted mt-0.5">${book.author ? `${t('author')}：${escapeHTML(book.author)}｜` : ''}${escapeHTML(getBookStatusLabel(book.status || 'want'))}</p></div><div class="flex gap-1 shrink-0"><button onclick="editBook(${realIdx})" class="text-notion-muted opacity-60 active:opacity-100 text-xs px-2 py-1">${t('edit')}</button><button onclick="deleteBook(${realIdx})" class="text-notion-muted opacity-40 active:opacity-100 text-xs px-2 py-1" aria-label="${t('deleteBook')}">✕</button></div></div><div class="mt-3 h-1.5 bg-notion-hover rounded overflow-hidden"><div class="h-full bg-notion-btn" style="width:${progress}%"></div></div><p class="text-[11px] text-notion-muted mt-1">${t('progress')} ${progress}%</p>${book.note ? `<p class="mt-2 text-xs leading-relaxed bg-notion-hover rounded p-2 whitespace-pre-wrap">${escapeHTML(book.note)}</p>` : ''}<p class="text-[10px] text-notion-muted mt-2">${escapeHTML(book.date || '')}</p>`;
-                list.appendChild(div);
+        function getReadingStage(book) {
+            const progress = getReadingProgress(book);
+            if ((book?.status || '') === 'done' || progress >= 100) return t('readingComplete');
+            if (progress >= 45) return t('readingGrowing');
+            return t('readingSeedling');
+        }
+        function sameReadingDay(value) {
+            if (!value) return false;
+            const today = new Date();
+            const todayLocale = today.toLocaleDateString();
+            const todayIso = `${today.getFullYear()}-${padDate(today.getMonth() + 1)}-${padDate(today.getDate())}`;
+            return String(value).includes(todayLocale) || String(value).includes(todayIso);
+        }
+        function renderReadingFilters() { renderReadingPage(); }
+        function setReadingFilter(status) { readingFilter = status; setReadingView('books'); }
+        function setReadingView(view) {
+            readingView = view || 'home';
+            renderReadingPage();
+            const shell = document.querySelector('#page-reading .reading-shell');
+            if (shell) shell.scrollIntoView({ block: 'start' });
+        }
+        function getReadingVocab() {
+            return getStorageArray('notion_dictionary_history').map((entry, index) => ({ ...entry, index }));
+        }
+        function renderBookCover(book) {
+            const title = escapeHTML(book?.title || t('untitled'));
+            return `<div class="book-cover"><span>${title.split(/\s+/).slice(0, 5).join('<br>')}</span></div>`;
+        }
+        function renderReadingPage() {
+            const content = document.getElementById('reading-content');
+            if (!content) return;
+            document.querySelectorAll('[data-reading-nav]').forEach(btn => {
+                const nav = btn.dataset.readingNav;
+                btn.classList.toggle('active', nav === readingView || (readingView === 'review' && nav === 'vocab'));
             });
+            const titleMap = {
+                home: 'ReadGrow',
+                books: t('readingLibrary'),
+                vocab: t('readingVocabulary'),
+                review: t('readingVocabulary'),
+                notes: t('readingNotes'),
+                add: t('readingAdd')
+            };
+            const subtitleMap = {
+                home: t('readingHomeSubtitle'),
+                books: '',
+                vocab: '',
+                review: '',
+                notes: '',
+                add: ''
+            };
+            document.getElementById('reading-view-title').innerText = titleMap[readingView] || 'ReadGrow';
+            document.getElementById('reading-view-subtitle').innerText = subtitleMap[readingView] || '';
+            if (readingView === 'books') return renderReadingBooks(content);
+            if (readingView === 'vocab') return renderReadingVocabulary(content);
+            if (readingView === 'review') return renderVocabularyReview(content);
+            if (readingView === 'notes') return renderReadingNotes(content);
+            if (readingView === 'add') return renderReadingAdd(content);
+            return renderReadingHome(content);
+        }
+        function renderReadingHome(content) {
+            const books = getStorageArray('notion_books');
+            const current = books.find(book => (book.status || 'want') === 'reading') || books.find(book => (book.status || 'want') !== 'done');
+            const vocabToday = getReadingVocab().filter(entry => sameReadingDay(entry.date)).length;
+            const notesToday = getStorageArray('notion_reading_notes').filter(note => sameReadingDay(note.date)).length + books.filter(book => book.note && sameReadingDay(book.date)).length;
+            const currentHTML = current ? (() => {
+                const progress = getReadingProgress(current);
+                return `<div class="reading-card p-5">
+                    <p class="reading-kicker mb-4">${escapeHTML(t('readingCurrently'))}</p>
+                    <div class="flex gap-5 items-start">
+                        ${renderBookCover(current)}
+                        <div class="min-w-0 flex-1">
+                            <h3 class="text-2xl font-semibold leading-tight text-[#172017]">${escapeHTML(current.title)}</h3>
+                            <p class="text-lg text-[#677067] mt-2">${escapeHTML(current.author || t('author'))}</p>
+                            <p class="text-sm font-bold text-[#477344] mt-4">${escapeHTML(getReadingStage(current))}</p>
+                            <div class="flex justify-between text-sm mt-4 mb-2"><span>${progress}% ${escapeHTML(t('readingComplete'))}</span><span>${progress}%</span></div>
+                            <div class="reading-progress"><span style="width:${progress}%"></span></div>
+                            <p class="text-sm text-[#7A7A75] mt-3">${getReadingVocab().length} ${escapeHTML(t('readingNavVocab'))} · ${getStorageArray('notion_reading_notes').length} ${escapeHTML(t('readingNavNotes'))}</p>
+                            <button onclick="editBook(${books.indexOf(current)})" class="mt-4 w-full bg-[#477344] text-white rounded-xl py-3 text-sm font-bold">${escapeHTML(t('continueReading'))} →</button>
+                        </div>
+                    </div>
+                </div>`;
+            })() : `<div class="reading-card p-5 text-sm text-[#7A7A75]">${escapeHTML(t('noCurrentBook'))}</div>`;
+            content.innerHTML = `${currentHTML}
+                <div>
+                    <p class="reading-kicker mb-4">${escapeHTML(t('todaysGrowth'))}</p>
+                    <div class="space-y-4">
+                        <div class="reading-card p-5 flex gap-4 items-center">
+                            <span class="w-12 h-12 rounded-xl bg-[#EEF6EA] text-[#2E5A35] inline-flex items-center justify-center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5z"/></svg></span>
+                            <div><p class="text-2xl font-semibold">+${vocabToday} ${escapeHTML(t('collectedVocabulary'))}</p><p class="text-sm text-[#7A7A75] mt-2">${escapeHTML(t('wordsTodayHint'))}</p></div>
+                        </div>
+                        <div class="reading-card p-5 flex gap-4 items-center">
+                            <span class="w-12 h-12 rounded-xl bg-[#EEF6EA] text-[#2E5A35] inline-flex items-center justify-center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h12l4 4v12H4z"/><path d="M16 4v4h4"/><path d="M8 13h8M8 17h6"/></svg></span>
+                            <div><p class="text-2xl font-semibold">+${notesToday} ${escapeHTML(t('writtenNotes'))}</p><p class="text-sm text-[#7A7A75] mt-2">${escapeHTML(t('notesTodayHint'))}</p></div>
+                        </div>
+                    </div>
+                </div>`;
+        }
+        function renderShelf(books, emptyText) {
+            if (!books.length) return `<p class="text-[#8F928C] text-sm py-2">${escapeHTML(emptyText || t('emptyShelf'))}</p>`;
+            const allBooks = getStorageArray('notion_books');
+            return `<div class="book-shelf">${books.map(book => {
+                const progress = getReadingProgress(book);
+                const realIdx = allBooks.findIndex(item => item.title === book.title && item.date === book.date && item.author === book.author);
+                const controls = realIdx >= 0 ? `<button onclick="deleteBook(${realIdx})" class="absolute right-1 top-1 z-10 w-10 h-10 rounded-full bg-white/85 text-red-700 shadow" aria-label="${escapeHTML(t('deleteBook'))}">⌫</button>` : '';
+                const edit = realIdx >= 0 ? `<button onclick="editBook(${realIdx})" class="mt-2 text-xs text-[#2E5A35] font-bold">${escapeHTML(t('edit'))}</button>` : '';
+                return `<article class="book-tile">
+                    ${controls}
+                    ${renderBookCover(book)}
+                    <h4 class="mt-3 text-sm font-bold leading-tight text-[#172017]">${escapeHTML(book.title)}</h4>
+                    <p class="text-xs text-[#777C75] mt-1">${escapeHTML(book.author || '')}</p>
+                    <p class="text-xs font-bold text-[#477344] mt-2">${escapeHTML(getReadingStage(book))}</p>
+                    <div class="reading-progress mt-2"><span style="width:${progress}%"></span></div>
+                    ${edit}
+                </article>`;
+            }).join('')}</div>`;
+        }
+        function renderReadingBooks(content) {
+            const books = getStorageArray('notion_books');
+            content.innerHTML = `<div class="space-y-8">
+                <section><div class="flex justify-between items-center mb-3"><h3 class="text-3xl font-semibold">${escapeHTML(t('currentlyReading'))}</h3><button onclick="readingFilter='reading'; renderReadingBooks(document.getElementById('reading-content'))" class="text-[#2E5A35] font-bold text-sm">${escapeHTML(t('seeAll'))}</button></div>${renderShelf(books.filter(book => (book.status || 'want') === 'reading'))}</section>
+                <section><div class="flex justify-between items-center mb-3"><h3 class="text-3xl font-semibold">${escapeHTML(t('finishedBooks'))}</h3><button onclick="readingFilter='done'; renderReadingBooks(document.getElementById('reading-content'))" class="text-[#2E5A35] font-bold text-sm">${escapeHTML(t('seeAll'))}</button></div>${renderShelf(books.filter(book => (book.status || 'want') === 'done'))}</section>
+                <section><div class="flex justify-between items-center mb-3"><h3 class="text-3xl font-semibold">${escapeHTML(t('wantToRead'))}</h3><button onclick="readingFilter='want'; renderReadingBooks(document.getElementById('reading-content'))" class="text-[#2E5A35] font-bold text-sm">${escapeHTML(t('seeAll'))}</button></div>${renderShelf(books.filter(book => (book.status || 'want') === 'want'))}</section>
+            </div>`;
+        }
+        function renderReadingVocabulary(content, query = '') {
+            const vocab = getReadingVocab();
+            const remembered = vocab.filter(entry => entry.mastered).length;
+            const filtered = vocab.filter(entry => {
+                const haystack = [entry.word, entry.reading, ...(entry.meanings || [])].join(' ').toLowerCase();
+                return haystack.includes(String(query || '').toLowerCase());
+            });
+            content.innerHTML = `<div class="reading-card p-5 space-y-5">
+                <div class="flex justify-between items-center gap-3">
+                    <p class="text-lg text-[#606760]">${vocab.length} ${escapeHTML(t('collected'))} · ${remembered} ${escapeHTML(t('remembered'))}</p>
+                    <button onclick="setReadingView('review')" class="bg-[#477344] text-white rounded-xl py-3 px-4 font-bold">${escapeHTML(t('reviewVocabulary'))} (${Math.max(0, vocab.length - remembered)})</button>
+                </div>
+                <input class="reading-search" type="search" value="${escapeHTML(query)}" oninput="renderReadingVocabulary(document.getElementById('reading-content'), this.value)" placeholder="${escapeHTML(t('searchVocabulary'))}">
+                <div>${filtered.length ? filtered.map(renderVocabEntry).join('') : getEmptyStateHTML(t('noVocabulary'))}</div>
+            </div>`;
+        }
+        function renderVocabEntry(entry) {
+            const meanings = (entry.meanings || [entry.summary || t('noMeaning')]).slice(0, 2).join('、');
+            const example = (entry.examples || entry.ai?.examples || [])[0] || entry.ai?.memoryHint || '';
+            return `<article class="vocab-entry">
+                <div class="flex items-center gap-3">
+                    <div class="min-w-0 flex-1">
+                        <h3 class="text-3xl font-bold text-[#111] leading-none">${escapeHTML(entry.word || '')}</h3>
+                        <p class="text-sm text-[#8A8E87] mt-2">${escapeHTML(entry.reading || t('noReading'))}</p>
+                    </div>
+                    <button onclick='speakVocabulary(${jsString(entry.word || '')})' class="w-12 h-12 rounded-full bg-[#F0F4EF] text-[#516255] inline-flex items-center justify-center" aria-label="sound">♪</button>
+                    <button onclick="toggleVocabMastered(${entry.index})" class="px-3 py-2 rounded-full text-sm font-bold ${entry.mastered ? 'bg-[#477344] text-white' : 'bg-[#EAF4E3] text-[#477344]'}">${escapeHTML(entry.mastered ? t('mastered') : t('learning'))}</button>
+                </div>
+                <p class="text-lg text-[#555B55] leading-relaxed mt-5">${escapeHTML(meanings)}</p>
+                ${example ? `<blockquote class="mt-5 border-l-4 border-[#DEDAD1] pl-4 text-[#8C8C89] leading-relaxed">${escapeHTML(example)}</blockquote>` : ''}
+            </article>`;
+        }
+        function renderVocabularyReview(content) {
+            const vocab = getReadingVocab();
+            const entry = vocab.find(item => !item.mastered) || vocab[0];
+            if (!entry) { content.innerHTML = getEmptyStateHTML(t('noVocabulary')); return; }
+            const meanings = (entry.meanings || [entry.summary || t('noMeaning')]).slice(0, 2).join('、');
+            const example = (entry.examples || entry.ai?.examples || [])[0] || entry.ai?.memoryHint || '';
+            content.innerHTML = `<div class="text-center text-[#8C8C89] mb-4">${vocab.indexOf(entry) + 1} of ${vocab.length}</div>
+                <article class="reading-card p-8 bg-[#EFF8ED] text-center">
+                    <h3 class="text-5xl font-bold font-serif text-[#111]">${escapeHTML(entry.word || '')}</h3>
+                    <p class="text-lg text-[#8A8E87] mt-4">${escapeHTML(entry.reading || t('noReading'))}</p>
+                    <div class="h-px bg-[#E0DDD4] my-8"></div>
+                    <p class="text-xl leading-relaxed text-[#555B55]">${escapeHTML(meanings)}</p>
+                    ${example ? `<blockquote class="mt-8 border-l-4 border-[#DEDAD1] pl-4 text-left text-[#8C8C89] leading-relaxed">${escapeHTML(example)}</blockquote>` : ''}
+                </article>
+                <div class="space-y-3 mt-6">
+                    <button onclick="setVocabMastered(${entry.index}, true)" class="w-full bg-[#477344] text-white rounded-xl py-4 text-lg font-bold">✓ ${escapeHTML(t('mastered'))}</button>
+                    <button onclick="setVocabMastered(${entry.index}, false)" class="w-full bg-white border border-[#E0DDD4] text-[#111] rounded-xl py-4 text-lg font-bold">${escapeHTML(t('stillLearning'))}</button>
+                    <button onclick="setReadingView('vocab')" class="w-full text-[#477344] py-2 font-bold">← ${escapeHTML(t('browse'))}</button>
+                </div>`;
+        }
+        function renderReadingNotes(content) {
+            const notes = getStorageArray('notion_reading_notes');
+            const bookNotes = getStorageArray('notion_books').filter(book => book.note).map((book, index) => ({ title: book.title, body: book.note, date: book.date, bookIndex: index, fromBook: true }));
+            const allNotes = [...notes.map((note, index) => ({ ...note, index })), ...bookNotes].reverse();
+            content.innerHTML = `<div class="reading-card p-5 space-y-3">
+                <p class="reading-kicker">${escapeHTML(t('addReadingNote'))}</p>
+                <input id="reading-note-title" class="reading-search" placeholder="${escapeHTML(t('noteTitlePh'))}">
+                <textarea id="reading-note-body" rows="4" class="reading-search resize-none" placeholder="${escapeHTML(t('noteBodyPh'))}"></textarea>
+                <button onclick="saveReadingNote()" class="w-full bg-[#477344] text-white rounded-xl py-3 font-bold">${escapeHTML(t('saveNote'))}</button>
+            </div>
+            <div class="space-y-3">${allNotes.length ? allNotes.map(note => `<article class="reading-card p-4">
+                <div class="flex justify-between gap-3">
+                    <div class="min-w-0"><h3 class="font-bold text-lg">${escapeHTML(note.title || t('untitled'))}</h3><p class="text-xs text-[#8C8C89] mt-1">${escapeHTML(note.date || '')}</p></div>
+                    ${note.fromBook ? '' : `<div class="flex gap-1 shrink-0"><button onclick="editReadingNote(${note.index})" class="text-xs text-[#477344] font-bold px-2">${escapeHTML(t('edit'))}</button><button onclick="deleteReadingNote(${note.index})" class="text-xs text-[#8C443E] font-bold px-2" aria-label="${escapeHTML(t('deleteNote'))}">✕</button></div>`}
+                </div>
+                <p class="text-sm text-[#555B55] leading-relaxed mt-3 whitespace-pre-wrap">${escapeHTML(note.body || '')}</p>
+            </article>`).join('') : getEmptyStateHTML(t('noReadingNotes'))}</div>`;
+        }
+        function renderReadingAdd(content) {
+            content.innerHTML = `<div class="reading-card p-5 space-y-3">
+                <p class="reading-kicker">${escapeHTML(t('saveBook'))}</p>
+                <input type="text" id="book-title" placeholder="${escapeHTML(t('bookTitlePh'))}" class="reading-search">
+                <input type="text" id="book-author" placeholder="${escapeHTML(t('bookAuthorPh'))}" class="reading-search">
+                <div class="grid grid-cols-2 gap-2">
+                    <select id="book-status" class="reading-search" aria-label="${escapeHTML(t('bookStatus'))}">
+                        <option value="want">${escapeHTML(t('bookWant'))}</option>
+                        <option value="reading">${escapeHTML(t('bookReading'))}</option>
+                        <option value="done">${escapeHTML(t('bookDone'))}</option>
+                    </select>
+                    <input type="number" id="book-progress" min="0" max="100" placeholder="${escapeHTML(t('bookProgressPh'))}" class="reading-search">
+                </div>
+                <textarea id="book-note" rows="4" placeholder="${escapeHTML(t('bookNotePh'))}" class="reading-search resize-none"></textarea>
+                <button onclick="saveBook()" class="w-full bg-[#477344] text-white rounded-xl py-4 text-base font-bold">${escapeHTML(t('saveBook'))}</button>
+            </div>`;
+        }
+        function loadBooks() {
+            renderReadingPage();
         }
         function saveBook() {
             const title = document.getElementById('book-title').value.trim();
@@ -2517,6 +3015,7 @@
             document.getElementById('book-status').value = 'want';
             document.getElementById('book-progress').value = '';
             document.getElementById('book-note').value = '';
+            readingView = 'books';
             loadBooks();
             showToast(t('bookSaved'));
         }
@@ -2540,6 +3039,53 @@
             showToast(t('updated'));
         }
         function deleteBook(i) { const books = getStorageArray('notion_books'); books.splice(i, 1); localStorage.setItem('notion_books', JSON.stringify(books)); loadBooks(); showToast(t('deleted')); }
+        function toggleVocabMastered(i) {
+            const entries = getStorageArray('notion_dictionary_history');
+            if (!entries[i]) return;
+            entries[i].mastered = !entries[i].mastered;
+            localStorage.setItem('notion_dictionary_history', JSON.stringify(entries));
+            loadDictionaryHistory();
+            loadBooks();
+        }
+        function setVocabMastered(i, value) {
+            const entries = getStorageArray('notion_dictionary_history');
+            if (!entries[i]) return;
+            entries[i].mastered = !!value;
+            localStorage.setItem('notion_dictionary_history', JSON.stringify(entries));
+            loadDictionaryHistory();
+            renderVocabularyReview(document.getElementById('reading-content'));
+        }
+        function speakVocabulary(word) {
+            if (!word || !('speechSynthesis' in window)) return;
+            const utterance = new SpeechSynthesisUtterance(word);
+            utterance.lang = 'ja-JP';
+            speechSynthesis.cancel();
+            speechSynthesis.speak(utterance);
+        }
+        function saveReadingNote() {
+            const title = document.getElementById('reading-note-title').value.trim();
+            const body = document.getElementById('reading-note-body').value.trim();
+            if (!title && !body) return showToast(t('fillContent'));
+            const notes = getStorageArray('notion_reading_notes');
+            notes.push({ title: title || t('untitled'), body, date: new Date().toLocaleDateString() });
+            localStorage.setItem('notion_reading_notes', JSON.stringify(notes));
+            renderReadingNotes(document.getElementById('reading-content'));
+            showToast(t('noteSaved'));
+        }
+        function editReadingNote(i) {
+            const notes = getStorageArray('notion_reading_notes');
+            if (!notes[i]) return;
+            const title = prompt(t('noteTitlePh'), notes[i].title || '');
+            if (title === null) return;
+            const body = prompt(t('noteBodyPh'), notes[i].body || '');
+            if (body === null) return;
+            if (!title.trim() && !body.trim()) return showToast(t('fillContent'));
+            notes[i] = { ...notes[i], title: title.trim() || t('untitled'), body: body.trim() };
+            localStorage.setItem('notion_reading_notes', JSON.stringify(notes));
+            renderReadingNotes(document.getElementById('reading-content'));
+            showToast(t('updated'));
+        }
+        function deleteReadingNote(i) { const notes = getStorageArray('notion_reading_notes'); notes.splice(i, 1); localStorage.setItem('notion_reading_notes', JSON.stringify(notes)); renderReadingNotes(document.getElementById('reading-content')); showToast(t('deleted')); }
 
         // ================= 擁有物品清單 =================
         function getItemCategoryLabel(category) { return t(ITEM_CATEGORY_KEYS[category] || 'itemCatOther'); }
