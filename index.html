@@ -631,23 +631,31 @@
                 <h3 id="sync-modal-title" class="text-sm font-semibold" data-i18n="cloudSync">雲端同步</h3>
                 <button onclick="closeSyncModal()" class="text-notion-muted hover:text-notion-text px-2" aria-label="關閉同步設定" data-i18n-aria="closeSync">✕</button>
             </div>
-            <p class="text-[11px] text-notion-muted leading-relaxed" data-i18n="syncDesc">請先用 Email 收取驗證碼登入。登入後手機與網頁會使用同一個帳號同步資料。</p>
+            <p class="text-[11px] text-notion-muted leading-relaxed" data-i18n="syncDesc">手機與網頁輸入同一組同步碼即可同步。不需要 Email 登入。</p>
             <div class="bg-notion-hover border border-notion-border rounded p-3 space-y-2">
-                <p id="auth-status" class="text-[11px] text-notion-muted">尚未登入 Email</p>
+                <p id="auth-status" class="text-[11px] text-notion-muted">請輸入同步碼</p>
                 <div class="space-y-2">
-                    <label for="cloud-email-input" class="sr-only" data-i18n="cloudEmailPrompt">請輸入 Email</label>
-                    <input id="cloud-email-input" type="email" inputmode="email" autocomplete="email" placeholder="Email" data-i18n-placeholder="cloudEmailInputPh" class="w-full text-sm bg-white border border-notion-border rounded px-3 py-2.5 focus:outline-none focus:border-notion-muted">
-                    <label for="cloud-otp-input" class="sr-only" data-i18n="cloudOtpPrompt">請輸入 Email 收到的 6 位數驗證碼</label>
-                    <input id="cloud-otp-input" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="12" placeholder="6 位數驗證碼" data-i18n-placeholder="cloudOtpInputPh" class="w-full text-sm bg-white border border-notion-border rounded px-3 py-2.5 focus:outline-none focus:border-notion-muted">
-                    <p class="text-[10px] text-notion-muted leading-relaxed" data-i18n="otpTemplateHint">如果信件仍然只有登入連結，請到 Supabase Email template 加入驗證碼變數。</p>
+                    <label for="manual-sync-input" class="sr-only" data-i18n="manualSyncId">同步碼</label>
+                    <input id="manual-sync-input" type="text" inputmode="text" autocomplete="off" placeholder="同步碼，例如 riven-2026-private" data-i18n-placeholder="manualSyncInputPh" class="w-full text-sm bg-white border border-notion-border rounded px-3 py-2.5 focus:outline-none focus:border-notion-muted">
+                    <button onclick="setManualSyncId()" class="w-full py-2.5 text-sm bg-notion-btn text-white rounded-notion font-medium" data-i18n="saveSyncCode">儲存同步碼</button>
+                    <p class="text-[10px] text-notion-muted leading-relaxed" data-i18n="manualSyncHint">同一組同步碼請只給自己使用。先在有資料的裝置按上傳本機，再到另一台按下載雲端。</p>
                 </div>
-                <div class="grid grid-cols-2 gap-2">
-                    <button onclick="loginCloudSync()" class="py-2.5 text-xs bg-notion-btn text-white rounded-notion font-medium" data-i18n="sendLoginCode">寄送驗證碼</button>
-                    <button onclick="verifyCloudOtp()" class="py-2.5 text-xs bg-white text-notion-text border border-notion-border rounded-notion font-medium" data-i18n="verifyLoginCode">輸入驗證碼</button>
-                    <button onclick="verifyCloudMagicLink()" class="py-2.5 text-xs bg-white text-notion-text border border-notion-border rounded-notion font-medium" data-i18n="pasteLoginLink">貼上驗證信連結</button>
-                    <button onclick="setManualSyncId()" class="py-2.5 text-xs bg-white text-notion-text border border-notion-border rounded-notion font-medium" data-i18n="manualSyncId">同步 ID</button>
-                    <button onclick="signOutGoogle()" class="py-2.5 text-sm bg-white text-notion-text border border-notion-border rounded-notion font-medium" data-i18n="logout">登出</button>
-                </div>
+                <details class="pt-2">
+                    <summary class="text-[11px] text-notion-muted py-1" data-i18n="emailLoginBackup">Email 登入備用</summary>
+                    <div class="space-y-2 pt-2">
+                        <label for="cloud-email-input" class="sr-only" data-i18n="cloudEmailPrompt">請輸入 Email</label>
+                        <input id="cloud-email-input" type="email" inputmode="email" autocomplete="email" placeholder="Email" data-i18n-placeholder="cloudEmailInputPh" class="w-full text-sm bg-white border border-notion-border rounded px-3 py-2.5 focus:outline-none focus:border-notion-muted">
+                        <label for="cloud-otp-input" class="sr-only" data-i18n="cloudOtpPrompt">請輸入 Email 收到的 6 位數驗證碼</label>
+                        <input id="cloud-otp-input" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="12" placeholder="6 位數驗證碼" data-i18n-placeholder="cloudOtpInputPh" class="w-full text-sm bg-white border border-notion-border rounded px-3 py-2.5 focus:outline-none focus:border-notion-muted">
+                        <p class="text-[10px] text-notion-muted leading-relaxed" data-i18n="otpTemplateHint">如果信件仍然只有登入連結，請到 Supabase Email template 加入驗證碼變數。</p>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="loginCloudSync()" class="py-2.5 text-xs bg-white text-notion-text border border-notion-border rounded-notion font-medium" data-i18n="sendLoginCode">寄送驗證碼</button>
+                            <button onclick="verifyCloudOtp()" class="py-2.5 text-xs bg-white text-notion-text border border-notion-border rounded-notion font-medium" data-i18n="verifyLoginCode">輸入驗證碼</button>
+                            <button onclick="verifyCloudMagicLink()" class="py-2.5 text-xs bg-white text-notion-text border border-notion-border rounded-notion font-medium" data-i18n="pasteLoginLink">貼上驗證信連結</button>
+                            <button onclick="signOutGoogle()" class="py-2.5 text-xs bg-white text-notion-text border border-notion-border rounded-notion font-medium" data-i18n="logout">登出</button>
+                        </div>
+                    </div>
+                </details>
             </div>
             <div class="grid grid-cols-2 gap-2">
                 <button onclick="pushCloudSync()" class="py-2.5 text-sm bg-notion-btn text-white rounded-notion font-medium" data-i18n="uploadLocal">上傳本機</button>
@@ -999,12 +1007,16 @@
                 done: '完成',
                 cloudSync: '雲端同步',
                 closeSync: '關閉同步設定',
-                syncDesc: '請先用 Email 收取驗證碼登入。登入後手機與網頁會使用同一個帳號同步資料。',
+                syncDesc: '手機與網頁輸入同一組同步碼即可同步。不需要 Email 登入。',
                 gmailLogin: 'Email 登入',
                 sendLoginCode: '寄送驗證碼',
                 verifyLoginCode: '輸入驗證碼',
                 pasteLoginLink: '貼上驗證信連結',
-                manualSyncId: '同步 ID',
+                manualSyncId: '同步碼',
+                manualSyncInputPh: '同步碼，例如 riven-2026-private',
+                saveSyncCode: '儲存同步碼',
+                manualSyncHint: '同一組同步碼請只給自己使用。先在有資料的裝置按上傳本機，再到另一台按下載雲端。',
+                emailLoginBackup: 'Email 登入備用',
                 manualSyncPrompt: '請輸入一組只有你知道的同步 ID。手機與網頁輸入同一組即可同步。',
                 manualSyncReady: '已使用同步 ID：{id}',
                 manualSyncSaved: '同步 ID 已儲存',
@@ -1074,10 +1086,10 @@
                 invalidBackup: '備份檔格式不正確',
                 videoUrlInvalid: '影片連結無效',
                 videoWatchedToast: '{label}已觀看 {count} 次',
-                authLoginRequired: '請先用 Email 登入',
-                authNotLoggedIn: '尚未登入 Email',
+                authLoginRequired: '請先輸入並儲存同步碼',
+                authNotLoggedIn: '尚未設定同步碼',
                 authLoggedIn: '已登入：{email}',
-                authReady: '已登入，可上傳或下載雲端資料',
+                authReady: '同步碼已就緒，可上傳或下載雲端資料',
                 authNoSupabase: '尚未連線 Supabase Auth',
                 authCallbackFailed: '登入回傳處理失敗，請重新登入',
                 authFailed: '登入失敗：{error}',
@@ -1314,12 +1326,16 @@
                 done: '完了',
                 cloudSync: 'クラウド同期',
                 closeSync: '同期設定を閉じる',
-                syncDesc: '先にEmailで認証コードを受け取りログインしてください。ログイン後、スマホとWebは同じアカウントで同期します。',
+                syncDesc: 'スマホとWebで同じ同期コードを入力すると同期できます。Emailログインは不要です。',
                 gmailLogin: 'Emailログイン',
                 sendLoginCode: '認証コード送信',
                 verifyLoginCode: 'コード入力',
                 pasteLoginLink: '認証リンク貼付',
-                manualSyncId: '同期ID',
+                manualSyncId: '同期コード',
+                manualSyncInputPh: '同期コード 例：riven-2026-private',
+                saveSyncCode: '同期コードを保存',
+                manualSyncHint: '同じ同期コードは自分だけで使ってください。データがある端末でアップロードし、別端末でダウンロードします。',
+                emailLoginBackup: 'Emailログイン予備',
                 manualSyncPrompt: '自分だけが知っている同期IDを入力してください。スマホとWebで同じIDを使うと同期できます。',
                 manualSyncReady: '同期IDを使用中：{id}',
                 manualSyncSaved: '同期IDを保存しました',
@@ -1389,10 +1405,10 @@
                 invalidBackup: 'バックアップファイルの形式が正しくありません',
                 videoUrlInvalid: '動画リンクが無効です',
                 videoWatchedToast: '{label}を{count}回視聴しました',
-                authLoginRequired: '先にEmailでログインしてください',
-                authNotLoggedIn: 'Email未ログイン',
+                authLoginRequired: '先に同期コードを入力して保存してください',
+                authNotLoggedIn: '同期コード未設定',
                 authLoggedIn: 'ログイン中：{email}',
-                authReady: 'ログイン済み。アップロードまたはダウンロードできます',
+                authReady: '同期コード準備完了。アップロードまたはダウンロードできます',
                 authNoSupabase: 'Supabase Authに未接続です',
                 authCallbackFailed: 'ログイン応答の処理に失敗しました。もう一度ログインしてください',
                 authFailed: 'ログイン失敗：{error}',
@@ -1629,12 +1645,16 @@
                 done: 'Done',
                 cloudSync: 'Cloud Sync',
                 closeSync: 'Close sync settings',
-                syncDesc: 'Sign in with an Email verification code first. After signing in, your phone and web app sync with the same account.',
+                syncDesc: 'Use the same sync code on phone and web to sync. No Email login is required.',
                 gmailLogin: 'Email Login',
                 sendLoginCode: 'Send code',
                 verifyLoginCode: 'Enter code',
                 pasteLoginLink: 'Paste email link',
-                manualSyncId: 'Sync ID',
+                manualSyncId: 'Sync code',
+                manualSyncInputPh: 'Sync code, e.g. riven-2026-private',
+                saveSyncCode: 'Save sync code',
+                manualSyncHint: 'Keep this sync code private. Upload from the device with data, then download on the other device.',
+                emailLoginBackup: 'Email login backup',
                 manualSyncPrompt: 'Enter a private Sync ID. Use the same ID on phone and web to sync.',
                 manualSyncReady: 'Using Sync ID: {id}',
                 manualSyncSaved: 'Sync ID saved',
@@ -1704,10 +1724,10 @@
                 invalidBackup: 'Backup file format is invalid',
                 videoUrlInvalid: 'Invalid video link',
                 videoWatchedToast: '{label} watched {count} time(s)',
-                authLoginRequired: 'Please sign in with Email first',
-                authNotLoggedIn: 'Not signed in to Email',
+                authLoginRequired: 'Enter and save a sync code first',
+                authNotLoggedIn: 'No sync code yet',
                 authLoggedIn: 'Signed in: {email}',
-                authReady: 'Signed in. You can upload or download cloud data',
+                authReady: 'Sync code is ready. You can upload or download cloud data',
                 authNoSupabase: 'Supabase Auth is not connected',
                 authCallbackFailed: 'Login callback failed. Please sign in again',
                 authFailed: 'Login failed: {error}',
@@ -2000,6 +2020,8 @@
         function openSyncModal() {
             document.getElementById('sync-status').innerText = t('authLoginRequired');
             refreshAuthStatus();
+            const manualInput = document.getElementById('manual-sync-input');
+            if (manualInput && !manualInput.value) manualInput.value = getManualSyncId().replace(/^manual:/, '');
             const emailInput = document.getElementById('cloud-email-input');
             if (emailInput && !emailInput.value) emailInput.value = localStorage.getItem('manifestation_cloud_email') || '';
             document.getElementById('modal-sync').classList.remove('hidden');
@@ -2178,9 +2200,11 @@
 
         function setManualSyncId() {
             const current = getManualSyncId().replace(/^manual:/, '');
-            const id = prompt(t('manualSyncPrompt'), current);
+            const input = document.getElementById('manual-sync-input');
+            const id = (input?.value || '').trim() || prompt(t('manualSyncPrompt'), current);
             if (!id || !id.trim()) return;
             const normalized = id.trim();
+            if (input) input.value = normalized;
             const settings = getSyncSettings();
             localStorage.setItem(SYNC_SETTINGS_KEY, JSON.stringify({ ...settings, syncId: `manual:${normalized}`, manualSyncId: normalized }));
             refreshAuthStatus();
@@ -2189,6 +2213,13 @@
         }
 
         async function getActiveSyncId() {
+            const manualInput = document.getElementById('manual-sync-input');
+            const typedManualId = manualInput?.value?.trim();
+            if (typedManualId) {
+                const settings = getSyncSettings();
+                localStorage.setItem(SYNC_SETTINGS_KEY, JSON.stringify({ ...settings, syncId: `manual:${typedManualId}`, manualSyncId: typedManualId }));
+                return `manual:${typedManualId}`;
+            }
             const user = cloudUser || await getCloudUser();
             if (user) return `email:${user.id}`;
             const manualId = getManualSyncId();
@@ -2327,11 +2358,34 @@
             }
         }
 
+        async function callManifestSync(action, syncId, data = null) {
+            const response = await fetch(`${SUPABASE_URL}/functions/v1/manifest-sync`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': `Bearer ${SUPABASE_KEY}`
+                },
+                body: JSON.stringify({ action, syncId, data })
+            });
+            const body = await response.json().catch(() => ({}));
+            if (!response.ok || body.error) throw new Error(body.error || `Edge sync ${response.status}`);
+            return body;
+        }
+
         async function pushCloudSync() {
             try {
                 setSyncStatus(t('uploading'));
-                const client = await getSupabaseClient();
                 const syncId = await getActiveSyncId();
+                try {
+                    await callManifestSync('upload', syncId, getAllAppData());
+                    setSyncStatus(t('uploadedSupabase'));
+                    showToast(t('uploadToast'));
+                    return;
+                } catch (edgeError) {
+                    console.warn('Edge sync upload fallback:', edgeError);
+                }
+                const client = await getSupabaseClient();
                 const { error } = await client.from('manifestation_sync').upsert({
                     sync_id: syncId,
                     data: getAllAppData(),
@@ -2351,8 +2405,18 @@
         async function pullCloudSync() {
             try {
                 setSyncStatus(t('downloading'));
-                const client = await getSupabaseClient();
                 const syncId = await getActiveSyncId();
+                try {
+                    const result = await callManifestSync('download', syncId);
+                    if (!result.data) return setSyncStatus(t('noCloudData'));
+                    applyAppData(result.data || {});
+                    setSyncStatus(`${t('cloudApplied')}${result.updated_at ? `｜${new Date(result.updated_at).toLocaleString()}` : ''}`);
+                    showToast(t('cloudAppliedToast'));
+                    return;
+                } catch (edgeError) {
+                    console.warn('Edge sync download fallback:', edgeError);
+                }
+                const client = await getSupabaseClient();
                 const { data, error } = await client.from('manifestation_sync').select('data, updated_at').eq('sync_id', syncId).maybeSingle();
                 if (error) throw error;
                 if (!data) return setSyncStatus(t('noCloudData'));
