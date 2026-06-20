@@ -6,8 +6,8 @@ create table if not exists public.manifestation_sync (
 
 alter table public.manifestation_sync enable row level security;
 
-grant usage on schema public to anon, authenticated;
-grant select, insert, update on table public.manifestation_sync to anon, authenticated;
+grant usage on schema public to anon, authenticated, service_role;
+grant select, insert, update, delete on table public.manifestation_sync to anon, authenticated, service_role;
 
 drop policy if exists "allow anon read sync data" on public.manifestation_sync;
 drop policy if exists "allow anon insert sync data" on public.manifestation_sync;

@@ -825,6 +825,7 @@
         const LANGUAGE_KEY = 'manifestation_language';
         const SUPABASE_URL = 'https://iqbkizoojhcjeoabghvq.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlxYmtpem9vamhjamVvYWJnaHZxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEzNzIxOTEsImV4cCI6MjA5Njk0ODE5MX0.PXJ_prl5OCT9JiRr8KiI9WGw8-XGJUIEDgnfwpHH9eY';
+        const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_UBILTYcAxnDMitdXDWCOoA_2ioS966t';
         let supabaseClient = null;
         let cloudUser = null;
         const I18N = {
@@ -1104,6 +1105,7 @@
                 uploadFailed: '上傳失敗：{error}',
                 downloadFailed: '下載失敗：{error}',
                 checkingTable: '請檢查資料表與 RLS 權限',
+                edgeSyncRequired: '同步服務尚未部署或無法連線：{error}。請部署 manifest-sync 後再試。',
                 downloading: '下載中...',
                 noCloudData: '雲端還沒有資料，請先在其中一台裝置上傳',
                 cloudApplied: '已下載並套用雲端資料',
@@ -1423,6 +1425,7 @@
                 uploadFailed: 'アップロード失敗：{error}',
                 downloadFailed: 'ダウンロード失敗：{error}',
                 checkingTable: 'テーブルとRLS権限を確認してください',
+                edgeSyncRequired: '同期サービスが未デプロイ、または接続できません：{error}。manifest-sync をデプロイしてから再試行してください。',
                 downloading: 'ダウンロード中...',
                 noCloudData: 'クラウドにデータがありません。先にどれかの端末でアップロードしてください',
                 cloudApplied: 'クラウドデータをダウンロードして適用しました',
@@ -1742,6 +1745,7 @@
                 uploadFailed: 'Upload failed: {error}',
                 downloadFailed: 'Download failed: {error}',
                 checkingTable: 'Check the table and RLS permissions',
+                edgeSyncRequired: 'Sync service is not deployed or cannot be reached: {error}. Deploy manifest-sync and try again.',
                 downloading: 'Downloading...',
                 noCloudData: 'No cloud data yet. Upload from one device first',
                 cloudApplied: 'Cloud data downloaded and applied',
@@ -2363,8 +2367,8 @@
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'apikey': SUPABASE_KEY,
-                    'Authorization': `Bearer ${SUPABASE_KEY}`
+                    'apikey': SUPABASE_PUBLISHABLE_KEY,
+                    'Authorization': `Bearer ${SUPABASE_PUBLISHABLE_KEY}`
                 },
                 body: JSON.stringify({ action, syncId, data })
             });
@@ -2383,17 +2387,9 @@
                     showToast(t('uploadToast'));
                     return;
                 } catch (edgeError) {
-                    console.warn('Edge sync upload fallback:', edgeError);
+                    setSyncStatus(t('edgeSyncRequired').replace('{error}', edgeError.message || 'manifest-sync'));
+                    return;
                 }
-                const client = await getSupabaseClient();
-                const { error } = await client.from('manifestation_sync').upsert({
-                    sync_id: syncId,
-                    data: getAllAppData(),
-                    updated_at: new Date().toISOString()
-                }, { onConflict: 'sync_id' });
-                if (error) throw error;
-                setSyncStatus(t('uploadedSupabase'));
-                showToast(t('uploadToast'));
             } catch (error) {
                 if (error.message === 'missing-session') setSyncStatus(t('authLoginRequired'));
                 else if (error.message === 'missing-settings') setSyncStatus(t('authLoginRequired'));
@@ -2414,15 +2410,9 @@
                     showToast(t('cloudAppliedToast'));
                     return;
                 } catch (edgeError) {
-                    console.warn('Edge sync download fallback:', edgeError);
+                    setSyncStatus(t('edgeSyncRequired').replace('{error}', edgeError.message || 'manifest-sync'));
+                    return;
                 }
-                const client = await getSupabaseClient();
-                const { data, error } = await client.from('manifestation_sync').select('data, updated_at').eq('sync_id', syncId).maybeSingle();
-                if (error) throw error;
-                if (!data) return setSyncStatus(t('noCloudData'));
-                applyAppData(data.data || {});
-                setSyncStatus(`${t('cloudApplied')}${data.updated_at ? `｜${new Date(data.updated_at).toLocaleString()}` : ''}`);
-                showToast(t('cloudAppliedToast'));
             } catch (error) {
                 if (error.message === 'missing-session') setSyncStatus(t('authLoginRequired'));
                 else if (error.message === 'missing-settings') setSyncStatus(t('authLoginRequired'));
@@ -2635,8 +2625,8 @@
                     signal: controller.signal,
                     headers: {
                         'Content-Type': 'application/json',
-                        'apikey': SUPABASE_KEY,
-                        'Authorization': `Bearer ${SUPABASE_KEY}`
+                        'apikey': SUPABASE_PUBLISHABLE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_PUBLISHABLE_KEY}`
                     },
                     body: JSON.stringify({
                         word: query,
@@ -2649,7 +2639,8 @@
                 const payload = await response.json();
                 entry = normalizeDictionaryEntry(query, payload.dictionary, payload.dictionary ? '' : t('dictionaryNoResult'));
                 if (!payload.dictionary) showToast(t('dictionaryNoResult'));
-            } catch {
+            } catch (error) {
+                console.warn('Dictionary lookup fallback:', error);
                 entry = normalizeDictionaryEntry(query, null, t('dictionaryNetworkFallback'));
                 showToast(t('dictionaryNetworkFallback'));
             }
@@ -2668,8 +2659,8 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'apikey': SUPABASE_KEY,
-                        'Authorization': `Bearer ${SUPABASE_KEY}`
+                        'apikey': SUPABASE_PUBLISHABLE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_PUBLISHABLE_KEY}`
                     },
                     body: JSON.stringify({
                         word: entry.word || entry.query,
