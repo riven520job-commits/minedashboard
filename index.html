@@ -634,6 +634,13 @@
             <p class="text-[11px] text-notion-muted leading-relaxed" data-i18n="syncDesc">請先用 Email 收取驗證碼登入。登入後手機與網頁會使用同一個帳號同步資料。</p>
             <div class="bg-notion-hover border border-notion-border rounded p-3 space-y-2">
                 <p id="auth-status" class="text-[11px] text-notion-muted">尚未登入 Email</p>
+                <div class="space-y-2">
+                    <label for="cloud-email-input" class="sr-only" data-i18n="cloudEmailPrompt">請輸入 Email</label>
+                    <input id="cloud-email-input" type="email" inputmode="email" autocomplete="email" placeholder="Email" data-i18n-placeholder="cloudEmailInputPh" class="w-full text-sm bg-white border border-notion-border rounded px-3 py-2.5 focus:outline-none focus:border-notion-muted">
+                    <label for="cloud-otp-input" class="sr-only" data-i18n="cloudOtpPrompt">請輸入 Email 收到的 6 位數驗證碼</label>
+                    <input id="cloud-otp-input" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="12" placeholder="6 位數驗證碼" data-i18n-placeholder="cloudOtpInputPh" class="w-full text-sm bg-white border border-notion-border rounded px-3 py-2.5 focus:outline-none focus:border-notion-muted">
+                    <p class="text-[10px] text-notion-muted leading-relaxed" data-i18n="otpTemplateHint">如果信件仍然只有登入連結，請到 Supabase Email template 加入驗證碼變數。</p>
+                </div>
                 <div class="grid grid-cols-2 gap-2">
                     <button onclick="loginCloudSync()" class="py-2.5 text-xs bg-notion-btn text-white rounded-notion font-medium" data-i18n="sendLoginCode">寄送驗證碼</button>
                     <button onclick="verifyCloudOtp()" class="py-2.5 text-xs bg-white text-notion-text border border-notion-border rounded-notion font-medium" data-i18n="verifyLoginCode">輸入驗證碼</button>
@@ -1003,6 +1010,9 @@
                 manualSyncSaved: '同步 ID 已儲存',
                 cloudEmailPrompt: '請輸入 Email',
                 cloudOtpPrompt: '請輸入 Email 收到的 6 位數驗證碼',
+                cloudEmailInputPh: 'Email',
+                cloudOtpInputPh: '6 位數驗證碼',
+                otpTemplateHint: '如果信件仍然只有登入連結，請到 Supabase Email template 加入驗證碼變數。',
                 cloudLinkPrompt: '請貼上 Email 裡的驗證登入連結',
                 cloudEmailSent: '驗證碼已寄出，請查看信箱',
                 cloudOtpVerified: '驗證成功，已登入',
@@ -1315,6 +1325,9 @@
                 manualSyncSaved: '同期IDを保存しました',
                 cloudEmailPrompt: 'Emailを入力してください',
                 cloudOtpPrompt: 'Emailに届いた6桁の認証コードを入力してください',
+                cloudEmailInputPh: 'Email',
+                cloudOtpInputPh: '6桁の認証コード',
+                otpTemplateHint: 'メールにログインリンクだけが届く場合は、SupabaseのEmail templateに認証コード変数を追加してください。',
                 cloudLinkPrompt: 'Email内の認証ログインリンクを貼り付けてください',
                 cloudEmailSent: '認証コードを送信しました。メールを確認してください',
                 cloudOtpVerified: '認証しました。ログイン済みです',
@@ -1627,6 +1640,9 @@
                 manualSyncSaved: 'Sync ID saved',
                 cloudEmailPrompt: 'Enter your Email',
                 cloudOtpPrompt: 'Enter the 6-digit code from your Email',
+                cloudEmailInputPh: 'Email',
+                cloudOtpInputPh: '6-digit verification code',
+                otpTemplateHint: 'If the email still only contains a login link, add the verification-code variable in the Supabase Email template.',
                 cloudLinkPrompt: 'Paste the verification login link from your Email',
                 cloudEmailSent: 'Code sent. Please check your inbox.',
                 cloudOtpVerified: 'Verified and signed in',
@@ -1984,6 +2000,8 @@
         function openSyncModal() {
             document.getElementById('sync-status').innerText = t('authLoginRequired');
             refreshAuthStatus();
+            const emailInput = document.getElementById('cloud-email-input');
+            if (emailInput && !emailInput.value) emailInput.value = localStorage.getItem('manifestation_cloud_email') || '';
             document.getElementById('modal-sync').classList.remove('hidden');
             document.getElementById('modal-sync').classList.add('flex');
         }
@@ -2041,6 +2059,20 @@
 
         async function getAuthClient() {
             return getSupabaseClient();
+        }
+
+        function getCloudEmailValue() {
+            const input = document.getElementById('cloud-email-input');
+            const value = (input?.value || localStorage.getItem('manifestation_cloud_email') || '').trim();
+            if (input && value) input.value = value;
+            return value;
+        }
+
+        function getCloudOtpValue() {
+            const input = document.getElementById('cloud-otp-input');
+            const value = (input?.value || '').trim().replace(/\s+/g, '').replace(/[^\d]/g, '');
+            if (input) input.value = value;
+            return value;
         }
 
         async function getCloudUser() {
@@ -2106,7 +2138,7 @@
             }
             if (params.get('code')) {
                 try {
-                    const { client } = await getAuthClient();
+                    const client = await getAuthClient();
                     const { error } = await client.auth.exchangeCodeForSession(params.get('code'));
                     if (error) throw error;
                     window.history.replaceState({}, document.title, getRedirectUrl());
@@ -2116,7 +2148,7 @@
             }
             if (hash.get('access_token') && hash.get('refresh_token')) {
                 try {
-                    const { client } = await getAuthClient();
+                    const client = await getAuthClient();
                     const { error } = await client.auth.setSession({
                         access_token: hash.get('access_token'),
                         refresh_token: hash.get('refresh_token')
@@ -2168,17 +2200,21 @@
             try {
                 setSyncStatus(t('authStarting'));
                 const client = await getSupabaseClient();
-                const email = prompt(t('cloudEmailPrompt'), localStorage.getItem('manifestation_cloud_email') || '');
-                if (!email || !email.trim()) return;
-                localStorage.setItem('manifestation_cloud_email', email.trim());
+                const email = getCloudEmailValue();
+                if (!email) {
+                    document.getElementById('cloud-email-input')?.focus();
+                    return setSyncStatus(t('cloudOtpEmailMissing'));
+                }
+                localStorage.setItem('manifestation_cloud_email', email);
                 const redirectTo = window.location.protocol === 'file:' ? undefined : getRedirectUrl();
                 const { error } = await client.auth.signInWithOtp({
-                    email: email.trim(),
+                    email,
                     options: redirectTo ? { emailRedirectTo: redirectTo } : {}
                 });
                 if (error) throw error;
                 setSyncStatus(t('cloudEmailSent'));
                 showToast(t('cloudEmailSent'));
+                document.getElementById('cloud-otp-input')?.focus();
             } catch (error) {
                 setSyncStatus(`${t('authStartFailed')}${error?.message ? `｜${error.message}` : ''}`);
             }
@@ -2187,19 +2223,26 @@
         async function verifyCloudOtp() {
             try {
                 const client = await getSupabaseClient();
-                const savedEmail = localStorage.getItem('manifestation_cloud_email') || '';
-                const email = prompt(t('cloudEmailPrompt'), savedEmail);
-                if (!email || !email.trim()) return setSyncStatus(t('cloudOtpEmailMissing'));
-                const token = prompt(t('cloudOtpPrompt'));
-                if (!token || !token.trim()) return;
+                const email = getCloudEmailValue();
+                if (!email) {
+                    document.getElementById('cloud-email-input')?.focus();
+                    return setSyncStatus(t('cloudOtpEmailMissing'));
+                }
+                const token = getCloudOtpValue();
+                if (!token) {
+                    document.getElementById('cloud-otp-input')?.focus();
+                    return setSyncStatus(t('cloudOtpPrompt'));
+                }
                 const { data, error } = await client.auth.verifyOtp({
-                    email: email.trim(),
-                    token: token.trim(),
+                    email,
+                    token,
                     type: 'email'
                 });
                 if (error) throw error;
-                localStorage.setItem('manifestation_cloud_email', email.trim());
+                localStorage.setItem('manifestation_cloud_email', email);
                 cloudUser = data.user || null;
+                const otpInput = document.getElementById('cloud-otp-input');
+                if (otpInput) otpInput.value = '';
                 await refreshAuthStatus();
                 setSyncStatus(t('cloudOtpVerified'));
                 showToast(t('cloudOtpVerified'));
@@ -2248,8 +2291,7 @@
                 }
 
                 if (token) {
-                    const savedEmail = localStorage.getItem('manifestation_cloud_email') || '';
-                    const email = prompt(t('cloudEmailPrompt'), savedEmail);
+                    const email = getCloudEmailValue() || prompt(t('cloudEmailPrompt'), localStorage.getItem('manifestation_cloud_email') || '');
                     if (!email || !email.trim()) return setSyncStatus(t('cloudOtpEmailMissing'));
                     const { data, error } = await client.auth.verifyOtp({
                         email: email.trim(),
