@@ -579,7 +579,17 @@
                     <input type="number" id="item-qty" min="1" value="1" placeholder="數量" data-i18n-placeholder="itemQtyPh" class="text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted">
                     <input type="date" id="item-date" class="text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted">
                 </div>
-                <textarea id="item-note" rows="2" placeholder="尺寸、購入地、保養方式或整理提醒..." data-i18n-placeholder="itemNotePh" class="w-full text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted resize-none"></textarea>
+                <div class="grid grid-cols-2 gap-2">
+                    <input type="text" id="item-size" placeholder="尺寸" data-i18n-placeholder="itemSizePh" class="text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted">
+                    <input type="number" id="item-price" min="0" step="1" placeholder="價格" data-i18n-placeholder="itemPricePh" class="text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted">
+                </div>
+                <input type="text" id="item-place" placeholder="購入場所" data-i18n-placeholder="itemPlacePh" class="w-full text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted">
+                <input type="text" id="item-care" placeholder="保養方式" data-i18n-placeholder="itemCarePh" class="w-full text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted">
+                <textarea id="item-note" rows="2" placeholder="其他備註或整理提醒..." data-i18n-placeholder="itemNotePh" class="w-full text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted resize-none"></textarea>
+                <label class="block w-full text-xs text-notion-muted bg-notion-hover border border-notion-border rounded px-3 py-2 cursor-pointer">
+                    <span data-i18n="itemPhoto">物品照片</span>
+                    <input type="file" id="item-image" accept="image/*" class="mt-2 w-full text-xs text-notion-muted file:mr-2 file:py-1.5 file:px-3 file:border-0 file:text-xs file:bg-white file:text-notion-text file:rounded cursor-pointer">
+                </label>
                 <button onclick="saveItem()" class="w-full py-3 text-sm bg-notion-btn text-white rounded-notion font-medium active:scale-[0.98] transition-transform" data-i18n="saveItem">儲存物品</button>
             </div>
             <div id="item-filter" class="flex gap-2 overflow-x-auto pb-1" aria-label="物品分類篩選" data-i18n-aria="itemFilter"></div>
@@ -961,7 +971,12 @@
                 itemStored: '收納',
                 itemDeclutter: '考慮斷捨離',
                 itemQtyPh: '數量',
-                itemNotePh: '尺寸、購入地、保養方式或整理提醒...',
+                itemSizePh: '尺寸',
+                itemPricePh: '價格',
+                itemPlacePh: '購入場所',
+                itemCarePh: '保養方式',
+                itemPhoto: '物品照片',
+                itemNotePh: '其他備註或整理提醒...',
                 saveItem: '儲存物品',
                 itemFilter: '物品分類篩選',
                 itemHistory: '物品清單',
@@ -969,6 +984,10 @@
                 itemSaved: '物品已儲存',
                 deleteItem: '刪除物品',
                 quantity: '數量',
+                size: '尺寸',
+                price: '價格',
+                purchasePlace: '購入場所',
+                careMethod: '保養方式',
                 journalListTitle: '顯化日記清單',
                 write: '寫作',
                 shrineWishTitle: '想去的神社清單',
@@ -1281,7 +1300,12 @@
                 itemStored: '収納',
                 itemDeclutter: '手放し検討',
                 itemQtyPh: '数量',
-                itemNotePh: 'サイズ、購入場所、手入れ、整理メモ...',
+                itemSizePh: 'サイズ',
+                itemPricePh: '価格',
+                itemPlacePh: '購入場所',
+                itemCarePh: '手入れ方法',
+                itemPhoto: '物品写真',
+                itemNotePh: 'その他メモ、整理リマインダー...',
                 saveItem: '物品を保存',
                 itemFilter: '物品分類フィルター',
                 itemHistory: '物品リスト',
@@ -1289,6 +1313,10 @@
                 itemSaved: '物品を保存しました',
                 deleteItem: '物品を削除',
                 quantity: '数量',
+                size: 'サイズ',
+                price: '価格',
+                purchasePlace: '購入場所',
+                careMethod: '手入れ方法',
                 journalListTitle: 'マニフェスト日記一覧',
                 write: '書く',
                 shrineWishTitle: '行きたい神社リスト',
@@ -1601,7 +1629,12 @@
                 itemStored: 'Stored',
                 itemDeclutter: 'Declutter maybe',
                 itemQtyPh: 'Qty',
-                itemNotePh: 'Size, source, care, or declutter note...',
+                itemSizePh: 'Size',
+                itemPricePh: 'Price',
+                itemPlacePh: 'Purchase place',
+                itemCarePh: 'Care method',
+                itemPhoto: 'Item photo',
+                itemNotePh: 'Other note or declutter reminder...',
                 saveItem: 'Save item',
                 itemFilter: 'Item category filter',
                 itemHistory: 'Item list',
@@ -1609,6 +1642,10 @@
                 itemSaved: 'Item saved',
                 deleteItem: 'Delete item',
                 quantity: 'Qty',
+                size: 'Size',
+                price: 'Price',
+                purchasePlace: 'Purchase place',
+                careMethod: 'Care method',
                 journalListTitle: 'Manifest Journal List',
                 write: 'Write',
                 shrineWishTitle: 'Shrines I Want to Visit',
@@ -3211,7 +3248,14 @@
                 const realIdx = items.indexOf(item);
                 const div = document.createElement('div');
                 div.className = 'bg-notion-card border border-notion-border rounded p-3 text-sm';
-                div.innerHTML = `<div class="flex justify-between gap-3 items-start"><div class="min-w-0"><p class="font-semibold text-notion-text truncate">${escapeHTML(item.name)}</p><p class="text-[11px] text-notion-muted mt-0.5">${escapeHTML(getItemCategoryLabel(item.category || '其他'))}｜${escapeHTML(getItemStatusLabel(item.status || 'active'))}｜${t('quantity')} ${escapeHTML(item.qty || 1)}</p></div><div class="flex gap-1 shrink-0"><button onclick="editItem(${realIdx})" class="text-notion-muted opacity-60 active:opacity-100 text-xs px-2 py-1">${t('edit')}</button><button onclick="deleteItem(${realIdx})" class="text-notion-muted opacity-40 active:opacity-100 text-xs px-2 py-1" aria-label="${t('deleteItem')}">✕</button></div></div>${item.note ? `<p class="mt-2 text-xs leading-relaxed bg-notion-hover rounded p-2 whitespace-pre-wrap">${escapeHTML(item.note)}</p>` : ''}<p class="text-[10px] text-notion-muted mt-2">${escapeHTML(item.date || '')}</p>`;
+                const imageHTML = item.image ? `<img src="${escapeHTML(item.image)}" alt="${escapeHTML(item.name)}" class="w-20 h-20 object-cover rounded border border-notion-border shrink-0">` : '';
+                const detailRows = [
+                    item.size ? `${t('size')}：${escapeHTML(item.size)}` : '',
+                    item.price ? `${t('price')}：${escapeHTML(item.price)}` : '',
+                    item.place ? `${t('purchasePlace')}：${escapeHTML(item.place)}` : '',
+                    item.care ? `${t('careMethod')}：${escapeHTML(item.care)}` : ''
+                ].filter(Boolean);
+                div.innerHTML = `<div class="flex gap-3 items-start">${imageHTML}<div class="flex-1 min-w-0"><div class="flex justify-between gap-3 items-start"><div class="min-w-0"><p class="font-semibold text-notion-text truncate">${escapeHTML(item.name)}</p><p class="text-[11px] text-notion-muted mt-0.5">${escapeHTML(getItemCategoryLabel(item.category || '其他'))}｜${escapeHTML(getItemStatusLabel(item.status || 'active'))}｜${t('quantity')} ${escapeHTML(item.qty || 1)}</p></div><div class="flex gap-1 shrink-0"><button onclick="editItem(${realIdx})" class="text-notion-muted opacity-60 active:opacity-100 text-xs px-2 py-1">${t('edit')}</button><button onclick="deleteItem(${realIdx})" class="text-notion-muted opacity-40 active:opacity-100 text-xs px-2 py-1" aria-label="${t('deleteItem')}">✕</button></div></div>${detailRows.length ? `<div class="mt-2 grid grid-cols-1 gap-1 text-xs text-notion-text">${detailRows.map(row => `<p class="bg-notion-hover rounded px-2 py-1">${row}</p>`).join('')}</div>` : ''}${item.note ? `<p class="mt-2 text-xs leading-relaxed bg-notion-hover rounded p-2 whitespace-pre-wrap">${escapeHTML(item.note)}</p>` : ''}<p class="text-[10px] text-notion-muted mt-2">${escapeHTML(item.date || '')}</p></div></div>`;
                 list.appendChild(div);
             });
         }
@@ -3222,18 +3266,32 @@
             const status = document.getElementById('item-status').value;
             const qty = Math.max(1, parseInt(document.getElementById('item-qty').value, 10) || 1);
             const date = document.getElementById('item-date').value || new Date().toLocaleDateString();
+            const size = document.getElementById('item-size').value.trim();
+            const price = document.getElementById('item-price').value.trim();
+            const place = document.getElementById('item-place').value.trim();
+            const care = document.getElementById('item-care').value.trim();
             const note = document.getElementById('item-note').value.trim();
-            const items = getStorageArray('notion_items');
-            items.push({ name, category, status, qty, date, note });
-            localStorage.setItem('notion_items', JSON.stringify(items));
-            document.getElementById('item-name').value = '';
-            document.getElementById('item-category').value = '衣物';
-            document.getElementById('item-status').value = 'active';
-            document.getElementById('item-qty').value = '1';
-            document.getElementById('item-date').valueAsDate = new Date();
-            document.getElementById('item-note').value = '';
-            loadItems();
-            showToast(t('itemSaved'));
+            const file = document.getElementById('item-image').files[0];
+            const save = (image = '') => {
+                const items = getStorageArray('notion_items');
+                items.push({ name, category, status, qty, date, size, price, place, care, note, image });
+                localStorage.setItem('notion_items', JSON.stringify(items));
+                document.getElementById('item-name').value = '';
+                document.getElementById('item-category').value = '衣物';
+                document.getElementById('item-status').value = 'active';
+                document.getElementById('item-qty').value = '1';
+                document.getElementById('item-date').valueAsDate = new Date();
+                document.getElementById('item-size').value = '';
+                document.getElementById('item-price').value = '';
+                document.getElementById('item-place').value = '';
+                document.getElementById('item-care').value = '';
+                document.getElementById('item-note').value = '';
+                document.getElementById('item-image').value = '';
+                loadItems();
+                showToast(t('itemSaved'));
+            };
+            if (file) compressImage(file, save);
+            else save('');
         }
         function editItem(i) {
             const items = getStorageArray('notion_items');
@@ -3246,10 +3304,18 @@
             if (status === null) return;
             const qty = prompt(t('quantity'), items[i].qty || 1);
             if (qty === null) return;
+            const size = prompt(t('size'), items[i].size || '');
+            if (size === null) return;
+            const price = prompt(t('price'), items[i].price || '');
+            if (price === null) return;
+            const place = prompt(t('purchasePlace'), items[i].place || '');
+            if (place === null) return;
+            const care = prompt(t('careMethod'), items[i].care || '');
+            if (care === null) return;
             const note = prompt(t('itemNotePh'), items[i].note || '');
             if (note === null) return;
             if (!name.trim()) return showToast(t('fillContent'));
-            items[i] = { ...items[i], name: name.trim(), category: ITEM_CATEGORY_KEYS[category] ? category : (items[i].category || '其他'), status: ITEM_STATUS_KEYS[status] ? status : (items[i].status || 'active'), qty: Math.max(1, parseInt(qty, 10) || 1), note: note.trim() };
+            items[i] = { ...items[i], name: name.trim(), category: ITEM_CATEGORY_KEYS[category] ? category : (items[i].category || '其他'), status: ITEM_STATUS_KEYS[status] ? status : (items[i].status || 'active'), qty: Math.max(1, parseInt(qty, 10) || 1), size: size.trim(), price: price.trim(), place: place.trim(), care: care.trim(), note: note.trim() };
             localStorage.setItem('notion_items', JSON.stringify(items));
             loadItems();
             showToast(t('updated'));
