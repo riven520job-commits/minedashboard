@@ -140,6 +140,20 @@
             background: #F1F1EF;
             transform: scale(0.99);
         }
+        .track-tab {
+            min-height: 38px;
+            border: 1px solid #EAEAEA;
+            border-radius: 6px;
+            background: #FFFFFF;
+            color: #37352F;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .track-tab.active {
+            background: #2E2C27;
+            border-color: #2E2C27;
+            color: #FFFFFF;
+        }
         .reading-shell {
             margin-left: -20px;
             margin-right: -20px;
@@ -322,17 +336,54 @@
                 <h2 class="text-2xl font-semibold leading-tight text-notion-text min-h-[3.5rem]" data-i18n="homeTitle" id="home-quote">今天想照顧哪一部分？</h2>
             </div>
             <div class="grid grid-cols-2 gap-3">
-                <button onclick="switchTab('goals')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></span><span class="text-lg font-semibold" data-i18n="calendar">日曆</span><span class="text-xs text-notion-muted" id="calendar-card-summary">今日 0/0｜本月 0%</span></button>
-                <button onclick="switchTab('workout')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m10 8 6 4-6 4V8z"/></svg></span><span class="text-lg font-semibold" data-i18n="workout">運動</span><span class="text-xs text-notion-muted" data-i18n="workoutSub">減肥影片庫</span></button>
-                <button onclick="switchTab('log')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span><span class="text-lg font-semibold" data-i18n="log">紀錄</span><span class="text-xs text-notion-muted" data-i18n="logSub">體重飲食照片</span></button>
+                <button onclick="switchTab('track')" class="feature-tile col-span-2"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M7 14h3M14 14h3M7 18h3M14 18h3"/></svg></span><span class="text-lg font-semibold" data-i18n="dailyTracking">每日追蹤</span><span class="text-xs text-notion-muted" id="calendar-card-summary">今日 0/0｜本月 0%</span></button>
                 <button onclick="switchTab('journal')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h6"/></svg></span><span class="text-lg font-semibold" data-i18n="journal">日記</span><span class="text-xs text-notion-muted" data-i18n="journalSub">顯化筆記</span></button>
                 <button onclick="switchTab('dictionary')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5z"/><path d="M9 7h6M9 11h4"/></svg></span><span class="text-lg font-semibold" data-i18n="dictionary">字典</span><span class="text-xs text-notion-muted" data-i18n="dictionarySub">日語查詢與複習</span></button>
                 <button onclick="switchTab('shrine')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M6 6v16M18 6v16M4 10h16M9 10v6M15 10v6"/></svg></span><span class="text-lg font-semibold" data-i18n="shrine">神社</span><span class="text-xs text-notion-muted" data-i18n="shrineSub">參拜與願望</span></button>
                 <button onclick="switchTab('meditation')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a14.5 14.5 0 0 0 0 20"/></svg></span><span class="text-lg font-semibold" data-i18n="meditation">冥想</span><span class="text-xs text-notion-muted" data-i18n="meditationSub">計時與導引</span></button>
                 <button onclick="switchTab('reading')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H21"/><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H21v20H6.5A2.5 2.5 0 0 1 4 19.5z"/><path d="M9 7h7M9 11h7M9 15h4"/></svg></span><span class="text-lg font-semibold" data-i18n="readingFeature">閱讀</span><span class="text-xs text-notion-muted" data-i18n="readingSub">書籍與心得</span></button>
                 <button onclick="switchTab('items')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.3 7 12 12l8.7-5M12 22V12"/></svg></span><span class="text-lg font-semibold" data-i18n="items">物品</span><span class="text-xs text-notion-muted" data-i18n="itemsSub">擁有清單</span></button>
+                <button onclick="switchTab('links')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.1.1l2.8-2.8a5 5 0 0 0-7.1-7.1L11.2 5"/><path d="M14 11a5 5 0 0 0-7.1-.1L4.1 13.7a5 5 0 0 0 7.1 7.1l1.6-1.6"/></svg></span><span class="text-lg font-semibold" data-i18n="links">連結</span><span class="text-xs text-notion-muted" data-i18n="linksSub">常用網站</span></button>
             </div>
             <button onclick="switchTab('settings')" class="w-full py-3 text-sm bg-notion-btn text-white rounded-notion font-medium" data-i18n="settingsButton">設定 / 同步 / 備份</button>
+        </div>
+
+        <div id="page-track" class="space-y-4 hidden">
+            <div class="space-y-1">
+                <h2 class="text-xl font-semibold text-notion-text" data-i18n="dailyTracking">每日追蹤</h2>
+                <p class="text-xs text-notion-muted" data-i18n="dailyTrackingSub">目標、運動、體重與影片紀錄集中管理</p>
+            </div>
+            <div class="grid grid-cols-4 gap-2 sticky top-0 bg-notion-bg py-1 z-[5]">
+                <button type="button" class="track-tab" data-track-tab="today" onclick="setTrackingPanel('today')" data-i18n="trackingToday">今日</button>
+                <button type="button" class="track-tab" data-track-tab="calendar" onclick="setTrackingPanel('calendar')" data-i18n="trackingCalendar">日曆</button>
+                <button type="button" class="track-tab" data-track-tab="workout" onclick="setTrackingPanel('workout')" data-i18n="trackingWorkout">運動</button>
+                <button type="button" class="track-tab" data-track-tab="log" onclick="setTrackingPanel('log')" data-i18n="trackingLog">紀錄</button>
+            </div>
+            <div id="tracking-today-panel" class="space-y-4">
+                <div class="grid grid-cols-2 gap-3">
+                    <button type="button" onclick="setTrackingPanel('calendar')" class="bg-notion-card border border-notion-border rounded-notion p-3 text-left active:bg-notion-hover">
+                        <span class="text-[10px] text-notion-muted tracking-wider uppercase" data-i18n="todayGoals">今日目標</span>
+                        <p id="tracking-today-goals" class="text-lg font-semibold text-notion-text mt-1">0/0</p>
+                    </button>
+                    <button type="button" onclick="setTrackingPanel('log')" class="bg-notion-card border border-notion-border rounded-notion p-3 text-left active:bg-notion-hover">
+                        <span class="text-[10px] text-notion-muted tracking-wider uppercase" data-i18n="latestWeight">最近體重</span>
+                        <p id="tracking-latest-weight" class="text-lg font-semibold text-notion-text mt-1">--</p>
+                    </button>
+                    <button type="button" onclick="setTrackingPanel('workout')" class="bg-notion-card border border-notion-border rounded-notion p-3 text-left active:bg-notion-hover">
+                        <span class="text-[10px] text-notion-muted tracking-wider uppercase" data-i18n="workoutLibrary">運動影片</span>
+                        <p id="tracking-workout-count" class="text-lg font-semibold text-notion-text mt-1">0</p>
+                    </button>
+                    <button type="button" onclick="setTrackingPanel('log')" class="bg-notion-card border border-notion-border rounded-notion p-3 text-left active:bg-notion-hover">
+                        <span class="text-[10px] text-notion-muted tracking-wider uppercase" data-i18n="todayVideos">今日影片</span>
+                        <p id="tracking-today-videos" class="text-lg font-semibold text-notion-text mt-1">0</p>
+                    </button>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <button onclick="openDailyModal(todayKey())" class="py-3 text-sm bg-notion-btn text-white rounded-notion font-medium" data-i18n="addTodayGoal">新增今日目標</button>
+                    <button onclick="setTrackingPanel('log')" class="py-3 text-sm bg-notion-hover border border-notion-border text-notion-text rounded-notion font-medium" data-i18n="addStatusRecord">新增狀態紀錄</button>
+                </div>
+            </div>
+            <div id="tracking-panel-host" class="space-y-4"></div>
         </div>
 
         <div id="page-dictionary" class="space-y-5 hidden">
@@ -397,6 +448,10 @@
             </div>
             <div class="bg-notion-card border border-notion-border rounded-notion p-4 space-y-4 shadow-sm">
                 <div class="flex items-center gap-3">
+                    <label for="log-date" class="text-sm w-12 text-notion-text font-medium" data-i18n="date">日期</label>
+                    <input type="date" id="log-date" class="flex-1 text-sm border border-notion-border rounded px-2 py-2 focus:outline-none focus:border-notion-muted">
+                </div>
+                <div class="flex items-center gap-3">
                     <label for="log-weight" class="text-sm w-12 text-notion-text font-medium" data-i18n="weight">體重</label>
                     <input type="number" step="0.1" id="log-weight" placeholder="kg" class="flex-1 text-sm border border-notion-border rounded px-2 py-2 focus:outline-none focus:border-notion-muted">
                 </div>
@@ -412,8 +467,12 @@
                 <button onclick="saveLog()" class="w-full py-3 text-sm bg-notion-btn text-white rounded-notion font-medium hover:opacity-90 mt-2 active:scale-[0.98] transition-transform" data-i18n="saveRecord">儲存紀錄</button>
             </div>
             <div class="space-y-3">
-                <span class="text-xs font-medium text-notion-muted block" data-i18n="history">歷史紀錄</span>
-                <div id="log-list" class="space-y-3"></div>
+                <span class="text-xs font-medium text-notion-muted block" data-i18n="weightHistory">體重與飲食紀錄</span>
+                <div id="weight-log-list" class="space-y-3"></div>
+            </div>
+            <div class="space-y-3">
+                <span class="text-xs font-medium text-notion-muted block" data-i18n="videoHistory">影片紀錄</span>
+                <div id="video-log-list" class="space-y-3"></div>
             </div>
         </div>
 
@@ -599,6 +658,38 @@
             </div>
         </div>
 
+        <div id="page-links" class="space-y-5 hidden">
+            <div class="bg-notion-card border border-notion-border rounded-notion p-4 space-y-3 shadow-sm">
+                <div class="flex items-center justify-between pb-2 border-b border-notion-border">
+                    <span class="text-sm font-semibold text-notion-text tracking-wider uppercase" data-i18n="linksPageTitle">常用連結</span>
+                </div>
+                <input type="text" id="link-title" placeholder="網站名稱" data-i18n-placeholder="linkTitlePh" class="w-full text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted">
+                <input type="url" id="link-url" placeholder="https://example.com" data-i18n-placeholder="linkUrlPh" class="w-full text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted">
+                <div class="grid grid-cols-2 gap-2">
+                    <input type="text" id="link-category" list="link-category-options" placeholder="分類，例如 AI / 學習" data-i18n-placeholder="linkCategoryPh" class="text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted">
+                    <select id="link-icon" class="text-sm border border-notion-border rounded px-3 py-2 bg-white focus:outline-none focus:border-notion-muted" aria-label="自訂圖示" data-i18n-aria="linkIcon">
+                        <option value="link" data-i18n="linkIconLink">連結</option>
+                        <option value="star" data-i18n="linkIconStar">星標</option>
+                        <option value="book" data-i18n="linkIconBook">學習</option>
+                        <option value="briefcase" data-i18n="linkIconWork">工作</option>
+                        <option value="cart" data-i18n="linkIconCart">購物</option>
+                        <option value="tool" data-i18n="linkIconTool">工具</option>
+                        <option value="spark" data-i18n="linkIconSpark">AI</option>
+                        <option value="map" data-i18n="linkIconMap">旅行</option>
+                        <option value="heart" data-i18n="linkIconHeart">生活</option>
+                    </select>
+                </div>
+                <datalist id="link-category-options"></datalist>
+                <textarea id="link-note" rows="2" placeholder="用途、帳號提示或備註..." data-i18n-placeholder="linkNotePh" class="w-full text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted resize-none"></textarea>
+                <button onclick="saveLink()" class="w-full py-3 text-sm bg-notion-btn text-white rounded-notion font-medium active:scale-[0.98] transition-transform" data-i18n="saveLink">儲存連結</button>
+            </div>
+            <div id="link-filter" class="flex gap-2 overflow-x-auto pb-1" aria-label="常用連結分類篩選" data-i18n-aria="linkFilter"></div>
+            <div class="space-y-3 pb-4">
+                <span class="text-xs font-medium text-notion-muted block" data-i18n="linkHistory">連結清單</span>
+                <div id="link-list" class="space-y-3"></div>
+            </div>
+        </div>
+
         <div id="page-settings" class="space-y-5 hidden">
             <div class="space-y-1">
                 <h2 class="text-xl font-semibold text-notion-text" data-i18n="settings">設定</h2>
@@ -689,6 +780,7 @@
                 <p class="text-[10px] text-notion-muted font-medium tracking-wider uppercase" data-i18n="suggestedGoals">建議目標</p>
                 <div id="goal-suggestions" class="flex flex-wrap gap-2"></div>
             </div>
+            <button onclick="openLogForSelectedDate()" class="w-full py-2.5 text-xs bg-notion-hover border border-notion-border text-notion-text rounded-notion font-medium active:bg-gray-200" data-i18n="addStatusRecord">新增狀態紀錄</button>
             <div id="daily-todo-list" class="space-y-2 max-h-[50dvh] overflow-y-auto mt-2 pb-6"></div>
         </div>
     </div>
@@ -792,6 +884,7 @@
             });
             renderCalendar();
             updateCalendarCard();
+            updateTrackingOverview();
             rotateHomeQuote(true);
             renderGoalSuggestions();
             renderWorkoutFilters();
@@ -807,6 +900,8 @@
             loadBooks();
             renderItemFilters();
             loadItems();
+            renderLinkFilters();
+            loadLinks();
         }
 
         function setLanguage(lang) {
@@ -828,21 +923,35 @@
             'notion_books',
             'notion_reading_notes',
             'notion_items',
+            'notion_links',
             'notion_video_views'
         ];
 
         const SYNC_SETTINGS_KEY = 'manifestation_sync_settings';
         const LANGUAGE_KEY = 'manifestation_language';
+        const JOURNAL_PASSWORD_KEY = 'manifestation_journal_password';
         const SUPABASE_URL = 'https://iqbkizoojhcjeoabghvq.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlxYmtpem9vamhjamVvYWJnaHZxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEzNzIxOTEsImV4cCI6MjA5Njk0ODE5MX0.PXJ_prl5OCT9JiRr8KiI9WGw8-XGJUIEDgnfwpHH9eY';
         const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_UBILTYcAxnDMitdXDWCOoA_2ioS966t';
         let supabaseClient = null;
         let cloudUser = null;
+        let journalUnlocked = false;
         const I18N = {
             zh: {
                 homeEyebrow: 'Manifest Atelier',
                 appTitle: '我會成為我想成為的人',
                 homeTitle: '今天想照顧哪一部分？',
+                dailyTracking: '每日追蹤',
+                dailyTrackingSub: '目標、運動、體重與影片紀錄集中管理',
+                trackingToday: '今日',
+                trackingCalendar: '日曆',
+                trackingWorkout: '運動',
+                trackingLog: '紀錄',
+                todayGoals: '今日目標',
+                latestWeight: '最近體重',
+                workoutLibrary: '運動影片',
+                todayVideos: '今日影片',
+                addTodayGoal: '新增今日目標',
                 calendar: '日曆',
                 goals: '目標',
                 goalsSub: '日曆與待辦',
@@ -862,6 +971,8 @@
                 readingSub: '書籍與心得',
                 items: '物品',
                 itemsSub: '擁有清單',
+                links: '連結',
+                linksSub: '常用網站',
                 settingsButton: '設定 / 同步 / 備份',
                 settings: '設定',
                 settingsSub: '資料備份、還原與雲端同步',
@@ -870,6 +981,32 @@
                 backupLocal: '備份到本機',
                 restoreLocal: '從本機還原',
                 backHome: '← 首頁',
+                linksPageTitle: '常用連結',
+                linkTitlePh: '網站名稱',
+                linkUrlPh: 'https://example.com',
+                linkCategoryPh: '分類，例如 AI / 學習',
+                linkIcon: '自訂圖示',
+                linkIconPrompt: '圖示代碼：link / star / book / briefcase / cart / tool / spark / map / heart',
+                linkIconLink: '連結',
+                linkIconStar: '星標',
+                linkIconBook: '學習',
+                linkIconWork: '工作',
+                linkIconCart: '購物',
+                linkIconTool: '工具',
+                linkIconSpark: 'AI',
+                linkIconMap: '旅行',
+                linkIconHeart: '生活',
+                linkNotePh: '用途、帳號提示或備註...',
+                saveLink: '儲存連結',
+                linkFilter: '常用連結分類篩選',
+                linkHistory: '連結清單',
+                linkCatAll: '全部',
+                uncategorized: '未分類',
+                noLinks: '還沒有常用網站，先新增一個每天會打開的連結吧',
+                openLink: '開啟網站',
+                deleteLink: '刪除連結',
+                linkSaved: '連結已儲存',
+                fillLinkContent: '請填寫網站名稱與有效網址',
                 weekdays: ['日', '一', '二', '三', '四', '五', '六'],
                 prevMonth: '上一個月',
                 nextMonth: '下一個月',
@@ -896,6 +1033,13 @@
                 photo: '照片',
                 saveRecord: '儲存紀錄',
                 history: '歷史紀錄',
+                addStatusRecord: '新增狀態紀錄',
+                weightHistory: '體重與飲食紀錄',
+                videoHistory: '影片紀錄',
+                noWeightLogs: '尚無體重或飲食紀錄',
+                noVideoLogs: '尚無影片紀錄',
+                editVideoRecord: '修改影片紀錄',
+                videoCountPrompt: '觀看 / 完成次數',
                 readingPageTitle: '閱讀書籍紀錄',
                 bookTitlePh: '書名',
                 bookAuthorPh: '作者（選填）',
@@ -1066,6 +1210,9 @@
                 noWorkoutPartVideos: '這個部位還沒有影片',
                 unnamedVideo: '未命名影片',
                 watchAndRecord: '觀看並記錄',
+                completeWorkout: '完成',
+                workoutDonePrefix: '完成運動',
+                workoutCompletedToast: '已同步到今日目標',
                 deleteVideo: '刪除影片',
                 invalidLink: '請填寫有效連結',
                 videoSaved: '影片已儲存',
@@ -1080,6 +1227,19 @@
                 noJournals: '寫下今天第一篇顯化日記吧',
                 delete: '刪除',
                 journalSaved: '日記已儲存',
+                privatePassword: '私人密碼',
+                journalLocked: '日記已上鎖',
+                journalLockHint: '輸入私人密碼後才能查看、寫作、修改或刪除日記。',
+                unlockJournal: '解鎖日記',
+                lockJournal: '鎖定',
+                setJournalPassword: '設定 / 變更密碼',
+                journalPasswordPrompt: '請輸入日記私人密碼',
+                journalNewPasswordPrompt: '請設定新的日記私人密碼',
+                journalCurrentPasswordPrompt: '請先輸入目前的日記密碼',
+                journalPasswordSaved: '日記密碼已設定',
+                journalPasswordWrong: '密碼不正確',
+                journalPasswordRequired: '請先設定日記密碼',
+                journalUnlocked: '日記已解鎖',
                 noShrineWishes: '還沒有想去的神社，新增一個吧！',
                 openInGoogleMap: '在 Google Map 開啟',
                 deleteShrineWish: '刪除想去的神社',
@@ -1172,6 +1332,17 @@
                 homeEyebrow: 'Manifest Atelier',
                 appTitle: 'なりたい私になる',
                 homeTitle: '今日はどこを整える？',
+                dailyTracking: 'デイリー記録',
+                dailyTrackingSub: '目標、運動、体重、動画記録をまとめて管理',
+                trackingToday: '今日',
+                trackingCalendar: 'カレンダー',
+                trackingWorkout: '運動',
+                trackingLog: '記録',
+                todayGoals: '今日の目標',
+                latestWeight: '最近の体重',
+                workoutLibrary: '運動動画',
+                todayVideos: '今日の動画',
+                addTodayGoal: '今日の目標を追加',
                 calendar: 'カレンダー',
                 goals: '目標',
                 goalsSub: 'カレンダーとToDo',
@@ -1191,6 +1362,8 @@
                 readingSub: '本と感想',
                 items: '持ち物',
                 itemsSub: '所有リスト',
+                links: 'リンク',
+                linksSub: 'よく使うサイト',
                 settingsButton: '設定 / 同期 / バックアップ',
                 settings: '設定',
                 settingsSub: 'バックアップ、復元、クラウド同期',
@@ -1199,6 +1372,32 @@
                 backupLocal: 'ローカルにバックアップ',
                 restoreLocal: 'ローカルから復元',
                 backHome: '← ホーム',
+                linksPageTitle: 'よく使うリンク',
+                linkTitlePh: 'サイト名',
+                linkUrlPh: 'https://example.com',
+                linkCategoryPh: 'カテゴリ 例：AI / 学習',
+                linkIcon: 'カスタムアイコン',
+                linkIconPrompt: 'アイコンコード：link / star / book / briefcase / cart / tool / spark / map / heart',
+                linkIconLink: 'リンク',
+                linkIconStar: 'スター',
+                linkIconBook: '学習',
+                linkIconWork: '仕事',
+                linkIconCart: '買い物',
+                linkIconTool: 'ツール',
+                linkIconSpark: 'AI',
+                linkIconMap: '旅行',
+                linkIconHeart: '生活',
+                linkNotePh: '用途、アカウントメモ、備考...',
+                saveLink: 'リンクを保存',
+                linkFilter: 'リンクカテゴリフィルター',
+                linkHistory: 'リンク一覧',
+                linkCatAll: 'すべて',
+                uncategorized: '未分類',
+                noLinks: 'まだリンクがありません。毎日使うサイトを追加しましょう。',
+                openLink: 'サイトを開く',
+                deleteLink: 'リンクを削除',
+                linkSaved: 'リンクを保存しました',
+                fillLinkContent: 'サイト名と有効なURLを入力してください',
                 weekdays: ['日', '月', '火', '水', '木', '金', '土'],
                 prevMonth: '前の月',
                 nextMonth: '次の月',
@@ -1225,6 +1424,13 @@
                 photo: '写真',
                 saveRecord: '記録を保存',
                 history: '履歴',
+                addStatusRecord: '状態記録を追加',
+                weightHistory: '体重・食事記録',
+                videoHistory: '動画記録',
+                noWeightLogs: '体重や食事の記録はまだありません',
+                noVideoLogs: '動画記録はまだありません',
+                editVideoRecord: '動画記録を編集',
+                videoCountPrompt: '視聴 / 完了回数',
                 readingPageTitle: '読書記録',
                 bookTitlePh: '書名',
                 bookAuthorPh: '著者（任意）',
@@ -1395,6 +1601,9 @@
                 noWorkoutPartVideos: 'この部位の動画はまだありません',
                 unnamedVideo: '無題の動画',
                 watchAndRecord: '視聴して記録',
+                completeWorkout: '完了',
+                workoutDonePrefix: '運動完了',
+                workoutCompletedToast: '今日の目標に同期しました',
                 deleteVideo: '動画を削除',
                 invalidLink: '有効なリンクを入力してください',
                 videoSaved: '動画を保存しました',
@@ -1409,6 +1618,19 @@
                 noJournals: '今日最初のマニフェスト日記を書きましょう',
                 delete: '削除',
                 journalSaved: '日記を保存しました',
+                privatePassword: 'プライベートパスワード',
+                journalLocked: '日記はロックされています',
+                journalLockHint: '日記の閲覧、作成、編集、削除にはパスワードが必要です。',
+                unlockJournal: '日記を解除',
+                lockJournal: 'ロック',
+                setJournalPassword: '設定 / 変更',
+                journalPasswordPrompt: '日記のパスワードを入力してください',
+                journalNewPasswordPrompt: '新しい日記パスワードを設定してください',
+                journalCurrentPasswordPrompt: '現在の日記パスワードを入力してください',
+                journalPasswordSaved: '日記パスワードを設定しました',
+                journalPasswordWrong: 'パスワードが違います',
+                journalPasswordRequired: '先に日記パスワードを設定してください',
+                journalUnlocked: '日記を解除しました',
                 noShrineWishes: '行きたい神社はまだありません。追加してみましょう。',
                 openInGoogleMap: 'Google Mapで開く',
                 deleteShrineWish: '行きたい神社を削除',
@@ -1501,6 +1723,17 @@
                 homeEyebrow: 'Manifest Atelier',
                 appTitle: 'I become who I choose to be',
                 homeTitle: 'What are we caring for today?',
+                dailyTracking: 'Daily Tracking',
+                dailyTrackingSub: 'Goals, workouts, weight, and video records in one place',
+                trackingToday: 'Today',
+                trackingCalendar: 'Calendar',
+                trackingWorkout: 'Workout',
+                trackingLog: 'Log',
+                todayGoals: 'Today goals',
+                latestWeight: 'Latest weight',
+                workoutLibrary: 'Workout videos',
+                todayVideos: 'Today videos',
+                addTodayGoal: 'Add today goal',
                 calendar: 'Calendar',
                 goals: 'Goals',
                 goalsSub: 'Calendar and tasks',
@@ -1520,6 +1753,8 @@
                 readingSub: 'Books and notes',
                 items: 'Items',
                 itemsSub: 'Owned list',
+                links: 'Links',
+                linksSub: 'Favorite sites',
                 settingsButton: 'Settings / Sync / Backup',
                 settings: 'Settings',
                 settingsSub: 'Backup, restore, and cloud sync',
@@ -1528,6 +1763,32 @@
                 backupLocal: 'Back up locally',
                 restoreLocal: 'Restore from local file',
                 backHome: '← Home',
+                linksPageTitle: 'Favorite Links',
+                linkTitlePh: 'Website name',
+                linkUrlPh: 'https://example.com',
+                linkCategoryPh: 'Category, e.g. AI / Study',
+                linkIcon: 'Custom icon',
+                linkIconPrompt: 'Icon code: link / star / book / briefcase / cart / tool / spark / map / heart',
+                linkIconLink: 'Link',
+                linkIconStar: 'Star',
+                linkIconBook: 'Study',
+                linkIconWork: 'Work',
+                linkIconCart: 'Shopping',
+                linkIconTool: 'Tool',
+                linkIconSpark: 'AI',
+                linkIconMap: 'Travel',
+                linkIconHeart: 'Life',
+                linkNotePh: 'Purpose, account hint, or notes...',
+                saveLink: 'Save link',
+                linkFilter: 'Favorite link category filter',
+                linkHistory: 'Link list',
+                linkCatAll: 'All',
+                uncategorized: 'Uncategorized',
+                noLinks: 'No favorite sites yet. Add a link you open every day.',
+                openLink: 'Open site',
+                deleteLink: 'Delete link',
+                linkSaved: 'Link saved',
+                fillLinkContent: 'Enter a website name and valid URL',
                 weekdays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
                 prevMonth: 'Previous month',
                 nextMonth: 'Next month',
@@ -1554,6 +1815,13 @@
                 photo: 'Photo',
                 saveRecord: 'Save record',
                 history: 'History',
+                addStatusRecord: 'Add status record',
+                weightHistory: 'Weight and meal records',
+                videoHistory: 'Video records',
+                noWeightLogs: 'No weight or meal records yet',
+                noVideoLogs: 'No video records yet',
+                editVideoRecord: 'Edit video record',
+                videoCountPrompt: 'Watch / completion count',
                 readingPageTitle: 'Book Reading Log',
                 bookTitlePh: 'Book title',
                 bookAuthorPh: 'Author (optional)',
@@ -1724,6 +1992,9 @@
                 noWorkoutPartVideos: 'No videos for this body area yet',
                 unnamedVideo: 'Untitled video',
                 watchAndRecord: 'Watch and record',
+                completeWorkout: 'Done',
+                workoutDonePrefix: 'Workout done',
+                workoutCompletedToast: 'Synced to today’s goals',
                 deleteVideo: 'Delete video',
                 invalidLink: 'Please enter a valid link',
                 videoSaved: 'Video saved',
@@ -1738,6 +2009,19 @@
                 noJournals: 'Write your first manifest journal today',
                 delete: 'Delete',
                 journalSaved: 'Journal saved',
+                privatePassword: 'Private password',
+                journalLocked: 'Journal locked',
+                journalLockHint: 'Enter your private password to view, write, edit, or delete journals.',
+                unlockJournal: 'Unlock journal',
+                lockJournal: 'Lock',
+                setJournalPassword: 'Set / change password',
+                journalPasswordPrompt: 'Enter your journal private password',
+                journalNewPasswordPrompt: 'Set a new journal private password',
+                journalCurrentPasswordPrompt: 'Enter your current journal password first',
+                journalPasswordSaved: 'Journal password saved',
+                journalPasswordWrong: 'Wrong password',
+                journalPasswordRequired: 'Set a journal password first',
+                journalUnlocked: 'Journal unlocked',
                 noShrineWishes: 'No shrines on your list yet. Add one.',
                 openInGoogleMap: 'Open in Google Maps',
                 deleteShrineWish: 'Delete shrine wish',
@@ -1888,7 +2172,7 @@
             STORAGE_KEYS.forEach(key => {
                 if (typeof data?.[key] === 'string') localStorage.setItem(key, data[key]);
             });
-            renderCalendar(); loadWorkouts(); loadLogs(); loadJournals(); loadDictionaryHistory(); loadShrines(); loadShrineWishes(); loadMeditations(); loadMeditationVideos(); renderReadingFilters(); loadBooks(); renderItemFilters(); loadItems();
+            renderCalendar(); loadWorkouts(); loadLogs(); loadJournals(); loadDictionaryHistory(); loadShrines(); loadShrineWishes(); loadMeditations(); loadMeditationVideos(); renderReadingFilters(); loadBooks(); renderItemFilters(); loadItems(); renderLinkFilters(); loadLinks();
         }
 
         function exportData() {
@@ -1950,16 +2234,30 @@
         const ITEM_CATEGORY_KEYS = { '全部': 'itemCatAll', '衣物': 'itemCatClothes', '美妝': 'itemCatBeauty', '書籍': 'itemCatBooks', '電子': 'itemCatTech', '家居': 'itemCatHome', '其他': 'itemCatOther' };
         const ITEM_STATUS_KEYS = { active: 'itemActive', stored: 'itemStored', declutter: 'itemDeclutter' };
         let itemFilter = '全部';
+        let linkFilter = '全部';
+        let trackingView = 'today';
+        const LINK_ICONS = {
+            link: '<path d="M10 13a5 5 0 0 0 7.1.1l2.8-2.8a5 5 0 0 0-7.1-7.1L11.2 5"/><path d="M14 11a5 5 0 0 0-7.1-.1L4.1 13.7a5 5 0 0 0 7.1 7.1l1.6-1.6"/>',
+            star: '<path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21 7 14.2 2 9.3l6.9-1L12 2z"/>',
+            book: '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5z"/><path d="M9 7h6M9 11h4"/>',
+            briefcase: '<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18"/>',
+            cart: '<circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h8.7a2 2 0 0 0 2-1.6L23 6H6"/>',
+            tool: '<path d="M14.7 6.3a4 4 0 0 0-5 5L3 18v3h3l6.7-6.7a4 4 0 0 0 5-5l-2.4 2.4-3-3 2.4-2.4z"/>',
+            spark: '<path d="M12 2v6M12 16v6M4.9 4.9l4.2 4.2M14.9 14.9l4.2 4.2M2 12h6M16 12h6M4.9 19.1l4.2-4.2M14.9 9.1l4.2-4.2"/>',
+            map: '<path d="M9 18 3 21V6l6-3 6 3 6-3v15l-6 3-6-3z"/><path d="M9 3v15M15 6v15"/>',
+            heart: '<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/>'
+        };
 
         document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('current-date').innerText = `${currentDate.getFullYear()}/${padDate(currentDate.getMonth()+1)}/${padDate(currentDate.getDate())}`;
             document.getElementById('shrine-date').valueAsDate = new Date();
             document.getElementById('item-date').valueAsDate = new Date();
+            document.getElementById('log-date').value = todayKey();
             applyLanguage();
 
             renderGoalSuggestions();
             renderWorkoutFilters();
-            initDB(); renderCalendar(); loadWorkouts(); loadLogs(); loadJournals(); loadDictionaryHistory(); loadShrines(); loadShrineWishes(); loadMeditations(); loadMeditationVideos(); renderReadingFilters(); loadBooks(); renderItemFilters(); loadItems();
+            initDB(); renderCalendar(); loadWorkouts(); loadLogs(); loadJournals(); loadDictionaryHistory(); loadShrines(); loadShrineWishes(); loadMeditations(); loadMeditationVideos(); renderReadingFilters(); loadBooks(); renderItemFilters(); loadItems(); renderLinkFilters(); loadLinks();
 
             document.getElementById('bgm-upload').addEventListener('change', function(e) {
                 if(e.target.files[0]) {
@@ -1986,13 +2284,19 @@
         });
 
         function switchTab(tabName) {
-            ['home', 'dictionary', 'goals', 'workout', 'log', 'journal', 'shrine', 'meditation', 'reading', 'items', 'settings'].forEach(tab => {
+            const trackingMap = { goals: 'calendar', workout: 'workout', log: 'log' };
+            if (trackingMap[tabName]) {
+                trackingView = trackingMap[tabName];
+                tabName = 'track';
+            }
+            ['home', 'track', 'dictionary', 'goals', 'workout', 'log', 'journal', 'shrine', 'meditation', 'reading', 'items', 'links', 'settings'].forEach(tab => {
                 document.getElementById(`page-${tab}`).classList.add('hidden');
             });
             document.getElementById(`page-${tabName}`).classList.remove('hidden');
             const isHome = tabName === 'home';
             document.getElementById('home-brand').classList.toggle('hidden', !isHome);
             document.getElementById('back-home').classList.toggle('hidden', isHome);
+            if (tabName === 'track') setTrackingPanel(trackingView);
             if (tabName === 'reading') renderReadingPage();
             window.scrollTo(0,0);
         }
@@ -2002,14 +2306,51 @@
             return (match && match[1]) ? match[1] : null;
         }
 
-        function recordVideoWatch(storeKey, index, label, event) {
-            if (event) event.preventDefault();
-            const videos = getStorageArray(storeKey);
-            const video = videos[index];
-            if (!video) return;
-            const url = safeExternalURL(video.url);
-            if (url === '#') return showToast(t('videoUrlInvalid'));
+        function updateTrackingOverview() {
+            const today = todayKey();
+            const todos = getStorageArray('notion_todos_v2').filter(todo => todo.date === today);
+            const done = todos.filter(todo => todo.completed).length;
+            const goalEl = document.getElementById('tracking-today-goals');
+            if (goalEl) goalEl.innerText = `${done}/${todos.length}`;
 
+            const logs = getStorageArray('notion_logs_v2');
+            const latestWeight = [...logs].reverse().find(log => log.weight);
+            const weightEl = document.getElementById('tracking-latest-weight');
+            if (weightEl) weightEl.innerText = latestWeight ? `${latestWeight.weight} kg` : '--';
+
+            const workoutEl = document.getElementById('tracking-workout-count');
+            if (workoutEl) workoutEl.innerText = getStorageArray('notion_workouts').length;
+
+            const videoCount = getTodayVideoViews().reduce((sum, item) => sum + (parseInt(item.count, 10) || 0), 0);
+            const videoEl = document.getElementById('tracking-today-videos');
+            if (videoEl) videoEl.innerText = videoCount;
+        }
+
+        function setTrackingPanel(view = 'today') {
+            trackingView = view;
+            document.querySelectorAll('[data-track-tab]').forEach(button => {
+                button.classList.toggle('active', button.dataset.trackTab === view);
+            });
+            const todayPanel = document.getElementById('tracking-today-panel');
+            const host = document.getElementById('tracking-panel-host');
+            ['page-goals', 'page-workout', 'page-log'].forEach(id => document.getElementById(id)?.classList.add('hidden'));
+            if (!todayPanel || !host) return;
+            todayPanel.classList.toggle('hidden', view !== 'today');
+            const panelMap = { calendar: 'page-goals', workout: 'page-workout', log: 'page-log' };
+            if (panelMap[view]) {
+                const panel = document.getElementById(panelMap[view]);
+                if (panel) {
+                    host.appendChild(panel);
+                    panel.classList.remove('hidden');
+                }
+            }
+            updateTrackingOverview();
+            if (view === 'calendar') renderCalendar();
+            if (view === 'workout') loadWorkouts();
+            if (view === 'log') loadLogs();
+        }
+
+        function saveVideoView(video, label) {
             const dateKey = todayKey();
             const title = video.title || t('unnamedVideo');
             const views = getStorageArray('notion_video_views');
@@ -2024,9 +2365,9 @@
 
             const logs = getStorageArray('notion_logs_v2');
             const localeDate = new Date().toLocaleDateString();
-            let log = logs.find(item => item.date === localeDate && item.autoVideo);
+            let log = logs.find(item => (item.dateKey === dateKey || item.date === localeDate) && item.autoVideo);
             if (!log) {
-                log = { date: localeDate, weight: '', food: '', image: null, videoViews: [], autoVideo: true };
+                log = { date: localeDate, dateKey, weight: '', food: '', image: null, videoViews: [], autoVideo: true };
                 logs.push(log);
             }
             if (!Array.isArray(log.videoViews)) log.videoViews = [];
@@ -2036,8 +2377,21 @@
             while (logs.length > 30) logs.shift();
             localStorage.setItem('notion_logs_v2', JSON.stringify(logs));
             loadLogs();
+            updateTrackingOverview();
             const currentCount = log.videoViews.find(v => v.title === title && v.type === label).count;
-            showToast(t('videoWatchedToast').replace('{label}', label).replace('{count}', currentCount));
+            return { title, count: currentCount };
+        }
+
+        function recordVideoWatch(storeKey, index, label, event) {
+            if (event) event.preventDefault();
+            const videos = getStorageArray(storeKey);
+            const video = videos[index];
+            if (!video) return;
+            const url = safeExternalURL(video.url);
+            if (url === '#') return showToast(t('videoUrlInvalid'));
+
+            const result = saveVideoView(video, label);
+            showToast(t('videoWatchedToast').replace('{label}', label).replace('{count}', result.count));
             window.open(url, '_blank', 'noopener,noreferrer');
         }
 
@@ -2508,9 +2862,11 @@
                 : lang === 'en'
                     ? `Today ${doneToday}/${todayTodos.length} | Month ${monthRate}%`
                     : `今日 ${doneToday}/${todayTodos.length}｜本月 ${monthRate}%`;
+            updateTrackingOverview();
         }
         function openDailyModal(dateStr) { selectedDateStr = dateStr; document.getElementById('daily-modal-title').innerText = `${dateStr} ${t('goalSuffix')}`; const modal = document.getElementById('modal-daily'); const content = document.getElementById('modal-daily-content'); renderDailyTodos(); modal.classList.remove('hidden'); modal.classList.add('flex'); setTimeout(() => { content.classList.remove('translate-y-full'); }, 10); }
         function closeDailyModal() { const modal = document.getElementById('modal-daily'); const content = document.getElementById('modal-daily-content'); content.classList.add('translate-y-full'); setTimeout(() => { modal.classList.add('hidden'); modal.classList.remove('flex'); }, 300); renderCalendar(); }
+        function openLogForSelectedDate() { const date = selectedDateStr || todayKey(); closeDailyModal(); switchTab('log'); const input = document.getElementById('log-date'); if (input) input.value = date; setTimeout(() => document.getElementById('log-weight')?.focus(), 320); }
         function renderGoalSuggestions() { const container = document.getElementById('goal-suggestions'); if (!container) return; const goals = GOAL_SUGGESTIONS[getLanguage()] || GOAL_SUGGESTIONS.zh; container.innerHTML = goals.map(goal => `<button type="button" onclick="addSuggestedGoal('${escapeHTML(goal)}')" class="suggestion-chip">${escapeHTML(goal)}</button>`).join(''); }
         function renderDailyTodos() { const todos = getStorageArray('notion_todos_v2'); const list = document.getElementById('daily-todo-list'); list.innerHTML = ''; const dayTodos = todos.map((t, i) => ({...t, originalIndex: i})).filter(t => t.date === selectedDateStr); updateCalendarCard(); if (dayTodos.length === 0) { list.innerHTML = `<div class="text-center py-6 text-notion-muted text-xs">${t('noDailyGoals')}</div>`; return; } dayTodos.forEach(todo => { const div = document.createElement('div'); div.className = "flex justify-between items-center bg-notion-hover border border-notion-border rounded p-2 mb-1.5"; div.innerHTML = `<label class="flex items-center gap-3 cursor-pointer flex-1 min-w-0"><input type="checkbox" ${todo.completed ? 'checked' : ''} onchange="toggleDailyTodo(${todo.originalIndex})" class="w-4 h-4 accent-notion-muted"><span class="text-sm text-notion-text truncate flex-1">${escapeHTML(todo.text)}</span></label><div class="flex items-center gap-1 shrink-0"><button onclick="editDailyTodo(${todo.originalIndex})" class="text-notion-muted opacity-60 active:opacity-100 text-xs px-2 py-1" aria-label="${t('edit')}">${t('edit')}</button><button onclick="deleteDailyTodo(${todo.originalIndex})" class="text-notion-muted opacity-40 active:opacity-100 text-xs px-2 py-1" aria-label="${t('deleteGoal')}">✕</button></div>`; list.appendChild(div); }); }
         function addDailyTodo() { const input = document.getElementById('daily-todo-input'); const text = input.value.trim(); if (text) { const todos = getStorageArray('notion_todos_v2'); todos.push({ text, date: selectedDateStr, completed: false }); localStorage.setItem('notion_todos_v2', JSON.stringify(todos)); input.value = ''; renderDailyTodos(); } }
@@ -2531,7 +2887,8 @@
             }).join('');
         }
         function setWorkoutFilter(part) { workoutFilter = part; renderWorkoutFilters(); loadWorkouts(); }
-        function loadWorkouts() { const workouts = getStorageArray('notion_workouts'); const filtered = workoutFilter === '全部' ? workouts : workouts.filter(w => (w.part || '未分類') === workoutFilter); const list = document.getElementById('workout-list'); renderWorkoutFilters(); list.innerHTML = ''; if (workouts.length === 0) { list.innerHTML = getEmptyStateHTML(t('noWorkoutVideos')); return; } if (filtered.length === 0) { list.innerHTML = getEmptyStateHTML(t('noWorkoutPartVideos')); return; } [...filtered].reverse().forEach((w) => { const realIdx = workouts.indexOf(w); const part = w.part || '未分類'; const thumbUrl = w.ytId ? `https://img.youtube.com/vi/${escapeHTML(w.ytId)}/hqdefault.jpg` : 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="%239B9B9B" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line><line x1="2" y1="7" x2="7" y2="7"></line><line x1="2" y1="17" x2="7" y2="17"></line><line x1="17" y1="17" x2="22" y2="17"></line><line x1="17" y1="7" x2="22" y2="7"></line></svg>'; const card = document.createElement('div'); card.className = "bg-notion-card border border-notion-border rounded flex flex-col relative group overflow-hidden shadow-sm"; card.innerHTML = `<div class="absolute top-1 right-1 flex gap-1 z-10"><button onclick="editWorkout(${realIdx})" class="bg-black/50 text-white rounded-full min-w-6 h-6 px-1.5 flex items-center justify-center text-[10px] opacity-0 group-hover:opacity-100 active:opacity-100 backdrop-blur-sm" aria-label="${t('edit')}">${t('edit')}</button><button onclick="deleteWorkout(${realIdx})" class="bg-black/50 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 active:opacity-100 backdrop-blur-sm" aria-label="${t('deleteVideo')}">✕</button></div><a href="${escapeHTML(safeExternalURL(w.url))}" target="_blank" rel="noopener noreferrer" onclick="recordVideoWatch('notion_workouts', ${realIdx}, '${t('workout')}', event)" class="flex flex-col h-full active:opacity-70 transition-opacity"><div class="aspect-video bg-notion-hover flex items-center justify-center overflow-hidden relative"><img src="${thumbUrl}" alt="" class="w-full h-full object-cover"><span class="absolute left-1.5 top-1.5 bg-white/90 border border-notion-border text-[10px] font-medium px-1.5 py-0.5 rounded">${escapeHTML(t(WORKOUT_PART_KEYS[part], part))}</span></div><div class="p-2 flex-1 flex flex-col justify-center gap-2"><h4 class="text-[11px] font-medium text-notion-text leading-tight line-clamp-2">${escapeHTML(w.title || t('unnamedVideo'))}</h4><span class="text-[10px] font-semibold tracking-wider uppercase border-t border-notion-border pt-1">${t('watchAndRecord')}</span></div></a>`; list.appendChild(card); }); }
+        function loadWorkouts() { const workouts = getStorageArray('notion_workouts'); const filtered = workoutFilter === '全部' ? workouts : workouts.filter(w => (w.part || '未分類') === workoutFilter); const list = document.getElementById('workout-list'); renderWorkoutFilters(); list.innerHTML = ''; if (workouts.length === 0) { list.innerHTML = getEmptyStateHTML(t('noWorkoutVideos')); return; } if (filtered.length === 0) { list.innerHTML = getEmptyStateHTML(t('noWorkoutPartVideos')); return; } [...filtered].reverse().forEach((w) => { const realIdx = workouts.indexOf(w); const part = w.part || '未分類'; const thumbUrl = w.ytId ? `https://img.youtube.com/vi/${escapeHTML(w.ytId)}/hqdefault.jpg` : 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="%239B9B9B" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line><line x1="2" y1="7" x2="7" y2="7"></line><line x1="2" y1="17" x2="7" y2="17"></line><line x1="17" y1="17" x2="22" y2="17"></line><line x1="17" y1="7" x2="22" y2="7"></line></svg>'; const card = document.createElement('div'); card.className = "bg-notion-card border border-notion-border rounded flex flex-col relative group overflow-hidden shadow-sm"; card.innerHTML = `<div class="absolute top-1 right-1 flex gap-1 z-10"><button onclick="editWorkout(${realIdx})" class="bg-black/50 text-white rounded-full min-w-6 h-6 px-1.5 flex items-center justify-center text-[10px] opacity-0 group-hover:opacity-100 active:opacity-100 backdrop-blur-sm" aria-label="${t('edit')}">${t('edit')}</button><button onclick="deleteWorkout(${realIdx})" class="bg-black/50 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 active:opacity-100 backdrop-blur-sm" aria-label="${t('deleteVideo')}">✕</button></div><a href="${escapeHTML(safeExternalURL(w.url))}" target="_blank" rel="noopener noreferrer" onclick="recordVideoWatch('notion_workouts', ${realIdx}, '${t('workout')}', event)" class="flex flex-col h-full active:opacity-70 transition-opacity"><div class="aspect-video bg-notion-hover flex items-center justify-center overflow-hidden relative"><img src="${thumbUrl}" alt="" class="w-full h-full object-cover"><span class="absolute left-1.5 top-1.5 bg-white/90 border border-notion-border text-[10px] font-medium px-1.5 py-0.5 rounded">${escapeHTML(t(WORKOUT_PART_KEYS[part], part))}</span></div><div class="p-2 flex-1 flex flex-col justify-center gap-2"><h4 class="text-[11px] font-medium text-notion-text leading-tight line-clamp-2">${escapeHTML(w.title || t('unnamedVideo'))}</h4><span class="text-[10px] font-semibold tracking-wider uppercase border-t border-notion-border pt-1">${t('watchAndRecord')}</span></div></a><button type="button" onclick="completeWorkoutVideo(${realIdx})" class="m-2 mt-0 py-2 text-[11px] font-semibold bg-notion-btn text-white rounded-notion active:scale-[0.98] transition-transform">${t('completeWorkout')}</button>`; list.appendChild(card); }); }
+        function completeWorkoutVideo(index) { const workouts = getStorageArray('notion_workouts'); const workout = workouts[index]; if (!workout) return; saveVideoView(workout, t('workout')); const todos = getStorageArray('notion_todos_v2'); const date = todayKey(); const title = workout.title || t('unnamedVideo'); const text = `${t('workoutDonePrefix')}：${title}`; const exists = todos.some(todo => todo.date === date && todo.text === text); if (!exists) todos.push({ text, date, completed: true, workoutDone: true }); else todos.forEach(todo => { if (todo.date === date && todo.text === text) todo.completed = true; }); localStorage.setItem('notion_todos_v2', JSON.stringify(todos)); renderCalendar(); updateCalendarCard(); if (selectedDateStr === date) renderDailyTodos(); showToast(t('workoutCompletedToast')); }
         function saveWorkout() { const title = document.getElementById('workout-title').value.trim(); const url = document.getElementById('workout-url').value.trim(); const part = document.getElementById('workout-part').value; if(url && safeExternalURL(url) !== '#') { const ytId = getYouTubeId(url); const workouts = getStorageArray('notion_workouts'); workouts.push({ title: title || t('unnamedVideo'), url, ytId, part }); localStorage.setItem('notion_workouts', JSON.stringify(workouts)); document.getElementById('workout-title').value = ''; document.getElementById('workout-url').value = ''; workoutFilter = part; loadWorkouts(); showToast(t('videoSaved')); } else { showToast(t('invalidLink')); } }
         function editWorkout(i) { const workouts = getStorageArray('notion_workouts'); if (!workouts[i]) return; const title = prompt(t('edit'), workouts[i].title || ''); if (title === null) return; const url = prompt('URL', workouts[i].url || ''); if (url === null) return; const part = prompt(t('selectWorkoutPart'), workouts[i].part || '全身'); if (part === null) return; if (url.trim() && safeExternalURL(url.trim()) !== '#') { workouts[i] = { ...workouts[i], title: title.trim() || t('unnamedVideo'), url: url.trim(), ytId: getYouTubeId(url.trim()), part: part.trim() || '全身' }; localStorage.setItem('notion_workouts', JSON.stringify(workouts)); loadWorkouts(); showToast(t('updated')); } else showToast(t('invalidLink')); }
         function deleteWorkout(i) { const w = getStorageArray('notion_workouts'); w.splice(i, 1); localStorage.setItem('notion_workouts', JSON.stringify(w)); loadWorkouts(); showToast(t('deleted')); }
@@ -2545,17 +2902,28 @@
         // ================= 其他功能 (日誌、日記、冥想紀錄) =================
         function compressImage(file, callback) { const reader = new FileReader(); reader.readAsDataURL(file); reader.onload = e => { const img = new Image(); img.src = e.target.result; img.onload = () => { const canvas = document.createElement('canvas'); const scale = img.width > 600 ? 600 / img.width : 1; canvas.width = img.width * scale; canvas.height = img.height * scale; canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height); callback(canvas.toDataURL('image/jpeg', 0.6)); } } }
         
-        function loadLogs() { renderTodayVideoSummary(); const logs = getStorageArray('notion_logs_v2'); const list = document.getElementById('log-list'); list.innerHTML = ''; if (logs.length === 0) { list.innerHTML = getEmptyStateHTML(t('noLogs')); return; } [...logs].reverse().forEach((log, i) => { const realIdx = logs.length - 1 - i; const div = document.createElement('div'); div.className = "bg-notion-card border border-notion-border rounded p-3 text-sm"; let imgHTML = log.image ? `<img src="${escapeHTML(log.image)}" alt="${t('photo')}" class="mt-2 rounded object-cover w-full max-h-48 border border-notion-border">` : ''; const videoHTML = Array.isArray(log.videoViews) && log.videoViews.length ? `<div class="mt-2 bg-notion-hover rounded p-2 space-y-1"><p class="text-[10px] text-notion-muted tracking-wider uppercase">${t('watchedVideos')}</p>${log.videoViews.map(v => `<p class="text-xs flex justify-between gap-3"><span class="truncate">${escapeHTML(v.type)}｜${escapeHTML(v.title)}</span><span class="font-semibold shrink-0">${escapeHTML(v.count)} ${getLanguage() === 'en' ? 'x' : '次'}</span></p>`).join('')}</div>` : ''; div.innerHTML = `<div class="flex justify-between items-start"><span class="text-[10px] text-notion-text font-medium bg-notion-hover px-2 py-0.5 rounded">${escapeHTML(log.date)}</span><div class="flex gap-1"><button onclick="editLog(${realIdx})" class="text-notion-muted opacity-60 active:opacity-100 text-xs py-1 px-2" aria-label="${t('edit')}">${t('edit')}</button><button onclick="deleteLog(${realIdx})" class="text-notion-muted opacity-40 active:opacity-100 text-xs py-1 px-2" aria-label="${t('deleteRecord')}">✕</button></div></div><div class="mt-2 space-y-1">${log.weight ? `<p class="text-sm">⚖️ ${escapeHTML(log.weight)} kg</p>` : ''}${log.food ? `<p class="text-sm">🍽️ ${escapeHTML(log.food)}</p>` : ''}</div>${videoHTML}${imgHTML}`; list.appendChild(div); }); }
-        function saveLog() { const w = document.getElementById('log-weight').value; const f = document.getElementById('log-food').value; const file = document.getElementById('log-image').files[0]; const d = new Date().toLocaleDateString(); const todaysViews = getTodayVideoViews().map(v => ({ title: v.title, type: v.type, count: v.count })); const save = (img) => { const l = getStorageArray('notion_logs_v2'); l.push({weight:w, food:f, image:img, date:d, videoViews:todaysViews}); if(l.length>30) l.shift(); localStorage.setItem('notion_logs_v2', JSON.stringify(l)); document.getElementById('log-weight').value=''; document.getElementById('log-food').value=''; document.getElementById('log-image').value=''; loadLogs(); showToast(t('recordSaved')); }; if(file) compressImage(file, save); else if(w||f||todaysViews.length) save(null); else showToast(t('fillContent')); }
-        function editLog(i) { const logs = getStorageArray('notion_logs_v2'); if (!logs[i]) return; const weight = prompt(t('weight'), logs[i].weight || ''); if (weight === null) return; const food = prompt(t('food'), logs[i].food || ''); if (food === null) return; logs[i].weight = weight.trim(); logs[i].food = food.trim(); localStorage.setItem('notion_logs_v2', JSON.stringify(logs)); loadLogs(); showToast(t('updated')); }
-        function deleteLog(i) { const l = getStorageArray('notion_logs_v2'); l.splice(i, 1); localStorage.setItem('notion_logs_v2', JSON.stringify(l)); loadLogs(); showToast(t('deleted')); }
+        function logDisplayDate(log) { return log.dateKey || log.date || ''; }
+        function hasWeightLog(log) { return !!(log.weight || log.food || log.image); }
+        function loadLogs() { renderTodayVideoSummary(); const logs = getStorageArray('notion_logs_v2'); const weightList = document.getElementById('weight-log-list'); const videoList = document.getElementById('video-log-list'); if (!weightList || !videoList) return; weightList.innerHTML = ''; videoList.innerHTML = ''; const weightLogs = logs.map((log, index) => ({ log, index })).filter(item => hasWeightLog(item.log)).reverse(); const videoLogs = logs.map((log, index) => ({ log, index })).filter(item => Array.isArray(item.log.videoViews) && item.log.videoViews.length).reverse(); if (!weightLogs.length) weightList.innerHTML = getEmptyStateHTML(t('noWeightLogs')); weightLogs.forEach(({ log, index }) => { const div = document.createElement('div'); div.className = "bg-notion-card border border-notion-border rounded p-3 text-sm"; const imgHTML = log.image ? `<img src="${escapeHTML(log.image)}" alt="${t('photo')}" class="mt-2 rounded object-cover w-full max-h-48 border border-notion-border">` : ''; div.innerHTML = `<div class="flex justify-between items-start"><span class="text-[10px] text-notion-text font-medium bg-notion-hover px-2 py-0.5 rounded">${escapeHTML(logDisplayDate(log))}</span><div class="flex gap-1"><button onclick="editLog(${index})" class="text-notion-muted opacity-60 active:opacity-100 text-xs py-1 px-2" aria-label="${t('edit')}">${t('edit')}</button><button onclick="deleteLog(${index})" class="text-notion-muted opacity-40 active:opacity-100 text-xs py-1 px-2" aria-label="${t('deleteRecord')}">✕</button></div></div><div class="mt-2 space-y-1">${log.weight ? `<p class="text-sm">⚖️ ${escapeHTML(log.weight)} kg</p>` : ''}${log.food ? `<p class="text-sm">🍽️ ${escapeHTML(log.food)}</p>` : ''}</div>${imgHTML}`; weightList.appendChild(div); }); if (!videoLogs.length) videoList.innerHTML = getEmptyStateHTML(t('noVideoLogs')); videoLogs.forEach(({ log, index }) => { const div = document.createElement('div'); div.className = "bg-notion-card border border-notion-border rounded p-3 text-sm"; div.innerHTML = `<div class="flex justify-between items-start mb-2"><span class="text-[10px] text-notion-text font-medium bg-notion-hover px-2 py-0.5 rounded">${escapeHTML(logDisplayDate(log))}</span></div><div class="space-y-2">${log.videoViews.map((v, videoIndex) => `<div class="flex items-center justify-between gap-2 bg-notion-hover rounded p-2"><div class="min-w-0"><p class="text-xs font-medium truncate">${escapeHTML(v.type)}｜${escapeHTML(v.title)}</p><p class="text-[11px] text-notion-muted">${escapeHTML(v.count)} ${getLanguage() === 'en' ? 'x' : '次'}</p></div><div class="flex gap-1 shrink-0"><button onclick="editLogVideo(${index}, ${videoIndex})" class="text-notion-muted opacity-60 active:opacity-100 text-xs px-2 py-1">${t('edit')}</button><button onclick="deleteLogVideo(${index}, ${videoIndex})" class="text-notion-muted opacity-40 active:opacity-100 text-xs px-2 py-1" aria-label="${t('deleteRecord')}">✕</button></div></div>`).join('')}</div>`; videoList.appendChild(div); }); }
+        function saveLog() { const w = document.getElementById('log-weight').value.trim(); const f = document.getElementById('log-food').value.trim(); const file = document.getElementById('log-image').files[0]; const dateKey = document.getElementById('log-date').value || todayKey(); const save = (img) => { const l = getStorageArray('notion_logs_v2'); l.push({weight:w, food:f, image:img, date:dateKey, dateKey}); if(l.length>60) l.shift(); localStorage.setItem('notion_logs_v2', JSON.stringify(l)); document.getElementById('log-weight').value=''; document.getElementById('log-food').value=''; document.getElementById('log-image').value=''; document.getElementById('log-date').value = todayKey(); loadLogs(); updateTrackingOverview(); showToast(t('recordSaved')); }; if(file) compressImage(file, save); else if(w||f) save(null); else showToast(t('fillContent')); }
+        function editLog(i) { const logs = getStorageArray('notion_logs_v2'); if (!logs[i]) return; const date = prompt(t('date'), logs[i].dateKey || logs[i].date || todayKey()); if (date === null) return; const weight = prompt(t('weight'), logs[i].weight || ''); if (weight === null) return; const food = prompt(t('food'), logs[i].food || ''); if (food === null) return; logs[i].dateKey = date.trim() || logs[i].dateKey || todayKey(); logs[i].date = logs[i].dateKey; logs[i].weight = weight.trim(); logs[i].food = food.trim(); localStorage.setItem('notion_logs_v2', JSON.stringify(logs)); loadLogs(); showToast(t('updated')); }
+        function editLogVideo(logIndex, videoIndex) { const logs = getStorageArray('notion_logs_v2'); const video = logs[logIndex]?.videoViews?.[videoIndex]; if (!video) return; const title = prompt(t('editVideoRecord'), video.title || ''); if (title === null) return; const type = prompt(t('watchedVideos'), video.type || t('workout')); if (type === null) return; const count = prompt(t('videoCountPrompt'), video.count || 1); if (count === null) return; video.title = title.trim() || video.title; video.type = type.trim() || video.type; video.count = Math.max(1, parseInt(count, 10) || 1); localStorage.setItem('notion_logs_v2', JSON.stringify(logs)); loadLogs(); showToast(t('updated')); }
+        function deleteLogVideo(logIndex, videoIndex) { const logs = getStorageArray('notion_logs_v2'); if (!logs[logIndex]?.videoViews) return; logs[logIndex].videoViews.splice(videoIndex, 1); if (!hasWeightLog(logs[logIndex]) && logs[logIndex].videoViews.length === 0) logs.splice(logIndex, 1); localStorage.setItem('notion_logs_v2', JSON.stringify(logs)); loadLogs(); showToast(t('deleted')); }
+        function deleteLog(i) { const l = getStorageArray('notion_logs_v2'); if (!l[i]) return; if (Array.isArray(l[i].videoViews) && l[i].videoViews.length) { l[i].weight = ''; l[i].food = ''; l[i].image = null; } else { l.splice(i, 1); } localStorage.setItem('notion_logs_v2', JSON.stringify(l)); loadLogs(); showToast(t('deleted')); }
 
-        function openJournalModal() { document.getElementById('modal-journal').classList.remove('hidden'); document.getElementById('modal-journal').classList.add('flex'); document.getElementById('journal-title').focus(); }
+        function hasJournalPassword() { return !!localStorage.getItem(JOURNAL_PASSWORD_KEY); }
+        function ensureJournalUnlocked() { if (!hasJournalPassword() || journalUnlocked) return true; unlockJournal(); return journalUnlocked; }
+        function unlockJournal() { const saved = localStorage.getItem(JOURNAL_PASSWORD_KEY); if (!saved) { setJournalPassword(); return; } const password = prompt(t('journalPasswordPrompt')); if (password === null) return; if (password === saved) { journalUnlocked = true; loadJournals(); showToast(t('journalUnlocked')); } else showToast(t('journalPasswordWrong')); }
+        function lockJournal() { journalUnlocked = false; loadJournals(); }
+        function setJournalPassword() { const saved = localStorage.getItem(JOURNAL_PASSWORD_KEY); if (saved) { const current = prompt(t('journalCurrentPasswordPrompt')); if (current === null) return; if (current !== saved) return showToast(t('journalPasswordWrong')); } const next = prompt(t('journalNewPasswordPrompt')); if (next === null) return; const password = next.trim(); if (!password) return showToast(t('fillContent')); localStorage.setItem(JOURNAL_PASSWORD_KEY, password); journalUnlocked = true; loadJournals(); showToast(t('journalPasswordSaved')); }
+        function getJournalLockHTML() { return `<div class="bg-notion-hover border border-notion-border rounded-notion p-4 space-y-3 text-sm"><div><p class="font-semibold text-notion-text">${t('journalLocked')}</p><p class="text-xs text-notion-muted leading-relaxed mt-1">${t('journalLockHint')}</p></div><div class="grid grid-cols-1 sm:grid-cols-2 gap-2"><button onclick="unlockJournal()" class="py-2.5 text-sm bg-notion-btn text-white rounded-notion font-medium">${t('unlockJournal')}</button><button onclick="setJournalPassword()" class="py-2.5 text-sm bg-white border border-notion-border text-notion-text rounded-notion font-medium">${t('setJournalPassword')}</button></div></div>`; }
+        function getJournalControlHTML() { return `<div class="flex items-center justify-between gap-2 bg-notion-hover border border-notion-border rounded-notion p-2 mb-2"><span class="text-[11px] text-notion-muted">${t('privatePassword')}</span><div class="flex gap-1"><button onclick="setJournalPassword()" class="text-[11px] border border-notion-border bg-white rounded px-2 py-1">${t('setJournalPassword')}</button>${hasJournalPassword() ? `<button onclick="lockJournal()" class="text-[11px] border border-notion-border bg-white rounded px-2 py-1">${t('lockJournal')}</button>` : ''}</div></div>`; }
+        function openJournalModal() { if (!ensureJournalUnlocked()) return; document.getElementById('modal-journal').classList.remove('hidden'); document.getElementById('modal-journal').classList.add('flex'); document.getElementById('journal-title').focus(); }
         function closeJournalModal() { document.getElementById('modal-journal').classList.add('hidden'); }
-        function loadJournals() { const j = getStorageArray('notion_journals_v2'); const l = document.getElementById('journal-list'); l.innerHTML = ''; if (j.length === 0) { l.innerHTML = getEmptyStateHTML(t('noJournals')); return; } [...j].reverse().forEach((x, i) => { const realIdx = j.length - 1 - i; const div = document.createElement('details'); div.className="bg-notion-card border border-notion-border rounded mb-2"; div.innerHTML=`<summary class="flex items-center gap-2 cursor-pointer text-sm font-medium p-3 relative"><svg class="w-3 h-3 text-notion-muted transition-transform flex-shrink-0" viewBox="0 0 100 100" aria-hidden="true"><polygon points="20,10 80,50 20,90" fill="currentColor"/></svg><span class="flex-1 truncate">${escapeHTML(x.title || t('untitled'))}</span><span class="text-[10px] text-notion-muted">${escapeHTML(x.date)}</span></summary><div class="px-4 pb-3 pt-1 text-sm text-notion-text relative border-t border-notion-hover mt-1"><p class="whitespace-pre-wrap leading-relaxed mt-2">${escapeHTML(x.content)}</p><div class="mt-3 text-right flex justify-end gap-2"><button onclick="editJournal(${realIdx})" class="text-xs text-notion-muted border border-notion-border px-3 py-1 rounded active:bg-notion-hover">${t('edit')}</button><button onclick="deleteJournal(${realIdx})" class="text-xs text-notion-muted border border-notion-border px-3 py-1 rounded active:bg-notion-hover">${t('delete')}</button></div></div>`; l.appendChild(div); }); }
-        function saveJournal() { const title = document.getElementById('journal-title').value.trim(); const c = document.getElementById('journal-content').value.trim(); if(c) { const j = getStorageArray('notion_journals_v2'); j.push({title, content:c, date:new Date().toLocaleDateString()}); localStorage.setItem('notion_journals_v2', JSON.stringify(j)); document.getElementById('journal-title').value=''; document.getElementById('journal-content').value=''; closeJournalModal(); loadJournals(); showToast(t('journalSaved')); } }
-        function editJournal(i) { const journals = getStorageArray('notion_journals_v2'); if (!journals[i]) return; const title = prompt(t('untitled'), journals[i].title || ''); if (title === null) return; const content = prompt(t('journalContentPh'), journals[i].content || ''); if (content === null) return; if (!content.trim()) return showToast(t('fillContent')); journals[i].title = title.trim(); journals[i].content = content.trim(); localStorage.setItem('notion_journals_v2', JSON.stringify(journals)); loadJournals(); showToast(t('updated')); }
-        function deleteJournal(i) { const j = getStorageArray('notion_journals_v2'); j.splice(i, 1); localStorage.setItem('notion_journals_v2', JSON.stringify(j)); loadJournals(); showToast(t('deleted')); }
+        function loadJournals() { const j = getStorageArray('notion_journals_v2'); const l = document.getElementById('journal-list'); l.innerHTML = ''; if (hasJournalPassword() && !journalUnlocked) { l.innerHTML = getJournalLockHTML(); return; } l.innerHTML = getJournalControlHTML(); if (j.length === 0) { l.insertAdjacentHTML('beforeend', getEmptyStateHTML(t('noJournals'))); return; } [...j].reverse().forEach((x, i) => { const realIdx = j.length - 1 - i; const div = document.createElement('details'); div.className="bg-notion-card border border-notion-border rounded mb-2"; div.innerHTML=`<summary class="flex items-center gap-2 cursor-pointer text-sm font-medium p-3 relative"><svg class="w-3 h-3 text-notion-muted transition-transform flex-shrink-0" viewBox="0 0 100 100" aria-hidden="true"><polygon points="20,10 80,50 20,90" fill="currentColor"/></svg><span class="flex-1 truncate">${escapeHTML(x.title || t('untitled'))}</span><span class="text-[10px] text-notion-muted">${escapeHTML(x.date)}</span></summary><div class="px-4 pb-3 pt-1 text-sm text-notion-text relative border-t border-notion-hover mt-1"><p class="whitespace-pre-wrap leading-relaxed mt-2">${escapeHTML(x.content)}</p><div class="mt-3 text-right flex justify-end gap-2"><button onclick="editJournal(${realIdx})" class="text-xs text-notion-muted border border-notion-border px-3 py-1 rounded active:bg-notion-hover">${t('edit')}</button><button onclick="deleteJournal(${realIdx})" class="text-xs text-notion-muted border border-notion-border px-3 py-1 rounded active:bg-notion-hover">${t('delete')}</button></div></div>`; l.appendChild(div); }); }
+        function saveJournal() { if (!ensureJournalUnlocked()) return; const title = document.getElementById('journal-title').value.trim(); const c = document.getElementById('journal-content').value.trim(); if(c) { const j = getStorageArray('notion_journals_v2'); j.push({title, content:c, date:new Date().toLocaleDateString()}); localStorage.setItem('notion_journals_v2', JSON.stringify(j)); document.getElementById('journal-title').value=''; document.getElementById('journal-content').value=''; closeJournalModal(); loadJournals(); showToast(t('journalSaved')); } }
+        function editJournal(i) { if (!ensureJournalUnlocked()) return; const journals = getStorageArray('notion_journals_v2'); if (!journals[i]) return; const title = prompt(t('untitled'), journals[i].title || ''); if (title === null) return; const content = prompt(t('journalContentPh'), journals[i].content || ''); if (content === null) return; if (!content.trim()) return showToast(t('fillContent')); journals[i].title = title.trim(); journals[i].content = content.trim(); localStorage.setItem('notion_journals_v2', JSON.stringify(journals)); loadJournals(); showToast(t('updated')); }
+        function deleteJournal(i) { if (!ensureJournalUnlocked()) return; const j = getStorageArray('notion_journals_v2'); j.splice(i, 1); localStorage.setItem('notion_journals_v2', JSON.stringify(j)); loadJournals(); showToast(t('deleted')); }
 
         // ================= 日語字典 =================
         function getDictionaryHistory() {
@@ -3222,6 +3590,101 @@
         function deleteReadingNote(i) { const notes = getStorageArray('notion_reading_notes'); notes.splice(i, 1); localStorage.setItem('notion_reading_notes', JSON.stringify(notes)); renderReadingNotes(document.getElementById('reading-content')); showToast(t('deleted')); }
 
         // ================= 擁有物品清單 =================
+        // ================= 常用連結 =================
+        function normalizeLinkURL(url) {
+            const value = String(url || '').trim();
+            if (!value) return '#';
+            return safeExternalURL(/^https?:\/\//i.test(value) ? value : `https://${value}`);
+        }
+        function getLinkIconHTML(icon = 'link') {
+            return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5">${LINK_ICONS[icon] || LINK_ICONS.link}</svg>`;
+        }
+        function getLinkCategories(links = getStorageArray('notion_links')) {
+            return ['全部', ...Array.from(new Set(links.map(link => (link.category || '').trim()).filter(Boolean)))];
+        }
+        function renderLinkFilters() {
+            const container = document.getElementById('link-filter');
+            const datalist = document.getElementById('link-category-options');
+            if (!container) return;
+            const links = getStorageArray('notion_links');
+            const categories = getLinkCategories(links);
+            if (!categories.includes(linkFilter)) linkFilter = '全部';
+            container.innerHTML = categories.map(category => {
+                const count = category === '全部' ? links.length : links.filter(link => (link.category || '') === category).length;
+                const active = linkFilter === category;
+                const label = category === '全部' ? t('linkCatAll') : category;
+                return `<button type="button" onclick="setLinkFilter(${jsString(category)})" class="shrink-0 text-[11px] border rounded-full px-3 py-1.5 ${active ? 'bg-notion-btn text-white border-notion-btn' : 'bg-white text-notion-text border-notion-border'}">${escapeHTML(label)}${count ? ` ${count}` : ''}</button>`;
+            }).join('');
+            if (datalist) datalist.innerHTML = categories.filter(category => category !== '全部').map(category => `<option value="${escapeHTML(category)}"></option>`).join('');
+        }
+        function setLinkFilter(category) { linkFilter = category; renderLinkFilters(); loadLinks(); }
+        function loadLinks() {
+            const links = getStorageArray('notion_links');
+            const filtered = linkFilter === '全部' ? links : links.filter(link => (link.category || '') === linkFilter);
+            const list = document.getElementById('link-list');
+            if (!list) return;
+            renderLinkFilters();
+            list.innerHTML = '';
+            if (!links.length) { list.innerHTML = getEmptyStateHTML(t('noLinks')); return; }
+            if (!filtered.length) { list.innerHTML = getEmptyStateHTML(t('noLinks')); return; }
+            [...filtered].reverse().forEach(link => {
+                const realIdx = links.indexOf(link);
+                const url = normalizeLinkURL(link.url);
+                const div = document.createElement('div');
+                div.className = 'bg-notion-card border border-notion-border rounded p-3 text-sm';
+                div.innerHTML = `<div class="flex gap-3 items-start"><button onclick="openLink(${realIdx})" class="w-11 h-11 rounded-notion bg-notion-hover border border-notion-border flex items-center justify-center shrink-0 text-notion-text active:scale-95" aria-label="${t('openLink')}">${getLinkIconHTML(link.icon)}</button><div class="flex-1 min-w-0"><div class="flex justify-between gap-3 items-start"><div class="min-w-0"><p class="font-semibold text-notion-text truncate">${escapeHTML(link.title || link.url)}</p><p class="text-[11px] text-notion-muted truncate mt-0.5">${escapeHTML(link.category || t('uncategorized'))}｜${escapeHTML(url)}</p></div><div class="flex gap-1 shrink-0"><button onclick="editLink(${realIdx})" class="text-notion-muted opacity-60 active:opacity-100 text-xs px-2 py-1">${t('edit')}</button><button onclick="deleteLink(${realIdx})" class="text-notion-muted opacity-40 active:opacity-100 text-xs px-2 py-1" aria-label="${t('deleteLink')}">✕</button></div></div>${link.note ? `<p class="mt-2 text-xs leading-relaxed bg-notion-hover rounded p-2 whitespace-pre-wrap">${escapeHTML(link.note)}</p>` : ''}<button onclick="openLink(${realIdx})" class="mt-2 w-full py-2 text-xs bg-notion-btn text-white rounded-notion font-medium">${t('openLink')}</button></div></div>`;
+                list.appendChild(div);
+            });
+        }
+        function saveLink() {
+            const title = document.getElementById('link-title').value.trim();
+            const rawUrl = document.getElementById('link-url').value.trim();
+            const url = normalizeLinkURL(rawUrl);
+            if (!title || url === '#') return showToast(t('fillLinkContent'));
+            const category = document.getElementById('link-category').value.trim() || t('uncategorized');
+            const icon = document.getElementById('link-icon').value || 'link';
+            const note = document.getElementById('link-note').value.trim();
+            const links = getStorageArray('notion_links');
+            links.push({ title, url, category, icon, note, createdAt: new Date().toISOString() });
+            localStorage.setItem('notion_links', JSON.stringify(links));
+            document.getElementById('link-title').value = '';
+            document.getElementById('link-url').value = '';
+            document.getElementById('link-category').value = '';
+            document.getElementById('link-icon').value = 'link';
+            document.getElementById('link-note').value = '';
+            linkFilter = category;
+            loadLinks();
+            showToast(t('linkSaved'));
+        }
+        function openLink(i) {
+            const links = getStorageArray('notion_links');
+            if (!links[i]) return;
+            const url = normalizeLinkURL(links[i].url);
+            if (url === '#') return showToast(t('invalidLink'));
+            window.open(url, '_blank', 'noopener,noreferrer');
+        }
+        function editLink(i) {
+            const links = getStorageArray('notion_links');
+            if (!links[i]) return;
+            const title = prompt(t('linkTitlePh'), links[i].title || '');
+            if (title === null) return;
+            const rawUrl = prompt(t('linkUrlPh'), links[i].url || '');
+            if (rawUrl === null) return;
+            const url = normalizeLinkURL(rawUrl);
+            const category = prompt(t('linkCategoryPh'), links[i].category || '');
+            if (category === null) return;
+            const icon = prompt(t('linkIconPrompt'), links[i].icon || 'link');
+            if (icon === null) return;
+            const note = prompt(t('linkNotePh'), links[i].note || '');
+            if (note === null) return;
+            if (!title.trim() || url === '#') return showToast(t('fillLinkContent'));
+            links[i] = { ...links[i], title: title.trim(), url, category: category.trim() || t('uncategorized'), icon: LINK_ICONS[icon.trim()] ? icon.trim() : (links[i].icon || 'link'), note: note.trim(), updatedAt: new Date().toISOString() };
+            localStorage.setItem('notion_links', JSON.stringify(links));
+            loadLinks();
+            showToast(t('updated'));
+        }
+        function deleteLink(i) { const links = getStorageArray('notion_links'); links.splice(i, 1); localStorage.setItem('notion_links', JSON.stringify(links)); loadLinks(); showToast(t('deleted')); }
+
         function getItemCategoryLabel(category) { return t(ITEM_CATEGORY_KEYS[category] || 'itemCatOther'); }
         function getItemStatusLabel(status) { return t(ITEM_STATUS_KEYS[status] || 'itemActive'); }
         function renderItemFilters() {
