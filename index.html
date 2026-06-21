@@ -85,12 +85,12 @@
         
         .stamp-yoku {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-15deg);
-            border: 1.5px solid #D94F4F; color: #D94F4F; border-radius: 50%;
+            border: 1.5px solid #2E2C27; color: #2E2C27; border-radius: 50%;
             font-size: 8px; width: 40px; height: 40px;
             display: flex; align-items: center; justify-content: center;
             text-align: center; line-height: 1.1; font-weight: 700;
-            opacity: 0.85; pointer-events: none;
-            box-shadow: inset 0 0 0 1px rgba(217, 79, 79, 0.2); letter-spacing: -0.5px;
+            opacity: 0.68; pointer-events: none;
+            box-shadow: inset 0 0 0 1px rgba(46, 44, 39, 0.14); letter-spacing: -0.5px;
         }
         .app-mark {
             width: 28px;
@@ -183,9 +183,9 @@
             margin-right: -20px;
             margin-top: -20px;
             min-height: calc(100dvh - 58px);
-            background: #F8F7F1;
-            color: #1F2A20;
-            padding: 28px 24px 92px;
+            background: #FFFFFF;
+            color: #37352F;
+            padding: 24px 20px 92px;
             position: relative;
         }
         .reading-top {
@@ -196,53 +196,56 @@
             margin-bottom: 26px;
         }
         .reading-title {
-            color: #2E5A35;
-            font-size: clamp(34px, 11vw, 48px);
-            line-height: 0.95;
+            color: #37352F;
+            font-size: clamp(28px, 8vw, 36px);
+            line-height: 1.05;
             font-weight: 700;
             letter-spacing: 0;
         }
         .reading-subtitle {
-            color: #1F2A20;
-            font-size: 18px;
+            color: #9B9B9B;
+            font-size: var(--ui-base);
             line-height: 1.35;
-            margin-top: 12px;
+            margin-top: 8px;
         }
         .reading-gear {
             width: 42px;
             height: 42px;
-            border-radius: 999px;
-            color: #516255;
+            border-radius: 8px;
+            border: 1px solid #EAEAEA;
+            background: #F1F1EF;
+            color: #37352F;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             flex: 0 0 auto;
         }
         .reading-card {
-            background: rgba(255,255,255,0.82);
-            border: 1px solid #E6E2DA;
-            border-radius: 22px;
-            box-shadow: 0 12px 28px rgba(34, 43, 32, 0.08);
+            background: #FFFFFF;
+            border: 1px solid #EAEAEA;
+            border-radius: 8px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
         }
         .reading-kicker {
-            color: #2E5A35;
+            color: #9B9B9B;
             font-size: 12px;
             font-weight: 800;
-            letter-spacing: 0.16em;
+            letter-spacing: 0.12em;
             text-transform: uppercase;
         }
         .book-cover {
             width: 96px;
             aspect-ratio: 0.68;
             border-radius: 8px;
-            background: linear-gradient(160deg, #FFFDF2, #E8E3D8);
-            box-shadow: 0 14px 26px rgba(31,42,32,0.18);
+            background: #F1F1EF;
+            border: 1px solid #EAEAEA;
+            box-shadow: none;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
             padding: 10px;
-            color: #1F2A20;
+            color: #37352F;
             font-family: Georgia, serif;
             font-size: 15px;
             line-height: 1.05;
@@ -264,14 +267,14 @@
         }
         .reading-progress {
             height: 5px;
-            background: #E5E3DC;
+            background: #EAEAEA;
             border-radius: 999px;
             overflow: hidden;
         }
         .reading-progress > span {
             display: block;
             height: 100%;
-            background: #4A764A;
+            background: #2E2C27;
             border-radius: inherit;
         }
         .reading-bottom-nav {
@@ -280,19 +283,19 @@
             bottom: 0;
             transform: translateX(-50%);
             width: min(100%, 448px);
-            background: rgba(255,255,255,0.92);
+            background: rgba(255,255,255,0.98);
             backdrop-filter: blur(16px);
-            border-top: 1px solid #E6E2DA;
+            border-top: 1px solid #EAEAEA;
             display: grid;
             grid-template-columns: repeat(5, 1fr);
             align-items: end;
             gap: 0;
             padding: 8px 8px calc(8px + env(safe-area-inset-bottom));
-            z-index: 18;
+            z-index: 10;
         }
         .reading-nav-btn {
             min-height: 58px;
-            border-radius: 22px;
+            border-radius: 8px;
             color: #8C8C89;
             display: flex;
             flex-direction: column;
@@ -307,35 +310,85 @@
             height: 24px;
         }
         .reading-nav-btn.active {
-            background: #EEF6EA;
-            color: #2E5A35;
+            background: #F1F1EF;
+            color: #37352F;
         }
         .reading-add-btn {
             width: 72px;
             height: 72px;
             margin: -28px auto 0;
             border-radius: 999px;
-            background: #477344;
+            background: #2E2C27;
             color: white;
-            border: 8px solid white;
-            box-shadow: 0 8px 22px rgba(31,42,32,0.18);
+            border: 6px solid white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.14);
             font-size: 34px;
             line-height: 1;
         }
         .reading-search {
             width: 100%;
-            border: 1px solid #E1DDD4;
-            border-radius: 12px;
-            background: #FFFDF9;
+            border: 1px solid #EAEAEA;
+            border-radius: 8px;
+            background: #FFFFFF;
             padding: 12px 14px;
-            color: #1F2A20;
+            color: #37352F;
             font-size: 15px;
             outline: none;
         }
         .vocab-entry + .vocab-entry {
-            border-top: 1px solid #E6E2DA;
+            border-top: 1px solid #EAEAEA;
             margin-top: 22px;
             padding-top: 22px;
+        }
+        .upload-control {
+            min-height: 44px;
+            border: 1px solid #EAEAEA;
+            border-radius: 8px;
+            background: #F7F7F5;
+            color: #37352F;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 10px 12px;
+            cursor: pointer;
+        }
+        .upload-control:active {
+            background: #F1F1EF;
+        }
+        .upload-name {
+            color: #9B9B9B;
+            font-size: 12px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 52%;
+        }
+        #page-reading [class*="text-[#2E5A35]"],
+        #page-reading [class*="text-[#477344]"],
+        #page-reading [class*="text-[#172017]"],
+        #page-reading [class*="text-[#1F2A20]"] {
+            color: #37352F !important;
+        }
+        #page-reading [class*="text-[#7A7A75]"],
+        #page-reading [class*="text-[#677067]"],
+        #page-reading [class*="text-[#555B55]"] {
+            color: #9B9B9B !important;
+        }
+        #page-reading [class*="bg-[#477344]"],
+        #page-reading [class*="bg-[#2E5A35]"] {
+            background: #2E2C27 !important;
+            color: #FFFFFF !important;
+        }
+        #page-reading [class*="bg-[#EEF6EA]"],
+        #page-reading [class*="bg-[#EAF4E3]"],
+        #page-reading [class*="bg-[#EFF8ED]"],
+        #page-reading [class*="bg-[#F0F4EF]"] {
+            background: #F1F1EF !important;
+            color: #37352F !important;
+        }
+        #page-reading [class*="border-[#"] {
+            border-color: #EAEAEA !important;
         }
     </style>
 </head>
@@ -486,7 +539,11 @@
                 <div id="today-video-summary" class="hidden text-xs bg-notion-hover border border-notion-border rounded p-3 leading-relaxed"></div>
                 <div class="flex items-center gap-3 pt-1">
                     <label for="log-image" class="text-sm w-12 text-notion-text font-medium" data-i18n="photo">照片</label>
-                    <input type="file" id="log-image" accept="image/*" class="flex-1 text-xs text-notion-muted file:mr-2 file:py-1.5 file:px-3 file:border-0 file:text-xs file:bg-notion-hover file:text-notion-text file:rounded cursor-pointer">
+                    <label class="upload-control flex-1">
+                        <span data-i18n="chooseFile">選擇檔案</span>
+                        <span class="upload-name" id="log-image-name" data-i18n="noFileSelected">尚未選擇</span>
+                        <input type="file" id="log-image" accept="image/*" class="sr-only" data-file-label="log-image-name">
+                    </label>
                 </div>
                 <button onclick="saveLog()" class="w-full py-3 text-sm bg-notion-btn text-white rounded-notion font-medium hover:opacity-90 mt-2 active:scale-[0.98] transition-transform" data-i18n="saveRecord">儲存紀錄</button>
             </div>
@@ -543,7 +600,11 @@
                 </div>
                 <div class="flex items-center gap-3 pt-1">
                     <label for="shrine-image" class="text-sm w-12 text-notion-text font-medium" data-i18n="goshuin">朱印</label>
-                    <input type="file" id="shrine-image" accept="image/*" class="flex-1 text-xs text-notion-muted file:mr-2 file:py-1.5 file:px-3 file:border-0 file:text-xs file:bg-notion-hover file:text-notion-text file:rounded cursor-pointer">
+                    <label class="upload-control flex-1">
+                        <span data-i18n="chooseFile">選擇檔案</span>
+                        <span class="upload-name" id="shrine-image-name" data-i18n="noFileSelected">尚未選擇</span>
+                        <input type="file" id="shrine-image" accept="image/*" class="sr-only" data-file-label="shrine-image-name">
+                    </label>
                 </div>
                 <button onclick="saveShrine()" class="w-full py-3 text-sm bg-notion-btn text-white rounded-notion font-medium hover:opacity-90 mt-2 active:scale-[0.98] transition-transform" data-i18n="saveRecord">儲存紀錄</button>
             </div>
@@ -570,7 +631,11 @@
                 <div class="pt-4 border-t border-notion-border mt-4">
                     <div class="flex flex-col gap-3 items-center">
                         <span id="music-status" class="text-xs text-notion-muted bg-notion-hover px-3 py-1 rounded" data-i18n="musicNotLoaded">未載入預設本地音樂</span>
-                        <input type="file" id="bgm-upload" accept="audio/*" class="w-full text-xs text-notion-muted file:mr-2 file:py-1.5 file:px-3 file:border-0 file:text-xs file:bg-notion-hover file:text-notion-text file:rounded cursor-pointer">
+                        <label class="upload-control w-full">
+                            <span data-i18n="chooseMusicFile">選擇音樂檔</span>
+                            <span class="upload-name" id="bgm-upload-name" data-i18n="noFileSelected">尚未選擇</span>
+                            <input type="file" id="bgm-upload" accept="audio/*" class="sr-only" data-file-label="bgm-upload-name">
+                        </label>
                         <button onclick="saveMusicToDB()" class="w-full py-2 text-sm bg-notion-hover border border-notion-border text-notion-text rounded-notion active:bg-gray-200" data-i18n="saveDefaultMusic">儲存為預設本地音樂</button>
                         <audio id="med-audio" loop></audio>
                     </div>
@@ -671,7 +736,11 @@
                 <textarea id="item-note" rows="2" placeholder="其他備註或整理提醒..." data-i18n-placeholder="itemNotePh" class="w-full text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted resize-none"></textarea>
                 <label class="block w-full text-xs text-notion-muted bg-notion-hover border border-notion-border rounded px-3 py-2 cursor-pointer">
                     <span data-i18n="itemPhoto">物品照片</span>
-                    <input type="file" id="item-image" accept="image/*" class="mt-2 w-full text-xs text-notion-muted file:mr-2 file:py-1.5 file:px-3 file:border-0 file:text-xs file:bg-white file:text-notion-text file:rounded cursor-pointer">
+                    <span class="upload-control mt-2">
+                        <span data-i18n="chooseFile">選擇檔案</span>
+                        <span class="upload-name" id="item-image-name" data-i18n="noFileSelected">尚未選擇</span>
+                    </span>
+                    <input type="file" id="item-image" accept="image/*" class="sr-only" data-file-label="item-image-name">
                 </label>
                 <button onclick="saveItem()" class="w-full py-3 text-sm bg-notion-btn text-white rounded-notion font-medium active:scale-[0.98] transition-transform" data-i18n="saveItem">儲存物品</button>
             </div>
@@ -874,6 +943,35 @@
             return (I18N[lang] && I18N[lang][key]) || I18N.zh[key] || fallback || key;
         }
 
+        function updateFileLabel(inputId) {
+            const input = document.getElementById(inputId);
+            if (!input) return;
+            const label = input.dataset.fileLabel ? document.getElementById(input.dataset.fileLabel) : null;
+            if (!label) return;
+            label.innerText = input.files?.[0]?.name || t('noFileSelected');
+        }
+
+        function bindFileLabel(inputId) {
+            const input = document.getElementById(inputId);
+            if (!input) return;
+            input.addEventListener('change', () => updateFileLabel(inputId));
+            updateFileLabel(inputId);
+        }
+
+        function closeTransientOverlays() {
+            [
+                { modal: 'modal-daily', content: 'modal-daily-content' },
+                { modal: 'modal-sync' },
+                { modal: 'modal-journal', content: 'modal-journal-content' }
+            ].forEach(({ modal, content }) => {
+                const modalEl = document.getElementById(modal);
+                if (!modalEl) return;
+                modalEl.classList.add('hidden');
+                modalEl.classList.remove('flex');
+                if (content) document.getElementById(content)?.classList.add('translate-y-full');
+            });
+        }
+
         function applyLanguage() {
             const lang = getLanguage();
             const dict = I18N[lang] || I18N.zh;
@@ -926,6 +1024,7 @@
             loadItems();
             renderLinkFilters();
             loadLinks();
+            ['log-image', 'shrine-image', 'item-image', 'bgm-upload'].forEach(updateFileLabel);
         }
 
         function setLanguage(lang) {
@@ -1055,6 +1154,9 @@
                 food: '飲食',
                 foodPh: '記錄飲食內容...',
                 photo: '照片',
+                chooseFile: '選擇檔案',
+                chooseMusicFile: '選擇音樂檔',
+                noFileSelected: '尚未選擇',
                 saveRecord: '儲存紀錄',
                 history: '歷史紀錄',
                 addStatusRecord: '新增狀態紀錄',
@@ -1451,6 +1553,9 @@
                 food: '食事',
                 foodPh: '食事内容を記録...',
                 photo: '写真',
+                chooseFile: 'ファイルを選択',
+                chooseMusicFile: '音楽ファイルを選択',
+                noFileSelected: '未選択',
                 saveRecord: '記録を保存',
                 history: '履歴',
                 addStatusRecord: '状態記録を追加',
@@ -1847,6 +1952,9 @@
                 food: 'Meals',
                 foodPh: 'Record what you ate...',
                 photo: 'Photo',
+                chooseFile: 'Choose file',
+                chooseMusicFile: 'Choose audio',
+                noFileSelected: 'No file selected',
                 saveRecord: 'Save record',
                 history: 'History',
                 addStatusRecord: 'Add status record',
@@ -2297,6 +2405,7 @@
             renderGoalSuggestions();
             renderWorkoutFilters();
             initDB(); renderCalendar(); loadWorkouts(); loadLogs(); loadJournals(); loadDictionaryHistory(); loadShrines(); loadShrineWishes(); loadMeditations(); loadMeditationVideos(); renderReadingFilters(); loadBooks(); renderItemFilters(); loadItems(); renderLinkFilters(); loadLinks();
+            ['log-image', 'shrine-image', 'item-image', 'bgm-upload'].forEach(bindFileLabel);
 
             document.getElementById('bgm-upload').addEventListener('change', function(e) {
                 if(e.target.files[0]) {
@@ -2323,6 +2432,7 @@
         });
 
         function switchTab(tabName) {
+            closeTransientOverlays();
             const trackingMap = { goals: 'calendar', workout: 'workout', log: 'log' };
             if (trackingMap[tabName]) {
                 trackingView = trackingMap[tabName];
@@ -2367,6 +2477,7 @@
         }
 
         function setTrackingPanel(view = 'today') {
+            closeTransientOverlays();
             trackingView = view;
             document.querySelectorAll('[data-track-tab]').forEach(button => {
                 button.classList.toggle('active', button.dataset.trackTab === view);
@@ -2944,8 +3055,8 @@
         
         function logDisplayDate(log) { return log.dateKey || log.date || ''; }
         function hasWeightLog(log) { return !!(log.weight || log.food || log.image); }
-        function loadLogs() { renderTodayVideoSummary(); const logs = getStorageArray('notion_logs_v2'); const weightList = document.getElementById('weight-log-list'); const videoList = document.getElementById('video-log-list'); if (!weightList || !videoList) return; weightList.innerHTML = ''; videoList.innerHTML = ''; const weightLogs = logs.map((log, index) => ({ log, index })).filter(item => hasWeightLog(item.log)).reverse(); const videoLogs = logs.map((log, index) => ({ log, index })).filter(item => Array.isArray(item.log.videoViews) && item.log.videoViews.length).reverse(); if (!weightLogs.length) weightList.innerHTML = getEmptyStateHTML(t('noWeightLogs')); weightLogs.forEach(({ log, index }) => { const div = document.createElement('div'); div.className = "bg-notion-card border border-notion-border rounded p-3 text-sm"; const imgHTML = log.image ? `<img src="${escapeHTML(log.image)}" alt="${t('photo')}" class="mt-2 rounded object-cover w-full max-h-48 border border-notion-border">` : ''; div.innerHTML = `<div class="flex justify-between items-start"><span class="text-[10px] text-notion-text font-medium bg-notion-hover px-2 py-0.5 rounded">${escapeHTML(logDisplayDate(log))}</span><div class="flex gap-1"><button onclick="editLog(${index})" class="text-notion-muted opacity-60 active:opacity-100 text-xs py-1 px-2" aria-label="${t('edit')}">${t('edit')}</button><button onclick="deleteLog(${index})" class="text-notion-muted opacity-40 active:opacity-100 text-xs py-1 px-2" aria-label="${t('deleteRecord')}">✕</button></div></div><div class="mt-2 space-y-1">${log.weight ? `<p class="text-sm">⚖️ ${escapeHTML(log.weight)} kg</p>` : ''}${log.food ? `<p class="text-sm">🍽️ ${escapeHTML(log.food)}</p>` : ''}</div>${imgHTML}`; weightList.appendChild(div); }); if (!videoLogs.length) videoList.innerHTML = getEmptyStateHTML(t('noVideoLogs')); videoLogs.forEach(({ log, index }) => { const div = document.createElement('div'); div.className = "bg-notion-card border border-notion-border rounded p-3 text-sm"; div.innerHTML = `<div class="flex justify-between items-start mb-2"><span class="text-[10px] text-notion-text font-medium bg-notion-hover px-2 py-0.5 rounded">${escapeHTML(logDisplayDate(log))}</span></div><div class="space-y-2">${log.videoViews.map((v, videoIndex) => `<div class="flex items-center justify-between gap-2 bg-notion-hover rounded p-2"><div class="min-w-0"><p class="text-xs font-medium truncate">${escapeHTML(v.type)}｜${escapeHTML(v.title)}</p><p class="text-[11px] text-notion-muted">${escapeHTML(v.count)} ${getLanguage() === 'en' ? 'x' : '次'}</p></div><div class="flex gap-1 shrink-0"><button onclick="editLogVideo(${index}, ${videoIndex})" class="text-notion-muted opacity-60 active:opacity-100 text-xs px-2 py-1">${t('edit')}</button><button onclick="deleteLogVideo(${index}, ${videoIndex})" class="text-notion-muted opacity-40 active:opacity-100 text-xs px-2 py-1" aria-label="${t('deleteRecord')}">✕</button></div></div>`).join('')}</div>`; videoList.appendChild(div); }); }
-        function saveLog() { const w = document.getElementById('log-weight').value.trim(); const f = document.getElementById('log-food').value.trim(); const file = document.getElementById('log-image').files[0]; const dateKey = document.getElementById('log-date').value || todayKey(); const save = (img) => { const l = getStorageArray('notion_logs_v2'); l.push({weight:w, food:f, image:img, date:dateKey, dateKey}); if(l.length>60) l.shift(); localStorage.setItem('notion_logs_v2', JSON.stringify(l)); document.getElementById('log-weight').value=''; document.getElementById('log-food').value=''; document.getElementById('log-image').value=''; document.getElementById('log-date').value = todayKey(); loadLogs(); updateTrackingOverview(); showToast(t('recordSaved')); }; if(file) compressImage(file, save); else if(w||f) save(null); else showToast(t('fillContent')); }
+        function loadLogs() { renderTodayVideoSummary(); const logs = getStorageArray('notion_logs_v2'); const weightList = document.getElementById('weight-log-list'); const videoList = document.getElementById('video-log-list'); if (!weightList || !videoList) return; weightList.innerHTML = ''; videoList.innerHTML = ''; const weightLogs = logs.map((log, index) => ({ log, index })).filter(item => hasWeightLog(item.log)).reverse(); const videoLogs = logs.map((log, index) => ({ log, index })).filter(item => Array.isArray(item.log.videoViews) && item.log.videoViews.length).reverse(); if (!weightLogs.length) weightList.innerHTML = getEmptyStateHTML(t('noWeightLogs')); weightLogs.forEach(({ log, index }) => { const div = document.createElement('div'); div.className = "bg-notion-card border border-notion-border rounded-notion p-4 text-sm"; const imgHTML = log.image ? `<img src="${escapeHTML(log.image)}" alt="${t('photo')}" class="mt-3 rounded-notion object-cover w-full max-h-48 border border-notion-border bg-notion-hover">` : ''; div.innerHTML = `<div class="flex justify-between items-start"><span class="text-[10px] text-notion-text font-medium bg-notion-hover px-2 py-0.5 rounded">${escapeHTML(logDisplayDate(log))}</span><div class="flex gap-1"><button onclick="editLog(${index})" class="text-notion-muted opacity-60 active:opacity-100 text-xs py-1 px-2" aria-label="${t('edit')}">${t('edit')}</button><button onclick="deleteLog(${index})" class="text-notion-muted opacity-40 active:opacity-100 text-xs py-1 px-2" aria-label="${t('deleteRecord')}">✕</button></div></div><div class="mt-2 space-y-1">${log.weight ? `<p class="text-sm">⚖️ ${escapeHTML(log.weight)} kg</p>` : ''}${log.food ? `<p class="text-sm">🍽️ ${escapeHTML(log.food)}</p>` : ''}</div>${imgHTML}`; weightList.appendChild(div); }); if (!videoLogs.length) videoList.innerHTML = getEmptyStateHTML(t('noVideoLogs')); videoLogs.forEach(({ log, index }) => { const div = document.createElement('div'); div.className = "bg-notion-card border border-notion-border rounded-notion p-4 text-sm"; div.innerHTML = `<div class="flex justify-between items-start mb-2"><span class="text-[10px] text-notion-text font-medium bg-notion-hover px-2 py-0.5 rounded">${escapeHTML(logDisplayDate(log))}</span></div><div class="space-y-2">${log.videoViews.map((v, videoIndex) => `<div class="flex items-center justify-between gap-2 bg-notion-hover rounded-notion p-2"><div class="min-w-0"><p class="text-xs font-medium truncate">${escapeHTML(v.type)}｜${escapeHTML(v.title)}</p><p class="text-[11px] text-notion-muted">${escapeHTML(v.count)} ${getLanguage() === 'en' ? 'x' : '次'}</p></div><div class="flex gap-1 shrink-0"><button onclick="editLogVideo(${index}, ${videoIndex})" class="text-notion-muted opacity-60 active:opacity-100 text-xs px-2 py-1">${t('edit')}</button><button onclick="deleteLogVideo(${index}, ${videoIndex})" class="text-notion-muted opacity-40 active:opacity-100 text-xs px-2 py-1" aria-label="${t('deleteRecord')}">✕</button></div></div>`).join('')}</div>`; videoList.appendChild(div); }); }
+        function saveLog() { const w = document.getElementById('log-weight').value.trim(); const f = document.getElementById('log-food').value.trim(); const file = document.getElementById('log-image').files[0]; const dateKey = document.getElementById('log-date').value || todayKey(); const save = (img) => { const l = getStorageArray('notion_logs_v2'); l.push({weight:w, food:f, image:img, date:dateKey, dateKey}); if(l.length>60) l.shift(); localStorage.setItem('notion_logs_v2', JSON.stringify(l)); document.getElementById('log-weight').value=''; document.getElementById('log-food').value=''; document.getElementById('log-image').value=''; updateFileLabel('log-image'); document.getElementById('log-date').value = todayKey(); loadLogs(); updateTrackingOverview(); showToast(t('recordSaved')); }; if(file) compressImage(file, save); else if(w||f) save(null); else showToast(t('fillContent')); }
         function editLog(i) { const logs = getStorageArray('notion_logs_v2'); if (!logs[i]) return; const date = prompt(t('date'), logs[i].dateKey || logs[i].date || todayKey()); if (date === null) return; const weight = prompt(t('weight'), logs[i].weight || ''); if (weight === null) return; const food = prompt(t('food'), logs[i].food || ''); if (food === null) return; logs[i].dateKey = date.trim() || logs[i].dateKey || todayKey(); logs[i].date = logs[i].dateKey; logs[i].weight = weight.trim(); logs[i].food = food.trim(); localStorage.setItem('notion_logs_v2', JSON.stringify(logs)); loadLogs(); showToast(t('updated')); }
         function editLogVideo(logIndex, videoIndex) { const logs = getStorageArray('notion_logs_v2'); const video = logs[logIndex]?.videoViews?.[videoIndex]; if (!video) return; const title = prompt(t('editVideoRecord'), video.title || ''); if (title === null) return; const type = prompt(t('watchedVideos'), video.type || t('workout')); if (type === null) return; const count = prompt(t('videoCountPrompt'), video.count || 1); if (count === null) return; video.title = title.trim() || video.title; video.type = type.trim() || video.type; video.count = Math.max(1, parseInt(count, 10) || 1); localStorage.setItem('notion_logs_v2', JSON.stringify(logs)); loadLogs(); showToast(t('updated')); }
         function deleteLogVideo(logIndex, videoIndex) { const logs = getStorageArray('notion_logs_v2'); if (!logs[logIndex]?.videoViews) return; logs[logIndex].videoViews.splice(videoIndex, 1); if (!hasWeightLog(logs[logIndex]) && logs[logIndex].videoViews.length === 0) logs.splice(logIndex, 1); localStorage.setItem('notion_logs_v2', JSON.stringify(logs)); loadLogs(); showToast(t('deleted')); }
@@ -3329,8 +3440,8 @@
             
             [...shrines].reverse().forEach((s, i) => { 
                 const realIdx = shrines.length - 1 - i; 
-                const div = document.createElement('div'); div.className = "bg-notion-card border border-notion-border rounded p-3 text-sm"; 
-                let imgHTML = s.image ? `<img src="${escapeHTML(s.image)}" alt="${t('goshuin')}" class="mt-2 rounded object-cover w-full max-h-48 border border-notion-border">` : ''; 
+                const div = document.createElement('div'); div.className = "bg-notion-card border border-notion-border rounded-notion p-4 text-sm"; 
+                let imgHTML = s.image ? `<img src="${escapeHTML(s.image)}" alt="${t('goshuin')}" class="mt-3 rounded-notion object-cover w-full max-h-48 border border-notion-border bg-notion-hover">` : ''; 
                 
                 const mapQuery = encodeURIComponent(s.address || s.name);
                 const mapLink = `<a href="https://www.google.com/maps/search/?api=1&query=${mapQuery}" target="_blank" rel="noopener noreferrer" class="text-[10px] text-notion-muted hover:text-notion-text flex items-center gap-1 mt-1.5 w-fit active:opacity-70 bg-notion-hover px-1.5 py-0.5 rounded transition-colors"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>${escapeHTML(s.address || t('viewOnMap'))}</a>`;
@@ -3343,7 +3454,7 @@
             const n = document.getElementById('shrine-name').value.trim(); const a = document.getElementById('shrine-address').value.trim(); const d = document.getElementById('shrine-date').value; const text = document.getElementById('shrine-notes').value.trim(); const file = document.getElementById('shrine-image').files[0]; 
             const save = (img) => { 
                 const s = getStorageArray('notion_shrines'); s.push({name:n, address:a, date:d, notes:text, image:img}); localStorage.setItem('notion_shrines', JSON.stringify(s)); 
-                document.getElementById('shrine-name').value=''; document.getElementById('shrine-address').value=''; document.getElementById('shrine-notes').value=''; document.getElementById('shrine-image').value=''; 
+                document.getElementById('shrine-name').value=''; document.getElementById('shrine-address').value=''; document.getElementById('shrine-notes').value=''; document.getElementById('shrine-image').value=''; updateFileLabel('shrine-image'); 
                 loadShrines(); showToast(t('shrineRecordSaved')); 
             }; 
             if(n) { if(file) compressImage(file, save); else save(null); } else showToast(t('shrineNameRequired')); 
@@ -3700,7 +3811,7 @@
                 const realIdx = links.indexOf(link);
                 const url = normalizeLinkURL(link.url);
                 const div = document.createElement('div');
-                div.className = 'bg-notion-card border border-notion-border rounded p-3 text-sm';
+                div.className = 'bg-notion-card border border-notion-border rounded-notion p-4 text-sm';
                 div.innerHTML = `<div class="flex gap-3 items-start"><button onclick="openLink(${realIdx})" class="w-11 h-11 rounded-notion bg-notion-hover border border-notion-border flex items-center justify-center shrink-0 text-notion-text active:scale-95" aria-label="${t('openLink')}">${getLinkIconHTML(link.icon)}</button><div class="flex-1 min-w-0"><div class="flex justify-between gap-3 items-start"><div class="min-w-0"><p class="font-semibold text-notion-text truncate">${escapeHTML(link.title || link.url)}</p><p class="text-[11px] text-notion-muted truncate mt-0.5">${escapeHTML(link.category || t('uncategorized'))}｜${escapeHTML(url)}</p></div><div class="flex gap-1 shrink-0"><button onclick="editLink(${realIdx})" class="text-notion-muted opacity-60 active:opacity-100 text-xs px-2 py-1">${t('edit')}</button><button onclick="deleteLink(${realIdx})" class="text-notion-muted opacity-40 active:opacity-100 text-xs px-2 py-1" aria-label="${t('deleteLink')}">✕</button></div></div>${link.note ? `<p class="mt-2 text-xs leading-relaxed bg-notion-hover rounded p-2 whitespace-pre-wrap">${escapeHTML(link.note)}</p>` : ''}<button onclick="openLink(${realIdx})" class="mt-2 w-full py-2 text-xs bg-notion-btn text-white rounded-notion font-medium">${t('openLink')}</button></div></div>`;
                 list.appendChild(div);
             });
@@ -3779,8 +3890,8 @@
             [...filtered].reverse().forEach(item => {
                 const realIdx = items.indexOf(item);
                 const div = document.createElement('div');
-                div.className = 'bg-notion-card border border-notion-border rounded p-3 text-sm';
-                const imageHTML = item.image ? `<img src="${escapeHTML(item.image)}" alt="${escapeHTML(item.name)}" class="w-20 h-20 object-cover rounded border border-notion-border shrink-0">` : '';
+                div.className = 'bg-notion-card border border-notion-border rounded-notion p-4 text-sm';
+                const imageHTML = item.image ? `<img src="${escapeHTML(item.image)}" alt="${escapeHTML(item.name)}" class="w-20 h-20 object-cover rounded-notion border border-notion-border bg-notion-hover shrink-0">` : '';
                 const detailRows = [
                     item.size ? `${t('size')}：${escapeHTML(item.size)}` : '',
                     item.price ? `${t('price')}：${escapeHTML(item.price)}` : '',
@@ -3819,6 +3930,7 @@
                 document.getElementById('item-care').value = '';
                 document.getElementById('item-note').value = '';
                 document.getElementById('item-image').value = '';
+                updateFileLabel('item-image');
                 loadItems();
                 showToast(t('itemSaved'));
             };
