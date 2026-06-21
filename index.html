@@ -31,6 +31,30 @@
         html { touch-action: manipulation; }
         body { background-color: #FFFFFF; color: #37352F; -webkit-tap-highlight-color: transparent; touch-action: manipulation; overscroll-behavior: none; }
         button, a, input, textarea, select, label, summary { touch-action: manipulation; }
+        :root {
+            --ui-2xs: clamp(11px, 2.9vw, 13px);
+            --ui-xs: clamp(12px, 3.2vw, 14px);
+            --ui-sm: clamp(14px, 3.7vw, 16px);
+            --ui-base: clamp(16px, 4.1vw, 18px);
+            --ui-lg: clamp(18px, 4.7vw, 21px);
+            --ui-xl: clamp(22px, 6vw, 26px);
+        }
+        body { font-size: var(--ui-base); }
+        input, textarea, select, button { font-size: var(--ui-sm); }
+        .text-\[10px\], .text-\[11px\], .text-xs { font-size: var(--ui-xs) !important; line-height: 1.45; }
+        .text-sm { font-size: var(--ui-sm) !important; line-height: 1.5; }
+        .text-base { font-size: var(--ui-base) !important; line-height: 1.5; }
+        .text-lg { font-size: var(--ui-lg) !important; line-height: 1.35; }
+        .text-xl, .text-2xl { font-size: var(--ui-xl) !important; line-height: 1.25; }
+        @media (max-width: 360px) {
+            :root {
+                --ui-xs: 12px;
+                --ui-sm: 13px;
+                --ui-base: 15px;
+                --ui-lg: 17px;
+                --ui-xl: 21px;
+            }
+        }
         input[type="checkbox"]:checked + span { text-decoration: line-through; color: #9B9B9B; }
         details > summary { list-style: none; outline: none; }
         details > summary::-webkit-details-marker { display: none; }
@@ -1233,10 +1257,13 @@
                 unlockJournal: '解鎖日記',
                 lockJournal: '鎖定',
                 setJournalPassword: '設定 / 變更密碼',
+                removeJournalPassword: '解除密碼',
                 journalPasswordPrompt: '請輸入日記私人密碼',
                 journalNewPasswordPrompt: '請設定新的日記私人密碼',
                 journalCurrentPasswordPrompt: '請先輸入目前的日記密碼',
                 journalPasswordSaved: '日記密碼已設定',
+                journalPasswordRemoved: '日記密碼已解除',
+                journalPasswordRemoveConfirm: '確定要解除日記密碼嗎？',
                 journalPasswordWrong: '密碼不正確',
                 journalPasswordRequired: '請先設定日記密碼',
                 journalUnlocked: '日記已解鎖',
@@ -1309,6 +1336,8 @@
                 dictionaryHistoryEmpty: '還沒有查詢紀錄',
                 dictionaryCleared: '查詢紀錄已清除',
                 reading: '讀音',
+                accent: '重音',
+                accentUnavailable: '公開字典未提供',
                 meanings: '意思',
                 partsOfSpeech: '詞性',
                 examples: '例句',
@@ -1624,10 +1653,13 @@
                 unlockJournal: '日記を解除',
                 lockJournal: 'ロック',
                 setJournalPassword: '設定 / 変更',
+                removeJournalPassword: 'パスワード解除',
                 journalPasswordPrompt: '日記のパスワードを入力してください',
                 journalNewPasswordPrompt: '新しい日記パスワードを設定してください',
                 journalCurrentPasswordPrompt: '現在の日記パスワードを入力してください',
                 journalPasswordSaved: '日記パスワードを設定しました',
+                journalPasswordRemoved: '日記パスワードを解除しました',
+                journalPasswordRemoveConfirm: '日記パスワードを解除しますか？',
                 journalPasswordWrong: 'パスワードが違います',
                 journalPasswordRequired: '先に日記パスワードを設定してください',
                 journalUnlocked: '日記を解除しました',
@@ -1700,6 +1732,8 @@
                 dictionaryHistoryEmpty: '検索履歴はまだありません',
                 dictionaryCleared: '検索履歴を削除しました',
                 reading: '読み',
+                accent: 'アクセント',
+                accentUnavailable: '公開辞書未提供',
                 meanings: '意味',
                 partsOfSpeech: '品詞',
                 examples: '例文',
@@ -2015,10 +2049,13 @@
                 unlockJournal: 'Unlock journal',
                 lockJournal: 'Lock',
                 setJournalPassword: 'Set / change password',
+                removeJournalPassword: 'Remove password',
                 journalPasswordPrompt: 'Enter your journal private password',
                 journalNewPasswordPrompt: 'Set a new journal private password',
                 journalCurrentPasswordPrompt: 'Enter your current journal password first',
                 journalPasswordSaved: 'Journal password saved',
+                journalPasswordRemoved: 'Journal password removed',
+                journalPasswordRemoveConfirm: 'Remove the journal password?',
                 journalPasswordWrong: 'Wrong password',
                 journalPasswordRequired: 'Set a journal password first',
                 journalUnlocked: 'Journal unlocked',
@@ -2091,6 +2128,8 @@
                 dictionaryHistoryEmpty: 'No lookup history yet',
                 dictionaryCleared: 'Lookup history cleared',
                 reading: 'Reading',
+                accent: 'Accent',
+                accentUnavailable: 'Not provided by public dictionary',
                 meanings: 'Meanings',
                 partsOfSpeech: 'Part of speech',
                 examples: 'Examples',
@@ -2289,6 +2328,7 @@
                 trackingView = trackingMap[tabName];
                 tabName = 'track';
             }
+            if (tabName === 'journal' && !ensureJournalAccess()) return;
             ['home', 'track', 'dictionary', 'goals', 'workout', 'log', 'journal', 'shrine', 'meditation', 'reading', 'items', 'links', 'settings'].forEach(tab => {
                 document.getElementById(`page-${tab}`).classList.add('hidden');
             });
@@ -2912,12 +2952,14 @@
         function deleteLog(i) { const l = getStorageArray('notion_logs_v2'); if (!l[i]) return; if (Array.isArray(l[i].videoViews) && l[i].videoViews.length) { l[i].weight = ''; l[i].food = ''; l[i].image = null; } else { l.splice(i, 1); } localStorage.setItem('notion_logs_v2', JSON.stringify(l)); loadLogs(); showToast(t('deleted')); }
 
         function hasJournalPassword() { return !!localStorage.getItem(JOURNAL_PASSWORD_KEY); }
-        function ensureJournalUnlocked() { if (!hasJournalPassword() || journalUnlocked) return true; unlockJournal(); return journalUnlocked; }
-        function unlockJournal() { const saved = localStorage.getItem(JOURNAL_PASSWORD_KEY); if (!saved) { setJournalPassword(); return; } const password = prompt(t('journalPasswordPrompt')); if (password === null) return; if (password === saved) { journalUnlocked = true; loadJournals(); showToast(t('journalUnlocked')); } else showToast(t('journalPasswordWrong')); }
+        function ensureJournalAccess() { if (journalUnlocked) return true; if (!hasJournalPassword()) { setJournalPassword(); return journalUnlocked; } return unlockJournal(); }
+        function ensureJournalUnlocked() { return ensureJournalAccess(); }
+        function unlockJournal() { const saved = localStorage.getItem(JOURNAL_PASSWORD_KEY); if (!saved) { setJournalPassword(); return journalUnlocked; } const password = prompt(t('journalPasswordPrompt')); if (password === null) return false; if (password === saved) { journalUnlocked = true; loadJournals(); showToast(t('journalUnlocked')); return true; } showToast(t('journalPasswordWrong')); return false; }
         function lockJournal() { journalUnlocked = false; loadJournals(); }
         function setJournalPassword() { const saved = localStorage.getItem(JOURNAL_PASSWORD_KEY); if (saved) { const current = prompt(t('journalCurrentPasswordPrompt')); if (current === null) return; if (current !== saved) return showToast(t('journalPasswordWrong')); } const next = prompt(t('journalNewPasswordPrompt')); if (next === null) return; const password = next.trim(); if (!password) return showToast(t('fillContent')); localStorage.setItem(JOURNAL_PASSWORD_KEY, password); journalUnlocked = true; loadJournals(); showToast(t('journalPasswordSaved')); }
-        function getJournalLockHTML() { return `<div class="bg-notion-hover border border-notion-border rounded-notion p-4 space-y-3 text-sm"><div><p class="font-semibold text-notion-text">${t('journalLocked')}</p><p class="text-xs text-notion-muted leading-relaxed mt-1">${t('journalLockHint')}</p></div><div class="grid grid-cols-1 sm:grid-cols-2 gap-2"><button onclick="unlockJournal()" class="py-2.5 text-sm bg-notion-btn text-white rounded-notion font-medium">${t('unlockJournal')}</button><button onclick="setJournalPassword()" class="py-2.5 text-sm bg-white border border-notion-border text-notion-text rounded-notion font-medium">${t('setJournalPassword')}</button></div></div>`; }
-        function getJournalControlHTML() { return `<div class="flex items-center justify-between gap-2 bg-notion-hover border border-notion-border rounded-notion p-2 mb-2"><span class="text-[11px] text-notion-muted">${t('privatePassword')}</span><div class="flex gap-1"><button onclick="setJournalPassword()" class="text-[11px] border border-notion-border bg-white rounded px-2 py-1">${t('setJournalPassword')}</button>${hasJournalPassword() ? `<button onclick="lockJournal()" class="text-[11px] border border-notion-border bg-white rounded px-2 py-1">${t('lockJournal')}</button>` : ''}</div></div>`; }
+        function removeJournalPassword() { const saved = localStorage.getItem(JOURNAL_PASSWORD_KEY); if (!saved) return showToast(t('journalPasswordRequired')); const current = prompt(t('journalCurrentPasswordPrompt')); if (current === null) return; if (current !== saved) return showToast(t('journalPasswordWrong')); if (!confirm(t('journalPasswordRemoveConfirm'))) return; localStorage.removeItem(JOURNAL_PASSWORD_KEY); journalUnlocked = false; loadJournals(); showToast(t('journalPasswordRemoved')); }
+        function getJournalLockHTML() { return `<div class="bg-notion-hover border border-notion-border rounded-notion p-4 space-y-3 text-sm"><div><p class="font-semibold text-notion-text">${t('journalLocked')}</p><p class="text-xs text-notion-muted leading-relaxed mt-1">${t('journalLockHint')}</p></div><button onclick="unlockJournal()" class="w-full py-2.5 text-sm bg-notion-btn text-white rounded-notion font-medium">${t('unlockJournal')}</button></div>`; }
+        function getJournalControlHTML() { const hasPassword = hasJournalPassword(); return `<div class="bg-notion-hover border border-notion-border rounded-notion p-3 mb-2 space-y-2"><div class="flex items-center justify-between gap-2"><span class="text-[11px] text-notion-muted">${t('privatePassword')}</span>${hasPassword ? `<button onclick="lockJournal()" class="text-[11px] border border-notion-border bg-white rounded px-2 py-1">${t('lockJournal')}</button>` : ''}</div><div class="grid ${hasPassword ? 'grid-cols-2' : 'grid-cols-1'} gap-2"><button onclick="setJournalPassword()" class="text-[11px] border border-notion-border bg-white rounded px-2 py-2">${t('setJournalPassword')}</button>${hasPassword ? `<button onclick="removeJournalPassword()" class="text-[11px] border border-notion-border bg-white rounded px-2 py-2">${t('removeJournalPassword')}</button>` : ''}</div></div>`; }
         function openJournalModal() { if (!ensureJournalUnlocked()) return; document.getElementById('modal-journal').classList.remove('hidden'); document.getElementById('modal-journal').classList.add('flex'); document.getElementById('journal-title').focus(); }
         function closeJournalModal() { document.getElementById('modal-journal').classList.add('hidden'); }
         function loadJournals() { const j = getStorageArray('notion_journals_v2'); const l = document.getElementById('journal-list'); l.innerHTML = ''; if (hasJournalPassword() && !journalUnlocked) { l.innerHTML = getJournalLockHTML(); return; } l.innerHTML = getJournalControlHTML(); if (j.length === 0) { l.insertAdjacentHTML('beforeend', getEmptyStateHTML(t('noJournals'))); return; } [...j].reverse().forEach((x, i) => { const realIdx = j.length - 1 - i; const div = document.createElement('details'); div.className="bg-notion-card border border-notion-border rounded mb-2"; div.innerHTML=`<summary class="flex items-center gap-2 cursor-pointer text-sm font-medium p-3 relative"><svg class="w-3 h-3 text-notion-muted transition-transform flex-shrink-0" viewBox="0 0 100 100" aria-hidden="true"><polygon points="20,10 80,50 20,90" fill="currentColor"/></svg><span class="flex-1 truncate">${escapeHTML(x.title || t('untitled'))}</span><span class="text-[10px] text-notion-muted">${escapeHTML(x.date)}</span></summary><div class="px-4 pb-3 pt-1 text-sm text-notion-text relative border-t border-notion-hover mt-1"><p class="whitespace-pre-wrap leading-relaxed mt-2">${escapeHTML(x.content)}</p><div class="mt-3 text-right flex justify-end gap-2"><button onclick="editJournal(${realIdx})" class="text-xs text-notion-muted border border-notion-border px-3 py-1 rounded active:bg-notion-hover">${t('edit')}</button><button onclick="deleteJournal(${realIdx})" class="text-xs text-notion-muted border border-notion-border px-3 py-1 rounded active:bg-notion-hover">${t('delete')}</button></div></div>`; l.appendChild(div); }); }
@@ -2930,6 +2972,24 @@
             return getStorageArray('notion_dictionary_history');
         }
 
+        function extractDictionaryAccent(apiItem = null, japanese = {}) {
+            const candidates = [
+                apiItem?.pitch_accent,
+                apiItem?.pitchAccent,
+                apiItem?.accent,
+                apiItem?.accentPattern,
+                apiItem?.pronunciation?.pitch_accent,
+                japanese?.pitch_accent,
+                japanese?.pitchAccent,
+                japanese?.accent
+            ].filter(value => value !== undefined && value !== null && value !== '');
+            if (!candidates.length) return '';
+            const value = candidates[0];
+            if (Array.isArray(value)) return value.map(item => typeof item === 'object' ? JSON.stringify(item) : String(item)).join(' / ');
+            if (typeof value === 'object') return Object.values(value).filter(Boolean).join(' / ');
+            return String(value);
+        }
+
         function normalizeDictionaryEntry(query, apiItem = null, fallbackMessage = '') {
             const japanese = apiItem?.japanese?.[0] || {};
             const senses = apiItem?.senses || [];
@@ -2938,11 +2998,13 @@
             const examples = senses.flatMap(s => (s.sentences || []).map(sentence => sentence.english || sentence.japanese)).filter(Boolean).slice(0, 3);
             const word = japanese.word || japanese.reading || query;
             const reading = japanese.reading || (word === query ? '' : query);
+            const accent = extractDictionaryAccent(apiItem, japanese);
             return {
                 id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
                 query,
                 word,
                 reading,
+                accent,
                 meanings: meanings.length ? meanings : [fallbackMessage || t('noMeaning')],
                 parts: parts.length ? parts : [t('noPart')],
                 examples,
@@ -2978,39 +3040,46 @@
         function renderDictionaryEntry(entry) {
             const aiNotes = buildDictionaryAiNotes(entry);
             const sourceLabel = entry.source === 'jisho' ? t('publicDictionary') : t('localMode');
+            const accentText = entry.accent || entry.ai?.accent || t('accentUnavailable');
             const examplesHTML = entry.examples?.length
-                ? `<div><p class="text-[10px] text-notion-muted tracking-wider uppercase mb-1">${t('examples')}</p><div class="space-y-1">${entry.examples.map(x => `<p class="text-xs bg-notion-hover rounded px-2 py-1">${escapeHTML(x)}</p>`).join('')}</div></div>`
+                ? `<div><p class="text-xs text-notion-muted tracking-wider uppercase mb-2">${t('examples')}</p><div class="space-y-2">${entry.examples.map(x => `<p class="text-sm bg-notion-hover rounded px-3 py-2 leading-relaxed">${escapeHTML(x)}</p>`).join('')}</div></div>`
                 : '';
             return `<div class="bg-notion-card border border-notion-border rounded-notion p-4 space-y-3 shadow-sm">
-                <div class="flex justify-between gap-3 items-start">
+                <div class="flex justify-between gap-3 items-start border-b border-notion-border pb-3">
                     <div class="min-w-0">
-                        <span class="inline-flex text-[10px] text-notion-muted bg-notion-hover border border-notion-border rounded-full px-2 py-0.5 mb-2">${escapeHTML(sourceLabel)}</span>
-                        <p class="text-xl font-semibold text-notion-text break-words">${escapeHTML(entry.word)}</p>
-                        <p class="text-xs text-notion-muted mt-1">${escapeHTML(entry.reading || t('noReading'))}</p>
+                        <span class="inline-flex text-xs text-notion-muted bg-notion-hover border border-notion-border rounded-full px-2 py-1 mb-2">${escapeHTML(sourceLabel)}</span>
+                        <p class="text-2xl font-semibold text-notion-text break-words">${escapeHTML(entry.word)}</p>
+                        <p class="text-base text-notion-muted mt-1">${escapeHTML(entry.reading || t('noReading'))}</p>
                     </div>
-                    <button onclick="toggleDictionaryFavorite('${entry.id}')" class="text-[11px] border border-notion-border rounded px-2 py-1 shrink-0 active:bg-notion-hover">${entry.favorite ? t('unfavorite') : t('favorite')}</button>
+                    <button onclick="toggleDictionaryFavorite('${entry.id}')" class="text-xs border border-notion-border rounded px-3 py-2 shrink-0 active:bg-notion-hover">${entry.favorite ? t('unfavorite') : t('favorite')}</button>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div class="bg-notion-hover border border-notion-border rounded p-3">
+                        <p class="text-xs text-notion-muted tracking-wider uppercase">${t('accent')}</p>
+                        <p class="text-sm font-semibold text-notion-text mt-1">${escapeHTML(accentText)}</p>
+                    </div>
+                    <div class="bg-notion-hover border border-notion-border rounded p-3">
+                        <p class="text-xs text-notion-muted tracking-wider uppercase">${t('partsOfSpeech')}</p>
+                        <p class="text-sm font-semibold text-notion-text mt-1">${entry.parts.map(escapeHTML).join(' / ')}</p>
+                    </div>
                 </div>
                 <div>
-                    <p class="text-[10px] text-notion-muted tracking-wider uppercase mb-1">${t('meanings')}</p>
-                    <div class="flex flex-wrap gap-1.5">${entry.meanings.map(x => `<span class="text-xs bg-notion-hover border border-notion-border rounded-full px-2 py-1">${escapeHTML(x)}</span>`).join('')}</div>
-                </div>
-                <div>
-                    <p class="text-[10px] text-notion-muted tracking-wider uppercase mb-1">${t('partsOfSpeech')}</p>
-                    <p class="text-xs text-notion-text">${entry.parts.map(escapeHTML).join(' / ')}</p>
+                    <p class="text-xs text-notion-muted tracking-wider uppercase mb-2">${t('meanings')}</p>
+                    <div class="space-y-2">${entry.meanings.map((x, index) => `<div class="flex gap-2 bg-notion-hover border border-notion-border rounded px-3 py-2"><span class="text-xs text-notion-muted shrink-0">${index + 1}</span><span class="text-sm text-notion-text leading-relaxed">${escapeHTML(x)}</span></div>`).join('')}</div>
                 </div>
                 ${examplesHTML}
                 <div class="border-t border-notion-border pt-3">
-                    <p class="text-[10px] text-notion-muted tracking-wider uppercase mb-2">${t('aiNotes')}${entry.ai ? ` · ${t('aiEnhanced')}` : ''}</p>
-                    <div class="space-y-1">${aiNotes.map(note => `<p class="text-xs leading-relaxed">${escapeHTML(note)}</p>`).join('')}</div>
+                    <p class="text-xs text-notion-muted tracking-wider uppercase mb-2">${t('aiNotes')}${entry.ai ? ` · ${t('aiEnhanced')}` : ''}</p>
+                    <div class="space-y-2">${aiNotes.map(note => `<p class="text-sm leading-relaxed">${escapeHTML(note)}</p>`).join('')}</div>
                 </div>
                 <div class="border-t border-notion-border pt-3 space-y-2">
-                    <label for="dictionary-note-${entry.id}" class="text-[10px] text-notion-muted tracking-wider uppercase block">${t('dictionaryNote')}</label>
-                    <textarea id="dictionary-note-${entry.id}" rows="3" placeholder="${escapeHTML(t('dictionaryNotePh'))}" class="w-full text-xs border border-notion-border rounded px-2 py-2 focus:outline-none focus:border-notion-muted resize-none">${escapeHTML(entry.note || '')}</textarea>
-                    <button onclick="saveDictionaryNote('${entry.id}')" class="w-full py-2 text-xs bg-notion-hover border border-notion-border rounded-notion">${t('saveNote')}</button>
+                    <label for="dictionary-note-${entry.id}" class="text-xs text-notion-muted tracking-wider uppercase block">${t('dictionaryNote')}</label>
+                    <textarea id="dictionary-note-${entry.id}" rows="3" placeholder="${escapeHTML(t('dictionaryNotePh'))}" class="w-full text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted resize-none">${escapeHTML(entry.note || '')}</textarea>
+                    <button onclick="saveDictionaryNote('${entry.id}')" class="w-full py-2 text-sm bg-notion-hover border border-notion-border rounded-notion">${t('saveNote')}</button>
                 </div>
                 <div class="grid grid-cols-2 gap-2 pt-1">
-                    <button onclick="copyDictionaryPrompt('${entry.id}')" class="py-2 text-xs bg-notion-hover border border-notion-border rounded-notion">${t('copyAiPrompt')}</button>
-                    <button onclick="deleteDictionaryEntry('${entry.id}')" class="py-2 text-xs bg-notion-hover border border-notion-border rounded-notion">${t('dictionaryDelete')}</button>
+                    <button onclick="copyDictionaryPrompt('${entry.id}')" class="py-2 text-sm bg-notion-hover border border-notion-border rounded-notion">${t('copyAiPrompt')}</button>
+                    <button onclick="deleteDictionaryEntry('${entry.id}')" class="py-2 text-sm bg-notion-hover border border-notion-border rounded-notion">${t('dictionaryDelete')}</button>
                 </div>
             </div>`;
         }
