@@ -10,6 +10,7 @@
     <link rel="icon" href='data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"%3E%3Crect width="512" height="512" rx="82" fill="%230b0b0b"/%3E%3Crect x="54" y="54" width="404" height="404" rx="22" fill="none" stroke="%23f7f5ef" stroke-width="10"/%3E%3Ctext x="256" y="254" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="116" font-weight="700" fill="%23f7f5ef" letter-spacing="-8"%3EMF%3C/text%3E%3Ctext x="256" y="336" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="31" font-weight="700" fill="%23f7f5ef" letter-spacing="8"%3EATELIER%3C/text%3E%3C/svg%3E'>
     <link rel="apple-touch-icon" href='data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"%3E%3Crect width="512" height="512" rx="82" fill="%230b0b0b"/%3E%3Crect x="54" y="54" width="404" height="404" rx="22" fill="none" stroke="%23f7f5ef" stroke-width="10"/%3E%3Ctext x="256" y="254" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="116" font-weight="700" fill="%23f7f5ef" letter-spacing="-8"%3EMF%3C/text%3E%3Ctext x="256" y="336" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="31" font-weight="700" fill="%23f7f5ef" letter-spacing="8"%3EATELIER%3C/text%3E%3C/svg%3E'>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/epubjs@0.3.93/dist/epub.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -334,6 +335,30 @@
             color: #37352F;
             font-size: 15px;
             outline: none;
+        }
+        .ebook-reader-frame {
+            width: 100%;
+            height: min(68dvh, 620px);
+            border: 1px solid #EAEAEA;
+            border-radius: 8px;
+            background: #FFFFFF;
+            overflow: hidden;
+        }
+        .ebook-reader-frame iframe,
+        .ebook-reader-frame object {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+        .link-button-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+        @media (min-width: 768px) {
+            .link-button-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
         }
         .vocab-entry + .vocab-entry {
             border-top: 1px solid #EAEAEA;
@@ -1373,6 +1398,18 @@
                 noCurrentBook: '還沒有閱讀中的書。',
                 author: '作者',
                 progress: '進度',
+                ebookLibrary: '電子書庫',
+                uploadEbook: '上傳電子書',
+                ebookUploadHint: '支援 PDF 與 EPUB，檔案只會儲存在此裝置。',
+                noEbooks: '還沒有上傳電子書。',
+                ebookSaved: '電子書已儲存',
+                ebookUnsupported: '目前只支援 PDF 與 EPUB',
+                openEbook: '閱讀',
+                deleteEbook: '刪除電子書',
+                ebookReaderUnavailable: 'EPUB 閱讀器尚未載入，請確認網路連線後重試。',
+                previousPage: '上一頁',
+                nextPage: '下一頁',
+                closeReader: '回書庫',
                 itemsPageTitle: '擁有物品清單',
                 itemNamePh: '物品名稱',
                 itemCategory: '物品分類',
@@ -1773,6 +1810,18 @@
                 noCurrentBook: '読書中の本はまだありません。',
                 author: '著者',
                 progress: '進捗',
+                ebookLibrary: '電子書籍ライブラリ',
+                uploadEbook: '電子書籍をアップロード',
+                ebookUploadHint: 'PDF と EPUB に対応。ファイルはこの端末だけに保存されます。',
+                noEbooks: 'アップロードした電子書籍はまだありません。',
+                ebookSaved: '電子書籍を保存しました',
+                ebookUnsupported: '現在は PDF と EPUB のみ対応しています',
+                openEbook: '読む',
+                deleteEbook: '電子書籍を削除',
+                ebookReaderUnavailable: 'EPUB リーダーを読み込めません。ネット接続を確認して再試行してください。',
+                previousPage: '前へ',
+                nextPage: '次へ',
+                closeReader: '本棚へ戻る',
                 itemsPageTitle: '持ち物リスト',
                 itemNamePh: '物品名',
                 itemCategory: '分類',
@@ -2173,6 +2222,18 @@
                 noCurrentBook: 'No current book yet.',
                 author: 'Author',
                 progress: 'Progress',
+                ebookLibrary: 'Ebook Library',
+                uploadEbook: 'Upload ebook',
+                ebookUploadHint: 'Supports PDF and EPUB. Files are stored only on this device.',
+                noEbooks: 'No ebooks uploaded yet.',
+                ebookSaved: 'Ebook saved',
+                ebookUnsupported: 'Only PDF and EPUB are supported right now',
+                openEbook: 'Read',
+                deleteEbook: 'Delete ebook',
+                ebookReaderUnavailable: 'EPUB reader is not loaded. Check your connection and try again.',
+                previousPage: 'Previous',
+                nextPage: 'Next',
+                closeReader: 'Back to library',
                 itemsPageTitle: 'Owned Items List',
                 itemNamePh: 'Item name',
                 itemCategory: 'Item category',
@@ -2500,12 +2561,13 @@
 
         let db;
         const initDB = () => {
-            const request = indexedDB.open("ManifestationAppDB", 1);
+            const request = indexedDB.open("ManifestationAppDB", 2);
             request.onupgradeneeded = e => {
                 const database = e.target.result;
                 if (!database.objectStoreNames.contains("settings")) database.createObjectStore("settings");
+                if (!database.objectStoreNames.contains("ebooks")) database.createObjectStore("ebooks", { keyPath: "id" });
             };
-            request.onsuccess = e => { db = e.target.result; loadSavedMusic(); };
+            request.onsuccess = e => { db = e.target.result; loadSavedMusic(); loadEbooks(); };
         };
 
         let currentDate = new Date();
@@ -2527,6 +2589,9 @@
         const BOOK_FILTERS = ['all', 'want', 'reading', 'done'];
         let readingFilter = 'all';
         let readingView = 'home';
+        let currentEbookId = null;
+        let currentEpubBook = null;
+        let currentEpubRendition = null;
         const editState = { dailyTodo: null, shrineWish: null, workout: null, medVideo: null, log: null, journal: null, shrine: null, book: null, readingNote: null, link: null, item: null, meditation: null };
         const ITEM_CATEGORIES = ['全部', '衣物', '美妝', '書籍', '電子', '家居', '其他'];
         const ITEM_CATEGORY_KEYS = { '全部': 'itemCatAll', '衣物': 'itemCatClothes', '美妝': 'itemCatBeauty', '書籍': 'itemCatBooks', '電子': 'itemCatTech', '家居': 'itemCatHome', '其他': 'itemCatOther' };
@@ -3648,6 +3713,115 @@
             const todayIso = `${today.getFullYear()}-${padDate(today.getMonth() + 1)}-${padDate(today.getDate())}`;
             return String(value).includes(todayLocale) || String(value).includes(todayIso);
         }
+        function getEbookStore(mode = 'readonly') {
+            if (!db || !db.objectStoreNames.contains('ebooks')) return null;
+            return db.transaction('ebooks', mode).objectStore('ebooks');
+        }
+        function loadEbooks() {
+            if (readingView === 'books') renderEbookList();
+        }
+        function readAllEbooks() {
+            return new Promise(resolve => {
+                const store = getEbookStore('readonly');
+                if (!store) return resolve([]);
+                const req = store.getAll();
+                req.onsuccess = () => resolve(Array.isArray(req.result) ? req.result : []);
+                req.onerror = () => resolve([]);
+            });
+        }
+        function getEbook(id) {
+            return new Promise(resolve => {
+                const store = getEbookStore('readonly');
+                if (!store) return resolve(null);
+                const req = store.get(id);
+                req.onsuccess = () => resolve(req.result || null);
+                req.onerror = () => resolve(null);
+            });
+        }
+        async function saveEbookFile() {
+            const input = document.getElementById('ebook-upload');
+            const file = input?.files?.[0];
+            if (!file) return;
+            const type = file.type || (file.name.toLowerCase().endsWith('.epub') ? 'application/epub+zip' : '');
+            const isPdf = type.includes('pdf') || file.name.toLowerCase().endsWith('.pdf');
+            const isEpub = type.includes('epub') || file.name.toLowerCase().endsWith('.epub');
+            if (!isPdf && !isEpub) { input.value = ''; return showToast(t('ebookUnsupported')); }
+            const store = getEbookStore('readwrite');
+            if (!store) return showToast(t('systemNotReady'));
+            const ebook = { id: `ebook-${Date.now()}-${Math.random().toString(16).slice(2)}`, title: file.name.replace(/\.(pdf|epub)$/i, ''), name: file.name, type: isPdf ? 'pdf' : 'epub', mime: type || (isPdf ? 'application/pdf' : 'application/epub+zip'), file, createdAt: new Date().toISOString() };
+            store.put(ebook);
+            store.transaction.oncomplete = () => { input.value = ''; renderEbookList(); showToast(t('ebookSaved')); };
+            store.transaction.onerror = () => showToast(t('invalidBackup'));
+        }
+        async function renderEbookList() {
+            const list = document.getElementById('ebook-list');
+            if (!list) return;
+            const ebooks = await readAllEbooks();
+            if (!ebooks.length) { list.innerHTML = getEmptyStateHTML(t('noEbooks')); return; }
+            list.innerHTML = [...ebooks].reverse().map(book => `<article class="reading-card p-4 flex items-center gap-3">
+                <div class="w-12 h-14 rounded-notion border border-notion-border bg-notion-hover flex items-center justify-center text-xs font-bold uppercase">${escapeHTML(book.type || 'pdf')}</div>
+                <div class="min-w-0 flex-1">
+                    <h4 class="font-bold text-notion-text truncate">${escapeHTML(book.title || book.name)}</h4>
+                    <p class="text-[11px] text-notion-muted mt-1">${escapeHTML(book.name || '')}</p>
+                </div>
+                <div class="flex flex-col gap-2 shrink-0">
+                    <button onclick="openEbook(${jsString(book.id)})" class="px-3 py-1.5 rounded-notion bg-notion-btn text-white text-xs font-bold">${escapeHTML(t('openEbook'))}</button>
+                    <button onclick="deleteEbook(${jsString(book.id)})" class="px-3 py-1.5 rounded-notion border border-notion-border bg-white text-notion-muted text-xs">${escapeHTML(t('delete'))}</button>
+                </div>
+            </article>`).join('');
+        }
+        async function openEbook(id) {
+            currentEbookId = id;
+            readingView = 'reader';
+            await renderReadingPage();
+        }
+        function destroyEpubReader() {
+            try { currentEpubRendition?.destroy?.(); } catch {}
+            try { currentEpubBook?.destroy?.(); } catch {}
+            currentEpubRendition = null;
+            currentEpubBook = null;
+        }
+        async function renderEbookReader(content) {
+            destroyEpubReader();
+            const ebook = await getEbook(currentEbookId);
+            if (!ebook) { currentEbookId = null; setReadingView('books'); return; }
+            const url = URL.createObjectURL(ebook.file);
+            content.innerHTML = `<div class="space-y-3">
+                <div class="reading-card p-4 flex items-center justify-between gap-3">
+                    <div class="min-w-0"><p class="reading-kicker">${escapeHTML(ebook.type?.toUpperCase() || '')}</p><h3 class="font-bold text-lg truncate">${escapeHTML(ebook.title || ebook.name)}</h3></div>
+                    <button onclick="closeEbookReader()" class="px-3 py-2 rounded-notion border border-notion-border bg-white text-xs font-bold">${escapeHTML(t('closeReader'))}</button>
+                </div>
+                <div id="ebook-reader-frame" class="ebook-reader-frame"></div>
+                ${ebook.type === 'epub' ? `<div class="grid grid-cols-2 gap-2"><button onclick="turnEbookPage(-1)" class="py-3 rounded-notion border border-notion-border bg-white text-sm font-bold">${escapeHTML(t('previousPage'))}</button><button onclick="turnEbookPage(1)" class="py-3 rounded-notion bg-notion-btn text-white text-sm font-bold">${escapeHTML(t('nextPage'))}</button></div>` : ''}
+            </div>`;
+            const frame = document.getElementById('ebook-reader-frame');
+            if (ebook.type === 'pdf') {
+                frame.innerHTML = `<iframe src="${escapeHTML(url)}" title="${escapeHTML(ebook.title || ebook.name)}"></iframe>`;
+                return;
+            }
+            if (!window.ePub) {
+                frame.innerHTML = `<div class="h-full flex items-center justify-center p-6 text-center text-sm text-notion-muted">${escapeHTML(t('ebookReaderUnavailable'))}</div>`;
+                return;
+            }
+            currentEpubBook = ePub(url);
+            currentEpubRendition = currentEpubBook.renderTo('ebook-reader-frame', { width: '100%', height: '100%', spread: 'none' });
+            currentEpubRendition.display();
+        }
+        function turnEbookPage(direction) {
+            if (!currentEpubRendition) return;
+            direction < 0 ? currentEpubRendition.prev() : currentEpubRendition.next();
+        }
+        function closeEbookReader() {
+            destroyEpubReader();
+            currentEbookId = null;
+            setReadingView('books');
+        }
+        function deleteEbook(id) {
+            const store = getEbookStore('readwrite');
+            if (!store) return;
+            store.delete(id);
+            store.transaction.oncomplete = () => { if (currentEbookId === id) currentEbookId = null; renderEbookList(); showToast(t('deleted')); };
+        }
         function renderReadingFilters() { renderReadingPage(); }
         function setReadingFilter(status) { readingFilter = status; setReadingView('books'); }
         function setReadingView(view) {
@@ -3676,7 +3850,8 @@
                 vocab: t('readingVocabulary'),
                 review: t('readingVocabulary'),
                 notes: t('readingNotes'),
-                add: t('readingAdd')
+                add: t('readingAdd'),
+                reader: t('ebookLibrary')
             };
             const subtitleMap = {
                 home: t('readingHomeSubtitle'),
@@ -3693,6 +3868,7 @@
             if (readingView === 'review') return renderVocabularyReview(content);
             if (readingView === 'notes') return renderReadingNotes(content);
             if (readingView === 'add') return renderReadingAdd(content);
+            if (readingView === 'reader') return renderEbookReader(content);
             return renderReadingHome(content);
         }
         function renderReadingHome(content) {
@@ -3755,10 +3931,24 @@
         function renderReadingBooks(content) {
             const books = getStorageArray('notion_books');
             content.innerHTML = `<div class="space-y-8">
+                <section class="reading-card p-5 space-y-4">
+                    <div class="flex items-start justify-between gap-3">
+                        <div>
+                            <h3 class="text-2xl font-semibold">${escapeHTML(t('ebookLibrary'))}</h3>
+                            <p class="text-sm text-notion-muted mt-1">${escapeHTML(t('ebookUploadHint'))}</p>
+                        </div>
+                        <label class="shrink-0 bg-notion-btn text-white rounded-notion px-3 py-2 text-xs font-bold cursor-pointer">
+                            ${escapeHTML(t('uploadEbook'))}
+                            <input type="file" id="ebook-upload" accept=".pdf,.epub,application/pdf,application/epub+zip" class="sr-only" onchange="saveEbookFile()">
+                        </label>
+                    </div>
+                    <div id="ebook-list" class="space-y-3"></div>
+                </section>
                 <section><div class="flex justify-between items-center mb-3"><h3 class="text-3xl font-semibold">${escapeHTML(t('currentlyReading'))}</h3><button onclick="readingFilter='reading'; renderReadingBooks(document.getElementById('reading-content'))" class="text-[#2E5A35] font-bold text-sm">${escapeHTML(t('seeAll'))}</button></div>${renderShelf(books.filter(book => (book.status || 'want') === 'reading'))}</section>
                 <section><div class="flex justify-between items-center mb-3"><h3 class="text-3xl font-semibold">${escapeHTML(t('finishedBooks'))}</h3><button onclick="readingFilter='done'; renderReadingBooks(document.getElementById('reading-content'))" class="text-[#2E5A35] font-bold text-sm">${escapeHTML(t('seeAll'))}</button></div>${renderShelf(books.filter(book => (book.status || 'want') === 'done'))}</section>
                 <section><div class="flex justify-between items-center mb-3"><h3 class="text-3xl font-semibold">${escapeHTML(t('wantToRead'))}</h3><button onclick="readingFilter='want'; renderReadingBooks(document.getElementById('reading-content'))" class="text-[#2E5A35] font-bold text-sm">${escapeHTML(t('seeAll'))}</button></div>${renderShelf(books.filter(book => (book.status || 'want') === 'want'))}</section>
             </div>`;
+            renderEbookList();
         }
         function renderReadingVocabulary(content, query = '') {
             const vocab = getReadingVocab();
@@ -3942,8 +4132,11 @@
                 const count = category === '全部' ? links.length : links.filter(link => (link.category || '') === category).length;
                 const active = linkFilter === category;
                 const label = category === '全部' ? t('linkCatAll') : category;
-                return `<button type="button" onclick="setLinkFilter(${jsString(category)})" class="shrink-0 text-[11px] border rounded-full px-3 py-1.5 ${active ? 'bg-notion-btn text-white border-notion-btn' : 'bg-white text-notion-text border-notion-border'}">${escapeHTML(label)}${count ? ` ${count}` : ''}</button>`;
+                return `<button type="button" data-link-category="${escapeHTML(category)}" class="link-filter-btn shrink-0 text-[11px] border rounded-full px-3 py-1.5 ${active ? 'bg-notion-btn text-white border-notion-btn' : 'bg-white text-notion-text border-notion-border'}">${escapeHTML(label)}${count ? ` ${count}` : ''}</button>`;
             }).join('');
+            container.querySelectorAll('.link-filter-btn').forEach(button => {
+                button.addEventListener('click', () => setLinkFilter(button.dataset.linkCategory || '全部'));
+            });
             if (datalist) datalist.innerHTML = categories.filter(category => category !== '全部').map(category => `<option value="${escapeHTML(category)}"></option>`).join('');
         }
         function setLinkFilter(category) { linkFilter = category; renderLinkFilters(); loadLinks(); }
@@ -3953,15 +4146,17 @@
             const list = document.getElementById('link-list');
             if (!list) return;
             renderLinkFilters();
+            list.className = 'space-y-3';
             list.innerHTML = '';
             if (!links.length) { list.innerHTML = getEmptyStateHTML(t('noLinks')); return; }
             if (!filtered.length) { list.innerHTML = getEmptyStateHTML(t('noLinks')); return; }
+            list.className = 'link-button-grid';
             [...filtered].reverse().forEach(link => {
                 const realIdx = links.indexOf(link);
                 const url = normalizeLinkURL(link.url);
                 const div = document.createElement('div');
-                div.className = 'bg-notion-card border border-notion-border rounded-notion p-4 text-sm';
-                div.innerHTML = `<div class="flex gap-3 items-start"><button onclick="openLink(${realIdx})" class="w-11 h-11 rounded-notion bg-notion-hover border border-notion-border flex items-center justify-center shrink-0 text-notion-text active:scale-95" aria-label="${t('openLink')}">${getLinkIconHTML(link.icon)}</button><div class="flex-1 min-w-0"><div class="flex justify-between gap-3 items-start"><div class="min-w-0"><p class="font-semibold text-notion-text truncate">${escapeHTML(link.title || link.url)}</p><p class="text-[11px] text-notion-muted truncate mt-0.5">${escapeHTML(link.category || t('uncategorized'))}｜${escapeHTML(url)}</p></div><div class="flex gap-1 shrink-0"><button onclick="editLink(${realIdx})" class="text-notion-muted opacity-60 active:opacity-100 text-xs px-2 py-1">${t('edit')}</button><button onclick="deleteLink(${realIdx})" class="text-notion-muted opacity-40 active:opacity-100 text-xs px-2 py-1" aria-label="${t('deleteLink')}">✕</button></div></div>${link.note ? `<p class="mt-2 text-xs leading-relaxed bg-notion-hover rounded p-2 whitespace-pre-wrap">${escapeHTML(link.note)}</p>` : ''}<button onclick="openLink(${realIdx})" class="mt-2 w-full py-2 text-xs bg-notion-btn text-white rounded-notion font-medium">${t('openLink')}</button></div></div>`;
+                div.className = 'bg-notion-card border border-notion-border rounded-notion p-3 text-sm shadow-sm';
+                div.innerHTML = `<button onclick="openLink(${realIdx})" class="w-full min-h-[104px] flex flex-col items-center justify-center gap-2 rounded-notion bg-notion-hover border border-notion-border text-notion-text active:scale-[0.98]" aria-label="${t('openLink')} ${escapeHTML(link.title || link.url)}"><span class="w-11 h-11 rounded-notion bg-white border border-notion-border flex items-center justify-center">${getLinkIconHTML(link.icon)}</span><span class="font-semibold text-center line-clamp-2 leading-tight">${escapeHTML(link.title || link.url)}</span><span class="text-[11px] text-notion-muted truncate max-w-full">${escapeHTML(link.category || t('uncategorized'))}</span></button>${link.note ? `<p class="mt-2 text-[11px] leading-relaxed text-notion-muted line-clamp-2">${escapeHTML(link.note)}</p>` : ''}<div class="grid grid-cols-2 gap-2 mt-2"><button onclick="editLink(${realIdx})" class="text-xs border border-notion-border rounded py-1.5 bg-white">${t('edit')}</button><button onclick="deleteLink(${realIdx})" class="text-xs border border-notion-border rounded py-1.5 bg-white text-notion-muted" aria-label="${t('deleteLink')}">✕</button></div>`;
                 list.appendChild(div);
             });
         }
