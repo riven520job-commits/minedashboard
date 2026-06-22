@@ -597,6 +597,13 @@
             <div class="flex items-center justify-between pb-2 border-b border-notion-border">
                 <span class="text-xs font-semibold text-notion-muted tracking-wider uppercase" data-i18n="todayLogTitle">今日狀態紀錄</span>
             </div>
+            <div class="bg-notion-card border border-notion-border rounded-notion p-4 space-y-3 shadow-sm">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-semibold text-notion-muted tracking-wider uppercase" data-i18n="weightTrend">體重變化</span>
+                    <span id="weight-trend-summary" class="text-[11px] text-notion-muted"></span>
+                </div>
+                <div id="weight-chart" class="w-full h-40 bg-notion-hover border border-notion-border rounded-notion overflow-hidden"></div>
+            </div>
             <div class="bg-notion-card border border-notion-border rounded-notion p-4 space-y-4 shadow-sm">
                 <div class="flex items-center gap-3">
                     <label for="log-date" class="text-sm w-12 text-notion-text font-medium" data-i18n="date">日期</label>
@@ -606,9 +613,23 @@
                     <label for="log-weight" class="text-sm w-12 text-notion-text font-medium" data-i18n="weight">體重</label>
                     <input type="number" step="0.1" id="log-weight" placeholder="kg" class="flex-1 text-sm border border-notion-border rounded px-2 py-2 focus:outline-none focus:border-notion-muted">
                 </div>
-                <div class="flex items-center gap-3">
-                    <label for="log-food" class="text-sm w-12 text-notion-text font-medium" data-i18n="food">飲食</label>
-                    <input type="text" id="log-food" placeholder="記錄飲食內容..." data-i18n-placeholder="foodPh" class="flex-1 text-sm border border-notion-border rounded px-2 py-2 focus:outline-none focus:border-notion-muted">
+                <div class="space-y-2">
+                    <div class="grid grid-cols-[3rem_1fr] gap-3 items-center">
+                        <label for="log-breakfast" class="text-sm text-notion-text font-medium" data-i18n="breakfast">早餐</label>
+                        <input type="text" id="log-breakfast" placeholder="早餐內容..." data-i18n-placeholder="breakfastPh" class="text-sm border border-notion-border rounded px-2 py-2 focus:outline-none focus:border-notion-muted">
+                    </div>
+                    <div class="grid grid-cols-[3rem_1fr] gap-3 items-center">
+                        <label for="log-lunch" class="text-sm text-notion-text font-medium" data-i18n="lunch">午餐</label>
+                        <input type="text" id="log-lunch" placeholder="午餐內容..." data-i18n-placeholder="lunchPh" class="text-sm border border-notion-border rounded px-2 py-2 focus:outline-none focus:border-notion-muted">
+                    </div>
+                    <div class="grid grid-cols-[3rem_1fr] gap-3 items-center">
+                        <label for="log-dinner" class="text-sm text-notion-text font-medium" data-i18n="dinner">晚餐</label>
+                        <input type="text" id="log-dinner" placeholder="晚餐內容..." data-i18n-placeholder="dinnerPh" class="text-sm border border-notion-border rounded px-2 py-2 focus:outline-none focus:border-notion-muted">
+                    </div>
+                </div>
+                <div class="flex items-start gap-3">
+                    <label for="log-reflection" class="text-sm w-12 text-notion-text font-medium pt-2" data-i18n="reflection">感想</label>
+                    <textarea id="log-reflection" rows="2" placeholder="今天身體或心情的感受..." data-i18n-placeholder="reflectionPh" class="flex-1 text-sm border border-notion-border rounded px-2 py-2 focus:outline-none focus:border-notion-muted resize-none"></textarea>
                 </div>
                 <div id="today-video-summary" class="hidden text-xs bg-notion-hover border border-notion-border rounded p-3 leading-relaxed"></div>
                 <div class="flex items-center gap-3 pt-1">
@@ -623,11 +644,17 @@
                 <button onclick="cancelEdit('log')" id="log-cancel-edit" class="hidden w-full py-2 text-xs bg-notion-hover border border-notion-border text-notion-text rounded-notion" data-i18n="cancel">取消</button>
             </div>
             <div class="space-y-3">
-                <span class="text-xs font-medium text-notion-muted block" data-i18n="weightHistory">體重與飲食紀錄</span>
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-medium text-notion-muted block" data-i18n="weightHistory">體重與飲食紀錄</span>
+                    <span class="text-[11px] text-notion-muted" data-i18n="latestFiveRecords">顯示最新 5 筆</span>
+                </div>
                 <div id="weight-log-list" class="space-y-3"></div>
             </div>
             <div class="space-y-3">
-                <span class="text-xs font-medium text-notion-muted block" data-i18n="videoHistory">影片紀錄</span>
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-medium text-notion-muted block" data-i18n="videoHistory">影片紀錄</span>
+                    <span class="text-[11px] text-notion-muted" data-i18n="latestFiveRecords">顯示最新 5 筆</span>
+                </div>
                 <div id="video-log-list" class="space-y-3"></div>
             </div>
         </div>
@@ -958,6 +985,19 @@
         </div>
     </div>
 
+    <div id="modal-cloud-update" class="fixed inset-0 bg-black/40 backdrop-blur-sm hidden justify-center items-center px-6 z-50" role="dialog" aria-modal="true" aria-labelledby="cloud-update-title">
+        <div class="bg-notion-card w-full max-w-sm rounded-notion p-5 space-y-4 shadow-2xl">
+            <div class="border-b border-notion-border pb-2">
+                <h3 id="cloud-update-title" class="text-sm font-semibold" data-i18n="cloudUpdateTitle">發現新的雲端資料</h3>
+            </div>
+            <p id="cloud-update-message" class="text-sm text-notion-muted leading-relaxed" data-i18n="cloudUpdateMessage">另一台裝置有較新的資料。按下確定更新後，會下載雲端資料並更新此裝置。</p>
+            <div class="grid grid-cols-2 gap-2">
+                <button onclick="dismissCloudUpdate()" class="py-2.5 text-sm bg-notion-hover border border-notion-border text-notion-text rounded-notion font-medium" data-i18n="later">稍後</button>
+                <button onclick="confirmCloudUpdate()" class="py-2.5 text-sm bg-notion-btn text-white rounded-notion font-medium" data-i18n="confirmUpdate">確定更新</button>
+            </div>
+        </div>
+    </div>
+
     <div id="modal-image-viewer" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden justify-center items-center p-4 z-[60]" role="dialog" aria-modal="true" aria-label="照片預覽" onclick="closeImageViewer()">
         <button onclick="closeImageViewer()" class="absolute top-5 right-5 w-10 h-10 rounded-full bg-white/15 text-white text-2xl leading-none" aria-label="關閉照片預覽">×</button>
         <img id="image-viewer-img" src="" alt="" class="max-w-full max-h-[82dvh] object-contain rounded-notion shadow-2xl" onclick="event.stopPropagation()">
@@ -1086,7 +1126,10 @@
             } else if (type === 'log') {
                 document.getElementById('log-date').value = todayKey();
                 document.getElementById('log-weight').value = '';
-                document.getElementById('log-food').value = '';
+                document.getElementById('log-breakfast').value = '';
+                document.getElementById('log-lunch').value = '';
+                document.getElementById('log-dinner').value = '';
+                document.getElementById('log-reflection').value = '';
                 document.getElementById('log-image').value = '';
                 updateFileLabel('log-image');
                 setCancelVisible('log-cancel-edit', false);
@@ -1325,6 +1368,16 @@
                 weight: '體重',
                 food: '飲食',
                 foodPh: '記錄飲食內容...',
+                weightTrend: '體重變化',
+                breakfast: '早餐',
+                breakfastPh: '早餐內容...',
+                lunch: '午餐',
+                lunchPh: '午餐內容...',
+                dinner: '晚餐',
+                dinnerPh: '晚餐內容...',
+                reflection: '感想',
+                reflectionPh: '今天身體或心情的感受...',
+                latestFiveRecords: '顯示最新 5 筆',
                 photo: '照片',
                 chooseFile: '選擇檔案',
                 chooseMusicFile: '選擇音樂檔',
@@ -1602,6 +1655,12 @@
                 noCloudData: '雲端還沒有資料，請先在其中一台裝置上傳',
                 cloudApplied: '已下載並套用雲端資料',
                 cloudAppliedToast: '雲端資料已套用',
+                cloudUpdateTitle: '發現新的雲端資料',
+                cloudUpdateMessage: '另一台裝置有較新的資料。按下確定更新後，會下載雲端資料並更新此裝置。',
+                confirmUpdate: '確定更新',
+                later: '稍後',
+                cloudUpdateReady: '雲端有較新的資料',
+                cloudUpdateChecked: '已檢查雲端版本',
                 dictionaryPageTitle: '日語字典',
                 dictionarySearchPh: '輸入日文單字或句子...',
                 dictionaryHint: '會先查公開字典資料；無法連線時會自動建立本機學習筆記，查詢後保存紀錄。',
@@ -1737,6 +1796,16 @@
                 weight: '体重',
                 food: '食事',
                 foodPh: '食事内容を記録...',
+                weightTrend: '体重の変化',
+                breakfast: '朝食',
+                breakfastPh: '朝食の内容...',
+                lunch: '昼食',
+                lunchPh: '昼食の内容...',
+                dinner: '夕食',
+                dinnerPh: '夕食の内容...',
+                reflection: '感想',
+                reflectionPh: '今日の体や気分の感想...',
+                latestFiveRecords: '最新5件を表示',
                 photo: '写真',
                 chooseFile: 'ファイルを選択',
                 chooseMusicFile: '音楽ファイルを選択',
@@ -2014,6 +2083,12 @@
                 noCloudData: 'クラウドにデータがありません。先にどれかの端末でアップロードしてください',
                 cloudApplied: 'クラウドデータをダウンロードして適用しました',
                 cloudAppliedToast: 'クラウドデータを適用しました',
+                cloudUpdateTitle: '新しいクラウドデータがあります',
+                cloudUpdateMessage: '別の端末により新しいデータがあります。確定するとクラウドデータをダウンロードしてこの端末を更新します。',
+                confirmUpdate: '更新する',
+                later: 'あとで',
+                cloudUpdateReady: 'クラウドに新しいデータがあります',
+                cloudUpdateChecked: 'クラウドのバージョンを確認しました',
                 dictionaryPageTitle: '日本語辞書',
                 dictionarySearchPh: '日本語の単語や文を入力...',
                 dictionaryHint: '公開辞書を検索します。接続できない場合は本機学習メモを作成し、検索後に保存します。',
@@ -2149,6 +2224,16 @@
                 weight: 'Weight',
                 food: 'Meals',
                 foodPh: 'Record what you ate...',
+                weightTrend: 'Weight trend',
+                breakfast: 'Breakfast',
+                breakfastPh: 'Breakfast...',
+                lunch: 'Lunch',
+                lunchPh: 'Lunch...',
+                dinner: 'Dinner',
+                dinnerPh: 'Dinner...',
+                reflection: 'Reflection',
+                reflectionPh: 'How your body or mood felt today...',
+                latestFiveRecords: 'Showing latest 5',
                 photo: 'Photo',
                 chooseFile: 'Choose file',
                 chooseMusicFile: 'Choose audio',
@@ -2426,6 +2511,12 @@
                 noCloudData: 'No cloud data yet. Upload from one device first',
                 cloudApplied: 'Cloud data downloaded and applied',
                 cloudAppliedToast: 'Cloud data applied',
+                cloudUpdateTitle: 'New cloud data found',
+                cloudUpdateMessage: 'Another device has newer data. Confirm to download cloud data and update this device.',
+                confirmUpdate: 'Update now',
+                later: 'Later',
+                cloudUpdateReady: 'Newer cloud data is available',
+                cloudUpdateChecked: 'Cloud version checked',
                 dictionaryPageTitle: 'Japanese Dictionary',
                 dictionarySearchPh: 'Enter a Japanese word or sentence...',
                 dictionaryHint: 'Searches public dictionary data first. If unavailable, it creates a local study note and saves the lookup.',
@@ -2592,6 +2683,9 @@
         let currentEbookId = null;
         let currentEpubBook = null;
         let currentEpubRendition = null;
+        let pendingCloudUpdate = null;
+        let cloudUpdateChecking = false;
+        let lastCloudUpdateCheck = 0;
         const editState = { dailyTodo: null, shrineWish: null, workout: null, medVideo: null, log: null, journal: null, shrine: null, book: null, readingNote: null, link: null, item: null, meditation: null };
         const ITEM_CATEGORIES = ['全部', '衣物', '美妝', '書籍', '電子', '家居', '其他'];
         const ITEM_CATEGORY_KEYS = { '全部': 'itemCatAll', '衣物': 'itemCatClothes', '美妝': 'itemCatBeauty', '書籍': 'itemCatBooks', '電子': 'itemCatTech', '家居': 'itemCatHome', '其他': 'itemCatOther' };
@@ -2636,13 +2730,22 @@
             document.getElementById('dictionary-query').addEventListener('keydown', e => {
                 if (e.key === 'Enter') searchDictionary();
             });
-            handleAuthRedirect();
-            initCloudSync();
+            handleAuthRedirect().then(() => initCloudSync()).then(() => setTimeout(() => checkCloudForUpdates(), 1200));
+            document.addEventListener('visibilitychange', () => {
+                if (!document.hidden) checkCloudForUpdates();
+            });
+            window.addEventListener('focus', () => checkCloudForUpdates());
             document.addEventListener('keydown', e => {
+                if (readingView === 'reader' && currentEpubRendition && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) {
+                    e.preventDefault();
+                    turnEbookPage(e.key === 'ArrowLeft' ? -1 : 1);
+                    return;
+                }
                 if (e.key === 'Escape') {
                     if (!document.getElementById('modal-journal').classList.contains('hidden')) closeJournalModal();
                     if (!document.getElementById('modal-daily').classList.contains('hidden')) closeDailyModal();
                     if (!document.getElementById('modal-sync').classList.contains('hidden')) closeSyncModal();
+                    if (!document.getElementById('modal-cloud-update').classList.contains('hidden')) dismissCloudUpdate();
                 }
             });
         });
@@ -3140,7 +3243,8 @@
                 setSyncStatus(t('uploading'));
                 const syncId = await getActiveSyncId();
                 try {
-                    await callManifestSync('upload', syncId, getAllAppData());
+                    const result = await callManifestSync('upload', syncId, getAllAppData());
+                    if (result.updated_at) markCloudVersionSeen(syncId, result.updated_at);
                     setSyncStatus(t('uploadedSupabase'));
                     showToast(t('uploadToast'));
                     return;
@@ -3164,6 +3268,7 @@
                     const result = await callManifestSync('download', syncId);
                     if (!result.data) return setSyncStatus(t('noCloudData'));
                     applyAppData(result.data || {});
+                    if (result.updated_at) markCloudVersionSeen(syncId, result.updated_at);
                     setSyncStatus(`${t('cloudApplied')}${result.updated_at ? `｜${new Date(result.updated_at).toLocaleString()}` : ''}`);
                     showToast(t('cloudAppliedToast'));
                     return;
@@ -3176,6 +3281,71 @@
                 else if (error.message === 'missing-settings') setSyncStatus(t('authLoginRequired'));
                 else if (error.message === 'supabase-load-failed') setSyncStatus(t('supabaseLoadFailed'));
                 else setSyncStatus(t('downloadFailed').replace('{error}', error.message || t('checkingTable')));
+            }
+        }
+
+        function getCloudVersionKey(syncId) {
+            return `manifestation_cloud_seen_${syncId || 'default'}`;
+        }
+
+        function markCloudVersionSeen(syncId, updatedAt) {
+            if (!syncId || !updatedAt) return;
+            localStorage.setItem(getCloudVersionKey(syncId), updatedAt);
+        }
+
+        function getSeenCloudVersion(syncId) {
+            return syncId ? localStorage.getItem(getCloudVersionKey(syncId)) || '' : '';
+        }
+
+        function openCloudUpdateModal(result, syncId) {
+            pendingCloudUpdate = { result, syncId };
+            const modal = document.getElementById('modal-cloud-update');
+            const msg = document.getElementById('cloud-update-message');
+            if (msg) msg.innerText = result.updated_at ? `${t('cloudUpdateMessage')}\n${new Date(result.updated_at).toLocaleString()}` : t('cloudUpdateMessage');
+            modal?.classList.remove('hidden');
+            modal?.classList.add('flex');
+            setSyncStatus(t('cloudUpdateReady'));
+        }
+
+        function dismissCloudUpdate() {
+            document.getElementById('modal-cloud-update')?.classList.add('hidden');
+            document.getElementById('modal-cloud-update')?.classList.remove('flex');
+            pendingCloudUpdate = null;
+        }
+
+        function confirmCloudUpdate() {
+            if (!pendingCloudUpdate?.result?.data) return dismissCloudUpdate();
+            applyAppData(pendingCloudUpdate.result.data || {});
+            if (pendingCloudUpdate.result.updated_at) markCloudVersionSeen(pendingCloudUpdate.syncId, pendingCloudUpdate.result.updated_at);
+            dismissCloudUpdate();
+            showToast(t('cloudAppliedToast'));
+            setSyncStatus(t('cloudApplied'));
+        }
+
+        async function checkCloudForUpdates(force = false) {
+            if (cloudUpdateChecking) return;
+            const now = Date.now();
+            if (!force && now - lastCloudUpdateCheck < 60000) return;
+            lastCloudUpdateCheck = now;
+            cloudUpdateChecking = true;
+            try {
+                const syncId = await getActiveSyncId();
+                const result = await callManifestSync('download', syncId);
+                if (!result?.data || !result.updated_at) return;
+                const seen = getSeenCloudVersion(syncId);
+                if (!seen) {
+                    markCloudVersionSeen(syncId, result.updated_at);
+                    return;
+                }
+                if (new Date(result.updated_at).getTime() > new Date(seen).getTime()) {
+                    openCloudUpdateModal(result, syncId);
+                } else if (force) {
+                    setSyncStatus(t('cloudUpdateChecked'));
+                }
+            } catch {
+                // Background checks should stay quiet; manual sync still reports errors.
+            } finally {
+                cloudUpdateChecking = false;
             }
         }
 
@@ -3270,10 +3440,47 @@
         function compressImage(file, callback) { const reader = new FileReader(); reader.readAsDataURL(file); reader.onload = e => { const img = new Image(); img.src = e.target.result; img.onload = () => { const canvas = document.createElement('canvas'); const scale = img.width > 600 ? 600 / img.width : 1; canvas.width = img.width * scale; canvas.height = img.height * scale; canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height); callback(canvas.toDataURL('image/jpeg', 0.6)); } } }
         
         function logDisplayDate(log) { return log.dateKey || log.date || ''; }
-        function hasWeightLog(log) { return !!(log.weight || log.food || log.image); }
-        function loadLogs() { renderTodayVideoSummary(); const logs = getStorageArray('notion_logs_v2'); const weightList = document.getElementById('weight-log-list'); const videoList = document.getElementById('video-log-list'); if (!weightList || !videoList) return; weightList.innerHTML = ''; videoList.innerHTML = ''; const weightLogs = logs.map((log, index) => ({ log, index })).filter(item => hasWeightLog(item.log)).reverse(); const videoLogs = logs.map((log, index) => ({ log, index })).filter(item => Array.isArray(item.log.videoViews) && item.log.videoViews.length).reverse(); if (!weightLogs.length) weightList.innerHTML = getEmptyStateHTML(t('noWeightLogs')); weightLogs.forEach(({ log, index }) => { const div = document.createElement('div'); div.className = "bg-notion-card border border-notion-border rounded-notion p-4 text-sm"; const imgHTML = log.image ? `<img src="${escapeHTML(log.image)}" alt="${t('photo')}" class="mt-3 rounded-notion object-cover w-full max-h-48 border border-notion-border bg-notion-hover">` : ''; div.innerHTML = `<div class="flex justify-between items-start"><span class="text-[10px] text-notion-text font-medium bg-notion-hover px-2 py-0.5 rounded">${escapeHTML(logDisplayDate(log))}</span><div class="flex gap-1"><button onclick="editLog(${index})" class="text-notion-muted opacity-60 active:opacity-100 text-xs py-1 px-2" aria-label="${t('edit')}">${t('edit')}</button><button onclick="deleteLog(${index})" class="text-notion-muted opacity-40 active:opacity-100 text-xs py-1 px-2" aria-label="${t('deleteRecord')}">✕</button></div></div><div class="mt-2 space-y-1">${log.weight ? `<p class="text-sm">⚖️ ${escapeHTML(log.weight)} kg</p>` : ''}${log.food ? `<p class="text-sm">🍽️ ${escapeHTML(log.food)}</p>` : ''}</div>${imgHTML}`; weightList.appendChild(div); }); if (!videoLogs.length) videoList.innerHTML = getEmptyStateHTML(t('noVideoLogs')); videoLogs.forEach(({ log, index }) => { const div = document.createElement('div'); div.className = "bg-notion-card border border-notion-border rounded-notion p-4 text-sm"; div.innerHTML = `<div class="flex justify-between items-start mb-2"><span class="text-[10px] text-notion-text font-medium bg-notion-hover px-2 py-0.5 rounded">${escapeHTML(logDisplayDate(log))}</span></div><div class="space-y-2">${log.videoViews.map((v, videoIndex) => `<div class="flex items-center justify-between gap-2 bg-notion-hover rounded-notion p-2"><div class="min-w-0"><p class="text-xs font-medium truncate">${escapeHTML(v.type)}｜${escapeHTML(v.title)}</p><p class="text-[11px] text-notion-muted">${escapeHTML(v.count)} ${getLanguage() === 'en' ? 'x' : '次'}</p></div><div class="flex gap-1 shrink-0"><button onclick="editLogVideo(${index}, ${videoIndex})" class="text-notion-muted opacity-60 active:opacity-100 text-xs px-2 py-1">${t('edit')}</button><button onclick="deleteLogVideo(${index}, ${videoIndex})" class="text-notion-muted opacity-40 active:opacity-100 text-xs px-2 py-1" aria-label="${t('deleteRecord')}">✕</button></div></div>`).join('')}</div>`; videoList.appendChild(div); }); }
-        function saveLog() { const w = document.getElementById('log-weight').value.trim(); const f = document.getElementById('log-food').value.trim(); const file = document.getElementById('log-image').files[0]; const dateKey = document.getElementById('log-date').value || todayKey(); const save = (img) => { const l = getStorageArray('notion_logs_v2'); if (editState.log !== null && l[editState.log]) { l[editState.log] = { ...l[editState.log], weight:w, food:f, image: img ?? l[editState.log].image ?? null, date:dateKey, dateKey, updatedAt: new Date().toISOString() }; showToast(t('updated')); } else { l.push({weight:w, food:f, image:img, date:dateKey, dateKey}); if(l.length>60) l.shift(); showToast(t('recordSaved')); } localStorage.setItem('notion_logs_v2', JSON.stringify(l)); cancelEdit('log'); loadLogs(); updateTrackingOverview(); }; if(file) compressImage(file, save); else if(w||f||editState.log !== null) save(null); else showToast(t('fillContent')); }
-        function editLog(i) { const logs = getStorageArray('notion_logs_v2'); const log = logs[i]; if (!log) return; editState.log = i; document.getElementById('log-date').value = log.dateKey || log.date || todayKey(); document.getElementById('log-weight').value = log.weight || ''; document.getElementById('log-food').value = log.food || ''; document.getElementById('log-image').value = ''; updateFileLabel('log-image'); setCancelVisible('log-cancel-edit', true); scrollToControl('log-date'); }
+        function hasWeightLog(log) { return !!(log.weight || log.food || log.breakfast || log.lunch || log.dinner || log.reflection || log.image); }
+        function getMealRows(log) {
+            return [
+                log.breakfast ? `${t('breakfast')}：${escapeHTML(log.breakfast)}` : '',
+                log.lunch ? `${t('lunch')}：${escapeHTML(log.lunch)}` : '',
+                log.dinner ? `${t('dinner')}：${escapeHTML(log.dinner)}` : '',
+                log.food ? `${t('food')}：${escapeHTML(log.food)}` : ''
+            ].filter(Boolean);
+        }
+        function renderWeightChart(logs) {
+            const chart = document.getElementById('weight-chart');
+            const summary = document.getElementById('weight-trend-summary');
+            if (!chart) return;
+            const points = logs.filter(log => log.weight && !Number.isNaN(parseFloat(log.weight))).map(log => ({ date: logDisplayDate(log), weight: parseFloat(log.weight) })).sort((a, b) => String(a.date).localeCompare(String(b.date))).slice(-14);
+            if (!points.length) { chart.innerHTML = `<div class="h-full flex items-center justify-center text-xs text-notion-muted">${escapeHTML(t('noWeightLogs'))}</div>`; if (summary) summary.innerText = ''; return; }
+            const width = 320, height = 150, pad = 24;
+            const min = Math.min(...points.map(p => p.weight));
+            const max = Math.max(...points.map(p => p.weight));
+            const range = Math.max(0.8, max - min);
+            const coords = points.map((p, i) => {
+                const x = points.length === 1 ? width / 2 : pad + i * ((width - pad * 2) / (points.length - 1));
+                const y = height - pad - ((p.weight - min) / range) * (height - pad * 2);
+                return { ...p, x, y };
+            });
+            const line = coords.map(p => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
+            const latest = coords[coords.length - 1];
+            const first = coords[0];
+            const diff = latest.weight - first.weight;
+            if (summary) summary.innerText = `${latest.weight.toFixed(1)} kg${coords.length > 1 ? `｜${diff >= 0 ? '+' : ''}${diff.toFixed(1)} kg` : ''}`;
+            chart.innerHTML = `<svg viewBox="0 0 ${width} ${height}" class="w-full h-full" role="img" aria-label="${escapeHTML(t('weightTrend'))}">
+                <line x1="${pad}" y1="${height - pad}" x2="${width - pad}" y2="${height - pad}" stroke="#EAEAEA" stroke-width="1"/>
+                <line x1="${pad}" y1="${pad}" x2="${pad}" y2="${height - pad}" stroke="#EAEAEA" stroke-width="1"/>
+                <polyline points="${line}" fill="none" stroke="#2E2C27" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                ${coords.map(p => `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="3.8" fill="#2E2C27"><title>${escapeHTML(p.date)} ${p.weight.toFixed(1)}kg</title></circle>`).join('')}
+                <text x="${pad}" y="16" fill="#9B9B9B" font-size="10">${max.toFixed(1)}kg</text>
+                <text x="${pad}" y="${height - 6}" fill="#9B9B9B" font-size="10">${min.toFixed(1)}kg</text>
+            </svg>`;
+        }
+        function loadLogs() { renderTodayVideoSummary(); const logs = getStorageArray('notion_logs_v2'); const weightList = document.getElementById('weight-log-list'); const videoList = document.getElementById('video-log-list'); if (!weightList || !videoList) return; renderWeightChart(logs); weightList.innerHTML = ''; videoList.innerHTML = ''; const weightLogs = logs.map((log, index) => ({ log, index })).filter(item => hasWeightLog(item.log)).reverse().slice(0, 5); const videoLogs = logs.map((log, index) => ({ log, index })).filter(item => Array.isArray(item.log.videoViews) && item.log.videoViews.length).reverse().slice(0, 5); if (!weightLogs.length) weightList.innerHTML = getEmptyStateHTML(t('noWeightLogs')); weightLogs.forEach(({ log, index }) => { const div = document.createElement('div'); div.className = "bg-notion-card border border-notion-border rounded-notion p-4 text-sm"; const imgHTML = log.image ? `<img src="${escapeHTML(log.image)}" alt="${t('photo')}" class="mt-3 rounded-notion object-cover w-full max-h-48 border border-notion-border bg-notion-hover">` : ''; const meals = getMealRows(log); div.innerHTML = `<div class="flex justify-between items-start"><span class="text-[10px] text-notion-text font-medium bg-notion-hover px-2 py-0.5 rounded">${escapeHTML(logDisplayDate(log))}</span><div class="flex gap-1"><button onclick="editLog(${index})" class="text-notion-muted opacity-60 active:opacity-100 text-xs py-1 px-2" aria-label="${t('edit')}">${t('edit')}</button><button onclick="deleteLog(${index})" class="text-notion-muted opacity-40 active:opacity-100 text-xs py-1 px-2" aria-label="${t('deleteRecord')}">✕</button></div></div><div class="mt-2 space-y-1">${log.weight ? `<p class="text-sm font-semibold">⚖️ ${escapeHTML(log.weight)} kg</p>` : ''}${meals.map(row => `<p class="text-xs bg-notion-hover rounded px-2 py-1">${row}</p>`).join('')}${log.reflection ? `<p class="text-xs text-notion-text mt-2 whitespace-pre-wrap border-l-2 border-notion-border pl-2">${escapeHTML(log.reflection)}</p>` : ''}</div>${imgHTML}`; weightList.appendChild(div); }); if (!videoLogs.length) videoList.innerHTML = getEmptyStateHTML(t('noVideoLogs')); videoLogs.forEach(({ log, index }) => { const div = document.createElement('div'); div.className = "bg-notion-card border border-notion-border rounded-notion p-4 text-sm"; div.innerHTML = `<div class="flex justify-between items-start mb-2"><span class="text-[10px] text-notion-text font-medium bg-notion-hover px-2 py-0.5 rounded">${escapeHTML(logDisplayDate(log))}</span></div><div class="space-y-2">${log.videoViews.map((v, videoIndex) => `<div class="flex items-center justify-between gap-2 bg-notion-hover rounded-notion p-2"><div class="min-w-0"><p class="text-xs font-medium truncate">${escapeHTML(v.type)}｜${escapeHTML(v.title)}</p><p class="text-[11px] text-notion-muted">${escapeHTML(v.count)} ${getLanguage() === 'en' ? 'x' : '次'}</p></div><div class="flex gap-1 shrink-0"><button onclick="editLogVideo(${index}, ${videoIndex})" class="text-notion-muted opacity-60 active:opacity-100 text-xs px-2 py-1">${t('edit')}</button><button onclick="deleteLogVideo(${index}, ${videoIndex})" class="text-notion-muted opacity-40 active:opacity-100 text-xs px-2 py-1" aria-label="${t('deleteRecord')}">✕</button></div></div>`).join('')}</div>`; videoList.appendChild(div); }); }
+        function saveLog() { const w = document.getElementById('log-weight').value.trim(); const breakfast = document.getElementById('log-breakfast').value.trim(); const lunch = document.getElementById('log-lunch').value.trim(); const dinner = document.getElementById('log-dinner').value.trim(); const reflection = document.getElementById('log-reflection').value.trim(); const file = document.getElementById('log-image').files[0]; const dateKey = document.getElementById('log-date').value || todayKey(); const save = (img) => { const l = getStorageArray('notion_logs_v2'); const next = {weight:w, breakfast, lunch, dinner, reflection, image:img, date:dateKey, dateKey}; if (editState.log !== null && l[editState.log]) { l[editState.log] = { ...l[editState.log], ...next, food: l[editState.log].food || '', image: img ?? l[editState.log].image ?? null, updatedAt: new Date().toISOString() }; showToast(t('updated')); } else { l.push(next); if(l.length>60) l.shift(); showToast(t('recordSaved')); } localStorage.setItem('notion_logs_v2', JSON.stringify(l)); cancelEdit('log'); loadLogs(); updateTrackingOverview(); }; if(file) compressImage(file, save); else if(w||breakfast||lunch||dinner||reflection||editState.log !== null) save(null); else showToast(t('fillContent')); }
+        function editLog(i) { const logs = getStorageArray('notion_logs_v2'); const log = logs[i]; if (!log) return; editState.log = i; document.getElementById('log-date').value = log.dateKey || log.date || todayKey(); document.getElementById('log-weight').value = log.weight || ''; document.getElementById('log-breakfast').value = log.breakfast || log.food || ''; document.getElementById('log-lunch').value = log.lunch || ''; document.getElementById('log-dinner').value = log.dinner || ''; document.getElementById('log-reflection').value = log.reflection || ''; document.getElementById('log-image').value = ''; updateFileLabel('log-image'); setCancelVisible('log-cancel-edit', true); scrollToControl('log-date'); }
         function editLogVideo(logIndex, videoIndex) { const logs = getStorageArray('notion_logs_v2'); const video = logs[logIndex]?.videoViews?.[videoIndex]; if (!video) return; const title = prompt(t('editVideoRecord'), video.title || ''); if (title === null) return; const type = prompt(t('watchedVideos'), video.type || t('workout')); if (type === null) return; const count = prompt(t('videoCountPrompt'), video.count || 1); if (count === null) return; video.title = title.trim() || video.title; video.type = type.trim() || video.type; video.count = Math.max(1, parseInt(count, 10) || 1); localStorage.setItem('notion_logs_v2', JSON.stringify(logs)); loadLogs(); showToast(t('updated')); }
         function deleteLogVideo(logIndex, videoIndex) { const logs = getStorageArray('notion_logs_v2'); if (!logs[logIndex]?.videoViews) return; logs[logIndex].videoViews.splice(videoIndex, 1); if (!hasWeightLog(logs[logIndex]) && logs[logIndex].videoViews.length === 0) logs.splice(logIndex, 1); localStorage.setItem('notion_logs_v2', JSON.stringify(logs)); loadLogs(); showToast(t('deleted')); }
         function deleteLog(i) { const l = getStorageArray('notion_logs_v2'); if (!l[i]) return; if (Array.isArray(l[i].videoViews) && l[i].videoViews.length) { l[i].weight = ''; l[i].food = ''; l[i].image = null; } else { l.splice(i, 1); } localStorage.setItem('notion_logs_v2', JSON.stringify(l)); loadLogs(); showToast(t('deleted')); }
@@ -3738,6 +3945,20 @@
                 req.onerror = () => resolve(null);
             });
         }
+        function updateEbookMeta(id, patch) {
+            return new Promise(resolve => {
+                const store = getEbookStore('readwrite');
+                if (!store) return resolve(false);
+                const req = store.get(id);
+                req.onsuccess = () => {
+                    const ebook = req.result;
+                    if (!ebook) return resolve(false);
+                    store.put({ ...ebook, ...patch, updatedAt: new Date().toISOString() });
+                };
+                store.transaction.oncomplete = () => resolve(true);
+                store.transaction.onerror = () => resolve(false);
+            });
+        }
         async function saveEbookFile() {
             const input = document.getElementById('ebook-upload');
             const file = input?.files?.[0];
@@ -3762,7 +3983,7 @@
                 <div class="w-12 h-14 rounded-notion border border-notion-border bg-notion-hover flex items-center justify-center text-xs font-bold uppercase">${escapeHTML(book.type || 'pdf')}</div>
                 <div class="min-w-0 flex-1">
                     <h4 class="font-bold text-notion-text truncate">${escapeHTML(book.title || book.name)}</h4>
-                    <p class="text-[11px] text-notion-muted mt-1">${escapeHTML(book.name || '')}</p>
+                    <p class="text-[11px] text-notion-muted mt-1">${escapeHTML(book.name || '')}${book.percent ? `｜${escapeHTML(book.percent)}%` : ''}</p>
                 </div>
                 <div class="flex flex-col gap-2 shrink-0">
                     <button onclick="openEbook(${jsString(book.id)})" class="px-3 py-1.5 rounded-notion bg-notion-btn text-white text-xs font-bold">${escapeHTML(t('openEbook'))}</button>
@@ -3788,8 +4009,11 @@
             const url = URL.createObjectURL(ebook.file);
             content.innerHTML = `<div class="space-y-3">
                 <div class="reading-card p-4 flex items-center justify-between gap-3">
-                    <div class="min-w-0"><p class="reading-kicker">${escapeHTML(ebook.type?.toUpperCase() || '')}</p><h3 class="font-bold text-lg truncate">${escapeHTML(ebook.title || ebook.name)}</h3></div>
-                    <button onclick="closeEbookReader()" class="px-3 py-2 rounded-notion border border-notion-border bg-white text-xs font-bold">${escapeHTML(t('closeReader'))}</button>
+                    <div class="min-w-0"><p class="reading-kicker">${escapeHTML(ebook.type?.toUpperCase() || '')}<span id="ebook-progress-label" class="ml-2 text-notion-muted">${ebook.percent ? `${escapeHTML(ebook.percent)}%` : ''}</span></p><h3 class="font-bold text-lg truncate">${escapeHTML(ebook.title || ebook.name)}</h3></div>
+                    <div class="flex gap-2 shrink-0">
+                        ${ebook.type === 'pdf' ? `<a href="${escapeHTML(url)}" target="_blank" rel="noopener noreferrer" class="px-3 py-2 rounded-notion bg-notion-btn text-white text-xs font-bold">${escapeHTML(t('openEbook'))}</a>` : ''}
+                        <button onclick="closeEbookReader()" class="px-3 py-2 rounded-notion border border-notion-border bg-white text-xs font-bold">${escapeHTML(t('closeReader'))}</button>
+                    </div>
                 </div>
                 <div id="ebook-reader-frame" class="ebook-reader-frame"></div>
                 ${ebook.type === 'epub' ? `<div class="grid grid-cols-2 gap-2"><button onclick="turnEbookPage(-1)" class="py-3 rounded-notion border border-notion-border bg-white text-sm font-bold">${escapeHTML(t('previousPage'))}</button><button onclick="turnEbookPage(1)" class="py-3 rounded-notion bg-notion-btn text-white text-sm font-bold">${escapeHTML(t('nextPage'))}</button></div>` : ''}
@@ -3805,11 +4029,29 @@
             }
             currentEpubBook = ePub(url);
             currentEpubRendition = currentEpubBook.renderTo('ebook-reader-frame', { width: '100%', height: '100%', spread: 'none' });
-            currentEpubRendition.display();
+            currentEpubRendition.display(ebook.location || undefined);
+            currentEpubRendition.on('relocated', location => {
+                const percent = currentEpubBook?.locations?.percentageFromCfi ? Math.round((currentEpubBook.locations.percentageFromCfi(location.start.cfi) || 0) * 100) : '';
+                document.getElementById('ebook-progress-label').innerText = percent !== '' ? `${percent}%` : '';
+                updateEbookMeta(ebook.id, { location: location.start.cfi, percent });
+            });
+            currentEpubBook.ready.then(() => currentEpubBook.locations.generate(800)).catch(() => {});
+            bindEbookGestures();
         }
         function turnEbookPage(direction) {
             if (!currentEpubRendition) return;
             direction < 0 ? currentEpubRendition.prev() : currentEpubRendition.next();
+        }
+        function bindEbookGestures() {
+            const frame = document.getElementById('ebook-reader-frame');
+            if (!frame) return;
+            let startX = 0;
+            frame.addEventListener('touchstart', e => { startX = e.touches?.[0]?.clientX || 0; }, { passive: true });
+            frame.addEventListener('touchend', e => {
+                const endX = e.changedTouches?.[0]?.clientX || 0;
+                const diff = endX - startX;
+                if (Math.abs(diff) > 54) turnEbookPage(diff > 0 ? -1 : 1);
+            }, { passive: true });
         }
         function closeEbookReader() {
             destroyEpubReader();
@@ -3825,6 +4067,7 @@
         function renderReadingFilters() { renderReadingPage(); }
         function setReadingFilter(status) { readingFilter = status; setReadingView('books'); }
         function setReadingView(view) {
+            if (readingView === 'reader' && view !== 'reader') destroyEpubReader();
             readingView = view || 'home';
             renderReadingPage();
             const shell = document.querySelector('#page-reading .reading-shell');
