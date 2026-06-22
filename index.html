@@ -340,6 +340,54 @@
             margin-top: 22px;
             padding-top: 22px;
         }
+        @media (min-width: 768px) {
+            body {
+                max-width: min(100%, 980px) !important;
+            }
+            header {
+                padding-left: 32px !important;
+                padding-right: 32px !important;
+            }
+            main {
+                padding-left: 32px !important;
+                padding-right: 32px !important;
+            }
+            #page-home {
+                max-width: 900px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            #page-home .grid {
+                grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+            }
+            #page-dictionary,
+            #page-journal,
+            #page-shrine,
+            #page-meditation,
+            #page-items,
+            #page-links,
+            #page-settings {
+                max-width: 760px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            #page-track {
+                max-width: 900px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .feature-tile {
+                min-height: 138px;
+            }
+        }
+        @media (min-width: 1024px) {
+            body {
+                max-width: min(100%, 1100px) !important;
+            }
+            #page-home .grid {
+                grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+            }
+        }
         .upload-control {
             min-height: 44px;
             border: 1px solid #EAEAEA;
@@ -513,7 +561,8 @@
                     <option value="有氧" data-i18n="partCardio">有氧</option>
                     <option value="伸展" data-i18n="partStretch">伸展放鬆</option>
                 </select>
-                <button onclick="saveWorkout()" class="w-full py-2.5 text-sm bg-notion-btn text-white rounded-notion font-medium hover:opacity-90 active:scale-[0.98] transition-transform" data-i18n="addToVideoLibrary">新增至影片庫</button>
+                <button onclick="saveWorkout()" id="workout-save-btn" class="w-full py-2.5 text-sm bg-notion-btn text-white rounded-notion font-medium hover:opacity-90 active:scale-[0.98] transition-transform" data-i18n="addToVideoLibrary">新增至影片庫</button>
+                <button onclick="cancelEdit('workout')" id="workout-cancel-edit" class="hidden w-full py-2 text-xs bg-notion-hover border border-notion-border text-notion-text rounded-notion" data-i18n="cancel">取消</button>
             </div>
             <div id="workout-filter" class="flex gap-2 overflow-x-auto pb-1" aria-label="減肥部位篩選" data-i18n-aria="workoutFilter"></div>
             <div id="workout-list" class="grid grid-cols-2 gap-3 mt-4"></div>
@@ -545,7 +594,8 @@
                         <input type="file" id="log-image" accept="image/*" class="sr-only" data-file-label="log-image-name">
                     </label>
                 </div>
-                <button onclick="saveLog()" class="w-full py-3 text-sm bg-notion-btn text-white rounded-notion font-medium hover:opacity-90 mt-2 active:scale-[0.98] transition-transform" data-i18n="saveRecord">儲存紀錄</button>
+                <button onclick="saveLog()" id="log-save-btn" class="w-full py-3 text-sm bg-notion-btn text-white rounded-notion font-medium hover:opacity-90 mt-2 active:scale-[0.98] transition-transform" data-i18n="saveRecord">儲存紀錄</button>
+                <button onclick="cancelEdit('log')" id="log-cancel-edit" class="hidden w-full py-2 text-xs bg-notion-hover border border-notion-border text-notion-text rounded-notion" data-i18n="cancel">取消</button>
             </div>
             <div class="space-y-3">
                 <span class="text-xs font-medium text-notion-muted block" data-i18n="weightHistory">體重與飲食紀錄</span>
@@ -606,7 +656,8 @@
                         <input type="file" id="shrine-image" accept="image/*" class="sr-only" data-file-label="shrine-image-name">
                     </label>
                 </div>
-                <button onclick="saveShrine()" class="w-full py-3 text-sm bg-notion-btn text-white rounded-notion font-medium hover:opacity-90 mt-2 active:scale-[0.98] transition-transform" data-i18n="saveRecord">儲存紀錄</button>
+                <button onclick="saveShrine()" id="shrine-save-btn" class="w-full py-3 text-sm bg-notion-btn text-white rounded-notion font-medium hover:opacity-90 mt-2 active:scale-[0.98] transition-transform" data-i18n="saveRecord">儲存紀錄</button>
+                <button onclick="cancelEdit('shrine')" id="shrine-cancel-edit" class="hidden w-full py-2 text-xs bg-notion-hover border border-notion-border text-notion-text rounded-notion" data-i18n="cancel">取消</button>
             </div>
             
             <div class="space-y-3 pb-4">
@@ -648,7 +699,8 @@
                 </div>
                 <input type="text" id="med-video-title" placeholder="影片名稱 (例：10分鐘頌缽音療)" data-i18n-placeholder="medVideoTitlePh" class="w-full text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted">
                 <input type="url" id="med-video-url" placeholder="貼上 YouTube 連結..." data-i18n-placeholder="youtubeUrlPh" class="w-full text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted">
-                <button onclick="saveMeditationVideo()" class="w-full py-2.5 text-sm bg-notion-btn text-white rounded-notion font-medium hover:opacity-90 active:scale-[0.98] transition-transform" data-i18n="addGuideVideo">新增導引影片</button>
+                <button onclick="saveMeditationVideo()" id="med-video-save-btn" class="w-full py-2.5 text-sm bg-notion-btn text-white rounded-notion font-medium hover:opacity-90 active:scale-[0.98] transition-transform" data-i18n="addGuideVideo">新增導引影片</button>
+                <button onclick="cancelEdit('medVideo')" id="med-video-cancel-edit" class="hidden w-full py-2 text-xs bg-notion-hover border border-notion-border text-notion-text rounded-notion" data-i18n="cancel">取消</button>
                 <div id="med-video-list" class="grid grid-cols-2 gap-3 mt-4 pt-2"></div>
             </div>
 
@@ -657,7 +709,8 @@
                     <label for="med-notes" class="text-sm w-16 text-notion-text font-medium pt-2" data-i18n="awarenessNote">覺察筆記</label>
                     <textarea id="med-notes" rows="2" placeholder="冥想後的感受或啟發..." data-i18n-placeholder="medNotesPh" class="flex-1 text-sm border border-notion-border rounded px-2 py-2 focus:outline-none focus:border-notion-muted resize-none"></textarea>
                 </div>
-                <button onclick="saveMeditation()" class="w-full py-3 text-sm bg-notion-btn text-white rounded-notion font-medium hover:opacity-90 active:scale-[0.98] transition-transform" data-i18n="saveRecord">儲存紀錄</button>
+                <button onclick="saveMeditation()" id="meditation-save-btn" class="w-full py-3 text-sm bg-notion-btn text-white rounded-notion font-medium hover:opacity-90 active:scale-[0.98] transition-transform" data-i18n="saveRecord">儲存紀錄</button>
+                <button onclick="cancelEdit('meditation')" id="meditation-cancel-edit" class="hidden w-full py-2 text-xs bg-notion-hover border border-notion-border text-notion-text rounded-notion" data-i18n="cancel">取消</button>
             </div>
             
             <div class="space-y-3 pb-4">
@@ -742,7 +795,8 @@
                     </span>
                     <input type="file" id="item-image" accept="image/*" class="sr-only" data-file-label="item-image-name">
                 </label>
-                <button onclick="saveItem()" class="w-full py-3 text-sm bg-notion-btn text-white rounded-notion font-medium active:scale-[0.98] transition-transform" data-i18n="saveItem">儲存物品</button>
+                <button onclick="saveItem()" id="item-save-btn" class="w-full py-3 text-sm bg-notion-btn text-white rounded-notion font-medium active:scale-[0.98] transition-transform" data-i18n="saveItem">儲存物品</button>
+                <button onclick="cancelEdit('item')" id="item-cancel-edit" class="hidden w-full py-2 text-xs bg-notion-hover border border-notion-border text-notion-text rounded-notion" data-i18n="cancel">取消</button>
             </div>
             <div id="item-filter" class="flex gap-2 overflow-x-auto pb-1" aria-label="物品分類篩選" data-i18n-aria="itemFilter"></div>
             <div class="space-y-3 pb-4">
@@ -774,7 +828,8 @@
                 </div>
                 <datalist id="link-category-options"></datalist>
                 <textarea id="link-note" rows="2" placeholder="用途、帳號提示或備註..." data-i18n-placeholder="linkNotePh" class="w-full text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted resize-none"></textarea>
-                <button onclick="saveLink()" class="w-full py-3 text-sm bg-notion-btn text-white rounded-notion font-medium active:scale-[0.98] transition-transform" data-i18n="saveLink">儲存連結</button>
+                <button onclick="saveLink()" id="link-save-btn" class="w-full py-3 text-sm bg-notion-btn text-white rounded-notion font-medium active:scale-[0.98] transition-transform" data-i18n="saveLink">儲存連結</button>
+                <button onclick="cancelEdit('link')" id="link-cancel-edit" class="hidden w-full py-2 text-xs bg-notion-hover border border-notion-border text-notion-text rounded-notion" data-i18n="cancel">取消</button>
             </div>
             <div id="link-filter" class="flex gap-2 overflow-x-auto pb-1" aria-label="常用連結分類篩選" data-i18n-aria="linkFilter"></div>
             <div class="space-y-3 pb-4">
@@ -878,6 +933,11 @@
         </div>
     </div>
 
+    <div id="modal-image-viewer" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden justify-center items-center p-4 z-[60]" role="dialog" aria-modal="true" aria-label="照片預覽" onclick="closeImageViewer()">
+        <button onclick="closeImageViewer()" class="absolute top-5 right-5 w-10 h-10 rounded-full bg-white/15 text-white text-2xl leading-none" aria-label="關閉照片預覽">×</button>
+        <img id="image-viewer-img" src="" alt="" class="max-w-full max-h-[82dvh] object-contain rounded-notion shadow-2xl" onclick="event.stopPropagation()">
+    </div>
+
     <div id="toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 bg-notion-text text-white px-4 py-2 rounded-full text-xs font-medium shadow-lg z-50 hidden opacity-0 pointer-events-none">操作成功</div>
 
     <script>
@@ -956,6 +1016,93 @@
             if (!input) return;
             input.addEventListener('change', () => updateFileLabel(inputId));
             updateFileLabel(inputId);
+        }
+
+        function setCancelVisible(id, visible) {
+            document.getElementById(id)?.classList.toggle('hidden', !visible);
+        }
+
+        function scrollToControl(id) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            setTimeout(() => el.focus?.(), 220);
+        }
+
+        function openImageViewer(src, alt = '') {
+            const modal = document.getElementById('modal-image-viewer');
+            const img = document.getElementById('image-viewer-img');
+            if (!modal || !img || !src) return;
+            img.src = src;
+            img.alt = alt;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeImageViewer() {
+            const modal = document.getElementById('modal-image-viewer');
+            const img = document.getElementById('image-viewer-img');
+            modal?.classList.add('hidden');
+            modal?.classList.remove('flex');
+            if (img) img.src = '';
+        }
+
+        function cancelEdit(type) {
+            editState[type] = null;
+            if (type === 'workout') {
+                document.getElementById('workout-title').value = '';
+                document.getElementById('workout-url').value = '';
+                document.getElementById('workout-part').value = '全身';
+                setCancelVisible('workout-cancel-edit', false);
+            } else if (type === 'medVideo') {
+                document.getElementById('med-video-title').value = '';
+                document.getElementById('med-video-url').value = '';
+                setCancelVisible('med-video-cancel-edit', false);
+            } else if (type === 'log') {
+                document.getElementById('log-date').value = todayKey();
+                document.getElementById('log-weight').value = '';
+                document.getElementById('log-food').value = '';
+                document.getElementById('log-image').value = '';
+                updateFileLabel('log-image');
+                setCancelVisible('log-cancel-edit', false);
+            } else if (type === 'shrine') {
+                document.getElementById('shrine-name').value = '';
+                document.getElementById('shrine-address').value = '';
+                document.getElementById('shrine-date').value = todayKey();
+                document.getElementById('shrine-notes').value = '';
+                document.getElementById('shrine-image').value = '';
+                updateFileLabel('shrine-image');
+                setCancelVisible('shrine-cancel-edit', false);
+            } else if (type === 'link') {
+                document.getElementById('link-title').value = '';
+                document.getElementById('link-url').value = '';
+                document.getElementById('link-category').value = '';
+                document.getElementById('link-icon').value = 'link';
+                document.getElementById('link-note').value = '';
+                setCancelVisible('link-cancel-edit', false);
+            } else if (type === 'item') {
+                document.getElementById('item-name').value = '';
+                document.getElementById('item-category').value = '衣物';
+                document.getElementById('item-status').value = 'active';
+                document.getElementById('item-qty').value = '1';
+                document.getElementById('item-date').valueAsDate = new Date();
+                document.getElementById('item-size').value = '';
+                document.getElementById('item-price').value = '';
+                document.getElementById('item-place').value = '';
+                document.getElementById('item-care').value = '';
+                document.getElementById('item-note').value = '';
+                document.getElementById('item-image').value = '';
+                updateFileLabel('item-image');
+                setCancelVisible('item-cancel-edit', false);
+            } else if (type === 'meditation') {
+                document.getElementById('med-notes').value = '';
+                setCancelVisible('meditation-cancel-edit', false);
+            } else if (type === 'journal') {
+                document.getElementById('journal-title').value = '';
+                document.getElementById('journal-content').value = '';
+            } else if (type === 'book' || type === 'readingNote') {
+                renderReadingPage();
+            }
         }
 
         function closeTransientOverlays() {
@@ -1434,7 +1581,8 @@
                 dictionaryNoteSaved: '本機筆記已儲存',
                 saveNote: '儲存筆記',
                 localMode: '本機模式',
-                publicDictionary: '公開字典',
+                publicDictionary: 'コトバンク',
+                sourceUrl: '來源',
                 dictionaryHistoryEmpty: '還沒有查詢紀錄',
                 dictionaryCleared: '查詢紀錄已清除',
                 reading: '讀音',
@@ -1833,7 +1981,8 @@
                 dictionaryNoteSaved: '本機メモを保存しました',
                 saveNote: 'メモを保存',
                 localMode: '本機モード',
-                publicDictionary: '公開辞書',
+                publicDictionary: 'コトバンク',
+                sourceUrl: '出典',
                 dictionaryHistoryEmpty: '検索履歴はまだありません',
                 dictionaryCleared: '検索履歴を削除しました',
                 reading: '読み',
@@ -2232,7 +2381,8 @@
                 dictionaryNoteSaved: 'Local note saved',
                 saveNote: 'Save note',
                 localMode: 'Local mode',
-                publicDictionary: 'Public dictionary',
+                publicDictionary: 'Kotobank',
+                sourceUrl: 'Source',
                 dictionaryHistoryEmpty: 'No lookup history yet',
                 dictionaryCleared: 'Lookup history cleared',
                 reading: 'Reading',
@@ -2377,6 +2527,7 @@
         const BOOK_FILTERS = ['all', 'want', 'reading', 'done'];
         let readingFilter = 'all';
         let readingView = 'home';
+        const editState = { dailyTodo: null, shrineWish: null, workout: null, medVideo: null, log: null, journal: null, shrine: null, book: null, readingNote: null, link: null, item: null, meditation: null };
         const ITEM_CATEGORIES = ['全部', '衣物', '美妝', '書籍', '電子', '家居', '其他'];
         const ITEM_CATEGORY_KEYS = { '全部': 'itemCatAll', '衣物': 'itemCatClothes', '美妝': 'itemCatBeauty', '書籍': 'itemCatBooks', '電子': 'itemCatTech', '家居': 'itemCatHome', '其他': 'itemCatOther' };
         const ITEM_STATUS_KEYS = { active: 'itemActive', stored: 'itemStored', declutter: 'itemDeclutter' };
@@ -3020,10 +3171,10 @@
         function openLogForSelectedDate() { const date = selectedDateStr || todayKey(); closeDailyModal(); switchTab('log'); const input = document.getElementById('log-date'); if (input) input.value = date; setTimeout(() => document.getElementById('log-weight')?.focus(), 320); }
         function renderGoalSuggestions() { const container = document.getElementById('goal-suggestions'); if (!container) return; const goals = GOAL_SUGGESTIONS[getLanguage()] || GOAL_SUGGESTIONS.zh; container.innerHTML = goals.map(goal => `<button type="button" onclick="addSuggestedGoal('${escapeHTML(goal)}')" class="suggestion-chip">${escapeHTML(goal)}</button>`).join(''); }
         function renderDailyTodos() { const todos = getStorageArray('notion_todos_v2'); const list = document.getElementById('daily-todo-list'); list.innerHTML = ''; const dayTodos = todos.map((t, i) => ({...t, originalIndex: i})).filter(t => t.date === selectedDateStr); updateCalendarCard(); if (dayTodos.length === 0) { list.innerHTML = `<div class="text-center py-6 text-notion-muted text-xs">${t('noDailyGoals')}</div>`; return; } dayTodos.forEach(todo => { const div = document.createElement('div'); div.className = "flex justify-between items-center bg-notion-hover border border-notion-border rounded p-2 mb-1.5"; div.innerHTML = `<label class="flex items-center gap-3 cursor-pointer flex-1 min-w-0"><input type="checkbox" ${todo.completed ? 'checked' : ''} onchange="toggleDailyTodo(${todo.originalIndex})" class="w-4 h-4 accent-notion-muted"><span class="text-sm text-notion-text truncate flex-1">${escapeHTML(todo.text)}</span></label><div class="flex items-center gap-1 shrink-0"><button onclick="editDailyTodo(${todo.originalIndex})" class="text-notion-muted opacity-60 active:opacity-100 text-xs px-2 py-1" aria-label="${t('edit')}">${t('edit')}</button><button onclick="deleteDailyTodo(${todo.originalIndex})" class="text-notion-muted opacity-40 active:opacity-100 text-xs px-2 py-1" aria-label="${t('deleteGoal')}">✕</button></div>`; list.appendChild(div); }); }
-        function addDailyTodo() { const input = document.getElementById('daily-todo-input'); const text = input.value.trim(); if (text) { const todos = getStorageArray('notion_todos_v2'); todos.push({ text, date: selectedDateStr, completed: false }); localStorage.setItem('notion_todos_v2', JSON.stringify(todos)); input.value = ''; renderDailyTodos(); } }
+        function addDailyTodo() { const input = document.getElementById('daily-todo-input'); const text = input.value.trim(); if (text) { const todos = getStorageArray('notion_todos_v2'); if (editState.dailyTodo !== null && todos[editState.dailyTodo]) { todos[editState.dailyTodo].text = text; editState.dailyTodo = null; showToast(t('updated')); } else { todos.push({ text, date: selectedDateStr, completed: false }); } localStorage.setItem('notion_todos_v2', JSON.stringify(todos)); input.value = ''; renderDailyTodos(); } }
         function addSuggestedGoal(text) { if (!selectedDateStr) return; const todos = getStorageArray('notion_todos_v2'); const exists = todos.some(t => t.date === selectedDateStr && t.text === text); if (exists) return showToast(t('goalAlreadyAdded')); todos.push({ text, date: selectedDateStr, completed: false, suggested: true }); localStorage.setItem('notion_todos_v2', JSON.stringify(todos)); renderDailyTodos(); showToast(t('suggestedGoalAdded')); }
         function toggleDailyTodo(i) { const todos = getStorageArray('notion_todos_v2'); if (!todos[i]) return; todos[i].completed = !todos[i].completed; localStorage.setItem('notion_todos_v2', JSON.stringify(todos)); renderDailyTodos(); }
-        function editDailyTodo(i) { const todos = getStorageArray('notion_todos_v2'); if (!todos[i]) return; const next = prompt(t('edit'), todos[i].text || ''); if (next === null) return; const text = next.trim(); if (!text) return; todos[i].text = text; localStorage.setItem('notion_todos_v2', JSON.stringify(todos)); renderDailyTodos(); showToast(t('updated')); }
+        function editDailyTodo(i) { const todos = getStorageArray('notion_todos_v2'); if (!todos[i]) return; editState.dailyTodo = i; const input = document.getElementById('daily-todo-input'); input.value = todos[i].text || ''; input.focus(); }
         function deleteDailyTodo(i) { const todos = getStorageArray('notion_todos_v2'); todos.splice(i, 1); localStorage.setItem('notion_todos_v2', JSON.stringify(todos)); renderDailyTodos(); }
 
         // ================= 運動影片庫 =================
@@ -3040,14 +3191,14 @@
         function setWorkoutFilter(part) { workoutFilter = part; renderWorkoutFilters(); loadWorkouts(); }
         function loadWorkouts() { const workouts = getStorageArray('notion_workouts'); const filtered = workoutFilter === '全部' ? workouts : workouts.filter(w => (w.part || '未分類') === workoutFilter); const list = document.getElementById('workout-list'); renderWorkoutFilters(); list.innerHTML = ''; if (workouts.length === 0) { list.innerHTML = getEmptyStateHTML(t('noWorkoutVideos')); return; } if (filtered.length === 0) { list.innerHTML = getEmptyStateHTML(t('noWorkoutPartVideos')); return; } [...filtered].reverse().forEach((w) => { const realIdx = workouts.indexOf(w); const part = w.part || '未分類'; const thumbUrl = w.ytId ? `https://img.youtube.com/vi/${escapeHTML(w.ytId)}/hqdefault.jpg` : 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="%239B9B9B" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line><line x1="2" y1="7" x2="7" y2="7"></line><line x1="2" y1="17" x2="7" y2="17"></line><line x1="17" y1="17" x2="22" y2="17"></line><line x1="17" y1="7" x2="22" y2="7"></line></svg>'; const card = document.createElement('div'); card.className = "bg-notion-card border border-notion-border rounded flex flex-col relative group overflow-hidden shadow-sm"; card.innerHTML = `<div class="absolute top-1 right-1 flex gap-1 z-10"><button onclick="editWorkout(${realIdx})" class="bg-black/50 text-white rounded-full min-w-6 h-6 px-1.5 flex items-center justify-center text-[10px] opacity-0 group-hover:opacity-100 active:opacity-100 backdrop-blur-sm" aria-label="${t('edit')}">${t('edit')}</button><button onclick="deleteWorkout(${realIdx})" class="bg-black/50 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 active:opacity-100 backdrop-blur-sm" aria-label="${t('deleteVideo')}">✕</button></div><a href="${escapeHTML(safeExternalURL(w.url))}" target="_blank" rel="noopener noreferrer" onclick="recordVideoWatch('notion_workouts', ${realIdx}, '${t('workout')}', event)" class="flex flex-col h-full active:opacity-70 transition-opacity"><div class="aspect-video bg-notion-hover flex items-center justify-center overflow-hidden relative"><img src="${thumbUrl}" alt="" class="w-full h-full object-cover"><span class="absolute left-1.5 top-1.5 bg-white/90 border border-notion-border text-[10px] font-medium px-1.5 py-0.5 rounded">${escapeHTML(t(WORKOUT_PART_KEYS[part], part))}</span></div><div class="p-2 flex-1 flex flex-col justify-center gap-2"><h4 class="text-[11px] font-medium text-notion-text leading-tight line-clamp-2">${escapeHTML(w.title || t('unnamedVideo'))}</h4><span class="text-[10px] font-semibold tracking-wider uppercase border-t border-notion-border pt-1">${t('watchAndRecord')}</span></div></a><button type="button" onclick="completeWorkoutVideo(${realIdx})" class="m-2 mt-0 py-2 text-[11px] font-semibold bg-notion-btn text-white rounded-notion active:scale-[0.98] transition-transform">${t('completeWorkout')}</button>`; list.appendChild(card); }); }
         function completeWorkoutVideo(index) { const workouts = getStorageArray('notion_workouts'); const workout = workouts[index]; if (!workout) return; saveVideoView(workout, t('workout')); const todos = getStorageArray('notion_todos_v2'); const date = todayKey(); const title = workout.title || t('unnamedVideo'); const text = `${t('workoutDonePrefix')}：${title}`; const exists = todos.some(todo => todo.date === date && todo.text === text); if (!exists) todos.push({ text, date, completed: true, workoutDone: true }); else todos.forEach(todo => { if (todo.date === date && todo.text === text) todo.completed = true; }); localStorage.setItem('notion_todos_v2', JSON.stringify(todos)); renderCalendar(); updateCalendarCard(); if (selectedDateStr === date) renderDailyTodos(); showToast(t('workoutCompletedToast')); }
-        function saveWorkout() { const title = document.getElementById('workout-title').value.trim(); const url = document.getElementById('workout-url').value.trim(); const part = document.getElementById('workout-part').value; if(url && safeExternalURL(url) !== '#') { const ytId = getYouTubeId(url); const workouts = getStorageArray('notion_workouts'); workouts.push({ title: title || t('unnamedVideo'), url, ytId, part }); localStorage.setItem('notion_workouts', JSON.stringify(workouts)); document.getElementById('workout-title').value = ''; document.getElementById('workout-url').value = ''; workoutFilter = part; loadWorkouts(); showToast(t('videoSaved')); } else { showToast(t('invalidLink')); } }
-        function editWorkout(i) { const workouts = getStorageArray('notion_workouts'); if (!workouts[i]) return; const title = prompt(t('edit'), workouts[i].title || ''); if (title === null) return; const url = prompt('URL', workouts[i].url || ''); if (url === null) return; const part = prompt(t('selectWorkoutPart'), workouts[i].part || '全身'); if (part === null) return; if (url.trim() && safeExternalURL(url.trim()) !== '#') { workouts[i] = { ...workouts[i], title: title.trim() || t('unnamedVideo'), url: url.trim(), ytId: getYouTubeId(url.trim()), part: part.trim() || '全身' }; localStorage.setItem('notion_workouts', JSON.stringify(workouts)); loadWorkouts(); showToast(t('updated')); } else showToast(t('invalidLink')); }
+        function saveWorkout() { const title = document.getElementById('workout-title').value.trim(); const url = document.getElementById('workout-url').value.trim(); const part = document.getElementById('workout-part').value; if(url && safeExternalURL(url) !== '#') { const ytId = getYouTubeId(url); const workouts = getStorageArray('notion_workouts'); const item = { title: title || t('unnamedVideo'), url, ytId, part }; if (editState.workout !== null && workouts[editState.workout]) { workouts[editState.workout] = { ...workouts[editState.workout], ...item, updatedAt: new Date().toISOString() }; showToast(t('updated')); } else { workouts.push(item); showToast(t('videoSaved')); } localStorage.setItem('notion_workouts', JSON.stringify(workouts)); cancelEdit('workout'); workoutFilter = part; loadWorkouts(); } else { showToast(t('invalidLink')); } }
+        function editWorkout(i) { const workouts = getStorageArray('notion_workouts'); const item = workouts[i]; if (!item) return; editState.workout = i; document.getElementById('workout-title').value = item.title || ''; document.getElementById('workout-url').value = item.url || ''; document.getElementById('workout-part').value = WORKOUT_PART_KEYS[item.part] ? item.part : '全身'; setCancelVisible('workout-cancel-edit', true); scrollToControl('workout-title'); }
         function deleteWorkout(i) { const w = getStorageArray('notion_workouts'); w.splice(i, 1); localStorage.setItem('notion_workouts', JSON.stringify(w)); loadWorkouts(); showToast(t('deleted')); }
 
         // ================= 冥想影片庫 =================
         function loadMeditationVideos() { const videos = getStorageArray('notion_med_videos'); const list = document.getElementById('med-video-list'); list.innerHTML = ''; if (videos.length === 0) { list.innerHTML = getEmptyStateHTML(t('noMeditationVideos')); return; } [...videos].reverse().forEach((v, i) => { const realIdx = videos.length - 1 - i; const thumbUrl = v.ytId ? `https://img.youtube.com/vi/${escapeHTML(v.ytId)}/hqdefault.jpg` : 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="%239B9B9B" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>'; const card = document.createElement('div'); card.className = "bg-notion-card border border-notion-border rounded flex flex-col relative group overflow-hidden shadow-sm"; card.innerHTML = `<div class="absolute top-1 right-1 flex gap-1 z-10"><button onclick="editMeditationVideo(${realIdx})" class="bg-black/50 text-white rounded-full min-w-6 h-6 px-1.5 flex items-center justify-center text-[10px] opacity-0 group-hover:opacity-100 active:opacity-100 backdrop-blur-sm" aria-label="${t('edit')}">${t('edit')}</button><button onclick="deleteMeditationVideo(${realIdx})" class="bg-black/50 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 active:opacity-100 backdrop-blur-sm" aria-label="${t('deleteGuideVideo')}">✕</button></div><a href="${escapeHTML(safeExternalURL(v.url))}" target="_blank" rel="noopener noreferrer" onclick="recordVideoWatch('notion_med_videos', ${realIdx}, '${t('meditation')}', event)" class="flex flex-col h-full active:opacity-70 transition-opacity"><div class="aspect-video bg-notion-hover flex items-center justify-center overflow-hidden"><img src="${thumbUrl}" alt="" class="w-full h-full object-cover"></div><div class="p-2 flex-1 flex flex-col justify-center gap-2"><h4 class="text-[11px] font-medium text-notion-text leading-tight line-clamp-2">${escapeHTML(v.title || t('unnamedVideo'))}</h4><span class="text-[10px] font-semibold tracking-wider uppercase border-t border-notion-border pt-1">${t('watchAndRecord')}</span></div></a>`; list.appendChild(card); }); }
-        function saveMeditationVideo() { const title = document.getElementById('med-video-title').value.trim(); const url = document.getElementById('med-video-url').value.trim(); if(url && safeExternalURL(url) !== '#') { const ytId = getYouTubeId(url); const videos = getStorageArray('notion_med_videos'); videos.push({ title: title || t('unnamedVideo'), url, ytId }); localStorage.setItem('notion_med_videos', JSON.stringify(videos)); document.getElementById('med-video-title').value = ''; document.getElementById('med-video-url').value = ''; loadMeditationVideos(); showToast(t('guideVideoSaved')); } else { showToast(t('invalidLink')); } }
-        function editMeditationVideo(i) { const videos = getStorageArray('notion_med_videos'); if (!videos[i]) return; const title = prompt(t('edit'), videos[i].title || ''); if (title === null) return; const url = prompt('URL', videos[i].url || ''); if (url === null) return; if (url.trim() && safeExternalURL(url.trim()) !== '#') { videos[i] = { ...videos[i], title: title.trim() || t('unnamedVideo'), url: url.trim(), ytId: getYouTubeId(url.trim()) }; localStorage.setItem('notion_med_videos', JSON.stringify(videos)); loadMeditationVideos(); showToast(t('updated')); } else showToast(t('invalidLink')); }
+        function saveMeditationVideo() { const title = document.getElementById('med-video-title').value.trim(); const url = document.getElementById('med-video-url').value.trim(); if(url && safeExternalURL(url) !== '#') { const ytId = getYouTubeId(url); const videos = getStorageArray('notion_med_videos'); const item = { title: title || t('unnamedVideo'), url, ytId }; if (editState.medVideo !== null && videos[editState.medVideo]) { videos[editState.medVideo] = { ...videos[editState.medVideo], ...item, updatedAt: new Date().toISOString() }; showToast(t('updated')); } else { videos.push(item); showToast(t('guideVideoSaved')); } localStorage.setItem('notion_med_videos', JSON.stringify(videos)); cancelEdit('medVideo'); loadMeditationVideos(); } else { showToast(t('invalidLink')); } }
+        function editMeditationVideo(i) { const videos = getStorageArray('notion_med_videos'); const item = videos[i]; if (!item) return; editState.medVideo = i; document.getElementById('med-video-title').value = item.title || ''; document.getElementById('med-video-url').value = item.url || ''; setCancelVisible('med-video-cancel-edit', true); scrollToControl('med-video-title'); }
         function deleteMeditationVideo(i) { const v = getStorageArray('notion_med_videos'); v.splice(i, 1); localStorage.setItem('notion_med_videos', JSON.stringify(v)); loadMeditationVideos(); showToast(t('deleted')); }
 
         // ================= 其他功能 (日誌、日記、冥想紀錄) =================
@@ -3056,8 +3207,8 @@
         function logDisplayDate(log) { return log.dateKey || log.date || ''; }
         function hasWeightLog(log) { return !!(log.weight || log.food || log.image); }
         function loadLogs() { renderTodayVideoSummary(); const logs = getStorageArray('notion_logs_v2'); const weightList = document.getElementById('weight-log-list'); const videoList = document.getElementById('video-log-list'); if (!weightList || !videoList) return; weightList.innerHTML = ''; videoList.innerHTML = ''; const weightLogs = logs.map((log, index) => ({ log, index })).filter(item => hasWeightLog(item.log)).reverse(); const videoLogs = logs.map((log, index) => ({ log, index })).filter(item => Array.isArray(item.log.videoViews) && item.log.videoViews.length).reverse(); if (!weightLogs.length) weightList.innerHTML = getEmptyStateHTML(t('noWeightLogs')); weightLogs.forEach(({ log, index }) => { const div = document.createElement('div'); div.className = "bg-notion-card border border-notion-border rounded-notion p-4 text-sm"; const imgHTML = log.image ? `<img src="${escapeHTML(log.image)}" alt="${t('photo')}" class="mt-3 rounded-notion object-cover w-full max-h-48 border border-notion-border bg-notion-hover">` : ''; div.innerHTML = `<div class="flex justify-between items-start"><span class="text-[10px] text-notion-text font-medium bg-notion-hover px-2 py-0.5 rounded">${escapeHTML(logDisplayDate(log))}</span><div class="flex gap-1"><button onclick="editLog(${index})" class="text-notion-muted opacity-60 active:opacity-100 text-xs py-1 px-2" aria-label="${t('edit')}">${t('edit')}</button><button onclick="deleteLog(${index})" class="text-notion-muted opacity-40 active:opacity-100 text-xs py-1 px-2" aria-label="${t('deleteRecord')}">✕</button></div></div><div class="mt-2 space-y-1">${log.weight ? `<p class="text-sm">⚖️ ${escapeHTML(log.weight)} kg</p>` : ''}${log.food ? `<p class="text-sm">🍽️ ${escapeHTML(log.food)}</p>` : ''}</div>${imgHTML}`; weightList.appendChild(div); }); if (!videoLogs.length) videoList.innerHTML = getEmptyStateHTML(t('noVideoLogs')); videoLogs.forEach(({ log, index }) => { const div = document.createElement('div'); div.className = "bg-notion-card border border-notion-border rounded-notion p-4 text-sm"; div.innerHTML = `<div class="flex justify-between items-start mb-2"><span class="text-[10px] text-notion-text font-medium bg-notion-hover px-2 py-0.5 rounded">${escapeHTML(logDisplayDate(log))}</span></div><div class="space-y-2">${log.videoViews.map((v, videoIndex) => `<div class="flex items-center justify-between gap-2 bg-notion-hover rounded-notion p-2"><div class="min-w-0"><p class="text-xs font-medium truncate">${escapeHTML(v.type)}｜${escapeHTML(v.title)}</p><p class="text-[11px] text-notion-muted">${escapeHTML(v.count)} ${getLanguage() === 'en' ? 'x' : '次'}</p></div><div class="flex gap-1 shrink-0"><button onclick="editLogVideo(${index}, ${videoIndex})" class="text-notion-muted opacity-60 active:opacity-100 text-xs px-2 py-1">${t('edit')}</button><button onclick="deleteLogVideo(${index}, ${videoIndex})" class="text-notion-muted opacity-40 active:opacity-100 text-xs px-2 py-1" aria-label="${t('deleteRecord')}">✕</button></div></div>`).join('')}</div>`; videoList.appendChild(div); }); }
-        function saveLog() { const w = document.getElementById('log-weight').value.trim(); const f = document.getElementById('log-food').value.trim(); const file = document.getElementById('log-image').files[0]; const dateKey = document.getElementById('log-date').value || todayKey(); const save = (img) => { const l = getStorageArray('notion_logs_v2'); l.push({weight:w, food:f, image:img, date:dateKey, dateKey}); if(l.length>60) l.shift(); localStorage.setItem('notion_logs_v2', JSON.stringify(l)); document.getElementById('log-weight').value=''; document.getElementById('log-food').value=''; document.getElementById('log-image').value=''; updateFileLabel('log-image'); document.getElementById('log-date').value = todayKey(); loadLogs(); updateTrackingOverview(); showToast(t('recordSaved')); }; if(file) compressImage(file, save); else if(w||f) save(null); else showToast(t('fillContent')); }
-        function editLog(i) { const logs = getStorageArray('notion_logs_v2'); if (!logs[i]) return; const date = prompt(t('date'), logs[i].dateKey || logs[i].date || todayKey()); if (date === null) return; const weight = prompt(t('weight'), logs[i].weight || ''); if (weight === null) return; const food = prompt(t('food'), logs[i].food || ''); if (food === null) return; logs[i].dateKey = date.trim() || logs[i].dateKey || todayKey(); logs[i].date = logs[i].dateKey; logs[i].weight = weight.trim(); logs[i].food = food.trim(); localStorage.setItem('notion_logs_v2', JSON.stringify(logs)); loadLogs(); showToast(t('updated')); }
+        function saveLog() { const w = document.getElementById('log-weight').value.trim(); const f = document.getElementById('log-food').value.trim(); const file = document.getElementById('log-image').files[0]; const dateKey = document.getElementById('log-date').value || todayKey(); const save = (img) => { const l = getStorageArray('notion_logs_v2'); if (editState.log !== null && l[editState.log]) { l[editState.log] = { ...l[editState.log], weight:w, food:f, image: img ?? l[editState.log].image ?? null, date:dateKey, dateKey, updatedAt: new Date().toISOString() }; showToast(t('updated')); } else { l.push({weight:w, food:f, image:img, date:dateKey, dateKey}); if(l.length>60) l.shift(); showToast(t('recordSaved')); } localStorage.setItem('notion_logs_v2', JSON.stringify(l)); cancelEdit('log'); loadLogs(); updateTrackingOverview(); }; if(file) compressImage(file, save); else if(w||f||editState.log !== null) save(null); else showToast(t('fillContent')); }
+        function editLog(i) { const logs = getStorageArray('notion_logs_v2'); const log = logs[i]; if (!log) return; editState.log = i; document.getElementById('log-date').value = log.dateKey || log.date || todayKey(); document.getElementById('log-weight').value = log.weight || ''; document.getElementById('log-food').value = log.food || ''; document.getElementById('log-image').value = ''; updateFileLabel('log-image'); setCancelVisible('log-cancel-edit', true); scrollToControl('log-date'); }
         function editLogVideo(logIndex, videoIndex) { const logs = getStorageArray('notion_logs_v2'); const video = logs[logIndex]?.videoViews?.[videoIndex]; if (!video) return; const title = prompt(t('editVideoRecord'), video.title || ''); if (title === null) return; const type = prompt(t('watchedVideos'), video.type || t('workout')); if (type === null) return; const count = prompt(t('videoCountPrompt'), video.count || 1); if (count === null) return; video.title = title.trim() || video.title; video.type = type.trim() || video.type; video.count = Math.max(1, parseInt(count, 10) || 1); localStorage.setItem('notion_logs_v2', JSON.stringify(logs)); loadLogs(); showToast(t('updated')); }
         function deleteLogVideo(logIndex, videoIndex) { const logs = getStorageArray('notion_logs_v2'); if (!logs[logIndex]?.videoViews) return; logs[logIndex].videoViews.splice(videoIndex, 1); if (!hasWeightLog(logs[logIndex]) && logs[logIndex].videoViews.length === 0) logs.splice(logIndex, 1); localStorage.setItem('notion_logs_v2', JSON.stringify(logs)); loadLogs(); showToast(t('deleted')); }
         function deleteLog(i) { const l = getStorageArray('notion_logs_v2'); if (!l[i]) return; if (Array.isArray(l[i].videoViews) && l[i].videoViews.length) { l[i].weight = ''; l[i].food = ''; l[i].image = null; } else { l.splice(i, 1); } localStorage.setItem('notion_logs_v2', JSON.stringify(l)); loadLogs(); showToast(t('deleted')); }
@@ -3071,11 +3222,11 @@
         function removeJournalPassword() { const saved = localStorage.getItem(JOURNAL_PASSWORD_KEY); if (!saved) return showToast(t('journalPasswordRequired')); const current = prompt(t('journalCurrentPasswordPrompt')); if (current === null) return; if (current !== saved) return showToast(t('journalPasswordWrong')); if (!confirm(t('journalPasswordRemoveConfirm'))) return; localStorage.removeItem(JOURNAL_PASSWORD_KEY); journalUnlocked = false; loadJournals(); showToast(t('journalPasswordRemoved')); }
         function getJournalLockHTML() { return `<div class="bg-notion-hover border border-notion-border rounded-notion p-4 space-y-3 text-sm"><div><p class="font-semibold text-notion-text">${t('journalLocked')}</p><p class="text-xs text-notion-muted leading-relaxed mt-1">${t('journalLockHint')}</p></div><button onclick="unlockJournal()" class="w-full py-2.5 text-sm bg-notion-btn text-white rounded-notion font-medium">${t('unlockJournal')}</button></div>`; }
         function getJournalControlHTML() { const hasPassword = hasJournalPassword(); return `<div class="bg-notion-hover border border-notion-border rounded-notion p-3 mb-2 space-y-2"><div class="flex items-center justify-between gap-2"><span class="text-[11px] text-notion-muted">${t('privatePassword')}</span>${hasPassword ? `<button onclick="lockJournal()" class="text-[11px] border border-notion-border bg-white rounded px-2 py-1">${t('lockJournal')}</button>` : ''}</div><div class="grid ${hasPassword ? 'grid-cols-2' : 'grid-cols-1'} gap-2"><button onclick="setJournalPassword()" class="text-[11px] border border-notion-border bg-white rounded px-2 py-2">${t('setJournalPassword')}</button>${hasPassword ? `<button onclick="removeJournalPassword()" class="text-[11px] border border-notion-border bg-white rounded px-2 py-2">${t('removeJournalPassword')}</button>` : ''}</div></div>`; }
-        function openJournalModal() { if (!ensureJournalUnlocked()) return; document.getElementById('modal-journal').classList.remove('hidden'); document.getElementById('modal-journal').classList.add('flex'); document.getElementById('journal-title').focus(); }
-        function closeJournalModal() { document.getElementById('modal-journal').classList.add('hidden'); }
+        function openJournalModal() { if (!ensureJournalUnlocked()) return; editState.journal = null; document.getElementById('journal-title').value = ''; document.getElementById('journal-content').value = ''; document.getElementById('modal-journal').classList.remove('hidden'); document.getElementById('modal-journal').classList.add('flex'); document.getElementById('journal-title').focus(); }
+        function closeJournalModal() { document.getElementById('modal-journal').classList.add('hidden'); cancelEdit('journal'); }
         function loadJournals() { const j = getStorageArray('notion_journals_v2'); const l = document.getElementById('journal-list'); l.innerHTML = ''; if (hasJournalPassword() && !journalUnlocked) { l.innerHTML = getJournalLockHTML(); return; } l.innerHTML = getJournalControlHTML(); if (j.length === 0) { l.insertAdjacentHTML('beforeend', getEmptyStateHTML(t('noJournals'))); return; } [...j].reverse().forEach((x, i) => { const realIdx = j.length - 1 - i; const div = document.createElement('details'); div.className="bg-notion-card border border-notion-border rounded mb-2"; div.innerHTML=`<summary class="flex items-center gap-2 cursor-pointer text-sm font-medium p-3 relative"><svg class="w-3 h-3 text-notion-muted transition-transform flex-shrink-0" viewBox="0 0 100 100" aria-hidden="true"><polygon points="20,10 80,50 20,90" fill="currentColor"/></svg><span class="flex-1 truncate">${escapeHTML(x.title || t('untitled'))}</span><span class="text-[10px] text-notion-muted">${escapeHTML(x.date)}</span></summary><div class="px-4 pb-3 pt-1 text-sm text-notion-text relative border-t border-notion-hover mt-1"><p class="whitespace-pre-wrap leading-relaxed mt-2">${escapeHTML(x.content)}</p><div class="mt-3 text-right flex justify-end gap-2"><button onclick="editJournal(${realIdx})" class="text-xs text-notion-muted border border-notion-border px-3 py-1 rounded active:bg-notion-hover">${t('edit')}</button><button onclick="deleteJournal(${realIdx})" class="text-xs text-notion-muted border border-notion-border px-3 py-1 rounded active:bg-notion-hover">${t('delete')}</button></div></div>`; l.appendChild(div); }); }
-        function saveJournal() { if (!ensureJournalUnlocked()) return; const title = document.getElementById('journal-title').value.trim(); const c = document.getElementById('journal-content').value.trim(); if(c) { const j = getStorageArray('notion_journals_v2'); j.push({title, content:c, date:new Date().toLocaleDateString()}); localStorage.setItem('notion_journals_v2', JSON.stringify(j)); document.getElementById('journal-title').value=''; document.getElementById('journal-content').value=''; closeJournalModal(); loadJournals(); showToast(t('journalSaved')); } }
-        function editJournal(i) { if (!ensureJournalUnlocked()) return; const journals = getStorageArray('notion_journals_v2'); if (!journals[i]) return; const title = prompt(t('untitled'), journals[i].title || ''); if (title === null) return; const content = prompt(t('journalContentPh'), journals[i].content || ''); if (content === null) return; if (!content.trim()) return showToast(t('fillContent')); journals[i].title = title.trim(); journals[i].content = content.trim(); localStorage.setItem('notion_journals_v2', JSON.stringify(journals)); loadJournals(); showToast(t('updated')); }
+        function saveJournal() { if (!ensureJournalUnlocked()) return; const title = document.getElementById('journal-title').value.trim(); const c = document.getElementById('journal-content').value.trim(); if(c) { const j = getStorageArray('notion_journals_v2'); if (editState.journal !== null && j[editState.journal]) { j[editState.journal] = { ...j[editState.journal], title, content:c, updatedAt: new Date().toISOString() }; showToast(t('updated')); } else { j.push({title, content:c, date:new Date().toLocaleDateString()}); showToast(t('journalSaved')); } localStorage.setItem('notion_journals_v2', JSON.stringify(j)); document.getElementById('modal-journal').classList.add('hidden'); cancelEdit('journal'); loadJournals(); } }
+        function editJournal(i) { if (!ensureJournalUnlocked()) return; const journals = getStorageArray('notion_journals_v2'); if (!journals[i]) return; editState.journal = i; document.getElementById('journal-title').value = journals[i].title || ''; document.getElementById('journal-content').value = journals[i].content || ''; document.getElementById('modal-journal').classList.remove('hidden'); document.getElementById('modal-journal').classList.add('flex'); document.getElementById('journal-title').focus(); }
         function deleteJournal(i) { if (!ensureJournalUnlocked()) return; const j = getStorageArray('notion_journals_v2'); j.splice(i, 1); localStorage.setItem('notion_journals_v2', JSON.stringify(j)); loadJournals(); showToast(t('deleted')); }
 
         // ================= 日語字典 =================
@@ -3110,6 +3261,7 @@
             const word = japanese.word || japanese.reading || query;
             const reading = japanese.reading || (word === query ? '' : query);
             const accent = extractDictionaryAccent(apiItem, japanese);
+            const source = apiItem?.source || (apiItem ? 'jisho' : 'local');
             return {
                 id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
                 query,
@@ -3119,10 +3271,12 @@
                 meanings: meanings.length ? meanings : [fallbackMessage || t('noMeaning')],
                 parts: parts.length ? parts : [t('noPart')],
                 examples,
+                sourceUrl: apiItem?.url || '',
+                sourceName: apiItem?.dictionaryName || '',
                 favorite: false,
                 note: '',
                 createdAt: new Date().toISOString(),
-                source: apiItem ? 'jisho' : 'local'
+                source
             };
         }
 
@@ -3150,8 +3304,15 @@
 
         function renderDictionaryEntry(entry) {
             const aiNotes = buildDictionaryAiNotes(entry);
-            const sourceLabel = entry.source === 'jisho' ? t('publicDictionary') : t('localMode');
+            const sourceLabel = entry.source === 'local'
+                ? t('localMode')
+                : entry.source === 'jisho'
+                    ? 'Jisho'
+                    : (entry.sourceName || t('publicDictionary'));
             const accentText = entry.accent || entry.ai?.accent || t('accentUnavailable');
+            const sourceHTML = entry.sourceUrl
+                ? `<a href="${escapeHTML(entry.sourceUrl)}" target="_blank" rel="noopener noreferrer" class="text-[11px] text-notion-muted underline underline-offset-2">${t('sourceUrl')}：${t('publicDictionary')}</a>`
+                : '';
             const examplesHTML = entry.examples?.length
                 ? `<div><p class="text-xs text-notion-muted tracking-wider uppercase mb-2">${t('examples')}</p><div class="space-y-2">${entry.examples.map(x => `<p class="text-sm bg-notion-hover rounded px-3 py-2 leading-relaxed">${escapeHTML(x)}</p>`).join('')}</div></div>`
                 : '';
@@ -3161,6 +3322,7 @@
                         <span class="inline-flex text-xs text-notion-muted bg-notion-hover border border-notion-border rounded-full px-2 py-1 mb-2">${escapeHTML(sourceLabel)}</span>
                         <p class="text-2xl font-semibold text-notion-text break-words">${escapeHTML(entry.word)}</p>
                         <p class="text-base text-notion-muted mt-1">${escapeHTML(entry.reading || t('noReading'))}</p>
+                        ${sourceHTML}
                     </div>
                     <button onclick="toggleDictionaryFavorite('${entry.id}')" class="text-xs border border-notion-border rounded px-3 py-2 shrink-0 active:bg-notion-hover">${entry.favorite ? t('unfavorite') : t('favorite')}</button>
                 </div>
@@ -3216,6 +3378,7 @@
                     body: JSON.stringify({
                         word: query,
                         uiLanguage: getLanguage(),
+                        source: 'kotobank',
                         lookupOnly: true
                     })
                 });
@@ -3231,7 +3394,7 @@
             }
             saveDictionaryEntry(entry);
             result.innerHTML = renderDictionaryEntry(entry);
-            if (entry.source === 'jisho') enhanceDictionaryEntryWithAI(entry.id);
+            if (entry.source !== 'local') enhanceDictionaryEntryWithAI(entry.id);
             input.value = '';
         }
 
@@ -3398,8 +3561,10 @@
             const input = document.getElementById('shrine-wish-input'); const name = input.value.trim();
             if (name) {
                 const wishes = getStorageArray('notion_shrine_wishes');
-                wishes.push({ name, completed: false }); localStorage.setItem('notion_shrine_wishes', JSON.stringify(wishes));
-                input.value = ''; loadShrineWishes(); showToast(t('shrineWishAdded'));
+                if (editState.shrineWish !== null && wishes[editState.shrineWish]) { wishes[editState.shrineWish].name = name; editState.shrineWish = null; showToast(t('updated')); }
+                else { wishes.push({ name, completed: false }); showToast(t('shrineWishAdded')); }
+                localStorage.setItem('notion_shrine_wishes', JSON.stringify(wishes));
+                input.value = ''; loadShrineWishes();
             }
         }
         
@@ -3430,7 +3595,7 @@
             loadShrineWishes(); 
         }
         
-        function editShrineWish(i) { const wishes = getStorageArray('notion_shrine_wishes'); if (!wishes[i]) return; const name = prompt(t('shrineName'), wishes[i].name || ''); if (name === null) return; if (!name.trim()) return showToast(t('shrineNameRequired')); wishes[i].name = name.trim(); localStorage.setItem('notion_shrine_wishes', JSON.stringify(wishes)); loadShrineWishes(); showToast(t('updated')); }
+        function editShrineWish(i) { const wishes = getStorageArray('notion_shrine_wishes'); if (!wishes[i]) return; editState.shrineWish = i; const input = document.getElementById('shrine-wish-input'); input.value = wishes[i].name || ''; input.focus(); input.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
         function deleteShrineWish(i) { const wishes = getStorageArray('notion_shrine_wishes'); wishes.splice(i, 1); localStorage.setItem('notion_shrine_wishes', JSON.stringify(wishes)); loadShrineWishes(); showToast(t('deleted')); }
 
         // ================= 神社參拜紀錄 (含地圖功能) =================
@@ -3441,7 +3606,7 @@
             [...shrines].reverse().forEach((s, i) => { 
                 const realIdx = shrines.length - 1 - i; 
                 const div = document.createElement('div'); div.className = "bg-notion-card border border-notion-border rounded-notion p-4 text-sm"; 
-                let imgHTML = s.image ? `<img src="${escapeHTML(s.image)}" alt="${t('goshuin')}" class="mt-3 rounded-notion object-cover w-full max-h-48 border border-notion-border bg-notion-hover">` : ''; 
+                let imgHTML = s.image ? `<button type="button" onclick="openImageViewer(${jsString(s.image)}, ${jsString(s.name || t('goshuin'))})" class="mt-3 block w-full active:opacity-80"><img src="${escapeHTML(s.image)}" alt="${t('goshuin')}" class="rounded-notion object-cover w-full max-h-48 border border-notion-border bg-notion-hover"></button>` : ''; 
                 
                 const mapQuery = encodeURIComponent(s.address || s.name);
                 const mapLink = `<a href="https://www.google.com/maps/search/?api=1&query=${mapQuery}" target="_blank" rel="noopener noreferrer" class="text-[10px] text-notion-muted hover:text-notion-text flex items-center gap-1 mt-1.5 w-fit active:opacity-70 bg-notion-hover px-1.5 py-0.5 rounded transition-colors"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>${escapeHTML(s.address || t('viewOnMap'))}</a>`;
@@ -3453,13 +3618,16 @@
         function saveShrine() { 
             const n = document.getElementById('shrine-name').value.trim(); const a = document.getElementById('shrine-address').value.trim(); const d = document.getElementById('shrine-date').value; const text = document.getElementById('shrine-notes').value.trim(); const file = document.getElementById('shrine-image').files[0]; 
             const save = (img) => { 
-                const s = getStorageArray('notion_shrines'); s.push({name:n, address:a, date:d, notes:text, image:img}); localStorage.setItem('notion_shrines', JSON.stringify(s)); 
-                document.getElementById('shrine-name').value=''; document.getElementById('shrine-address').value=''; document.getElementById('shrine-notes').value=''; document.getElementById('shrine-image').value=''; updateFileLabel('shrine-image'); 
-                loadShrines(); showToast(t('shrineRecordSaved')); 
+                const s = getStorageArray('notion_shrines'); const next = {name:n, address:a, date:d, notes:text, image:img};
+                if (editState.shrine !== null && s[editState.shrine]) { s[editState.shrine] = { ...s[editState.shrine], ...next, image: img ?? s[editState.shrine].image ?? null, updatedAt: new Date().toISOString() }; showToast(t('updated')); }
+                else { s.push(next); showToast(t('shrineRecordSaved')); }
+                localStorage.setItem('notion_shrines', JSON.stringify(s)); 
+                cancelEdit('shrine'); 
+                loadShrines(); 
             }; 
             if(n) { if(file) compressImage(file, save); else save(null); } else showToast(t('shrineNameRequired')); 
         }
-        function editShrine(i) { const shrines = getStorageArray('notion_shrines'); if (!shrines[i]) return; const name = prompt(t('shrineName'), shrines[i].name || ''); if (name === null) return; const address = prompt(t('address'), shrines[i].address || ''); if (address === null) return; const date = prompt(t('date'), shrines[i].date || ''); if (date === null) return; const notes = prompt(t('wish'), shrines[i].notes || ''); if (notes === null) return; if (!name.trim()) return showToast(t('shrineNameRequired')); shrines[i] = { ...shrines[i], name: name.trim(), address: address.trim(), date: date.trim(), notes: notes.trim() }; localStorage.setItem('notion_shrines', JSON.stringify(shrines)); loadShrines(); showToast(t('updated')); }
+        function editShrine(i) { const shrines = getStorageArray('notion_shrines'); const shrine = shrines[i]; if (!shrine) return; editState.shrine = i; document.getElementById('shrine-name').value = shrine.name || ''; document.getElementById('shrine-address').value = shrine.address || ''; document.getElementById('shrine-date').value = shrine.date || todayKey(); document.getElementById('shrine-notes').value = shrine.notes || ''; document.getElementById('shrine-image').value = ''; updateFileLabel('shrine-image'); setCancelVisible('shrine-cancel-edit', true); scrollToControl('shrine-name'); }
         function deleteShrine(i) { const s = getStorageArray('notion_shrines'); s.splice(i, 1); localStorage.setItem('notion_shrines', JSON.stringify(s)); loadShrines(); showToast(t('deleted')); }
 
         // ================= 閱讀書籍紀錄 =================
@@ -3648,11 +3816,13 @@
             const notes = getStorageArray('notion_reading_notes');
             const bookNotes = getStorageArray('notion_books').filter(book => book.note).map((book, index) => ({ title: book.title, body: book.note, date: book.date, bookIndex: index, fromBook: true }));
             const allNotes = [...notes.map((note, index) => ({ ...note, index })), ...bookNotes].reverse();
+            const editingNote = editState.readingNote !== null ? notes[editState.readingNote] : null;
             content.innerHTML = `<div class="reading-card p-5 space-y-3">
                 <p class="reading-kicker">${escapeHTML(t('addReadingNote'))}</p>
-                <input id="reading-note-title" class="reading-search" placeholder="${escapeHTML(t('noteTitlePh'))}">
-                <textarea id="reading-note-body" rows="4" class="reading-search resize-none" placeholder="${escapeHTML(t('noteBodyPh'))}"></textarea>
+                <input id="reading-note-title" class="reading-search" placeholder="${escapeHTML(t('noteTitlePh'))}" value="${escapeHTML(editingNote?.title || '')}">
+                <textarea id="reading-note-body" rows="4" class="reading-search resize-none" placeholder="${escapeHTML(t('noteBodyPh'))}">${escapeHTML(editingNote?.body || '')}</textarea>
                 <button onclick="saveReadingNote()" class="w-full bg-[#477344] text-white rounded-xl py-3 font-bold">${escapeHTML(t('saveNote'))}</button>
+                ${editingNote ? `<button onclick="cancelEdit('readingNote')" class="w-full bg-white border border-notion-border text-notion-text rounded-xl py-3 text-sm font-bold">${escapeHTML(t('cancel'))}</button>` : ''}
             </div>
             <div class="space-y-3">${allNotes.length ? allNotes.map(note => `<article class="reading-card p-4">
                 <div class="flex justify-between gap-3">
@@ -3663,20 +3833,22 @@
             </article>`).join('') : getEmptyStateHTML(t('noReadingNotes'))}</div>`;
         }
         function renderReadingAdd(content) {
+            const editingBook = editState.book !== null ? getStorageArray('notion_books')[editState.book] : null;
             content.innerHTML = `<div class="reading-card p-5 space-y-3">
                 <p class="reading-kicker">${escapeHTML(t('saveBook'))}</p>
-                <input type="text" id="book-title" placeholder="${escapeHTML(t('bookTitlePh'))}" class="reading-search">
-                <input type="text" id="book-author" placeholder="${escapeHTML(t('bookAuthorPh'))}" class="reading-search">
+                <input type="text" id="book-title" placeholder="${escapeHTML(t('bookTitlePh'))}" class="reading-search" value="${escapeHTML(editingBook?.title || '')}">
+                <input type="text" id="book-author" placeholder="${escapeHTML(t('bookAuthorPh'))}" class="reading-search" value="${escapeHTML(editingBook?.author || '')}">
                 <div class="grid grid-cols-2 gap-2">
                     <select id="book-status" class="reading-search" aria-label="${escapeHTML(t('bookStatus'))}">
-                        <option value="want">${escapeHTML(t('bookWant'))}</option>
-                        <option value="reading">${escapeHTML(t('bookReading'))}</option>
-                        <option value="done">${escapeHTML(t('bookDone'))}</option>
+                        <option value="want" ${(editingBook?.status || 'want') === 'want' ? 'selected' : ''}>${escapeHTML(t('bookWant'))}</option>
+                        <option value="reading" ${editingBook?.status === 'reading' ? 'selected' : ''}>${escapeHTML(t('bookReading'))}</option>
+                        <option value="done" ${editingBook?.status === 'done' ? 'selected' : ''}>${escapeHTML(t('bookDone'))}</option>
                     </select>
-                    <input type="number" id="book-progress" min="0" max="100" placeholder="${escapeHTML(t('bookProgressPh'))}" class="reading-search">
+                    <input type="number" id="book-progress" min="0" max="100" placeholder="${escapeHTML(t('bookProgressPh'))}" class="reading-search" value="${escapeHTML(editingBook?.progress ?? '')}">
                 </div>
-                <textarea id="book-note" rows="4" placeholder="${escapeHTML(t('bookNotePh'))}" class="reading-search resize-none"></textarea>
+                <textarea id="book-note" rows="4" placeholder="${escapeHTML(t('bookNotePh'))}" class="reading-search resize-none">${escapeHTML(editingBook?.note || '')}</textarea>
                 <button onclick="saveBook()" class="w-full bg-[#477344] text-white rounded-xl py-4 text-base font-bold">${escapeHTML(t('saveBook'))}</button>
+                ${editingBook ? `<button onclick="cancelEdit('book')" class="w-full bg-white border border-notion-border text-notion-text rounded-xl py-3 text-sm font-bold">${escapeHTML(t('cancel'))}</button>` : ''}
             </div>`;
         }
         function loadBooks() {
@@ -3690,35 +3862,18 @@
             const progress = Math.min(100, Math.max(0, parseInt(document.getElementById('book-progress').value, 10) || (status === 'done' ? 100 : 0)));
             const note = document.getElementById('book-note').value.trim();
             const books = getStorageArray('notion_books');
-            books.push({ title, author, status, progress, note, date: new Date().toLocaleDateString() });
+            if (editState.book !== null && books[editState.book]) { books[editState.book] = { ...books[editState.book], title, author, status, progress, note, updatedAt: new Date().toISOString() }; showToast(t('updated')); }
+            else { books.push({ title, author, status, progress, note, date: new Date().toLocaleDateString() }); showToast(t('bookSaved')); }
             localStorage.setItem('notion_books', JSON.stringify(books));
-            document.getElementById('book-title').value = '';
-            document.getElementById('book-author').value = '';
-            document.getElementById('book-status').value = 'want';
-            document.getElementById('book-progress').value = '';
-            document.getElementById('book-note').value = '';
+            editState.book = null;
             readingView = 'books';
             loadBooks();
-            showToast(t('bookSaved'));
         }
         function editBook(i) {
             const books = getStorageArray('notion_books');
             if (!books[i]) return;
-            const title = prompt(t('bookTitlePh'), books[i].title || '');
-            if (title === null) return;
-            const author = prompt(t('author'), books[i].author || '');
-            if (author === null) return;
-            const status = prompt(t('bookStatus'), books[i].status || 'want');
-            if (status === null) return;
-            const progress = prompt(t('progress'), books[i].progress ?? '');
-            if (progress === null) return;
-            const note = prompt(t('bookNotePh'), books[i].note || '');
-            if (note === null) return;
-            if (!title.trim()) return showToast(t('fillContent'));
-            books[i] = { ...books[i], title: title.trim(), author: author.trim(), status: BOOK_STATUS_KEYS[status] ? status : (books[i].status || 'want'), progress: Math.min(100, Math.max(0, parseInt(progress, 10) || 0)), note: note.trim() };
-            localStorage.setItem('notion_books', JSON.stringify(books));
-            loadBooks();
-            showToast(t('updated'));
+            editState.book = i;
+            setReadingView('add');
         }
         function deleteBook(i) { const books = getStorageArray('notion_books'); books.splice(i, 1); localStorage.setItem('notion_books', JSON.stringify(books)); loadBooks(); showToast(t('deleted')); }
         function toggleVocabMastered(i) {
@@ -3749,23 +3904,17 @@
             const body = document.getElementById('reading-note-body').value.trim();
             if (!title && !body) return showToast(t('fillContent'));
             const notes = getStorageArray('notion_reading_notes');
-            notes.push({ title: title || t('untitled'), body, date: new Date().toLocaleDateString() });
+            if (editState.readingNote !== null && notes[editState.readingNote]) { notes[editState.readingNote] = { ...notes[editState.readingNote], title: title || t('untitled'), body, updatedAt: new Date().toISOString() }; editState.readingNote = null; showToast(t('updated')); }
+            else { notes.push({ title: title || t('untitled'), body, date: new Date().toLocaleDateString() }); showToast(t('noteSaved')); }
             localStorage.setItem('notion_reading_notes', JSON.stringify(notes));
             renderReadingNotes(document.getElementById('reading-content'));
-            showToast(t('noteSaved'));
         }
         function editReadingNote(i) {
             const notes = getStorageArray('notion_reading_notes');
             if (!notes[i]) return;
-            const title = prompt(t('noteTitlePh'), notes[i].title || '');
-            if (title === null) return;
-            const body = prompt(t('noteBodyPh'), notes[i].body || '');
-            if (body === null) return;
-            if (!title.trim() && !body.trim()) return showToast(t('fillContent'));
-            notes[i] = { ...notes[i], title: title.trim() || t('untitled'), body: body.trim() };
-            localStorage.setItem('notion_reading_notes', JSON.stringify(notes));
+            editState.readingNote = i;
             renderReadingNotes(document.getElementById('reading-content'));
-            showToast(t('updated'));
+            scrollToControl('reading-note-title');
         }
         function deleteReadingNote(i) { const notes = getStorageArray('notion_reading_notes'); notes.splice(i, 1); localStorage.setItem('notion_reading_notes', JSON.stringify(notes)); renderReadingNotes(document.getElementById('reading-content')); showToast(t('deleted')); }
 
@@ -3825,16 +3974,12 @@
             const icon = document.getElementById('link-icon').value || 'link';
             const note = document.getElementById('link-note').value.trim();
             const links = getStorageArray('notion_links');
-            links.push({ title, url, category, icon, note, createdAt: new Date().toISOString() });
+            if (editState.link !== null && links[editState.link]) { links[editState.link] = { ...links[editState.link], title, url, category, icon, note, updatedAt: new Date().toISOString() }; showToast(t('updated')); }
+            else { links.push({ title, url, category, icon, note, createdAt: new Date().toISOString() }); showToast(t('linkSaved')); }
             localStorage.setItem('notion_links', JSON.stringify(links));
-            document.getElementById('link-title').value = '';
-            document.getElementById('link-url').value = '';
-            document.getElementById('link-category').value = '';
-            document.getElementById('link-icon').value = 'link';
-            document.getElementById('link-note').value = '';
             linkFilter = category;
+            cancelEdit('link');
             loadLinks();
-            showToast(t('linkSaved'));
         }
         function openLink(i) {
             const links = getStorageArray('notion_links');
@@ -3845,23 +3990,16 @@
         }
         function editLink(i) {
             const links = getStorageArray('notion_links');
-            if (!links[i]) return;
-            const title = prompt(t('linkTitlePh'), links[i].title || '');
-            if (title === null) return;
-            const rawUrl = prompt(t('linkUrlPh'), links[i].url || '');
-            if (rawUrl === null) return;
-            const url = normalizeLinkURL(rawUrl);
-            const category = prompt(t('linkCategoryPh'), links[i].category || '');
-            if (category === null) return;
-            const icon = prompt(t('linkIconPrompt'), links[i].icon || 'link');
-            if (icon === null) return;
-            const note = prompt(t('linkNotePh'), links[i].note || '');
-            if (note === null) return;
-            if (!title.trim() || url === '#') return showToast(t('fillLinkContent'));
-            links[i] = { ...links[i], title: title.trim(), url, category: category.trim() || t('uncategorized'), icon: LINK_ICONS[icon.trim()] ? icon.trim() : (links[i].icon || 'link'), note: note.trim(), updatedAt: new Date().toISOString() };
-            localStorage.setItem('notion_links', JSON.stringify(links));
-            loadLinks();
-            showToast(t('updated'));
+            const link = links[i];
+            if (!link) return;
+            editState.link = i;
+            document.getElementById('link-title').value = link.title || '';
+            document.getElementById('link-url').value = link.url || '';
+            document.getElementById('link-category').value = link.category || '';
+            document.getElementById('link-icon').value = LINK_ICONS[link.icon] ? link.icon : 'link';
+            document.getElementById('link-note').value = link.note || '';
+            setCancelVisible('link-cancel-edit', true);
+            scrollToControl('link-title');
         }
         function deleteLink(i) { const links = getStorageArray('notion_links'); links.splice(i, 1); localStorage.setItem('notion_links', JSON.stringify(links)); loadLinks(); showToast(t('deleted')); }
 
@@ -3917,52 +4055,34 @@
             const file = document.getElementById('item-image').files[0];
             const save = (image = '') => {
                 const items = getStorageArray('notion_items');
-                items.push({ name, category, status, qty, date, size, price, place, care, note, image });
+                if (editState.item !== null && items[editState.item]) { items[editState.item] = { ...items[editState.item], name, category, status, qty, date, size, price, place, care, note, image: image || items[editState.item].image || '', updatedAt: new Date().toISOString() }; showToast(t('updated')); }
+                else { items.push({ name, category, status, qty, date, size, price, place, care, note, image }); showToast(t('itemSaved')); }
                 localStorage.setItem('notion_items', JSON.stringify(items));
-                document.getElementById('item-name').value = '';
-                document.getElementById('item-category').value = '衣物';
-                document.getElementById('item-status').value = 'active';
-                document.getElementById('item-qty').value = '1';
-                document.getElementById('item-date').valueAsDate = new Date();
-                document.getElementById('item-size').value = '';
-                document.getElementById('item-price').value = '';
-                document.getElementById('item-place').value = '';
-                document.getElementById('item-care').value = '';
-                document.getElementById('item-note').value = '';
-                document.getElementById('item-image').value = '';
-                updateFileLabel('item-image');
+                cancelEdit('item');
                 loadItems();
-                showToast(t('itemSaved'));
             };
             if (file) compressImage(file, save);
             else save('');
         }
         function editItem(i) {
             const items = getStorageArray('notion_items');
-            if (!items[i]) return;
-            const name = prompt(t('itemNamePh'), items[i].name || '');
-            if (name === null) return;
-            const category = prompt(t('itemCategory'), items[i].category || '其他');
-            if (category === null) return;
-            const status = prompt(t('itemStatus'), items[i].status || 'active');
-            if (status === null) return;
-            const qty = prompt(t('quantity'), items[i].qty || 1);
-            if (qty === null) return;
-            const size = prompt(t('size'), items[i].size || '');
-            if (size === null) return;
-            const price = prompt(t('price'), items[i].price || '');
-            if (price === null) return;
-            const place = prompt(t('purchasePlace'), items[i].place || '');
-            if (place === null) return;
-            const care = prompt(t('careMethod'), items[i].care || '');
-            if (care === null) return;
-            const note = prompt(t('itemNotePh'), items[i].note || '');
-            if (note === null) return;
-            if (!name.trim()) return showToast(t('fillContent'));
-            items[i] = { ...items[i], name: name.trim(), category: ITEM_CATEGORY_KEYS[category] ? category : (items[i].category || '其他'), status: ITEM_STATUS_KEYS[status] ? status : (items[i].status || 'active'), qty: Math.max(1, parseInt(qty, 10) || 1), size: size.trim(), price: price.trim(), place: place.trim(), care: care.trim(), note: note.trim() };
-            localStorage.setItem('notion_items', JSON.stringify(items));
-            loadItems();
-            showToast(t('updated'));
+            const item = items[i];
+            if (!item) return;
+            editState.item = i;
+            document.getElementById('item-name').value = item.name || '';
+            document.getElementById('item-category').value = ITEM_CATEGORY_KEYS[item.category] ? item.category : '其他';
+            document.getElementById('item-status').value = ITEM_STATUS_KEYS[item.status] ? item.status : 'active';
+            document.getElementById('item-qty').value = item.qty || 1;
+            document.getElementById('item-date').value = item.date || todayKey();
+            document.getElementById('item-size').value = item.size || '';
+            document.getElementById('item-price').value = item.price || '';
+            document.getElementById('item-place').value = item.place || '';
+            document.getElementById('item-care').value = item.care || '';
+            document.getElementById('item-note').value = item.note || '';
+            document.getElementById('item-image').value = '';
+            updateFileLabel('item-image');
+            setCancelVisible('item-cancel-edit', true);
+            scrollToControl('item-name');
         }
         function deleteItem(i) { const items = getStorageArray('notion_items'); items.splice(i, 1); localStorage.setItem('notion_items', JSON.stringify(items)); loadItems(); showToast(t('deleted')); }
 
@@ -4016,8 +4136,8 @@
         function startTimer() { clearInterval(timerInterval); unlockBellAudio(); const minutes = getTimerMinutes(); document.getElementById('timer-input').value = minutes; timeLeft = minutes * 60; document.getElementById('timer-display').innerText = formatTime(timeLeft); const audio = document.getElementById('med-audio'); if(audio.src) audio.play().catch(() => showToast(t('browserCantPlay'))); document.getElementById('btn-timer-start').innerText = t('inProgress'); timerInterval = setInterval(() => { timeLeft--; document.getElementById('timer-display').innerText = formatTime(timeLeft); if (timeLeft <= 0) { stopTimer(); playDing(); showToast(t('timerFinished')); } }, 1000); }
         function stopTimer() { clearInterval(timerInterval); const audio = document.getElementById('med-audio'); audio.pause(); audio.currentTime = 0; document.getElementById('btn-timer-start').innerText = t('start'); document.getElementById('timer-display').innerText = formatTime(getTimerMinutes() * 60); }
         function loadMeditations() { const meds = getStorageArray('notion_meditation'); const list = document.getElementById('meditation-list'); list.innerHTML = ''; if (meds.length === 0) { list.innerHTML = getEmptyStateHTML(t('noMeditations')); return; } [...meds].reverse().forEach((m, i) => { const realIdx = meds.length - 1 - i; const div = document.createElement('div'); div.className = "bg-notion-card border border-notion-border rounded p-3 mb-2 flex justify-between items-start"; div.innerHTML = `<div class="flex-1 pr-2"><div class="flex items-center gap-2"><span class="text-xs font-semibold bg-notion-hover px-2 py-0.5 rounded text-notion-text">${escapeHTML(m.duration)} ${t('minutes')}</span><span class="text-[10px] text-notion-muted">${escapeHTML(m.date)}</span></div>${m.notes ? `<p class="text-sm text-notion-text mt-2 leading-relaxed bg-notion-hover p-2 rounded">${escapeHTML(m.notes)}</p>` : ''}</div><div class="flex gap-1 shrink-0"><button onclick="editMeditation(${realIdx})" class="text-notion-muted opacity-60 active:opacity-100 text-xs py-1 px-2" aria-label="${t('edit')}">${t('edit')}</button><button onclick="deleteMeditation(${realIdx})" class="text-notion-muted opacity-40 active:opacity-100 text-xs py-1 px-2" aria-label="${t('deleteMeditation')}">✕</button></div>`; list.appendChild(div); }); }
-        function saveMeditation() { const duration = getTimerMinutes(); const notes = document.getElementById('med-notes').value.trim(); if (duration) { const meds = getStorageArray('notion_meditation'); meds.push({ duration, notes, date: new Date().toLocaleDateString() }); localStorage.setItem('notion_meditation', JSON.stringify(meds)); document.getElementById('med-notes').value = ''; loadMeditations(); showToast(t('meditationSaved')); } }
-        function editMeditation(i) { const meds = getStorageArray('notion_meditation'); if (!meds[i]) return; const duration = prompt(t('meditationMinutes'), meds[i].duration || getTimerMinutes()); if (duration === null) return; const notes = prompt(t('awarenessNote'), meds[i].notes || ''); if (notes === null) return; const minutes = Math.min(240, Math.max(1, parseInt(duration, 10) || meds[i].duration || 1)); meds[i].duration = minutes; meds[i].notes = notes.trim(); localStorage.setItem('notion_meditation', JSON.stringify(meds)); loadMeditations(); showToast(t('updated')); }
+        function saveMeditation() { const duration = getTimerMinutes(); const notes = document.getElementById('med-notes').value.trim(); if (duration) { const meds = getStorageArray('notion_meditation'); if (editState.meditation !== null && meds[editState.meditation]) { meds[editState.meditation] = { ...meds[editState.meditation], duration, notes, updatedAt: new Date().toISOString() }; showToast(t('updated')); } else { meds.push({ duration, notes, date: new Date().toLocaleDateString() }); showToast(t('meditationSaved')); } localStorage.setItem('notion_meditation', JSON.stringify(meds)); cancelEdit('meditation'); loadMeditations(); } }
+        function editMeditation(i) { const meds = getStorageArray('notion_meditation'); const med = meds[i]; if (!med) return; editState.meditation = i; document.getElementById('timer-input').value = Math.min(240, Math.max(1, parseInt(med.duration, 10) || 15)); document.getElementById('timer-display').innerText = formatTime(getTimerMinutes() * 60); document.getElementById('med-notes').value = med.notes || ''; setCancelVisible('meditation-cancel-edit', true); scrollToControl('med-notes'); }
         function deleteMeditation(i) { const m = getStorageArray('notion_meditation'); m.splice(i, 1); localStorage.setItem('notion_meditation', JSON.stringify(m)); loadMeditations(); showToast(t('deleted')); }
     </script>
 </body>
