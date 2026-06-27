@@ -350,6 +350,44 @@
             height: 100%;
             border: 0;
         }
+        .ebook-reader-message {
+            min-height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            text-align: center;
+            color: #9B9B9B;
+            line-height: 1.7;
+        }
+        .image-preview-button {
+            position: relative;
+            display: block;
+            width: 100%;
+            overflow: hidden;
+            border-radius: 8px;
+            border: 1px solid #EAEAEA;
+            background: #F1F1EF;
+        }
+        .image-preview-button img {
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            max-height: 240px;
+            object-fit: cover;
+            display: block;
+        }
+        .image-preview-badge {
+            position: absolute;
+            right: 8px;
+            top: 8px;
+            padding: 5px 8px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.92);
+            border: 1px solid #EAEAEA;
+            color: #37352F;
+            font-size: 11px;
+            font-weight: 700;
+        }
         .link-button-grid {
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -462,6 +500,55 @@
         }
         #page-reading [class*="border-[#"] {
             border-color: #EAEAEA !important;
+        }
+        @media (max-width: 480px) {
+            main {
+                padding-left: 16px !important;
+                padding-right: 16px !important;
+            }
+            .reading-shell {
+                margin-left: -16px;
+                margin-right: -16px;
+                padding: 22px 16px 96px;
+            }
+            .reading-top {
+                margin-bottom: 20px;
+            }
+            .reading-title {
+                font-size: clamp(26px, 9vw, 34px);
+            }
+            .reading-card {
+                border-radius: 8px;
+            }
+            .book-shelf {
+                grid-auto-columns: minmax(112px, 38%);
+                gap: 12px;
+            }
+            .book-cover {
+                width: 88px;
+            }
+            .ebook-reader-frame {
+                height: min(64dvh, 560px);
+                min-height: 360px;
+            }
+            .reading-bottom-nav {
+                width: 100%;
+            }
+            .reading-nav-btn {
+                min-height: 54px;
+                font-size: 10px;
+            }
+            .reading-add-btn {
+                width: 66px;
+                height: 66px;
+            }
+            #page-shrine .bg-notion-card,
+            #page-reading .reading-card {
+                box-shadow: 0 1px 8px rgba(0,0,0,0.035);
+            }
+            input, textarea, select, button, .upload-control {
+                min-height: 44px;
+            }
         }
     </style>
 </head>
@@ -1458,8 +1545,14 @@
                 ebookSaved: '電子書已儲存',
                 ebookUnsupported: '目前只支援 PDF 與 EPUB',
                 openEbook: '閱讀',
+                openExternal: '外部開啟',
+                downloadFile: '下載檔案',
+                retry: '重試',
+                ebookLoading: '電子書載入中...',
                 deleteEbook: '刪除電子書',
                 ebookReaderUnavailable: 'EPUB 閱讀器尚未載入，請確認網路連線後重試。',
+                ebookReaderError: '電子書讀取失敗。請試試外部開啟，或重新上傳檔案。',
+                pdfInlineHint: '若手機內嵌預覽空白，請使用外部開啟。',
                 previousPage: '上一頁',
                 nextPage: '下一頁',
                 closeReader: '回書庫',
@@ -1616,6 +1709,7 @@
                 deleteShrineRecord: '刪除參拜紀錄',
                 shrineRecordSaved: '參拜紀錄已儲存',
                 shrineNameRequired: '請填寫神社名稱',
+                tapToPreview: '點選放大',
                 chooseMusic: '請先選擇音樂',
                 systemNotReady: '系統未準備好',
                 musicSaved: '音樂已儲存',
@@ -1886,8 +1980,14 @@
                 ebookSaved: '電子書籍を保存しました',
                 ebookUnsupported: '現在は PDF と EPUB のみ対応しています',
                 openEbook: '読む',
+                openExternal: '外部で開く',
+                downloadFile: 'ファイルを保存',
+                retry: '再試行',
+                ebookLoading: '電子書籍を読み込み中...',
                 deleteEbook: '電子書籍を削除',
                 ebookReaderUnavailable: 'EPUB リーダーを読み込めません。ネット接続を確認して再試行してください。',
+                ebookReaderError: '電子書籍を読み込めませんでした。外部で開くか、再アップロードしてください。',
+                pdfInlineHint: 'スマホでプレビューが空白の場合は、外部で開いてください。',
                 previousPage: '前へ',
                 nextPage: '次へ',
                 closeReader: '本棚へ戻る',
@@ -2044,6 +2144,7 @@
                 deleteShrineRecord: '参拝記録を削除',
                 shrineRecordSaved: '参拝記録を保存しました',
                 shrineNameRequired: '神社名を入力してください',
+                tapToPreview: 'タップで拡大',
                 chooseMusic: '先に音楽を選択してください',
                 systemNotReady: 'システム準備中です',
                 musicSaved: '音楽を保存しました',
@@ -2314,8 +2415,14 @@
                 ebookSaved: 'Ebook saved',
                 ebookUnsupported: 'Only PDF and EPUB are supported right now',
                 openEbook: 'Read',
+                openExternal: 'Open externally',
+                downloadFile: 'Download file',
+                retry: 'Retry',
+                ebookLoading: 'Loading ebook...',
                 deleteEbook: 'Delete ebook',
                 ebookReaderUnavailable: 'EPUB reader is not loaded. Check your connection and try again.',
+                ebookReaderError: 'Could not open this ebook. Try opening it externally or upload it again.',
+                pdfInlineHint: 'If the mobile preview is blank, use Open externally.',
                 previousPage: 'Previous',
                 nextPage: 'Next',
                 closeReader: 'Back to library',
@@ -2472,6 +2579,7 @@
                 deleteShrineRecord: 'Delete shrine visit',
                 shrineRecordSaved: 'Shrine visit saved',
                 shrineNameRequired: 'Please enter the shrine name',
+                tapToPreview: 'Tap to enlarge',
                 chooseMusic: 'Choose music first',
                 systemNotReady: 'System is not ready yet',
                 musicSaved: 'Music saved',
@@ -2683,6 +2791,8 @@
         let currentEbookId = null;
         let currentEpubBook = null;
         let currentEpubRendition = null;
+        let currentEbookUrl = null;
+        let epubLibraryPromise = null;
         let pendingCloudUpdate = null;
         let cloudUpdateChecking = false;
         let lastCloudUpdateCheck = 0;
@@ -3878,7 +3988,7 @@
             [...shrines].reverse().forEach((s, i) => { 
                 const realIdx = shrines.length - 1 - i; 
                 const div = document.createElement('div'); div.className = "bg-notion-card border border-notion-border rounded-notion p-4 text-sm"; 
-                let imgHTML = s.image ? `<button type="button" onclick="openImageViewer(${jsString(s.image)}, ${jsString(s.name || t('goshuin'))})" class="mt-3 block w-full active:opacity-80"><img src="${escapeHTML(s.image)}" alt="${t('goshuin')}" class="rounded-notion object-cover w-full max-h-48 border border-notion-border bg-notion-hover"></button>` : ''; 
+                let imgHTML = s.image ? `<button type="button" onclick="openImageViewer(${jsString(s.image)}, ${jsString(s.name || t('goshuin'))})" class="image-preview-button mt-3 active:opacity-80" aria-label="${escapeHTML(t('tapToPreview'))} ${escapeHTML(s.name || t('goshuin'))}"><img src="${escapeHTML(s.image)}" alt="${escapeHTML(s.name || t('goshuin'))}"><span class="image-preview-badge">${escapeHTML(t('tapToPreview'))}</span></button>` : ''; 
                 
                 const mapQuery = encodeURIComponent(s.address || s.name);
                 const mapLink = `<a href="https://www.google.com/maps/search/?api=1&query=${mapQuery}" target="_blank" rel="noopener noreferrer" class="text-[10px] text-notion-muted hover:text-notion-text flex items-center gap-1 mt-1.5 w-fit active:opacity-70 bg-notion-hover px-1.5 py-0.5 rounded transition-colors"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>${escapeHTML(s.address || t('viewOnMap'))}</a>`;
@@ -3959,6 +4069,67 @@
                 store.transaction.onerror = () => resolve(false);
             });
         }
+        function getEbookBlob(ebook) {
+            const blob = ebook?.blob || ebook?.file;
+            return blob instanceof Blob ? blob : null;
+        }
+        function releaseCurrentEbookUrl() {
+            if (!currentEbookUrl) return;
+            try { URL.revokeObjectURL(currentEbookUrl); } catch {}
+            currentEbookUrl = null;
+        }
+        function makeEbookUrl(blob) {
+            releaseCurrentEbookUrl();
+            currentEbookUrl = URL.createObjectURL(blob);
+            return currentEbookUrl;
+        }
+        function loadScriptOnce(src) {
+            return new Promise((resolve, reject) => {
+                const existing = document.querySelector(`script[src="${src}"]`);
+                let timer = setTimeout(() => reject(new Error('script timeout')), 3500);
+                const done = (fn, value) => {
+                    clearTimeout(timer);
+                    fn(value);
+                };
+                if (existing) {
+                    if (window.ePub) return done(resolve);
+                    existing.addEventListener('load', () => done(resolve), { once: true });
+                    existing.addEventListener('error', error => done(reject, error), { once: true });
+                    return;
+                }
+                const script = document.createElement('script');
+                script.src = src;
+                script.async = true;
+                script.onload = () => done(resolve);
+                script.onerror = error => done(reject, error);
+                document.head.appendChild(script);
+            });
+        }
+        async function ensureEpubLibrary() {
+            if (window.ePub) return true;
+            if (!epubLibraryPromise) {
+                const sources = [
+                    'https://cdn.jsdelivr.net/npm/epubjs@0.3.93/dist/epub.min.js',
+                    'https://unpkg.com/epubjs@0.3.93/dist/epub.min.js',
+                    'https://cdnjs.cloudflare.com/ajax/libs/epub.js/0.3.93/epub.min.js'
+                ];
+                epubLibraryPromise = (async () => {
+                    for (const src of sources) {
+                        try {
+                            await loadScriptOnce(src);
+                            if (window.ePub) return true;
+                        } catch {}
+                    }
+                    return false;
+                })();
+            }
+            return epubLibraryPromise;
+        }
+        function renderEbookMessage(message, actionsHTML = '') {
+            const frame = document.getElementById('ebook-reader-frame');
+            if (!frame) return;
+            frame.innerHTML = `<div class="ebook-reader-message"><div><p>${escapeHTML(message)}</p>${actionsHTML ? `<div class="mt-4 flex flex-wrap justify-center gap-2">${actionsHTML}</div>` : ''}</div></div>`;
+        }
         async function saveEbookFile() {
             const input = document.getElementById('ebook-upload');
             const file = input?.files?.[0];
@@ -3969,7 +4140,9 @@
             if (!isPdf && !isEpub) { input.value = ''; return showToast(t('ebookUnsupported')); }
             const store = getEbookStore('readwrite');
             if (!store) return showToast(t('systemNotReady'));
-            const ebook = { id: `ebook-${Date.now()}-${Math.random().toString(16).slice(2)}`, title: file.name.replace(/\.(pdf|epub)$/i, ''), name: file.name, type: isPdf ? 'pdf' : 'epub', mime: type || (isPdf ? 'application/pdf' : 'application/epub+zip'), file, createdAt: new Date().toISOString() };
+            const mime = type || (isPdf ? 'application/pdf' : 'application/epub+zip');
+            const blob = file.slice(0, file.size, mime);
+            const ebook = { id: `ebook-${Date.now()}-${Math.random().toString(16).slice(2)}`, title: file.name.replace(/\.(pdf|epub)$/i, ''), name: file.name, type: isPdf ? 'pdf' : 'epub', mime, size: file.size, blob, createdAt: new Date().toISOString() };
             store.put(ebook);
             store.transaction.oncomplete = () => { input.value = ''; renderEbookList(); showToast(t('ebookSaved')); };
             store.transaction.onerror = () => showToast(t('invalidBackup'));
@@ -3996,22 +4169,42 @@
             readingView = 'reader';
             await renderReadingPage();
         }
+        async function downloadCurrentEbook() {
+            const ebook = await getEbook(currentEbookId);
+            const blob = getEbookBlob(ebook);
+            if (!ebook || !blob) return showToast(t('ebookReaderError'));
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = ebook.name || `${ebook.title || 'ebook'}.${ebook.type || 'pdf'}`;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            setTimeout(() => URL.revokeObjectURL(url), 1000);
+        }
         function destroyEpubReader() {
             try { currentEpubRendition?.destroy?.(); } catch {}
             try { currentEpubBook?.destroy?.(); } catch {}
             currentEpubRendition = null;
             currentEpubBook = null;
+            releaseCurrentEbookUrl();
         }
         async function renderEbookReader(content) {
             destroyEpubReader();
             const ebook = await getEbook(currentEbookId);
             if (!ebook) { currentEbookId = null; setReadingView('books'); return; }
-            const url = URL.createObjectURL(ebook.file);
+            const blob = getEbookBlob(ebook);
+            if (!blob) {
+                content.innerHTML = `<div class="reading-card p-6 text-center text-sm text-notion-muted">${escapeHTML(t('ebookReaderError'))}<div class="mt-4"><button onclick="closeEbookReader()" class="px-4 py-2 rounded-notion border border-notion-border bg-white text-xs font-bold">${escapeHTML(t('closeReader'))}</button></div></div>`;
+                return;
+            }
+            const url = makeEbookUrl(blob);
+            const externalActions = `<a href="${escapeHTML(url)}" target="_blank" rel="noopener noreferrer" class="px-3 py-2 rounded-notion bg-notion-btn text-white text-xs font-bold">${escapeHTML(t('openExternal'))}</a><button onclick="downloadCurrentEbook()" class="px-3 py-2 rounded-notion border border-notion-border bg-white text-xs font-bold">${escapeHTML(t('downloadFile'))}</button>`;
             content.innerHTML = `<div class="space-y-3">
                 <div class="reading-card p-4 flex items-center justify-between gap-3">
                     <div class="min-w-0"><p class="reading-kicker">${escapeHTML(ebook.type?.toUpperCase() || '')}<span id="ebook-progress-label" class="ml-2 text-notion-muted">${ebook.percent ? `${escapeHTML(ebook.percent)}%` : ''}</span></p><h3 class="font-bold text-lg truncate">${escapeHTML(ebook.title || ebook.name)}</h3></div>
-                    <div class="flex gap-2 shrink-0">
-                        ${ebook.type === 'pdf' ? `<a href="${escapeHTML(url)}" target="_blank" rel="noopener noreferrer" class="px-3 py-2 rounded-notion bg-notion-btn text-white text-xs font-bold">${escapeHTML(t('openEbook'))}</a>` : ''}
+                    <div class="flex flex-wrap justify-end gap-2 shrink-0">
+                        ${externalActions}
                         <button onclick="closeEbookReader()" class="px-3 py-2 rounded-notion border border-notion-border bg-white text-xs font-bold">${escapeHTML(t('closeReader'))}</button>
                     </div>
                 </div>
@@ -4020,23 +4213,32 @@
             </div>`;
             const frame = document.getElementById('ebook-reader-frame');
             if (ebook.type === 'pdf') {
-                frame.innerHTML = `<iframe src="${escapeHTML(url)}" title="${escapeHTML(ebook.title || ebook.name)}"></iframe>`;
+                frame.innerHTML = `<iframe src="${escapeHTML(url)}#toolbar=1&navpanes=0" title="${escapeHTML(ebook.title || ebook.name)}"></iframe>`;
+                frame.insertAdjacentHTML('beforeend', `<div class="sr-only">${escapeHTML(t('pdfInlineHint'))}</div>`);
                 return;
             }
-            if (!window.ePub) {
-                frame.innerHTML = `<div class="h-full flex items-center justify-center p-6 text-center text-sm text-notion-muted">${escapeHTML(t('ebookReaderUnavailable'))}</div>`;
+            renderEbookMessage(t('ebookLoading'));
+            const hasEpub = await ensureEpubLibrary();
+            if (!hasEpub) {
+                renderEbookMessage(t('ebookReaderUnavailable'), `<button onclick="renderReadingPage()" class="px-3 py-2 rounded-notion bg-notion-btn text-white text-xs font-bold">${escapeHTML(t('retry'))}</button>${externalActions}`);
                 return;
             }
-            currentEpubBook = ePub(url);
-            currentEpubRendition = currentEpubBook.renderTo('ebook-reader-frame', { width: '100%', height: '100%', spread: 'none' });
-            currentEpubRendition.display(ebook.location || undefined);
-            currentEpubRendition.on('relocated', location => {
-                const percent = currentEpubBook?.locations?.percentageFromCfi ? Math.round((currentEpubBook.locations.percentageFromCfi(location.start.cfi) || 0) * 100) : '';
-                document.getElementById('ebook-progress-label').innerText = percent !== '' ? `${percent}%` : '';
-                updateEbookMeta(ebook.id, { location: location.start.cfi, percent });
-            });
-            currentEpubBook.ready.then(() => currentEpubBook.locations.generate(800)).catch(() => {});
-            bindEbookGestures();
+            try {
+                currentEpubBook = ePub(url);
+                currentEpubRendition = currentEpubBook.renderTo('ebook-reader-frame', { width: '100%', height: '100%', spread: 'none', flow: 'paginated' });
+                await currentEpubRendition.display(ebook.location || undefined);
+                currentEpubRendition.on('relocated', location => {
+                    const percent = currentEpubBook?.locations?.percentageFromCfi ? Math.round((currentEpubBook.locations.percentageFromCfi(location.start.cfi) || 0) * 100) : '';
+                    const label = document.getElementById('ebook-progress-label');
+                    if (label) label.innerText = percent !== '' ? `${percent}%` : '';
+                    updateEbookMeta(ebook.id, { location: location.start.cfi, percent });
+                });
+                currentEpubBook.ready.then(() => currentEpubBook.locations.generate(800)).catch(() => {});
+                bindEbookGestures();
+            } catch (error) {
+                console.warn('ebook reader failed', error);
+                renderEbookMessage(t('ebookReaderError'), externalActions);
+            }
         }
         function turnEbookPage(direction) {
             if (!currentEpubRendition) return;
