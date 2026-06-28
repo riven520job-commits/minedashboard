@@ -521,7 +521,7 @@
                 border-radius: 8px;
             }
             .book-shelf {
-                grid-auto-columns: minmax(112px, 38%);
+                grid-auto-columns: minmax(132px, 44%);
                 gap: 12px;
             }
             .book-cover {
@@ -578,7 +578,7 @@
                 <button onclick="switchTab('dictionary')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5z"/><path d="M9 7h6M9 11h4"/></svg></span><span class="text-lg font-semibold" data-i18n="dictionary">字典</span><span class="text-xs text-notion-muted" data-i18n="dictionarySub">日語查詢與複習</span></button>
                 <button onclick="switchTab('shrine')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M6 6v16M18 6v16M4 10h16M9 10v6M15 10v6"/></svg></span><span class="text-lg font-semibold" data-i18n="shrine">神社</span><span class="text-xs text-notion-muted" data-i18n="shrineSub">參拜與願望</span></button>
                 <button onclick="switchTab('meditation')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a14.5 14.5 0 0 0 0 20"/></svg></span><span class="text-lg font-semibold" data-i18n="meditation">冥想</span><span class="text-xs text-notion-muted" data-i18n="meditationSub">計時與導引</span></button>
-                <button onclick="switchTab('reading')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H21"/><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H21v20H6.5A2.5 2.5 0 0 1 4 19.5z"/><path d="M9 7h7M9 11h7M9 15h4"/></svg></span><span class="text-lg font-semibold" data-i18n="readingFeature">閱讀</span><span class="text-xs text-notion-muted" data-i18n="readingSub">書籍與心得</span></button>
+                <button onclick="switchTab('reading')" data-feature-tab="reading" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H21"/><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H21v20H6.5A2.5 2.5 0 0 1 4 19.5z"/><path d="M9 7h7M9 11h7M9 15h4"/></svg></span><span class="text-lg font-semibold" data-i18n="readingFeature">閱讀</span><span class="text-xs text-notion-muted" data-i18n="readingSub">書籍與心得</span></button>
                 <button onclick="switchTab('items')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.3 7 12 12l8.7-5M12 22V12"/></svg></span><span class="text-lg font-semibold" data-i18n="items">物品</span><span class="text-xs text-notion-muted" data-i18n="itemsSub">擁有清單</span></button>
                 <button onclick="switchTab('links')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.1.1l2.8-2.8a5 5 0 0 0-7.1-7.1L11.2 5"/><path d="M14 11a5 5 0 0 0-7.1-.1L4.1 13.7a5 5 0 0 0 7.1 7.1l1.6-1.6"/></svg></span><span class="text-lg font-semibold" data-i18n="links">連結</span><span class="text-xs text-notion-muted" data-i18n="linksSub">常用網站</span></button>
             </div>
@@ -1499,7 +1499,14 @@
                 readingNavVocab: '單字',
                 readingNavNotes: '筆記',
                 readingCurrently: '目前閱讀',
+                startReading: '開始閱讀',
                 continueReading: '繼續閱讀',
+                readingSession: '閱讀中',
+                saveProgress: '儲存進度',
+                finishReading: '標記已讀完',
+                progressSaved: '閱讀進度已儲存',
+                openOnPhone: '手機開啟',
+                mobileReaderHint: '手機若無法內嵌閱讀，請使用「手機開啟」或「外部開啟」。',
                 todaysGrowth: '今日成長',
                 collectedVocabulary: '收集單字',
                 writtenNotes: '閱讀筆記',
@@ -1934,7 +1941,14 @@
                 readingNavVocab: '単語',
                 readingNavNotes: 'ノート',
                 readingCurrently: '現在読書中',
+                startReading: '読み始める',
                 continueReading: '続きを読む',
+                readingSession: '読書中',
+                saveProgress: '進捗を保存',
+                finishReading: '読了にする',
+                progressSaved: '読書進捗を保存しました',
+                openOnPhone: 'スマホで開く',
+                mobileReaderHint: 'スマホで内蔵リーダーが開かない場合は「スマホで開く」または「外部で開く」を使ってください。',
                 todaysGrowth: '今日の成長',
                 collectedVocabulary: '集めた単語',
                 writtenNotes: '読書ノート',
@@ -2369,7 +2383,14 @@
                 readingNavVocab: 'Vocabulary',
                 readingNavNotes: 'Notes',
                 readingCurrently: 'Currently Reading',
+                startReading: 'Start Reading',
                 continueReading: 'Continue Reading',
+                readingSession: 'Reading',
+                saveProgress: 'Save progress',
+                finishReading: 'Mark finished',
+                progressSaved: 'Reading progress saved',
+                openOnPhone: 'Open on phone',
+                mobileReaderHint: 'If the mobile reader does not open inline, use Open on phone or Open externally.',
                 todaysGrowth: "Today's Growth",
                 collectedVocabulary: 'Vocabulary',
                 writtenNotes: 'Notes',
@@ -2788,6 +2809,7 @@
         const BOOK_FILTERS = ['all', 'want', 'reading', 'done'];
         let readingFilter = 'all';
         let readingView = 'home';
+        let currentReadingBookIndex = null;
         let currentEbookId = null;
         let currentEpubBook = null;
         let currentEpubRendition = null;
@@ -2826,6 +2848,12 @@
             renderWorkoutFilters();
             initDB(); renderCalendar(); loadWorkouts(); loadLogs(); loadJournals(); loadDictionaryHistory(); loadShrines(); loadShrineWishes(); loadMeditations(); loadMeditationVideos(); renderReadingFilters(); loadBooks(); renderItemFilters(); loadItems(); renderLinkFilters(); loadLinks();
             ['log-image', 'shrine-image', 'item-image', 'bgm-upload'].forEach(bindFileLabel);
+            document.querySelectorAll('[data-feature-tab]').forEach(button => {
+                button.addEventListener('click', event => {
+                    const tab = event.currentTarget.dataset.featureTab;
+                    if (tab) switchTab(tab);
+                });
+            });
 
             document.getElementById('bgm-upload').addEventListener('change', function(e) {
                 if(e.target.files[0]) {
@@ -2861,7 +2889,7 @@
         });
 
         function switchTab(tabName) {
-            closeTransientOverlays();
+            try { closeTransientOverlays(); } catch (error) { console.warn('close overlays failed', error); }
             const trackingMap = { goals: 'calendar', workout: 'workout', log: 'log' };
             if (trackingMap[tabName]) {
                 trackingView = trackingMap[tabName];
@@ -2869,14 +2897,16 @@
             }
             if (tabName === 'journal' && !ensureJournalAccess()) return;
             ['home', 'track', 'dictionary', 'goals', 'workout', 'log', 'journal', 'shrine', 'meditation', 'reading', 'items', 'links', 'settings'].forEach(tab => {
-                document.getElementById(`page-${tab}`).classList.add('hidden');
+                document.getElementById(`page-${tab}`)?.classList.add('hidden');
             });
-            document.getElementById(`page-${tabName}`).classList.remove('hidden');
+            const targetPage = document.getElementById(`page-${tabName}`);
+            if (!targetPage) return;
+            targetPage.classList.remove('hidden');
             const isHome = tabName === 'home';
-            document.getElementById('home-brand').classList.toggle('hidden', !isHome);
-            document.getElementById('back-home').classList.toggle('hidden', isHome);
+            document.getElementById('home-brand')?.classList.toggle('hidden', !isHome);
+            document.getElementById('back-home')?.classList.toggle('hidden', isHome);
             if (tabName === 'track') setTrackingPanel(trackingView);
-            if (tabName === 'reading') renderReadingPage();
+            if (tabName === 'reading') safeRenderReadingPage();
             window.scrollTo(0,0);
         }
 
@@ -4182,6 +4212,22 @@
             a.remove();
             setTimeout(() => URL.revokeObjectURL(url), 1000);
         }
+        async function shareCurrentEbook() {
+            const ebook = await getEbook(currentEbookId);
+            const blob = getEbookBlob(ebook);
+            if (!ebook || !blob) return showToast(t('ebookReaderError'));
+            const name = ebook.name || `${ebook.title || 'ebook'}.${ebook.type || 'pdf'}`;
+            const file = new File([blob], name, { type: ebook.mime || blob.type || (ebook.type === 'pdf' ? 'application/pdf' : 'application/epub+zip') });
+            if (navigator.canShare && navigator.canShare({ files: [file] }) && navigator.share) {
+                try {
+                    await navigator.share({ files: [file], title: ebook.title || name });
+                    return;
+                } catch (error) {
+                    if (error?.name === 'AbortError') return;
+                }
+            }
+            await downloadCurrentEbook();
+        }
         function destroyEpubReader() {
             try { currentEpubRendition?.destroy?.(); } catch {}
             try { currentEpubBook?.destroy?.(); } catch {}
@@ -4199,7 +4245,7 @@
                 return;
             }
             const url = makeEbookUrl(blob);
-            const externalActions = `<a href="${escapeHTML(url)}" target="_blank" rel="noopener noreferrer" class="px-3 py-2 rounded-notion bg-notion-btn text-white text-xs font-bold">${escapeHTML(t('openExternal'))}</a><button onclick="downloadCurrentEbook()" class="px-3 py-2 rounded-notion border border-notion-border bg-white text-xs font-bold">${escapeHTML(t('downloadFile'))}</button>`;
+            const externalActions = `<button onclick="shareCurrentEbook()" class="px-3 py-2 rounded-notion bg-notion-btn text-white text-xs font-bold">${escapeHTML(t('openOnPhone'))}</button><a href="${escapeHTML(url)}" target="_blank" rel="noopener noreferrer" class="px-3 py-2 rounded-notion border border-notion-border bg-white text-xs font-bold">${escapeHTML(t('openExternal'))}</a><button onclick="downloadCurrentEbook()" class="px-3 py-2 rounded-notion border border-notion-border bg-white text-xs font-bold">${escapeHTML(t('downloadFile'))}</button>`;
             content.innerHTML = `<div class="space-y-3">
                 <div class="reading-card p-4 flex items-center justify-between gap-3">
                     <div class="min-w-0"><p class="reading-kicker">${escapeHTML(ebook.type?.toUpperCase() || '')}<span id="ebook-progress-label" class="ml-2 text-notion-muted">${ebook.percent ? `${escapeHTML(ebook.percent)}%` : ''}</span></p><h3 class="font-bold text-lg truncate">${escapeHTML(ebook.title || ebook.name)}</h3></div>
@@ -4208,6 +4254,7 @@
                         <button onclick="closeEbookReader()" class="px-3 py-2 rounded-notion border border-notion-border bg-white text-xs font-bold">${escapeHTML(t('closeReader'))}</button>
                     </div>
                 </div>
+                <p class="text-xs text-notion-muted leading-relaxed px-1">${escapeHTML(t('mobileReaderHint'))}</p>
                 <div id="ebook-reader-frame" class="ebook-reader-frame"></div>
                 ${ebook.type === 'epub' ? `<div class="grid grid-cols-2 gap-2"><button onclick="turnEbookPage(-1)" class="py-3 rounded-notion border border-notion-border bg-white text-sm font-bold">${escapeHTML(t('previousPage'))}</button><button onclick="turnEbookPage(1)" class="py-3 rounded-notion bg-notion-btn text-white text-sm font-bold">${escapeHTML(t('nextPage'))}</button></div>` : ''}
             </div>`;
@@ -4266,12 +4313,12 @@
             store.delete(id);
             store.transaction.oncomplete = () => { if (currentEbookId === id) currentEbookId = null; renderEbookList(); showToast(t('deleted')); };
         }
-        function renderReadingFilters() { renderReadingPage(); }
+        function renderReadingFilters() { safeRenderReadingPage(); }
         function setReadingFilter(status) { readingFilter = status; setReadingView('books'); }
         function setReadingView(view) {
             if (readingView === 'reader' && view !== 'reader') destroyEpubReader();
             readingView = view || 'home';
-            renderReadingPage();
+            safeRenderReadingPage();
             const shell = document.querySelector('#page-reading .reading-shell');
             if (shell) shell.scrollIntoView({ block: 'start' });
         }
@@ -4282,12 +4329,84 @@
             const title = escapeHTML(book?.title || t('untitled'));
             return `<div class="book-cover"><span>${title.split(/\s+/).slice(0, 5).join('<br>')}</span></div>`;
         }
+        function startReadingBook(i) {
+            const books = getStorageArray('notion_books');
+            if (!books[i]) return;
+            books[i].status = 'reading';
+            books[i].date = books[i].date || new Date().toLocaleDateString();
+            books[i].updatedAt = new Date().toISOString();
+            localStorage.setItem('notion_books', JSON.stringify(books));
+            currentReadingBookIndex = i;
+            readingView = 'bookDetail';
+            renderReadingPage();
+        }
+        function adjustBookProgress(delta) {
+            const input = document.getElementById('book-detail-progress');
+            if (!input) return;
+            const next = Math.min(100, Math.max(0, (parseInt(input.value, 10) || 0) + delta));
+            input.value = next;
+            const bar = document.getElementById('book-detail-progress-bar');
+            const label = document.getElementById('book-detail-progress-label');
+            if (bar) bar.style.width = `${next}%`;
+            if (label) label.innerText = `${next}%`;
+        }
+        function saveReadingProgress(done = false) {
+            const books = getStorageArray('notion_books');
+            const book = books[currentReadingBookIndex];
+            if (!book) return;
+            const progress = done ? 100 : Math.min(100, Math.max(0, parseInt(document.getElementById('book-detail-progress')?.value, 10) || 0));
+            const note = document.getElementById('book-detail-note')?.value.trim() || '';
+            books[currentReadingBookIndex] = {
+                ...book,
+                progress,
+                note,
+                status: done || progress >= 100 ? 'done' : 'reading',
+                updatedAt: new Date().toISOString()
+            };
+            localStorage.setItem('notion_books', JSON.stringify(books));
+            showToast(done ? t('readingComplete') : t('progressSaved'));
+            renderReadingPage();
+        }
+        function renderBookDetail(content) {
+            const books = getStorageArray('notion_books');
+            const book = books[currentReadingBookIndex];
+            if (!book) { currentReadingBookIndex = null; setReadingView('books'); return; }
+            const progress = getReadingProgress(book);
+            content.innerHTML = `<div class="space-y-4">
+                <section class="reading-card p-5">
+                    <p class="reading-kicker mb-4">${escapeHTML(t('readingSession'))}</p>
+                    <div class="flex gap-5 items-start">
+                        ${renderBookCover(book)}
+                        <div class="min-w-0 flex-1">
+                            <h3 class="text-2xl font-semibold leading-tight">${escapeHTML(book.title || t('untitled'))}</h3>
+                            <p class="text-sm text-notion-muted mt-2">${escapeHTML(book.author || t('author'))}</p>
+                            <p class="text-sm font-bold mt-4">${escapeHTML(getReadingStage(book))}</p>
+                            <div class="flex justify-between text-sm mt-4 mb-2"><span>${escapeHTML(t('progress'))}</span><span id="book-detail-progress-label">${progress}%</span></div>
+                            <div class="reading-progress"><span id="book-detail-progress-bar" style="width:${progress}%"></span></div>
+                        </div>
+                    </div>
+                </section>
+                <section class="reading-card p-5 space-y-4">
+                    <input id="book-detail-progress" type="number" min="0" max="100" value="${progress}" class="w-full border border-notion-border rounded-notion px-3 py-3 text-center font-bold" oninput="adjustBookProgress(0)">
+                    <div class="grid grid-cols-4 gap-2">
+                        <button onclick="adjustBookProgress(-10)" class="rounded-notion border border-notion-border bg-white py-3 text-sm font-bold">-10</button>
+                        <button onclick="adjustBookProgress(-5)" class="rounded-notion border border-notion-border bg-white py-3 text-sm font-bold">-5</button>
+                        <button onclick="adjustBookProgress(5)" class="rounded-notion bg-notion-btn text-white py-3 text-sm font-bold">+5</button>
+                        <button onclick="adjustBookProgress(10)" class="rounded-notion bg-notion-btn text-white py-3 text-sm font-bold">+10</button>
+                    </div>
+                    <textarea id="book-detail-note" rows="5" class="w-full border border-notion-border rounded-notion px-3 py-3 text-sm resize-none" placeholder="${escapeHTML(t('bookNotePh'))}">${escapeHTML(book.note || '')}</textarea>
+                    <button onclick="saveReadingProgress(false)" class="w-full bg-notion-btn text-white rounded-notion py-3 text-sm font-bold">${escapeHTML(t('saveProgress'))}</button>
+                    <button onclick="saveReadingProgress(true)" class="w-full border border-notion-border bg-white rounded-notion py-3 text-sm font-bold">${escapeHTML(t('finishReading'))}</button>
+                    <button onclick="editBook(${currentReadingBookIndex})" class="w-full text-notion-muted py-2 text-xs font-bold">${escapeHTML(t('edit'))}</button>
+                </section>
+            </div>`;
+        }
         function renderReadingPage() {
             const content = document.getElementById('reading-content');
             if (!content) return;
             document.querySelectorAll('[data-reading-nav]').forEach(btn => {
                 const nav = btn.dataset.readingNav;
-                btn.classList.toggle('active', nav === readingView || (readingView === 'review' && nav === 'vocab'));
+                btn.classList.toggle('active', nav === readingView || (readingView === 'review' && nav === 'vocab') || (readingView === 'bookDetail' && nav === 'books') || (readingView === 'reader' && nav === 'books'));
             });
             const titleMap = {
                 home: 'ReadGrow',
@@ -4296,6 +4415,7 @@
                 review: t('readingVocabulary'),
                 notes: t('readingNotes'),
                 add: t('readingAdd'),
+                bookDetail: t('readingSession'),
                 reader: t('ebookLibrary')
             };
             const subtitleMap = {
@@ -4313,8 +4433,28 @@
             if (readingView === 'review') return renderVocabularyReview(content);
             if (readingView === 'notes') return renderReadingNotes(content);
             if (readingView === 'add') return renderReadingAdd(content);
+            if (readingView === 'bookDetail') return renderBookDetail(content);
             if (readingView === 'reader') return renderEbookReader(content);
             return renderReadingHome(content);
+        }
+        function safeRenderReadingPage() {
+            try {
+                return renderReadingPage();
+            } catch (error) {
+                console.error('reading render failed', error);
+                const content = document.getElementById('reading-content');
+                const title = document.getElementById('reading-view-title');
+                const subtitle = document.getElementById('reading-view-subtitle');
+                if (title) title.innerText = t('readingPageTitle');
+                if (subtitle) subtitle.innerText = t('mobileReaderHint');
+                if (content) {
+                    content.innerHTML = `<div class="reading-card p-5 space-y-3">
+                        <p class="text-sm text-notion-muted leading-relaxed">${escapeHTML(t('ebookReaderError'))}</p>
+                        <button onclick="readingView='books'; safeRenderReadingPage()" class="w-full bg-notion-btn text-white rounded-notion py-3 text-sm font-bold">${escapeHTML(t('readingLibrary'))}</button>
+                        <button onclick="readingView='add'; safeRenderReadingPage()" class="w-full border border-notion-border bg-white rounded-notion py-3 text-sm font-bold">${escapeHTML(t('readingAdd'))}</button>
+                    </div>`;
+                }
+            }
         }
         function renderReadingHome(content) {
             const books = getStorageArray('notion_books');
@@ -4334,7 +4474,7 @@
                             <div class="flex justify-between text-sm mt-4 mb-2"><span>${progress}% ${escapeHTML(t('readingComplete'))}</span><span>${progress}%</span></div>
                             <div class="reading-progress"><span style="width:${progress}%"></span></div>
                             <p class="text-sm text-[#7A7A75] mt-3">${getReadingVocab().length} ${escapeHTML(t('readingNavVocab'))} · ${getStorageArray('notion_reading_notes').length} ${escapeHTML(t('readingNavNotes'))}</p>
-                            <button onclick="editBook(${books.indexOf(current)})" class="mt-4 w-full bg-[#477344] text-white rounded-xl py-3 text-sm font-bold">${escapeHTML(t('continueReading'))} →</button>
+                            <button onclick="startReadingBook(${books.indexOf(current)})" class="mt-4 w-full bg-[#477344] text-white rounded-xl py-3 text-sm font-bold">${escapeHTML(t('continueReading'))} →</button>
                         </div>
                     </div>
                 </div>`;
@@ -4361,7 +4501,7 @@
                 const progress = getReadingProgress(book);
                 const realIdx = allBooks.findIndex(item => item.title === book.title && item.date === book.date && item.author === book.author);
                 const controls = realIdx >= 0 ? `<button onclick="deleteBook(${realIdx})" class="absolute right-1 top-1 z-10 w-10 h-10 rounded-full bg-white/85 text-red-700 shadow" aria-label="${escapeHTML(t('deleteBook'))}">⌫</button>` : '';
-                const edit = realIdx >= 0 ? `<button onclick="editBook(${realIdx})" class="mt-2 text-xs text-[#2E5A35] font-bold">${escapeHTML(t('edit'))}</button>` : '';
+                const actions = realIdx >= 0 ? `<div class="mt-3 grid grid-cols-1 gap-2"><button onclick="startReadingBook(${realIdx})" class="w-full rounded-notion bg-notion-btn text-white py-2 text-xs font-bold">${escapeHTML((book.status || 'want') === 'want' ? t('startReading') : t('continueReading'))}</button><button onclick="editBook(${realIdx})" class="text-xs text-[#2E5A35] font-bold">${escapeHTML(t('edit'))}</button></div>` : '';
                 return `<article class="book-tile">
                     ${controls}
                     ${renderBookCover(book)}
@@ -4369,7 +4509,7 @@
                     <p class="text-xs text-[#777C75] mt-1">${escapeHTML(book.author || '')}</p>
                     <p class="text-xs font-bold text-[#477344] mt-2">${escapeHTML(getReadingStage(book))}</p>
                     <div class="reading-progress mt-2"><span style="width:${progress}%"></span></div>
-                    ${edit}
+                    ${actions}
                 </article>`;
             }).join('')}</div>`;
         }
@@ -4487,7 +4627,7 @@
             </div>`;
         }
         function loadBooks() {
-            renderReadingPage();
+            safeRenderReadingPage();
         }
         function saveBook() {
             const title = document.getElementById('book-title').value.trim();
