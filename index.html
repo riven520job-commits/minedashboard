@@ -766,14 +766,22 @@
                 <div class="flex items-center justify-between pb-2 border-b border-notion-border">
                     <span class="text-sm font-semibold text-notion-text tracking-wider uppercase" data-i18n="cyclePageTitle">生理期紀錄</span>
                 </div>
-                <div class="grid grid-cols-2 gap-2">
-                    <div>
+                <div class="bg-notion-hover border border-notion-border rounded-notion p-3 flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-notion-btn text-white flex items-center justify-center text-lg" aria-hidden="true">●</div>
+                    <div class="flex-1">
                         <label for="cycle-start" class="text-[11px] text-notion-muted" data-i18n="cycleStart">開始日</label>
                         <input type="date" id="cycle-start" class="w-full mt-1 text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted">
                     </div>
+                </div>
+                <div id="cycle-prediction-preview" class="bg-notion-btn text-white rounded-notion p-4 text-center"></div>
+                <div class="grid grid-cols-2 gap-2">
                     <div>
-                        <label for="cycle-end" class="text-[11px] text-notion-muted" data-i18n="cycleEnd">結束日</label>
-                        <input type="date" id="cycle-end" class="w-full mt-1 text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted">
+                        <label for="cycle-length" class="text-[11px] text-notion-muted" data-i18n="cycleLength">週期天數</label>
+                        <input type="number" id="cycle-length" value="28" min="15" max="60" class="w-full mt-1 text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted">
+                    </div>
+                    <div>
+                        <label for="cycle-duration" class="text-[11px] text-notion-muted" data-i18n="durationDays">持續天數</label>
+                        <input type="number" id="cycle-duration" value="5" min="1" max="14" class="w-full mt-1 text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted">
                     </div>
                 </div>
                 <div class="grid grid-cols-2 gap-2">
@@ -829,6 +837,10 @@
             <h3 id="journal-modal-title" class="text-sm font-semibold border-b border-notion-border pb-2" data-i18n="newJournal">新增顯化日記</h3>
             <input type="text" id="journal-title" placeholder="無標題" data-i18n-placeholder="untitled" class="w-full text-base font-medium placeholder-notion-muted border-none focus:outline-none">
             <textarea id="journal-content" rows="6" placeholder="寫下你的靈感與覺察..." data-i18n-placeholder="journalContentPh" class="w-full text-sm placeholder-notion-muted border-none focus:outline-none resize-none"></textarea>
+            <label class="flex items-center justify-between gap-3 rounded-notion border border-notion-border bg-notion-hover px-3 py-2 text-xs">
+                <span data-i18n="lockThisJournal">這篇日記上鎖</span>
+                <input type="checkbox" id="journal-locked-entry" class="w-4 h-4 accent-[#2E2C27]">
+            </label>
             <div class="flex gap-2 pt-2 border-t border-notion-border mt-2">
                 <button onclick="closeJournalModal()" class="flex-1 py-2.5 text-sm bg-notion-hover text-notion-text rounded-notion font-medium" data-i18n="cancel">取消</button>
                 <button onclick="saveJournal()" class="flex-1 py-2.5 text-sm bg-notion-btn text-white rounded-notion font-medium" data-i18n="done">完成</button>
@@ -1085,11 +1097,13 @@
                 setCancelVisible('place-cancel-edit', false);
             } else if (type === 'cycle') {
                 document.getElementById('cycle-start').value = todayKey();
-                document.getElementById('cycle-end').value = '';
+                document.getElementById('cycle-length').value = getPredictedCycleLength();
+                document.getElementById('cycle-duration').value = '5';
                 document.getElementById('cycle-flow').value = 'medium';
                 document.getElementById('cycle-mood').value = 'calm';
                 document.getElementById('cycle-symptoms').value = '';
                 document.getElementById('cycle-note').value = '';
+                renderCyclePredictionPreview();
                 setCancelVisible('cycle-cancel-edit', false);
             } else if (type === 'meditation') {
                 document.getElementById('med-notes').value = '';
@@ -1097,6 +1111,7 @@
             } else if (type === 'journal') {
                 document.getElementById('journal-title').value = '';
                 document.getElementById('journal-content').value = '';
+                document.getElementById('journal-locked-entry').checked = false;
             }
         }
 
@@ -1164,6 +1179,7 @@
             renderPlaceFilters();
             loadPlaces();
             loadCycles();
+            renderCyclePredictionPreview();
             renderItemFilters();
             loadItems();
             renderLinkFilters();
@@ -1307,6 +1323,10 @@
                 cyclePageTitle: '生理期紀錄',
                 cycleStart: '開始日',
                 cycleEnd: '結束日',
+                cycleLength: '週期天數',
+                durationDays: '持續天數',
+                predictedNext: '預測下次來臨',
+                cycleStartHint: '先選開始日，就會預測下次日期',
                 cycleFlow: '流量',
                 cycleMood: '心情',
                 flowLight: '少量',
@@ -1328,6 +1348,11 @@
                 averageCycle: '平均週期',
                 nextCycleEstimate: '下次預估',
                 fillCycleStart: '請填寫開始日',
+                lockedEntry: '已上鎖',
+                lockThisJournal: '這篇日記上鎖',
+                unlockEntry: '解鎖查看',
+                lockEntry: '上鎖',
+                unlockFirst: '請先解鎖這篇日記',
                 weekdays: ['日', '一', '二', '三', '四', '五', '六'],
                 prevMonth: '上一個月',
                 nextMonth: '下一個月',
@@ -1720,6 +1745,10 @@
                 cyclePageTitle: '生理記録',
                 cycleStart: '開始日',
                 cycleEnd: '終了日',
+                cycleLength: '周期日数',
+                durationDays: '続く日数',
+                predictedNext: '次回予測',
+                cycleStartHint: '開始日を選ぶと次回日を予測します',
                 cycleFlow: '量',
                 cycleMood: '気分',
                 flowLight: '少なめ',
@@ -1741,6 +1770,11 @@
                 averageCycle: '平均周期',
                 nextCycleEstimate: '次回予測',
                 fillCycleStart: '開始日を入力してください',
+                lockedEntry: 'ロック中',
+                lockThisJournal: 'この日記をロック',
+                unlockEntry: '解除して見る',
+                lockEntry: 'ロック',
+                unlockFirst: '先にこの日記を解除してください',
                 weekdays: ['日', '月', '火', '水', '木', '金', '土'],
                 prevMonth: '前の月',
                 nextMonth: '次の月',
@@ -2133,6 +2167,10 @@
                 cyclePageTitle: 'Period Log',
                 cycleStart: 'Start',
                 cycleEnd: 'End',
+                cycleLength: 'Cycle days',
+                durationDays: 'Duration',
+                predictedNext: 'Predicted next',
+                cycleStartHint: 'Choose a start date to predict the next one',
                 cycleFlow: 'Flow',
                 cycleMood: 'Mood',
                 flowLight: 'Light',
@@ -2154,6 +2192,11 @@
                 averageCycle: 'Average cycle',
                 nextCycleEstimate: 'Next estimate',
                 fillCycleStart: 'Enter a start date',
+                lockedEntry: 'Locked',
+                lockThisJournal: 'Lock this journal',
+                unlockEntry: 'Unlock to view',
+                lockEntry: 'Lock',
+                unlockFirst: 'Unlock this journal first',
                 weekdays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
                 prevMonth: 'Previous month',
                 nextMonth: 'Next month',
@@ -2590,6 +2633,8 @@
             document.getElementById('shrine-date').valueAsDate = new Date();
             document.getElementById('item-date').valueAsDate = new Date();
             document.getElementById('cycle-start').value = todayKey();
+            document.getElementById('cycle-length').value = getPredictedCycleLength();
+            document.getElementById('cycle-duration').value = '5';
             document.getElementById('log-date').value = todayKey();
             applyLanguage();
 
@@ -2614,6 +2659,11 @@
             document.getElementById('dictionary-query').addEventListener('keydown', e => {
                 if (e.key === 'Enter') searchDictionary();
             });
+            ['cycle-start', 'cycle-length'].forEach(id => {
+                document.getElementById(id)?.addEventListener('input', renderCyclePredictionPreview);
+                document.getElementById(id)?.addEventListener('change', renderCyclePredictionPreview);
+            });
+            renderCyclePredictionPreview();
             handleAuthRedirect().then(() => initCloudSync()).then(() => setTimeout(() => checkCloudForUpdates(), 1200));
             document.addEventListener('visibilitychange', () => {
                 if (!document.hidden) checkCloudForUpdates();
@@ -2637,7 +2687,6 @@
                 trackingView = trackingMap[tabName];
                 tabName = 'track';
             }
-            if (tabName === 'journal' && !ensureJournalAccess()) return;
             ['home', 'track', 'dictionary', 'goals', 'workout', 'log', 'journal', 'shrine', 'meditation', 'places', 'cycle', 'items', 'links', 'settings'].forEach(tab => {
                 document.getElementById(`page-${tab}`)?.classList.add('hidden');
             });
@@ -3375,12 +3424,33 @@
         function removeJournalPassword() { const saved = localStorage.getItem(JOURNAL_PASSWORD_KEY); if (!saved) return showToast(t('journalPasswordRequired')); const current = prompt(t('journalCurrentPasswordPrompt')); if (current === null) return; if (current !== saved) return showToast(t('journalPasswordWrong')); if (!confirm(t('journalPasswordRemoveConfirm'))) return; localStorage.removeItem(JOURNAL_PASSWORD_KEY); journalUnlocked = false; loadJournals(); showToast(t('journalPasswordRemoved')); }
         function getJournalLockHTML() { return `<div class="bg-notion-hover border border-notion-border rounded-notion p-4 space-y-3 text-sm"><div><p class="font-semibold text-notion-text">${t('journalLocked')}</p><p class="text-xs text-notion-muted leading-relaxed mt-1">${t('journalLockHint')}</p></div><button onclick="unlockJournal()" class="w-full py-2.5 text-sm bg-notion-btn text-white rounded-notion font-medium">${t('unlockJournal')}</button></div>`; }
         function getJournalControlHTML() { const hasPassword = hasJournalPassword(); return `<div class="bg-notion-hover border border-notion-border rounded-notion p-3 mb-2 space-y-2"><div class="flex items-center justify-between gap-2"><span class="text-[11px] text-notion-muted">${t('privatePassword')}</span>${hasPassword ? `<button onclick="lockJournal()" class="text-[11px] border border-notion-border bg-white rounded px-2 py-1">${t('lockJournal')}</button>` : ''}</div><div class="grid ${hasPassword ? 'grid-cols-2' : 'grid-cols-1'} gap-2"><button onclick="setJournalPassword()" class="text-[11px] border border-notion-border bg-white rounded px-2 py-2">${t('setJournalPassword')}</button>${hasPassword ? `<button onclick="removeJournalPassword()" class="text-[11px] border border-notion-border bg-white rounded px-2 py-2">${t('removeJournalPassword')}</button>` : ''}</div></div>`; }
-        function openJournalModal() { if (!ensureJournalUnlocked()) return; editState.journal = null; document.getElementById('journal-title').value = ''; document.getElementById('journal-content').value = ''; document.getElementById('modal-journal').classList.remove('hidden'); document.getElementById('modal-journal').classList.add('flex'); document.getElementById('journal-title').focus(); }
+        function openJournalModal() { editState.journal = null; document.getElementById('journal-title').value = ''; document.getElementById('journal-content').value = ''; document.getElementById('journal-locked-entry').checked = false; document.getElementById('modal-journal').classList.remove('hidden'); document.getElementById('modal-journal').classList.add('flex'); document.getElementById('journal-title').focus(); }
         function closeJournalModal() { document.getElementById('modal-journal').classList.add('hidden'); cancelEdit('journal'); }
-        function loadJournals() { const j = getStorageArray('notion_journals_v2'); const l = document.getElementById('journal-list'); l.innerHTML = ''; if (hasJournalPassword() && !journalUnlocked) { l.innerHTML = getJournalLockHTML(); return; } l.innerHTML = getJournalControlHTML(); if (j.length === 0) { l.insertAdjacentHTML('beforeend', getEmptyStateHTML(t('noJournals'))); return; } [...j].reverse().forEach((x, i) => { const realIdx = j.length - 1 - i; const div = document.createElement('details'); div.className="bg-notion-card border border-notion-border rounded mb-2"; div.innerHTML=`<summary class="flex items-center gap-2 cursor-pointer text-sm font-medium p-3 relative"><svg class="w-3 h-3 text-notion-muted transition-transform flex-shrink-0" viewBox="0 0 100 100" aria-hidden="true"><polygon points="20,10 80,50 20,90" fill="currentColor"/></svg><span class="flex-1 truncate">${escapeHTML(x.title || t('untitled'))}</span><span class="text-[10px] text-notion-muted">${escapeHTML(x.date)}</span></summary><div class="px-4 pb-3 pt-1 text-sm text-notion-text relative border-t border-notion-hover mt-1"><p class="whitespace-pre-wrap leading-relaxed mt-2">${escapeHTML(x.content)}</p><div class="mt-3 text-right flex justify-end gap-2"><button onclick="editJournal(${realIdx})" class="text-xs text-notion-muted border border-notion-border px-3 py-1 rounded active:bg-notion-hover">${t('edit')}</button><button onclick="deleteJournal(${realIdx})" class="text-xs text-notion-muted border border-notion-border px-3 py-1 rounded active:bg-notion-hover">${t('delete')}</button></div></div>`; l.appendChild(div); }); }
-        function saveJournal() { if (!ensureJournalUnlocked()) return; const title = document.getElementById('journal-title').value.trim(); const c = document.getElementById('journal-content').value.trim(); if(c) { const j = getStorageArray('notion_journals_v2'); if (editState.journal !== null && j[editState.journal]) { j[editState.journal] = { ...j[editState.journal], title, content:c, updatedAt: new Date().toISOString() }; showToast(t('updated')); } else { j.push({title, content:c, date:new Date().toLocaleDateString()}); showToast(t('journalSaved')); } localStorage.setItem('notion_journals_v2', JSON.stringify(j)); document.getElementById('modal-journal').classList.add('hidden'); cancelEdit('journal'); loadJournals(); } }
-        function editJournal(i) { if (!ensureJournalUnlocked()) return; const journals = getStorageArray('notion_journals_v2'); if (!journals[i]) return; editState.journal = i; document.getElementById('journal-title').value = journals[i].title || ''; document.getElementById('journal-content').value = journals[i].content || ''; document.getElementById('modal-journal').classList.remove('hidden'); document.getElementById('modal-journal').classList.add('flex'); document.getElementById('journal-title').focus(); }
-        function deleteJournal(i) { if (!ensureJournalUnlocked()) return; const j = getStorageArray('notion_journals_v2'); j.splice(i, 1); localStorage.setItem('notion_journals_v2', JSON.stringify(j)); loadJournals(); showToast(t('deleted')); }
+        function canAccessJournalEntry(entry) { return !entry?.locked || journalUnlocked || unlockJournal(); }
+        function loadJournals() {
+            const j = getStorageArray('notion_journals_v2'); const l = document.getElementById('journal-list'); l.innerHTML = getJournalControlHTML();
+            if (j.length === 0) { l.insertAdjacentHTML('beforeend', getEmptyStateHTML(t('noJournals'))); return; }
+            [...j].reverse().forEach((x, i) => {
+                const realIdx = j.length - 1 - i;
+                const locked = !!x.locked && !journalUnlocked;
+                const div = document.createElement(locked ? 'div' : 'details');
+                div.className = "bg-notion-card border border-notion-border rounded mb-2";
+                if (locked) {
+                    div.innerHTML = `<div class="flex items-center gap-2 text-sm font-medium p-3"><span class="w-5 h-5 rounded-full bg-notion-btn text-white flex items-center justify-center text-[10px]">●</span><span class="flex-1 truncate">${escapeHTML(x.title || t('untitled'))}</span><span class="text-[10px] text-notion-muted">${escapeHTML(t('lockedEntry'))}</span></div><div class="px-4 pb-3 pt-1 border-t border-notion-hover"><p class="text-xs text-notion-muted">${escapeHTML(x.date || '')}</p><button onclick="unlockJournal()" class="w-full mt-3 py-2 text-xs bg-notion-btn text-white rounded-notion">${escapeHTML(t('unlockEntry'))}</button></div>`;
+                } else {
+                    div.innerHTML=`<summary class="flex items-center gap-2 cursor-pointer text-sm font-medium p-3 relative"><svg class="w-3 h-3 text-notion-muted transition-transform flex-shrink-0" viewBox="0 0 100 100" aria-hidden="true"><polygon points="20,10 80,50 20,90" fill="currentColor"/></svg><span class="flex-1 truncate">${x.locked ? '● ' : ''}${escapeHTML(x.title || t('untitled'))}</span><span class="text-[10px] text-notion-muted">${escapeHTML(x.date)}</span></summary><div class="px-4 pb-3 pt-1 text-sm text-notion-text relative border-t border-notion-hover mt-1"><p class="whitespace-pre-wrap leading-relaxed mt-2">${escapeHTML(x.content)}</p><div class="mt-3 text-right flex flex-wrap justify-end gap-2"><button onclick="toggleJournalEntryLock(${realIdx})" class="text-xs text-notion-muted border border-notion-border px-3 py-1 rounded active:bg-notion-hover">${escapeHTML(x.locked ? t('unlockEntry') : t('lockEntry'))}</button><button onclick="editJournal(${realIdx})" class="text-xs text-notion-muted border border-notion-border px-3 py-1 rounded active:bg-notion-hover">${t('edit')}</button><button onclick="deleteJournal(${realIdx})" class="text-xs text-notion-muted border border-notion-border px-3 py-1 rounded active:bg-notion-hover">${t('delete')}</button></div></div>`;
+                }
+                l.appendChild(div);
+            });
+        }
+        function saveJournal() {
+            const title = document.getElementById('journal-title').value.trim(); const c = document.getElementById('journal-content').value.trim(); const locked = document.getElementById('journal-locked-entry').checked;
+            if (locked && !hasJournalPassword()) { setJournalPassword(); if (!hasJournalPassword()) return; }
+            if(c) { const j = getStorageArray('notion_journals_v2'); if (editState.journal !== null && j[editState.journal]) { j[editState.journal] = { ...j[editState.journal], title, content:c, locked, updatedAt: new Date().toISOString() }; showToast(t('updated')); } else { j.push({title, content:c, locked, date:new Date().toLocaleDateString()}); showToast(t('journalSaved')); } localStorage.setItem('notion_journals_v2', JSON.stringify(j)); document.getElementById('modal-journal').classList.add('hidden'); cancelEdit('journal'); loadJournals(); }
+        }
+        function editJournal(i) { const journals = getStorageArray('notion_journals_v2'); if (!journals[i]) return; if (!canAccessJournalEntry(journals[i])) return; editState.journal = i; document.getElementById('journal-title').value = journals[i].title || ''; document.getElementById('journal-content').value = journals[i].content || ''; document.getElementById('journal-locked-entry').checked = !!journals[i].locked; document.getElementById('modal-journal').classList.remove('hidden'); document.getElementById('modal-journal').classList.add('flex'); document.getElementById('journal-title').focus(); }
+        function deleteJournal(i) { const j = getStorageArray('notion_journals_v2'); if (!j[i]) return; if (!canAccessJournalEntry(j[i])) return; j.splice(i, 1); localStorage.setItem('notion_journals_v2', JSON.stringify(j)); loadJournals(); showToast(t('deleted')); }
+        function toggleJournalEntryLock(i) { const j = getStorageArray('notion_journals_v2'); if (!j[i]) return; if (!j[i].locked && !hasJournalPassword()) { setJournalPassword(); if (!hasJournalPassword()) return; } if (j[i].locked && !canAccessJournalEntry(j[i])) return; j[i].locked = !j[i].locked; j[i].updatedAt = new Date().toISOString(); localStorage.setItem('notion_journals_v2', JSON.stringify(j)); loadJournals(); showToast(t('updated')); }
 
         // ================= 日語字典 =================
         function getDictionaryHistory() {
@@ -3900,24 +3970,44 @@
             if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) return null;
             return Math.round((end - start) / 86400000) + 1;
         }
+        function addDays(dateString, days) {
+            const date = new Date(dateString);
+            if (Number.isNaN(date.getTime())) return null;
+            date.setDate(date.getDate() + (parseInt(days, 10) || 0));
+            return getFormatDate(date.getFullYear(), date.getMonth(), date.getDate());
+        }
+        function getPredictedCycleLength(cycles = getStorageArray('notion_cycles')) {
+            const sorted = [...cycles].filter(c => c.start).sort((a, b) => String(a.start).localeCompare(String(b.start)));
+            const intervals = [];
+            for (let i = 1; i < sorted.length; i++) {
+                const diff = cycleDateDiff(sorted[i - 1].start, sorted[i].start);
+                if (diff && diff >= 15 && diff <= 60) intervals.push(diff - 1);
+            }
+            if (intervals.length) return Math.round(intervals.reduce((sum, item) => sum + item, 0) / intervals.length);
+            const latestWithLength = [...cycles].reverse().find(c => parseInt(c.cycleLength, 10));
+            return parseInt(latestWithLength?.cycleLength, 10) || 28;
+        }
+        function renderCyclePredictionPreview() {
+            const preview = document.getElementById('cycle-prediction-preview');
+            if (!preview) return;
+            const start = document.getElementById('cycle-start')?.value || todayKey();
+            const length = Math.max(15, Math.min(60, parseInt(document.getElementById('cycle-length')?.value, 10) || getPredictedCycleLength()));
+            const next = addDays(start, length);
+            preview.innerHTML = `<p class="text-[11px] uppercase tracking-wider opacity-70">${escapeHTML(t('predictedNext'))}</p><p class="text-2xl font-semibold mt-1">${escapeHTML(next || '--')}</p><p class="text-[11px] opacity-70 mt-1">${escapeHTML(t('cycleDays').replace('{count}', length))}</p>`;
+        }
         function renderCycleSummary(cycles = getStorageArray('notion_cycles')) {
             const el = document.getElementById('cycle-summary');
             if (!el) return;
             const sorted = [...cycles].filter(c => c.start).sort((a, b) => String(b.start).localeCompare(String(a.start)));
             if (!sorted.length) {
-                el.innerHTML = `<p class="text-xs text-notion-muted">${escapeHTML(t('noCycles'))}</p>`;
+                el.innerHTML = `<div class="flex items-center gap-3"><div class="w-10 h-10 rounded-full border border-notion-border flex items-center justify-center">○</div><div><p class="text-sm font-semibold">${escapeHTML(t('noCycles'))}</p><p class="text-xs text-notion-muted mt-1">${escapeHTML(t('cycleStartHint'))}</p></div></div>`;
                 return;
             }
             const latest = sorted[0];
-            const intervals = [];
-            for (let i = 0; i < sorted.length - 1; i++) {
-                const diff = cycleDateDiff(sorted[i + 1].start, sorted[i].start);
-                if (diff && diff > 0) intervals.push(diff);
-            }
-            const avg = intervals.length ? Math.round(intervals.reduce((sum, item) => sum + item, 0) / intervals.length) : null;
-            const nextDate = avg ? new Date(new Date(latest.start).getTime() + avg * 86400000) : null;
-            const length = cycleDateDiff(latest.start, latest.end) || 1;
-            el.innerHTML = `<span class="text-xs font-semibold text-notion-muted tracking-wider uppercase">${escapeHTML(t('latestCycle'))}</span><div class="grid grid-cols-3 gap-2 mt-2"><div><p class="text-[11px] text-notion-muted">${escapeHTML(t('cycleStart'))}</p><p class="text-sm font-semibold">${escapeHTML(latest.start)}</p></div><div><p class="text-[11px] text-notion-muted">${escapeHTML(t('cycleDays').replace('{count}', length))}</p><p class="text-sm font-semibold">${escapeHTML(cycleLabel({ light: 'flowLight', medium: 'flowMedium', heavy: 'flowHeavy' }, latest.flow || 'medium'))}</p></div><div><p class="text-[11px] text-notion-muted">${escapeHTML(t('averageCycle'))}</p><p class="text-sm font-semibold">${avg ? escapeHTML(t('cycleDays').replace('{count}', avg)) : '--'}</p></div></div>${nextDate ? `<p class="text-xs text-notion-muted mt-3">${escapeHTML(t('nextCycleEstimate'))}：${escapeHTML(getFormatDate(nextDate.getFullYear(), nextDate.getMonth(), nextDate.getDate()))}</p>` : ''}`;
+            const avg = getPredictedCycleLength(cycles);
+            const length = parseInt(latest.duration, 10) || (cycleDateDiff(latest.start, latest.end) || 5);
+            const nextDate = addDays(latest.start, parseInt(latest.cycleLength, 10) || avg);
+            el.innerHTML = `<div class="flex items-center gap-3"><div class="w-12 h-12 rounded-full bg-notion-btn text-white flex items-center justify-center text-xl">●</div><div class="flex-1"><span class="text-xs font-semibold text-notion-muted tracking-wider uppercase">${escapeHTML(t('latestCycle'))}</span><p class="text-lg font-semibold">${escapeHTML(latest.start)}</p></div></div><div class="grid grid-cols-3 gap-2 mt-3 text-center"><div class="bg-notion-hover rounded-notion p-2"><p class="text-[11px] text-notion-muted">${escapeHTML(t('durationDays'))}</p><p class="text-sm font-semibold">${escapeHTML(t('cycleDays').replace('{count}', length))}</p></div><div class="bg-notion-hover rounded-notion p-2"><p class="text-[11px] text-notion-muted">${escapeHTML(t('averageCycle'))}</p><p class="text-sm font-semibold">${escapeHTML(t('cycleDays').replace('{count}', avg))}</p></div><div class="bg-notion-hover rounded-notion p-2"><p class="text-[11px] text-notion-muted">${escapeHTML(t('nextCycleEstimate'))}</p><p class="text-sm font-semibold">${escapeHTML(nextDate || '--')}</p></div></div>`;
         }
         function loadCycles() {
             const cycles = getStorageArray('notion_cycles');
@@ -3928,10 +4018,12 @@
             if (!cycles.length) { list.innerHTML = getEmptyStateHTML(t('noCycles')); return; }
             [...cycles].reverse().forEach((cycle, i) => {
                 const realIdx = cycles.length - 1 - i;
-                const length = cycleDateDiff(cycle.start, cycle.end) || 1;
+                const length = parseInt(cycle.duration, 10) || (cycleDateDiff(cycle.start, cycle.end) || 5);
+                const cycleLength = parseInt(cycle.cycleLength, 10) || getPredictedCycleLength(cycles);
+                const predicted = addDays(cycle.start, cycleLength);
                 const div = document.createElement('div');
                 div.className = 'bg-notion-card border border-notion-border rounded-notion p-4 text-sm';
-                div.innerHTML = `<div class="flex justify-between items-start gap-3"><div><span class="text-[10px] text-notion-text font-medium bg-notion-hover px-2 py-0.5 rounded">${escapeHTML(cycle.start || '')}${cycle.end ? ` - ${escapeHTML(cycle.end)}` : ''}</span><p class="text-sm font-semibold mt-2">${escapeHTML(t('cycleDays').replace('{count}', length))}｜${escapeHTML(cycleLabel({ light: 'flowLight', medium: 'flowMedium', heavy: 'flowHeavy' }, cycle.flow || 'medium'))}</p><p class="text-xs text-notion-muted mt-1">${escapeHTML(cycleLabel({ calm: 'moodCalm', sensitive: 'moodSensitive', tired: 'moodTired', pain: 'moodPain' }, cycle.mood || 'calm'))}</p></div><div class="flex gap-1 shrink-0"><button onclick="editCycle(${realIdx})" class="text-notion-muted opacity-60 active:opacity-100 text-xs py-1 px-2">${escapeHTML(t('edit'))}</button><button onclick="deleteCycle(${realIdx})" class="text-notion-muted opacity-40 active:opacity-100 text-xs py-1 px-2" aria-label="${escapeHTML(t('deleteCycle'))}">✕</button></div></div>${cycle.symptoms ? `<p class="text-xs text-notion-text mt-3 bg-notion-hover p-2 rounded">${escapeHTML(cycle.symptoms)}</p>` : ''}${cycle.note ? `<p class="text-xs text-notion-muted mt-2 whitespace-pre-wrap">${escapeHTML(cycle.note)}</p>` : ''}`;
+                div.innerHTML = `<div class="flex justify-between items-start gap-3"><div class="flex items-start gap-3 min-w-0"><div class="w-9 h-9 rounded-full bg-notion-hover border border-notion-border flex items-center justify-center shrink-0">●</div><div class="min-w-0"><span class="text-[10px] text-notion-text font-medium bg-notion-hover px-2 py-0.5 rounded">${escapeHTML(cycle.start || '')}</span><p class="text-sm font-semibold mt-2">${escapeHTML(t('durationDays'))} ${escapeHTML(t('cycleDays').replace('{count}', length))}｜${escapeHTML(cycleLabel({ light: 'flowLight', medium: 'flowMedium', heavy: 'flowHeavy' }, cycle.flow || 'medium'))}</p><p class="text-xs text-notion-muted mt-1">${escapeHTML(t('predictedNext'))}：${escapeHTML(predicted || '--')}</p></div></div><div class="flex gap-1 shrink-0"><button onclick="editCycle(${realIdx})" class="text-notion-muted opacity-60 active:opacity-100 text-xs py-1 px-2">${escapeHTML(t('edit'))}</button><button onclick="deleteCycle(${realIdx})" class="text-notion-muted opacity-40 active:opacity-100 text-xs py-1 px-2" aria-label="${escapeHTML(t('deleteCycle'))}">✕</button></div></div><div class="mt-3 flex flex-wrap gap-1.5"><span class="text-[10px] bg-notion-hover rounded-full px-2 py-1">${escapeHTML(cycleLabel({ calm: 'moodCalm', sensitive: 'moodSensitive', tired: 'moodTired', pain: 'moodPain' }, cycle.mood || 'calm'))}</span><span class="text-[10px] bg-notion-hover rounded-full px-2 py-1">${escapeHTML(t('cycleDays').replace('{count}', cycleLength))}</span></div>${cycle.symptoms ? `<p class="text-xs text-notion-text mt-3 bg-notion-hover p-2 rounded">${escapeHTML(cycle.symptoms)}</p>` : ''}${cycle.note ? `<p class="text-xs text-notion-muted mt-2 whitespace-pre-wrap">${escapeHTML(cycle.note)}</p>` : ''}`;
                 list.appendChild(div);
             });
         }
@@ -3941,7 +4033,8 @@
             const cycles = getStorageArray('notion_cycles');
             const next = {
                 start,
-                end: document.getElementById('cycle-end').value,
+                cycleLength: Math.max(15, Math.min(60, parseInt(document.getElementById('cycle-length').value, 10) || getPredictedCycleLength(cycles))),
+                duration: Math.max(1, Math.min(14, parseInt(document.getElementById('cycle-duration').value, 10) || 5)),
                 flow: document.getElementById('cycle-flow').value,
                 mood: document.getElementById('cycle-mood').value,
                 symptoms: document.getElementById('cycle-symptoms').value.trim(),
@@ -3960,11 +4053,13 @@
             if (!cycle) return;
             editState.cycle = i;
             document.getElementById('cycle-start').value = cycle.start || todayKey();
-            document.getElementById('cycle-end').value = cycle.end || '';
+            document.getElementById('cycle-length').value = cycle.cycleLength || getPredictedCycleLength(cycles);
+            document.getElementById('cycle-duration').value = cycle.duration || cycleDateDiff(cycle.start, cycle.end) || 5;
             document.getElementById('cycle-flow').value = cycle.flow || 'medium';
             document.getElementById('cycle-mood').value = cycle.mood || 'calm';
             document.getElementById('cycle-symptoms').value = cycle.symptoms || '';
             document.getElementById('cycle-note').value = cycle.note || '';
+            renderCyclePredictionPreview();
             setCancelVisible('cycle-cancel-edit', true);
             scrollToControl('cycle-start');
         }
