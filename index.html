@@ -254,6 +254,8 @@
             #page-journal,
             #page-shrine,
             #page-meditation,
+            #page-places,
+            #page-cycle,
             #page-items,
             #page-links,
             #page-settings {
@@ -280,9 +282,9 @@
         }
         .upload-control {
             min-height: 44px;
-            border: 1px solid #EAEAEA;
-            border-radius: 8px;
-            background: #F7F7F5;
+            border: 1px solid #E3DFD6;
+            border-radius: 6px;
+            background: #FBFAF7;
             color: #37352F;
             display: flex;
             align-items: center;
@@ -290,6 +292,16 @@
             gap: 12px;
             padding: 10px 12px;
             cursor: pointer;
+        }
+        .bg-notion-btn {
+            letter-spacing: 0.03em;
+        }
+        .rounded-notion {
+            border-radius: 6px !important;
+        }
+        main > div > .bg-notion-card,
+        #tracking-today-panel .bg-notion-card {
+            border-color: #E3DFD6;
         }
         .upload-control:active {
             background: #F1F1EF;
@@ -342,6 +354,8 @@
                 <button onclick="switchTab('dictionary')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5z"/><path d="M9 7h6M9 11h4"/></svg></span><span class="text-lg font-semibold" data-i18n="dictionary">字典</span><span class="text-xs text-notion-muted" data-i18n="dictionarySub">日語查詢與複習</span></button>
                 <button onclick="switchTab('shrine')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M6 6v16M18 6v16M4 10h16M9 10v6M15 10v6"/></svg></span><span class="text-lg font-semibold" data-i18n="shrine">神社</span><span class="text-xs text-notion-muted" data-i18n="shrineSub">參拜與願望</span></button>
                 <button onclick="switchTab('meditation')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a14.5 14.5 0 0 0 0 20"/></svg></span><span class="text-lg font-semibold" data-i18n="meditation">冥想</span><span class="text-xs text-notion-muted" data-i18n="meditationSub">計時與導引</span></button>
+                <button onclick="switchTab('places')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18 3 21V6l6-3 6 3 6-3v15l-6 3-6-3z"/><path d="M9 3v15M15 6v15"/></svg></span><span class="text-lg font-semibold" data-i18n="places">遊玩</span><span class="text-xs text-notion-muted" data-i18n="placesSub">想去清單</span></button>
+                <button onclick="switchTab('cycle')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2s6 6.2 6 11a6 6 0 0 1-12 0c0-4.8 6-11 6-11z"/><path d="M9 14a3 3 0 0 0 6 0"/></svg></span><span class="text-lg font-semibold" data-i18n="cycle">生理期</span><span class="text-xs text-notion-muted" data-i18n="cycleSub">週期與症狀</span></button>
                 <button onclick="switchTab('items')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.3 7 12 12l8.7-5M12 22V12"/></svg></span><span class="text-lg font-semibold" data-i18n="items">物品</span><span class="text-xs text-notion-muted" data-i18n="itemsSub">擁有清單</span></button>
                 <button onclick="switchTab('links')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.1.1l2.8-2.8a5 5 0 0 0-7.1-7.1L11.2 5"/><path d="M14 11a5 5 0 0 0-7.1-.1L4.1 13.7a5 5 0 0 0 7.1 7.1l1.6-1.6"/></svg></span><span class="text-lg font-semibold" data-i18n="links">連結</span><span class="text-xs text-notion-muted" data-i18n="linksSub">常用網站</span></button>
             </div>
@@ -711,6 +725,81 @@
             </div>
         </div>
 
+        <div id="page-places" class="space-y-5 hidden">
+            <div class="bg-notion-card border border-notion-border rounded-notion p-4 space-y-3 shadow-sm">
+                <div class="flex items-center justify-between pb-2 border-b border-notion-border">
+                    <span class="text-sm font-semibold text-notion-text tracking-wider uppercase" data-i18n="placesPageTitle">想去遊玩地方</span>
+                </div>
+                <input type="text" id="place-name" placeholder="地點名稱" data-i18n-placeholder="placeNamePh" class="w-full text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted">
+                <div class="grid grid-cols-2 gap-2">
+                    <select id="place-category" class="text-sm border border-notion-border rounded px-3 py-2 bg-white focus:outline-none focus:border-notion-muted" aria-label="遊玩分類" data-i18n-aria="placeCategory">
+                        <option value="咖啡" data-i18n="placeCafe">咖啡</option>
+                        <option value="餐廳" data-i18n="placeFood">餐廳</option>
+                        <option value="景點" data-i18n="placeSpot">景點</option>
+                        <option value="購物" data-i18n="placeShopping">購物</option>
+                        <option value="住宿" data-i18n="placeStay">住宿</option>
+                        <option value="其他" data-i18n="placeOther">其他</option>
+                    </select>
+                    <select id="place-priority" class="text-sm border border-notion-border rounded px-3 py-2 bg-white focus:outline-none focus:border-notion-muted" aria-label="優先度" data-i18n-aria="priority">
+                        <option value="high" data-i18n="priorityHigh">必去</option>
+                        <option value="medium" data-i18n="priorityMedium">想去</option>
+                        <option value="low" data-i18n="priorityLow">收藏</option>
+                    </select>
+                </div>
+                <input type="date" id="place-date" class="w-full text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted">
+                <input type="text" id="place-address" placeholder="地址或區域" data-i18n-placeholder="placeAddressPh" class="w-full text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted">
+                <input type="url" id="place-url" placeholder="官方網站 / Instagram / Google Map" data-i18n-placeholder="placeUrlPh" class="w-full text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted">
+                <textarea id="place-note" rows="2" placeholder="想去原因、必點、預算或同行者..." data-i18n-placeholder="placeNotePh" class="w-full text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted resize-none"></textarea>
+                <button onclick="savePlace()" id="place-save-btn" class="w-full py-3 text-sm bg-notion-btn text-white rounded-notion font-medium active:scale-[0.98] transition-transform" data-i18n="savePlace">儲存地點</button>
+                <button onclick="cancelEdit('place')" id="place-cancel-edit" class="hidden w-full py-2 text-xs bg-notion-hover border border-notion-border text-notion-text rounded-notion" data-i18n="cancel">取消</button>
+            </div>
+            <div id="place-filter" class="flex gap-2 overflow-x-auto pb-1" aria-label="遊玩分類篩選" data-i18n-aria="placeFilter"></div>
+            <div class="space-y-3 pb-4">
+                <span class="text-xs font-medium text-notion-muted block" data-i18n="placeHistory">遊玩清單</span>
+                <div id="place-list" class="space-y-3"></div>
+            </div>
+        </div>
+
+        <div id="page-cycle" class="space-y-5 hidden">
+            <div id="cycle-summary" class="bg-notion-card border border-notion-border rounded-notion p-4 space-y-2 shadow-sm"></div>
+            <div class="bg-notion-card border border-notion-border rounded-notion p-4 space-y-3 shadow-sm">
+                <div class="flex items-center justify-between pb-2 border-b border-notion-border">
+                    <span class="text-sm font-semibold text-notion-text tracking-wider uppercase" data-i18n="cyclePageTitle">生理期紀錄</span>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label for="cycle-start" class="text-[11px] text-notion-muted" data-i18n="cycleStart">開始日</label>
+                        <input type="date" id="cycle-start" class="w-full mt-1 text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted">
+                    </div>
+                    <div>
+                        <label for="cycle-end" class="text-[11px] text-notion-muted" data-i18n="cycleEnd">結束日</label>
+                        <input type="date" id="cycle-end" class="w-full mt-1 text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted">
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <select id="cycle-flow" class="text-sm border border-notion-border rounded px-3 py-2 bg-white focus:outline-none focus:border-notion-muted" aria-label="流量" data-i18n-aria="cycleFlow">
+                        <option value="light" data-i18n="flowLight">少量</option>
+                        <option value="medium" data-i18n="flowMedium">普通</option>
+                        <option value="heavy" data-i18n="flowHeavy">量多</option>
+                    </select>
+                    <select id="cycle-mood" class="text-sm border border-notion-border rounded px-3 py-2 bg-white focus:outline-none focus:border-notion-muted" aria-label="心情" data-i18n-aria="cycleMood">
+                        <option value="calm" data-i18n="moodCalm">平穩</option>
+                        <option value="sensitive" data-i18n="moodSensitive">敏感</option>
+                        <option value="tired" data-i18n="moodTired">疲憊</option>
+                        <option value="pain" data-i18n="moodPain">不適</option>
+                    </select>
+                </div>
+                <input type="text" id="cycle-symptoms" placeholder="症狀，例如腹痛、頭痛、腰痠..." data-i18n-placeholder="cycleSymptomsPh" class="w-full text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted">
+                <textarea id="cycle-note" rows="2" placeholder="保養方式、藥物、飲食或提醒..." data-i18n-placeholder="cycleNotePh" class="w-full text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted resize-none"></textarea>
+                <button onclick="saveCycle()" id="cycle-save-btn" class="w-full py-3 text-sm bg-notion-btn text-white rounded-notion font-medium active:scale-[0.98] transition-transform" data-i18n="saveCycle">儲存週期</button>
+                <button onclick="cancelEdit('cycle')" id="cycle-cancel-edit" class="hidden w-full py-2 text-xs bg-notion-hover border border-notion-border text-notion-text rounded-notion" data-i18n="cancel">取消</button>
+            </div>
+            <div class="space-y-3 pb-4">
+                <span class="text-xs font-medium text-notion-muted block" data-i18n="cycleHistory">週期歷史</span>
+                <div id="cycle-list" class="space-y-3"></div>
+            </div>
+        </div>
+
         <div id="page-settings" class="space-y-5 hidden">
             <div class="space-y-1">
                 <h2 class="text-xl font-semibold text-notion-text" data-i18n="settings">設定</h2>
@@ -985,6 +1074,23 @@
                 document.getElementById('item-image').value = '';
                 updateFileLabel('item-image');
                 setCancelVisible('item-cancel-edit', false);
+            } else if (type === 'place') {
+                document.getElementById('place-name').value = '';
+                document.getElementById('place-category').value = '咖啡';
+                document.getElementById('place-priority').value = 'medium';
+                document.getElementById('place-date').value = '';
+                document.getElementById('place-address').value = '';
+                document.getElementById('place-url').value = '';
+                document.getElementById('place-note').value = '';
+                setCancelVisible('place-cancel-edit', false);
+            } else if (type === 'cycle') {
+                document.getElementById('cycle-start').value = todayKey();
+                document.getElementById('cycle-end').value = '';
+                document.getElementById('cycle-flow').value = 'medium';
+                document.getElementById('cycle-mood').value = 'calm';
+                document.getElementById('cycle-symptoms').value = '';
+                document.getElementById('cycle-note').value = '';
+                setCancelVisible('cycle-cancel-edit', false);
             } else if (type === 'meditation') {
                 document.getElementById('med-notes').value = '';
                 setCancelVisible('meditation-cancel-edit', false);
@@ -998,7 +1104,8 @@
             [
                 { modal: 'modal-daily', content: 'modal-daily-content' },
                 { modal: 'modal-sync' },
-                { modal: 'modal-journal', content: 'modal-journal-content' }
+                { modal: 'modal-journal', content: 'modal-journal-content' },
+                { modal: 'modal-image-viewer' }
             ].forEach(({ modal, content }) => {
                 const modalEl = document.getElementById(modal);
                 if (!modalEl) return;
@@ -1054,6 +1161,9 @@
             loadShrines();
             loadMeditations();
             loadMeditationVideos();
+            renderPlaceFilters();
+            loadPlaces();
+            loadCycles();
             renderItemFilters();
             loadItems();
             renderLinkFilters();
@@ -1077,6 +1187,8 @@
             'notion_shrines',
             'notion_med_videos',
             'notion_meditation',
+            'notion_places',
+            'notion_cycles',
             'notion_items',
             'notion_links',
             'notion_video_views'
@@ -1123,6 +1235,10 @@
                 shrineSub: '參拜與願望',
                 meditation: '冥想',
                 meditationSub: '計時與導引',
+                places: '遊玩',
+                placesSub: '想去清單',
+                cycle: '生理期',
+                cycleSub: '週期與症狀',
                 items: '物品',
                 itemsSub: '擁有清單',
                 links: '連結',
@@ -1161,6 +1277,57 @@
                 deleteLink: '刪除連結',
                 linkSaved: '連結已儲存',
                 fillLinkContent: '請填寫網站名稱與有效網址',
+                placesPageTitle: '想去遊玩地方',
+                placeNamePh: '地點名稱',
+                placeCategory: '遊玩分類',
+                placeCatAll: '全部',
+                placeCafe: '咖啡',
+                placeFood: '餐廳',
+                placeSpot: '景點',
+                placeShopping: '購物',
+                placeStay: '住宿',
+                placeOther: '其他',
+                priority: '優先度',
+                priorityHigh: '必去',
+                priorityMedium: '想去',
+                priorityLow: '收藏',
+                placeAddressPh: '地址或區域',
+                placeUrlPh: '官方網站 / Instagram / Google Map',
+                placeNotePh: '想去原因、必點、預算或同行者...',
+                savePlace: '儲存地點',
+                placeFilter: '遊玩分類篩選',
+                placeHistory: '遊玩清單',
+                noPlaces: '還沒有想去的地方，先收藏一個週末目的地吧',
+                placeSaved: '地點已儲存',
+                deletePlace: '刪除地點',
+                markVisited: '標記已去',
+                markUnvisited: '改回想去',
+                visited: '已去',
+                openMap: '開啟地圖',
+                cyclePageTitle: '生理期紀錄',
+                cycleStart: '開始日',
+                cycleEnd: '結束日',
+                cycleFlow: '流量',
+                cycleMood: '心情',
+                flowLight: '少量',
+                flowMedium: '普通',
+                flowHeavy: '量多',
+                moodCalm: '平穩',
+                moodSensitive: '敏感',
+                moodTired: '疲憊',
+                moodPain: '不適',
+                cycleSymptomsPh: '症狀，例如腹痛、頭痛、腰痠...',
+                cycleNotePh: '保養方式、藥物、飲食或提醒...',
+                saveCycle: '儲存週期',
+                cycleHistory: '週期歷史',
+                noCycles: '尚無生理期紀錄',
+                cycleSaved: '週期已儲存',
+                deleteCycle: '刪除週期',
+                latestCycle: '最近週期',
+                cycleDays: '{count} 天',
+                averageCycle: '平均週期',
+                nextCycleEstimate: '下次預估',
+                fillCycleStart: '請填寫開始日',
                 weekdays: ['日', '一', '二', '三', '四', '五', '六'],
                 prevMonth: '上一個月',
                 nextMonth: '下一個月',
@@ -1481,6 +1648,10 @@
                 shrineSub: '参拝と願い',
                 meditation: '瞑想',
                 meditationSub: 'タイマーとガイド',
+                places: 'おでかけ',
+                placesSub: '行きたい場所',
+                cycle: '生理',
+                cycleSub: '周期と症状',
                 items: '持ち物',
                 itemsSub: '所有リスト',
                 links: 'リンク',
@@ -1519,6 +1690,57 @@
                 deleteLink: 'リンクを削除',
                 linkSaved: 'リンクを保存しました',
                 fillLinkContent: 'サイト名と有効なURLを入力してください',
+                placesPageTitle: '行きたい場所',
+                placeNamePh: '場所名',
+                placeCategory: 'おでかけ分類',
+                placeCatAll: 'すべて',
+                placeCafe: 'カフェ',
+                placeFood: 'レストラン',
+                placeSpot: 'スポット',
+                placeShopping: '買い物',
+                placeStay: '宿泊',
+                placeOther: 'その他',
+                priority: '優先度',
+                priorityHigh: '必ず行く',
+                priorityMedium: '行きたい',
+                priorityLow: '保存',
+                placeAddressPh: '住所またはエリア',
+                placeUrlPh: '公式サイト / Instagram / Google Map',
+                placeNotePh: '行きたい理由、必食、予算、同行者...',
+                savePlace: '場所を保存',
+                placeFilter: 'おでかけ分類フィルター',
+                placeHistory: '場所リスト',
+                noPlaces: '行きたい場所はまだありません。週末の目的地を保存しましょう。',
+                placeSaved: '場所を保存しました',
+                deletePlace: '場所を削除',
+                markVisited: '行ったにする',
+                markUnvisited: '未訪問に戻す',
+                visited: '訪問済み',
+                openMap: '地図を開く',
+                cyclePageTitle: '生理記録',
+                cycleStart: '開始日',
+                cycleEnd: '終了日',
+                cycleFlow: '量',
+                cycleMood: '気分',
+                flowLight: '少なめ',
+                flowMedium: '普通',
+                flowHeavy: '多め',
+                moodCalm: '穏やか',
+                moodSensitive: '敏感',
+                moodTired: '疲れ',
+                moodPain: '不調',
+                cycleSymptomsPh: '症状 例：腹痛、頭痛、腰痛...',
+                cycleNotePh: 'ケア、薬、食事、リマインダー...',
+                saveCycle: '周期を保存',
+                cycleHistory: '周期履歴',
+                noCycles: '生理記録はまだありません',
+                cycleSaved: '周期を保存しました',
+                deleteCycle: '周期を削除',
+                latestCycle: '最近の周期',
+                cycleDays: '{count}日',
+                averageCycle: '平均周期',
+                nextCycleEstimate: '次回予測',
+                fillCycleStart: '開始日を入力してください',
                 weekdays: ['日', '月', '火', '水', '木', '金', '土'],
                 prevMonth: '前の月',
                 nextMonth: '次の月',
@@ -1839,6 +2061,10 @@
                 shrineSub: 'Visits and wishes',
                 meditation: 'Meditation',
                 meditationSub: 'Timer and guides',
+                places: 'Places',
+                placesSub: 'Want-to-go list',
+                cycle: 'Cycle',
+                cycleSub: 'Period and symptoms',
                 items: 'Items',
                 itemsSub: 'Owned list',
                 links: 'Links',
@@ -1877,6 +2103,57 @@
                 deleteLink: 'Delete link',
                 linkSaved: 'Link saved',
                 fillLinkContent: 'Enter a website name and valid URL',
+                placesPageTitle: 'Places to Visit',
+                placeNamePh: 'Place name',
+                placeCategory: 'Place category',
+                placeCatAll: 'All',
+                placeCafe: 'Cafe',
+                placeFood: 'Restaurant',
+                placeSpot: 'Spot',
+                placeShopping: 'Shopping',
+                placeStay: 'Stay',
+                placeOther: 'Other',
+                priority: 'Priority',
+                priorityHigh: 'Must go',
+                priorityMedium: 'Want to go',
+                priorityLow: 'Saved',
+                placeAddressPh: 'Address or area',
+                placeUrlPh: 'Official site / Instagram / Google Map',
+                placeNotePh: 'Reason, must-order, budget, or companion...',
+                savePlace: 'Save place',
+                placeFilter: 'Place category filter',
+                placeHistory: 'Place list',
+                noPlaces: 'No places yet. Save a weekend destination.',
+                placeSaved: 'Place saved',
+                deletePlace: 'Delete place',
+                markVisited: 'Mark visited',
+                markUnvisited: 'Mark unvisited',
+                visited: 'Visited',
+                openMap: 'Open map',
+                cyclePageTitle: 'Period Log',
+                cycleStart: 'Start',
+                cycleEnd: 'End',
+                cycleFlow: 'Flow',
+                cycleMood: 'Mood',
+                flowLight: 'Light',
+                flowMedium: 'Medium',
+                flowHeavy: 'Heavy',
+                moodCalm: 'Calm',
+                moodSensitive: 'Sensitive',
+                moodTired: 'Tired',
+                moodPain: 'Unwell',
+                cycleSymptomsPh: 'Symptoms, e.g. cramps, headache, backache...',
+                cycleNotePh: 'Care, medicine, meals, or reminders...',
+                saveCycle: 'Save cycle',
+                cycleHistory: 'Cycle history',
+                noCycles: 'No period records yet',
+                cycleSaved: 'Cycle saved',
+                deleteCycle: 'Delete cycle',
+                latestCycle: 'Latest cycle',
+                cycleDays: '{count} days',
+                averageCycle: 'Average cycle',
+                nextCycleEstimate: 'Next estimate',
+                fillCycleStart: 'Enter a start date',
                 weekdays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
                 prevMonth: 'Previous month',
                 nextMonth: 'Next month',
@@ -2229,7 +2506,7 @@
             STORAGE_KEYS.forEach(key => {
                 if (typeof data?.[key] === 'string') localStorage.setItem(key, data[key]);
             });
-            renderCalendar(); loadWorkouts(); loadLogs(); loadJournals(); loadDictionaryHistory(); loadShrines(); loadShrineWishes(); loadMeditations(); loadMeditationVideos(); renderItemFilters(); loadItems(); renderLinkFilters(); loadLinks();
+            renderCalendar(); loadWorkouts(); loadLogs(); loadJournals(); loadDictionaryHistory(); loadShrines(); loadShrineWishes(); loadMeditations(); loadMeditationVideos(); renderPlaceFilters(); loadPlaces(); loadCycles(); renderItemFilters(); loadItems(); renderLinkFilters(); loadLinks();
         }
 
         function exportData() {
@@ -2286,7 +2563,10 @@
         let pendingCloudUpdate = null;
         let cloudUpdateChecking = false;
         let lastCloudUpdateCheck = 0;
-        const editState = { dailyTodo: null, shrineWish: null, workout: null, medVideo: null, log: null, journal: null, shrine: null, link: null, item: null, meditation: null };
+        const editState = { dailyTodo: null, shrineWish: null, workout: null, medVideo: null, log: null, journal: null, shrine: null, link: null, item: null, place: null, cycle: null, meditation: null };
+        let placeFilter = '全部';
+        const PLACE_CATEGORIES = ['全部', '咖啡', '餐廳', '景點', '購物', '住宿', '其他'];
+        const PLACE_CATEGORY_KEYS = { '全部': 'placeCatAll', '咖啡': 'placeCafe', '餐廳': 'placeFood', '景點': 'placeSpot', '購物': 'placeShopping', '住宿': 'placeStay', '其他': 'placeOther' };
         const ITEM_CATEGORIES = ['全部', '衣物', '美妝', '書籍', '電子', '家居', '其他'];
         const ITEM_CATEGORY_KEYS = { '全部': 'itemCatAll', '衣物': 'itemCatClothes', '美妝': 'itemCatBeauty', '書籍': 'itemCatBooks', '電子': 'itemCatTech', '家居': 'itemCatHome', '其他': 'itemCatOther' };
         const ITEM_STATUS_KEYS = { active: 'itemActive', stored: 'itemStored', declutter: 'itemDeclutter' };
@@ -2309,12 +2589,13 @@
             document.getElementById('current-date').innerText = `${currentDate.getFullYear()}/${padDate(currentDate.getMonth()+1)}/${padDate(currentDate.getDate())}`;
             document.getElementById('shrine-date').valueAsDate = new Date();
             document.getElementById('item-date').valueAsDate = new Date();
+            document.getElementById('cycle-start').value = todayKey();
             document.getElementById('log-date').value = todayKey();
             applyLanguage();
 
             renderGoalSuggestions();
             renderWorkoutFilters();
-            initDB(); renderCalendar(); loadWorkouts(); loadLogs(); loadJournals(); loadDictionaryHistory(); loadShrines(); loadShrineWishes(); loadMeditations(); loadMeditationVideos(); renderItemFilters(); loadItems(); renderLinkFilters(); loadLinks();
+            initDB(); renderCalendar(); loadWorkouts(); loadLogs(); loadJournals(); loadDictionaryHistory(); loadShrines(); loadShrineWishes(); loadMeditations(); loadMeditationVideos(); renderPlaceFilters(); loadPlaces(); loadCycles(); renderItemFilters(); loadItems(); renderLinkFilters(); loadLinks();
             ['log-image', 'shrine-image', 'item-image', 'bgm-upload'].forEach(bindFileLabel);
             document.getElementById('shrine-image')?.addEventListener('change', () => {
                 if (document.getElementById('shrine-image')?.files?.length) shrineImageRemovePending = false;
@@ -2344,6 +2625,7 @@
                     if (!document.getElementById('modal-daily').classList.contains('hidden')) closeDailyModal();
                     if (!document.getElementById('modal-sync').classList.contains('hidden')) closeSyncModal();
                     if (!document.getElementById('modal-cloud-update').classList.contains('hidden')) dismissCloudUpdate();
+                    if (!document.getElementById('modal-image-viewer').classList.contains('hidden')) closeImageViewer();
                 }
             });
         });
@@ -2356,7 +2638,7 @@
                 tabName = 'track';
             }
             if (tabName === 'journal' && !ensureJournalAccess()) return;
-            ['home', 'track', 'dictionary', 'goals', 'workout', 'log', 'journal', 'shrine', 'meditation', 'items', 'links', 'settings'].forEach(tab => {
+            ['home', 'track', 'dictionary', 'goals', 'workout', 'log', 'journal', 'shrine', 'meditation', 'places', 'cycle', 'items', 'links', 'settings'].forEach(tab => {
                 document.getElementById(`page-${tab}`)?.classList.add('hidden');
             });
             const targetPage = document.getElementById(`page-${tabName}`);
@@ -3477,7 +3759,7 @@
             [...shrines].reverse().forEach((s, i) => { 
                 const realIdx = shrines.length - 1 - i; 
                 const div = document.createElement('div'); div.className = "bg-notion-card border border-notion-border rounded-notion p-4 text-sm"; 
-                let imgHTML = s.image ? `<button type="button" onclick="openImageViewer(${jsString(s.image)}, ${jsString(s.name || t('goshuin'))})" class="image-preview-button mt-3 active:opacity-80" aria-label="${escapeHTML(t('tapToPreview'))} ${escapeHTML(s.name || t('goshuin'))}"><img src="${escapeHTML(s.image)}" alt="${escapeHTML(s.name || t('goshuin'))}"><span class="image-preview-badge">${escapeHTML(t('tapToPreview'))}</span></button>` : ''; 
+                let imgHTML = s.image ? `<button type="button" data-shrine-image-index="${realIdx}" class="image-preview-button shrine-image-preview mt-3 active:opacity-80" aria-label="${escapeHTML(t('tapToPreview'))} ${escapeHTML(s.name || t('goshuin'))}"><img src="${escapeHTML(s.image)}" alt="${escapeHTML(s.name || t('goshuin'))}"><span class="image-preview-badge">${escapeHTML(t('tapToPreview'))}</span></button>` : ''; 
                 
                 const mapQuery = encodeURIComponent(s.address || s.name);
                 const mapLink = `<a href="https://www.google.com/maps/search/?api=1&query=${mapQuery}" target="_blank" rel="noopener noreferrer" class="text-[10px] text-notion-muted hover:text-notion-text flex items-center gap-1 mt-1.5 w-fit active:opacity-70 bg-notion-hover px-1.5 py-0.5 rounded transition-colors"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>${escapeHTML(s.address || t('viewOnMap'))}</a>`;
@@ -3485,6 +3767,15 @@
                 div.innerHTML = `<div class="flex justify-between items-start"><span class="text-[10px] text-notion-text font-medium bg-notion-hover px-2 py-0.5 rounded">${escapeHTML(s.date)}</span><div class="flex gap-1"><button onclick="editShrine(${realIdx})" class="text-notion-muted opacity-60 active:opacity-100 text-xs py-1 px-2" aria-label="${t('edit')}">${t('edit')}</button><button onclick="deleteShrine(${realIdx})" class="text-notion-muted opacity-40 active:opacity-100 text-xs py-1 px-2" aria-label="${t('deleteShrineRecord')}">✕</button></div></div><div class="mt-2 space-y-1"><p class="text-sm font-semibold text-notion-text">${escapeHTML(s.name)}</p>${mapLink}${s.notes ? `<p class="text-xs text-notion-text mt-2 whitespace-pre-wrap bg-notion-hover p-2 rounded">${escapeHTML(s.notes)}</p>` : ''}</div>${imgHTML}`; 
                 list.appendChild(div); 
             }); 
+            list.querySelectorAll('.shrine-image-preview').forEach(button => {
+                button.addEventListener('click', event => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    const idx = parseInt(button.dataset.shrineImageIndex, 10);
+                    const shrine = getStorageArray('notion_shrines')[idx];
+                    if (shrine?.image) openImageViewer(shrine.image, shrine.name || t('goshuin'));
+                });
+            });
         }
         function setShrineCurrentImagePreview(src = '', name = '') {
             const wrap = document.getElementById('shrine-current-image-wrap');
@@ -3523,6 +3814,161 @@
         }
         function editShrine(i) { const shrines = getStorageArray('notion_shrines'); const shrine = shrines[i]; if (!shrine) return; editState.shrine = i; shrineImageRemovePending = false; document.getElementById('shrine-name').value = shrine.name || ''; document.getElementById('shrine-address').value = shrine.address || ''; document.getElementById('shrine-date').value = shrine.date || todayKey(); document.getElementById('shrine-notes').value = shrine.notes || ''; document.getElementById('shrine-image').value = ''; updateFileLabel('shrine-image'); setShrineCurrentImagePreview(shrine.image || '', shrine.name || t('goshuin')); setCancelVisible('shrine-cancel-edit', true); scrollToControl('shrine-name'); }
         function deleteShrine(i) { const s = getStorageArray('notion_shrines'); s.splice(i, 1); localStorage.setItem('notion_shrines', JSON.stringify(s)); loadShrines(); showToast(t('deleted')); }
+
+        // ================= 想去遊玩地方 =================
+        function renderPlaceFilters() {
+            const container = document.getElementById('place-filter');
+            if (!container) return;
+            const places = getStorageArray('notion_places');
+            if (!PLACE_CATEGORIES.includes(placeFilter)) placeFilter = '全部';
+            container.innerHTML = PLACE_CATEGORIES.map(category => {
+                const count = category === '全部' ? places.length : places.filter(place => (place.category || '其他') === category).length;
+                const active = placeFilter === category;
+                return `<button type="button" class="shrink-0 text-[11px] border rounded-full px-3 py-1.5 ${active ? 'bg-notion-btn text-white border-notion-btn' : 'bg-white text-notion-text border-notion-border'}" onclick="setPlaceFilter(${jsString(category)})">${escapeHTML(t(PLACE_CATEGORY_KEYS[category], category))}${count ? ` ${count}` : ''}</button>`;
+            }).join('');
+        }
+        function setPlaceFilter(category) { placeFilter = category || '全部'; renderPlaceFilters(); loadPlaces(); }
+        function placePriorityLabel(priority) {
+            return t({ high: 'priorityHigh', medium: 'priorityMedium', low: 'priorityLow' }[priority] || 'priorityMedium');
+        }
+        function loadPlaces() {
+            const places = getStorageArray('notion_places');
+            const list = document.getElementById('place-list');
+            if (!list) return;
+            renderPlaceFilters();
+            const filtered = placeFilter === '全部' ? places : places.filter(place => (place.category || '其他') === placeFilter);
+            list.innerHTML = '';
+            if (!places.length) { list.innerHTML = getEmptyStateHTML(t('noPlaces')); return; }
+            if (!filtered.length) { list.innerHTML = getEmptyStateHTML(t('noPlaces')); return; }
+            [...filtered].reverse().forEach(place => {
+                const realIdx = places.indexOf(place);
+                const address = place.address || place.name;
+                const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
+                const externalUrl = place.url ? normalizeLinkURL(place.url) : mapUrl;
+                const div = document.createElement('div');
+                div.className = `bg-notion-card border border-notion-border rounded-notion p-4 text-sm ${place.visited ? 'opacity-75' : ''}`;
+                div.innerHTML = `<div class="flex justify-between items-start gap-3"><div class="min-w-0"><div class="flex flex-wrap gap-1.5 mb-2"><span class="text-[10px] text-notion-text font-medium bg-notion-hover px-2 py-0.5 rounded">${escapeHTML(t(PLACE_CATEGORY_KEYS[place.category] || 'placeOther', place.category || t('placeOther')))}</span><span class="text-[10px] text-white font-medium bg-notion-btn px-2 py-0.5 rounded">${escapeHTML(placePriorityLabel(place.priority))}</span>${place.visited ? `<span class="text-[10px] text-notion-muted font-medium border border-notion-border px-2 py-0.5 rounded">${escapeHTML(t('visited'))}</span>` : ''}</div><p class="text-sm font-semibold text-notion-text truncate">${escapeHTML(place.name)}</p>${place.date ? `<p class="text-[11px] text-notion-muted mt-1">${escapeHTML(place.date)}</p>` : ''}</div><div class="flex gap-1 shrink-0"><button onclick="editPlace(${realIdx})" class="text-notion-muted opacity-60 active:opacity-100 text-xs py-1 px-2">${escapeHTML(t('edit'))}</button><button onclick="deletePlace(${realIdx})" class="text-notion-muted opacity-40 active:opacity-100 text-xs py-1 px-2" aria-label="${escapeHTML(t('deletePlace'))}">✕</button></div></div>${place.address ? `<p class="text-xs text-notion-muted mt-2">${escapeHTML(place.address)}</p>` : ''}${place.note ? `<p class="text-xs text-notion-text mt-3 whitespace-pre-wrap bg-notion-hover p-2 rounded">${escapeHTML(place.note)}</p>` : ''}<div class="grid grid-cols-2 gap-2 mt-3"><a href="${escapeHTML(mapUrl)}" target="_blank" rel="noopener noreferrer" class="text-center py-2 text-xs bg-notion-hover border border-notion-border rounded-notion font-medium">${escapeHTML(t('openMap'))}</a><a href="${escapeHTML(externalUrl)}" target="_blank" rel="noopener noreferrer" class="text-center py-2 text-xs bg-notion-btn text-white rounded-notion font-medium">${escapeHTML(place.url ? t('openLink') : t('openMap'))}</a></div><button onclick="togglePlaceVisited(${realIdx})" class="w-full mt-2 py-2 text-xs border border-notion-border bg-white rounded-notion">${escapeHTML(place.visited ? t('markUnvisited') : t('markVisited'))}</button>`;
+                list.appendChild(div);
+            });
+        }
+        function savePlace() {
+            const name = document.getElementById('place-name').value.trim();
+            if (!name) return showToast(t('fillContent'));
+            const places = getStorageArray('notion_places');
+            const next = {
+                name,
+                category: document.getElementById('place-category').value,
+                priority: document.getElementById('place-priority').value,
+                date: document.getElementById('place-date').value,
+                address: document.getElementById('place-address').value.trim(),
+                url: document.getElementById('place-url').value.trim(),
+                note: document.getElementById('place-note').value.trim(),
+                visited: editState.place !== null && places[editState.place] ? !!places[editState.place].visited : false,
+                updatedAt: new Date().toISOString()
+            };
+            if (next.url && !/^https?:\/\//i.test(next.url)) next.url = `https://${next.url}`;
+            if (editState.place !== null && places[editState.place]) { places[editState.place] = { ...places[editState.place], ...next }; showToast(t('updated')); }
+            else { places.push({ ...next, createdAt: new Date().toISOString() }); showToast(t('placeSaved')); }
+            localStorage.setItem('notion_places', JSON.stringify(places));
+            cancelEdit('place');
+            loadPlaces();
+        }
+        function editPlace(i) {
+            const places = getStorageArray('notion_places');
+            const place = places[i];
+            if (!place) return;
+            editState.place = i;
+            document.getElementById('place-name').value = place.name || '';
+            document.getElementById('place-category').value = place.category || '其他';
+            document.getElementById('place-priority').value = place.priority || 'medium';
+            document.getElementById('place-date').value = place.date || '';
+            document.getElementById('place-address').value = place.address || '';
+            document.getElementById('place-url').value = place.url || '';
+            document.getElementById('place-note').value = place.note || '';
+            setCancelVisible('place-cancel-edit', true);
+            scrollToControl('place-name');
+        }
+        function deletePlace(i) { const places = getStorageArray('notion_places'); places.splice(i, 1); localStorage.setItem('notion_places', JSON.stringify(places)); loadPlaces(); showToast(t('deleted')); }
+        function togglePlaceVisited(i) { const places = getStorageArray('notion_places'); if (!places[i]) return; places[i].visited = !places[i].visited; places[i].updatedAt = new Date().toISOString(); localStorage.setItem('notion_places', JSON.stringify(places)); loadPlaces(); showToast(t('updated')); }
+
+        // ================= 生理期紀錄 =================
+        function cycleLabel(map, value) { return t(map[value] || value); }
+        function cycleDateDiff(a, b) {
+            if (!a || !b) return null;
+            const start = new Date(a);
+            const end = new Date(b);
+            if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) return null;
+            return Math.round((end - start) / 86400000) + 1;
+        }
+        function renderCycleSummary(cycles = getStorageArray('notion_cycles')) {
+            const el = document.getElementById('cycle-summary');
+            if (!el) return;
+            const sorted = [...cycles].filter(c => c.start).sort((a, b) => String(b.start).localeCompare(String(a.start)));
+            if (!sorted.length) {
+                el.innerHTML = `<p class="text-xs text-notion-muted">${escapeHTML(t('noCycles'))}</p>`;
+                return;
+            }
+            const latest = sorted[0];
+            const intervals = [];
+            for (let i = 0; i < sorted.length - 1; i++) {
+                const diff = cycleDateDiff(sorted[i + 1].start, sorted[i].start);
+                if (diff && diff > 0) intervals.push(diff);
+            }
+            const avg = intervals.length ? Math.round(intervals.reduce((sum, item) => sum + item, 0) / intervals.length) : null;
+            const nextDate = avg ? new Date(new Date(latest.start).getTime() + avg * 86400000) : null;
+            const length = cycleDateDiff(latest.start, latest.end) || 1;
+            el.innerHTML = `<span class="text-xs font-semibold text-notion-muted tracking-wider uppercase">${escapeHTML(t('latestCycle'))}</span><div class="grid grid-cols-3 gap-2 mt-2"><div><p class="text-[11px] text-notion-muted">${escapeHTML(t('cycleStart'))}</p><p class="text-sm font-semibold">${escapeHTML(latest.start)}</p></div><div><p class="text-[11px] text-notion-muted">${escapeHTML(t('cycleDays').replace('{count}', length))}</p><p class="text-sm font-semibold">${escapeHTML(cycleLabel({ light: 'flowLight', medium: 'flowMedium', heavy: 'flowHeavy' }, latest.flow || 'medium'))}</p></div><div><p class="text-[11px] text-notion-muted">${escapeHTML(t('averageCycle'))}</p><p class="text-sm font-semibold">${avg ? escapeHTML(t('cycleDays').replace('{count}', avg)) : '--'}</p></div></div>${nextDate ? `<p class="text-xs text-notion-muted mt-3">${escapeHTML(t('nextCycleEstimate'))}：${escapeHTML(getFormatDate(nextDate.getFullYear(), nextDate.getMonth(), nextDate.getDate()))}</p>` : ''}`;
+        }
+        function loadCycles() {
+            const cycles = getStorageArray('notion_cycles');
+            const list = document.getElementById('cycle-list');
+            if (!list) return;
+            renderCycleSummary(cycles);
+            list.innerHTML = '';
+            if (!cycles.length) { list.innerHTML = getEmptyStateHTML(t('noCycles')); return; }
+            [...cycles].reverse().forEach((cycle, i) => {
+                const realIdx = cycles.length - 1 - i;
+                const length = cycleDateDiff(cycle.start, cycle.end) || 1;
+                const div = document.createElement('div');
+                div.className = 'bg-notion-card border border-notion-border rounded-notion p-4 text-sm';
+                div.innerHTML = `<div class="flex justify-between items-start gap-3"><div><span class="text-[10px] text-notion-text font-medium bg-notion-hover px-2 py-0.5 rounded">${escapeHTML(cycle.start || '')}${cycle.end ? ` - ${escapeHTML(cycle.end)}` : ''}</span><p class="text-sm font-semibold mt-2">${escapeHTML(t('cycleDays').replace('{count}', length))}｜${escapeHTML(cycleLabel({ light: 'flowLight', medium: 'flowMedium', heavy: 'flowHeavy' }, cycle.flow || 'medium'))}</p><p class="text-xs text-notion-muted mt-1">${escapeHTML(cycleLabel({ calm: 'moodCalm', sensitive: 'moodSensitive', tired: 'moodTired', pain: 'moodPain' }, cycle.mood || 'calm'))}</p></div><div class="flex gap-1 shrink-0"><button onclick="editCycle(${realIdx})" class="text-notion-muted opacity-60 active:opacity-100 text-xs py-1 px-2">${escapeHTML(t('edit'))}</button><button onclick="deleteCycle(${realIdx})" class="text-notion-muted opacity-40 active:opacity-100 text-xs py-1 px-2" aria-label="${escapeHTML(t('deleteCycle'))}">✕</button></div></div>${cycle.symptoms ? `<p class="text-xs text-notion-text mt-3 bg-notion-hover p-2 rounded">${escapeHTML(cycle.symptoms)}</p>` : ''}${cycle.note ? `<p class="text-xs text-notion-muted mt-2 whitespace-pre-wrap">${escapeHTML(cycle.note)}</p>` : ''}`;
+                list.appendChild(div);
+            });
+        }
+        function saveCycle() {
+            const start = document.getElementById('cycle-start').value;
+            if (!start) return showToast(t('fillCycleStart'));
+            const cycles = getStorageArray('notion_cycles');
+            const next = {
+                start,
+                end: document.getElementById('cycle-end').value,
+                flow: document.getElementById('cycle-flow').value,
+                mood: document.getElementById('cycle-mood').value,
+                symptoms: document.getElementById('cycle-symptoms').value.trim(),
+                note: document.getElementById('cycle-note').value.trim(),
+                updatedAt: new Date().toISOString()
+            };
+            if (editState.cycle !== null && cycles[editState.cycle]) { cycles[editState.cycle] = { ...cycles[editState.cycle], ...next }; showToast(t('updated')); }
+            else { cycles.push({ ...next, createdAt: new Date().toISOString() }); showToast(t('cycleSaved')); }
+            localStorage.setItem('notion_cycles', JSON.stringify(cycles));
+            cancelEdit('cycle');
+            loadCycles();
+        }
+        function editCycle(i) {
+            const cycles = getStorageArray('notion_cycles');
+            const cycle = cycles[i];
+            if (!cycle) return;
+            editState.cycle = i;
+            document.getElementById('cycle-start').value = cycle.start || todayKey();
+            document.getElementById('cycle-end').value = cycle.end || '';
+            document.getElementById('cycle-flow').value = cycle.flow || 'medium';
+            document.getElementById('cycle-mood').value = cycle.mood || 'calm';
+            document.getElementById('cycle-symptoms').value = cycle.symptoms || '';
+            document.getElementById('cycle-note').value = cycle.note || '';
+            setCancelVisible('cycle-cancel-edit', true);
+            scrollToControl('cycle-start');
+        }
+        function deleteCycle(i) { const cycles = getStorageArray('notion_cycles'); cycles.splice(i, 1); localStorage.setItem('notion_cycles', JSON.stringify(cycles)); loadCycles(); showToast(t('deleted')); }
 
         // ================= 擁有物品清單 =================
         // ================= 常用連結 =================
