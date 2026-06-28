@@ -10,7 +10,6 @@
     <link rel="icon" href='data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"%3E%3Crect width="512" height="512" rx="82" fill="%230b0b0b"/%3E%3Crect x="54" y="54" width="404" height="404" rx="22" fill="none" stroke="%23f7f5ef" stroke-width="10"/%3E%3Ctext x="256" y="254" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="116" font-weight="700" fill="%23f7f5ef" letter-spacing="-8"%3EMF%3C/text%3E%3Ctext x="256" y="336" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="31" font-weight="700" fill="%23f7f5ef" letter-spacing="8"%3EATELIER%3C/text%3E%3C/svg%3E'>
     <link rel="apple-touch-icon" href='data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"%3E%3Crect width="512" height="512" rx="82" fill="%230b0b0b"/%3E%3Crect x="54" y="54" width="404" height="404" rx="22" fill="none" stroke="%23f7f5ef" stroke-width="10"/%3E%3Ctext x="256" y="254" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="116" font-weight="700" fill="%23f7f5ef" letter-spacing="-8"%3EMF%3C/text%3E%3Ctext x="256" y="336" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="31" font-weight="700" fill="%23f7f5ef" letter-spacing="8"%3EATELIER%3C/text%3E%3C/svg%3E'>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/epubjs@0.3.93/dist/epub.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -30,7 +29,7 @@
     </script>
     <style>
         html { touch-action: manipulation; }
-        body { background-color: #FFFFFF; color: #37352F; -webkit-tap-highlight-color: transparent; touch-action: manipulation; overscroll-behavior: none; }
+        body { background-color: #F7F6F2; color: #37352F; -webkit-tap-highlight-color: transparent; touch-action: manipulation; overscroll-behavior: none; }
         button, a, input, textarea, select, label, summary { touch-action: manipulation; }
         :root {
             --ui-2xs: clamp(11px, 2.9vw, 13px);
@@ -136,9 +135,9 @@
             background: #F1F1EF;
         }
         .feature-tile {
-            border: 1px solid #EAEAEA;
+            border: 1px solid #E3DFD6;
             background: #FFFFFF;
-            border-radius: 8px;
+            border-radius: 6px;
             padding: 16px;
             text-align: center;
             min-height: 92px;
@@ -146,7 +145,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+            box-shadow: 0 10px 28px rgba(39, 36, 31, 0.04);
         }
         .feature-icon {
             width: 28px;
@@ -179,194 +178,13 @@
             border-color: #2E2C27;
             color: #FFFFFF;
         }
-        .reading-shell {
-            margin-left: -20px;
-            margin-right: -20px;
-            margin-top: -20px;
-            min-height: calc(100dvh - 58px);
-            background: #FFFFFF;
-            color: #37352F;
-            padding: 24px 20px 92px;
-            position: relative;
-        }
-        .reading-top {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 16px;
-            margin-bottom: 26px;
-        }
-        .reading-title {
-            color: #37352F;
-            font-size: clamp(28px, 8vw, 36px);
-            line-height: 1.05;
-            font-weight: 700;
-            letter-spacing: 0;
-        }
-        .reading-subtitle {
-            color: #9B9B9B;
-            font-size: var(--ui-base);
-            line-height: 1.35;
-            margin-top: 8px;
-        }
-        .reading-gear {
-            width: 42px;
-            height: 42px;
-            border-radius: 8px;
-            border: 1px solid #EAEAEA;
-            background: #F1F1EF;
-            color: #37352F;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            flex: 0 0 auto;
-        }
-        .reading-card {
-            background: #FFFFFF;
-            border: 1px solid #EAEAEA;
-            border-radius: 8px;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
-        }
-        .reading-kicker {
-            color: #9B9B9B;
-            font-size: 12px;
-            font-weight: 800;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-        }
-        .book-cover {
-            width: 96px;
-            aspect-ratio: 0.68;
-            border-radius: 8px;
-            background: #F1F1EF;
-            border: 1px solid #EAEAEA;
-            box-shadow: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 10px;
-            color: #37352F;
-            font-family: Georgia, serif;
-            font-size: 15px;
-            line-height: 1.05;
-            overflow: hidden;
-        }
-        .book-shelf {
-            display: grid;
-            grid-auto-flow: column;
-            grid-auto-columns: minmax(108px, 32%);
-            gap: 16px;
-            overflow-x: auto;
-            padding: 10px 2px 18px;
-            scroll-snap-type: x mandatory;
-        }
-        .book-shelf::-webkit-scrollbar { display: none; }
-        .book-tile {
-            scroll-snap-align: start;
-            position: relative;
-        }
-        .reading-progress {
-            height: 5px;
-            background: #EAEAEA;
-            border-radius: 999px;
-            overflow: hidden;
-        }
-        .reading-progress > span {
-            display: block;
-            height: 100%;
-            background: #2E2C27;
-            border-radius: inherit;
-        }
-        .reading-bottom-nav {
-            position: fixed;
-            left: 50%;
-            bottom: 0;
-            transform: translateX(-50%);
-            width: min(100%, 448px);
-            background: rgba(255,255,255,0.98);
-            backdrop-filter: blur(16px);
-            border-top: 1px solid #EAEAEA;
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            align-items: end;
-            gap: 0;
-            padding: 8px 8px calc(8px + env(safe-area-inset-bottom));
-            z-index: 10;
-        }
-        .reading-nav-btn {
-            min-height: 58px;
-            border-radius: 8px;
-            color: #8C8C89;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 3px;
-            font-size: 11px;
-            font-weight: 700;
-        }
-        .reading-nav-btn svg {
-            width: 24px;
-            height: 24px;
-        }
-        .reading-nav-btn.active {
-            background: #F1F1EF;
-            color: #37352F;
-        }
-        .reading-add-btn {
-            width: 72px;
-            height: 72px;
-            margin: -28px auto 0;
-            border-radius: 999px;
-            background: #2E2C27;
-            color: white;
-            border: 6px solid white;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.14);
-            font-size: 34px;
-            line-height: 1;
-        }
-        .reading-search {
-            width: 100%;
-            border: 1px solid #EAEAEA;
-            border-radius: 8px;
-            background: #FFFFFF;
-            padding: 12px 14px;
-            color: #37352F;
-            font-size: 15px;
-            outline: none;
-        }
-        .ebook-reader-frame {
-            width: 100%;
-            height: min(68dvh, 620px);
-            border: 1px solid #EAEAEA;
-            border-radius: 8px;
-            background: #FFFFFF;
-            overflow: hidden;
-        }
-        .ebook-reader-frame iframe,
-        .ebook-reader-frame object {
-            width: 100%;
-            height: 100%;
-            border: 0;
-        }
-        .ebook-reader-message {
-            min-height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 24px;
-            text-align: center;
-            color: #9B9B9B;
-            line-height: 1.7;
-        }
         .image-preview-button {
             position: relative;
             display: block;
             width: 100%;
             overflow: hidden;
-            border-radius: 8px;
-            border: 1px solid #EAEAEA;
+            border-radius: 6px;
+            border: 1px solid #E3DFD6;
             background: #F1F1EF;
         }
         .image-preview-button img {
@@ -382,11 +200,20 @@
             top: 8px;
             padding: 5px 8px;
             border-radius: 999px;
-            background: rgba(255,255,255,0.92);
-            border: 1px solid #EAEAEA;
-            color: #37352F;
+            background: rgba(46,44,39,0.92);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #FFFFFF;
             font-size: 11px;
             font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+        .bg-notion-card {
+            box-shadow: 0 14px 36px rgba(39, 36, 31, 0.045);
+        }
+        input, textarea, select, .upload-control {
+            background-color: #FFFFFF;
+            border-color: #E3DFD6 !important;
         }
         .link-button-grid {
             display: grid;
@@ -475,75 +302,12 @@
             white-space: nowrap;
             max-width: 52%;
         }
-        #page-reading [class*="text-[#2E5A35]"],
-        #page-reading [class*="text-[#477344]"],
-        #page-reading [class*="text-[#172017]"],
-        #page-reading [class*="text-[#1F2A20]"] {
-            color: #37352F !important;
-        }
-        #page-reading [class*="text-[#7A7A75]"],
-        #page-reading [class*="text-[#677067]"],
-        #page-reading [class*="text-[#555B55]"] {
-            color: #9B9B9B !important;
-        }
-        #page-reading [class*="bg-[#477344]"],
-        #page-reading [class*="bg-[#2E5A35]"] {
-            background: #2E2C27 !important;
-            color: #FFFFFF !important;
-        }
-        #page-reading [class*="bg-[#EEF6EA]"],
-        #page-reading [class*="bg-[#EAF4E3]"],
-        #page-reading [class*="bg-[#EFF8ED]"],
-        #page-reading [class*="bg-[#F0F4EF]"] {
-            background: #F1F1EF !important;
-            color: #37352F !important;
-        }
-        #page-reading [class*="border-[#"] {
-            border-color: #EAEAEA !important;
-        }
         @media (max-width: 480px) {
             main {
                 padding-left: 16px !important;
                 padding-right: 16px !important;
             }
-            .reading-shell {
-                margin-left: -16px;
-                margin-right: -16px;
-                padding: 22px 16px 96px;
-            }
-            .reading-top {
-                margin-bottom: 20px;
-            }
-            .reading-title {
-                font-size: clamp(26px, 9vw, 34px);
-            }
-            .reading-card {
-                border-radius: 8px;
-            }
-            .book-shelf {
-                grid-auto-columns: minmax(132px, 44%);
-                gap: 12px;
-            }
-            .book-cover {
-                width: 88px;
-            }
-            .ebook-reader-frame {
-                height: min(64dvh, 560px);
-                min-height: 360px;
-            }
-            .reading-bottom-nav {
-                width: 100%;
-            }
-            .reading-nav-btn {
-                min-height: 54px;
-                font-size: 10px;
-            }
-            .reading-add-btn {
-                width: 66px;
-                height: 66px;
-            }
-            #page-shrine .bg-notion-card,
-            #page-reading .reading-card {
+            #page-shrine .bg-notion-card {
                 box-shadow: 0 1px 8px rgba(0,0,0,0.035);
             }
             input, textarea, select, button, .upload-control {
@@ -578,7 +342,6 @@
                 <button onclick="switchTab('dictionary')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5z"/><path d="M9 7h6M9 11h4"/></svg></span><span class="text-lg font-semibold" data-i18n="dictionary">字典</span><span class="text-xs text-notion-muted" data-i18n="dictionarySub">日語查詢與複習</span></button>
                 <button onclick="switchTab('shrine')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M6 6v16M18 6v16M4 10h16M9 10v6M15 10v6"/></svg></span><span class="text-lg font-semibold" data-i18n="shrine">神社</span><span class="text-xs text-notion-muted" data-i18n="shrineSub">參拜與願望</span></button>
                 <button onclick="switchTab('meditation')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a14.5 14.5 0 0 0 0 20"/></svg></span><span class="text-lg font-semibold" data-i18n="meditation">冥想</span><span class="text-xs text-notion-muted" data-i18n="meditationSub">計時與導引</span></button>
-                <button onclick="switchTab('reading')" data-feature-tab="reading" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H21"/><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H21v20H6.5A2.5 2.5 0 0 1 4 19.5z"/><path d="M9 7h7M9 11h7M9 15h4"/></svg></span><span class="text-lg font-semibold" data-i18n="readingFeature">閱讀</span><span class="text-xs text-notion-muted" data-i18n="readingSub">書籍與心得</span></button>
                 <button onclick="switchTab('items')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.3 7 12 12l8.7-5M12 22V12"/></svg></span><span class="text-lg font-semibold" data-i18n="items">物品</span><span class="text-xs text-notion-muted" data-i18n="itemsSub">擁有清單</span></button>
                 <button onclick="switchTab('links')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.1.1l2.8-2.8a5 5 0 0 0-7.1-7.1L11.2 5"/><path d="M14 11a5 5 0 0 0-7.1-.1L4.1 13.7a5 5 0 0 0 7.1 7.1l1.6-1.6"/></svg></span><span class="text-lg font-semibold" data-i18n="links">連結</span><span class="text-xs text-notion-muted" data-i18n="linksSub">常用網站</span></button>
             </div>
@@ -795,6 +558,13 @@
                         <input type="file" id="shrine-image" accept="image/*" class="sr-only" data-file-label="shrine-image-name">
                     </label>
                 </div>
+                <div id="shrine-current-image-wrap" class="hidden pl-[3.75rem] space-y-2">
+                    <button type="button" id="shrine-current-image-preview" class="image-preview-button active:opacity-80">
+                        <img id="shrine-current-image-img" src="" alt="">
+                        <span class="image-preview-badge" data-i18n="tapToPreview">點選放大</span>
+                    </button>
+                    <button type="button" onclick="removeCurrentShrineImage()" class="w-full py-2 text-xs bg-white border border-notion-border text-notion-muted rounded-notion" data-i18n="removePhoto">移除照片</button>
+                </div>
                 <button onclick="saveShrine()" id="shrine-save-btn" class="w-full py-3 text-sm bg-notion-btn text-white rounded-notion font-medium hover:opacity-90 mt-2 active:scale-[0.98] transition-transform" data-i18n="saveRecord">儲存紀錄</button>
                 <button onclick="cancelEdit('shrine')" id="shrine-cancel-edit" class="hidden w-full py-2 text-xs bg-notion-hover border border-notion-border text-notion-text rounded-notion" data-i18n="cancel">取消</button>
             </div>
@@ -856,42 +626,6 @@
                 <span class="text-xs font-medium text-notion-muted block" data-i18n="history">歷史紀錄</span>
                 <div id="meditation-list" class="space-y-2"></div>
             </div>
-        </div>
-
-        <div id="page-reading" class="hidden">
-            <section class="reading-shell">
-                <div class="reading-top">
-                    <div>
-                        <h2 class="reading-title" id="reading-view-title">ReadGrow</h2>
-                        <p class="reading-subtitle" id="reading-view-subtitle" data-i18n="readingHomeSubtitle">今天的閱讀成長。</p>
-                    </div>
-                    <button onclick="switchTab('settings')" class="reading-gear" aria-label="設定" data-i18n-aria="settings">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 .6 1.7 1.7 0 0 0-.4 1.1V21a2 2 0 1 1-4 0v-.1A1.7 1.7 0 0 0 8.6 19.4a1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-.6-1A1.7 1.7 0 0 0 2.9 13H3a2 2 0 1 1 0-4h-.1A1.7 1.7 0 0 0 4.6 8.6a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-.6 1.7 1.7 0 0 0 .4-1.1V3a2 2 0 1 1 4 0v-.1A1.7 1.7 0 0 0 15.4 4.6a1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.4 9c.2.4.2.8.6 1 .3.3.7.4 1.1.4H21a2 2 0 1 1 0 4h.1c-.4 0-.8.1-1.1.4-.4.2-.4.6-.6 1.2z"/></svg>
-                    </button>
-                </div>
-
-                <div id="reading-content" class="space-y-6"></div>
-
-                <nav class="reading-bottom-nav" aria-label="閱讀功能">
-                    <button type="button" class="reading-nav-btn active" data-reading-nav="home" onclick="setReadingView('home')">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10.5V21h14V10.5"/><path d="M9 21v-6h6v6"/></svg>
-                        <span data-i18n="readingNavHome">首頁</span>
-                    </button>
-                    <button type="button" class="reading-nav-btn" data-reading-nav="books" onclick="setReadingView('books')">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5V5a2 2 0 0 1 2-2h2v18H6a2 2 0 0 1-2-1.5z"/><path d="M10 3h4v18h-4z"/><path d="M16 3h2a2 2 0 0 1 2 2v14.5a2 2 0 0 1-2 1.5h-2z"/></svg>
-                        <span data-i18n="readingNavBooks">書庫</span>
-                    </button>
-                    <button type="button" class="reading-add-btn" onclick="setReadingView('add')" aria-label="新增">+</button>
-                    <button type="button" class="reading-nav-btn" data-reading-nav="vocab" onclick="setReadingView('vocab')">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 11h8M10 15h4"/></svg>
-                        <span data-i18n="readingNavVocab">單字</span>
-                    </button>
-                    <button type="button" class="reading-nav-btn" data-reading-nav="notes" onclick="setReadingView('notes')">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h12l4 4v12H4z"/><path d="M16 4v4h4"/><path d="M8 13h8M8 17h6"/></svg>
-                        <span data-i18n="readingNavNotes">筆記</span>
-                    </button>
-                </nav>
-            </section>
         </div>
 
         <div id="page-items" class="space-y-5 hidden">
@@ -1227,6 +961,8 @@
                 document.getElementById('shrine-notes').value = '';
                 document.getElementById('shrine-image').value = '';
                 updateFileLabel('shrine-image');
+                shrineImageRemovePending = false;
+                setShrineCurrentImagePreview('', '');
                 setCancelVisible('shrine-cancel-edit', false);
             } else if (type === 'link') {
                 document.getElementById('link-title').value = '';
@@ -1255,8 +991,6 @@
             } else if (type === 'journal') {
                 document.getElementById('journal-title').value = '';
                 document.getElementById('journal-content').value = '';
-            } else if (type === 'book' || type === 'readingNote') {
-                renderReadingPage();
             }
         }
 
@@ -1320,8 +1054,6 @@
             loadShrines();
             loadMeditations();
             loadMeditationVideos();
-            renderReadingFilters();
-            loadBooks();
             renderItemFilters();
             loadItems();
             renderLinkFilters();
@@ -1345,8 +1077,6 @@
             'notion_shrines',
             'notion_med_videos',
             'notion_meditation',
-            'notion_books',
-            'notion_reading_notes',
             'notion_items',
             'notion_links',
             'notion_video_views'
@@ -1361,6 +1091,7 @@
         let supabaseClient = null;
         let cloudUser = null;
         let journalUnlocked = false;
+        let shrineImageRemovePending = false;
         const I18N = {
             zh: {
                 homeEyebrow: 'Manifest Atelier',
@@ -1392,8 +1123,6 @@
                 shrineSub: '參拜與願望',
                 meditation: '冥想',
                 meditationSub: '計時與導引',
-                readingFeature: '閱讀',
-                readingSub: '書籍與心得',
                 items: '物品',
                 itemsSub: '擁有清單',
                 links: '連結',
@@ -1478,91 +1207,9 @@
                 noVideoLogs: '尚無影片紀錄',
                 editVideoRecord: '修改影片紀錄',
                 videoCountPrompt: '觀看 / 完成次數',
-                readingPageTitle: '閱讀書籍紀錄',
-                bookTitlePh: '書名',
-                bookAuthorPh: '作者（選填）',
-                bookStatus: '閱讀狀態',
-                bookWant: '想讀',
-                bookReading: '閱讀中',
-                bookDone: '已讀完',
-                bookProgressPh: '進度 %',
-                bookNotePh: '一句心得、金句或行動...',
-                saveBook: '儲存書籍',
-                readingFilter: '閱讀篩選',
-                readingHistory: '閱讀紀錄',
-                noBooks: '還沒有書籍紀錄，先加一本想讀的書吧',
-                bookSaved: '書籍已儲存',
-                deleteBook: '刪除書籍',
-                readingHomeSubtitle: '今天的閱讀成長。',
-                readingNavHome: '首頁',
-                readingNavBooks: '書庫',
-                readingNavVocab: '單字',
-                readingNavNotes: '筆記',
-                readingCurrently: '目前閱讀',
-                startReading: '開始閱讀',
-                continueReading: '繼續閱讀',
-                readingSession: '閱讀中',
-                saveProgress: '儲存進度',
-                finishReading: '標記已讀完',
-                progressSaved: '閱讀進度已儲存',
-                openOnPhone: '手機開啟',
-                mobileReaderHint: '手機若無法內嵌閱讀，請使用「手機開啟」或「外部開啟」。',
-                todaysGrowth: '今日成長',
-                collectedVocabulary: '收集單字',
-                writtenNotes: '閱讀筆記',
-                wordsTodayHint: '今天收集的單字會顯示在這裡。',
-                notesTodayHint: '今天寫下的閱讀筆記會顯示在這裡。',
-                readingLibrary: '書庫',
-                readingVocabulary: '單字庫',
-                readingNotes: '筆記',
-                readingAdd: '新增',
-                currentlyReading: '閱讀中',
-                finishedBooks: '已讀完',
-                wantToRead: '想讀',
                 seeAll: '查看全部',
-                emptyShelf: '這個書架還是空的。',
                 searchVocabulary: '搜尋單字',
-                reviewVocabulary: '複習',
                 collected: '已收集',
-                remembered: '已記住',
-                learning: '學習中',
-                mastered: '已記住',
-                stillLearning: '還在學',
-                browse: '瀏覽',
-                noVocabulary: '還沒有單字。先到日語字典查詢幾個詞吧。',
-                noReadingNotes: '還沒有閱讀筆記。',
-                addReadingNote: '新增閱讀筆記',
-                noteTitlePh: '筆記標題',
-                noteBodyPh: '內容、金句或想法',
-                saveNote: '儲存筆記',
-                noteSaved: '筆記已儲存',
-                deleteNote: '刪除筆記',
-                editNote: '編輯筆記',
-                readingSeedling: '新芽',
-                readingGrowing: '成長中',
-                readingBlooming: '盛開',
-                readingComplete: '完成',
-                noCurrentBook: '還沒有閱讀中的書。',
-                author: '作者',
-                progress: '進度',
-                ebookLibrary: '電子書庫',
-                uploadEbook: '上傳電子書',
-                ebookUploadHint: '支援 PDF 與 EPUB，檔案只會儲存在此裝置。',
-                noEbooks: '還沒有上傳電子書。',
-                ebookSaved: '電子書已儲存',
-                ebookUnsupported: '目前只支援 PDF 與 EPUB',
-                openEbook: '閱讀',
-                openExternal: '外部開啟',
-                downloadFile: '下載檔案',
-                retry: '重試',
-                ebookLoading: '電子書載入中...',
-                deleteEbook: '刪除電子書',
-                ebookReaderUnavailable: 'EPUB 閱讀器尚未載入，請確認網路連線後重試。',
-                ebookReaderError: '電子書讀取失敗。請試試外部開啟，或重新上傳檔案。',
-                pdfInlineHint: '若手機內嵌預覽空白，請使用外部開啟。',
-                previousPage: '上一頁',
-                nextPage: '下一頁',
-                closeReader: '回書庫',
                 itemsPageTitle: '擁有物品清單',
                 itemNamePh: '物品名稱',
                 itemCategory: '物品分類',
@@ -1717,6 +1364,7 @@
                 shrineRecordSaved: '參拜紀錄已儲存',
                 shrineNameRequired: '請填寫神社名稱',
                 tapToPreview: '點選放大',
+                removePhoto: '移除照片',
                 chooseMusic: '請先選擇音樂',
                 systemNotReady: '系統未準備好',
                 musicSaved: '音樂已儲存',
@@ -1776,7 +1424,6 @@
                 dictionaryNote: '本機筆記',
                 dictionaryNotePh: '寫下你的理解、例句或記憶方法...',
                 dictionaryNoteSaved: '本機筆記已儲存',
-                saveNote: '儲存筆記',
                 localMode: '本機模式',
                 publicDictionary: 'コトバンク',
                 sourceUrl: '來源',
@@ -1834,8 +1481,6 @@
                 shrineSub: '参拝と願い',
                 meditation: '瞑想',
                 meditationSub: 'タイマーとガイド',
-                readingFeature: '読書',
-                readingSub: '本と感想',
                 items: '持ち物',
                 itemsSub: '所有リスト',
                 links: 'リンク',
@@ -1920,91 +1565,9 @@
                 noVideoLogs: '動画記録はまだありません',
                 editVideoRecord: '動画記録を編集',
                 videoCountPrompt: '視聴 / 完了回数',
-                readingPageTitle: '読書記録',
-                bookTitlePh: '書名',
-                bookAuthorPh: '著者（任意）',
-                bookStatus: '読書状態',
-                bookWant: '読みたい',
-                bookReading: '読書中',
-                bookDone: '読了',
-                bookProgressPh: '進捗 %',
-                bookNotePh: '感想、引用、次の行動を書く...',
-                saveBook: '本を保存',
-                readingFilter: '読書フィルター',
-                readingHistory: '読書履歴',
-                noBooks: '読書記録はまだありません。読みたい本を追加しましょう',
-                bookSaved: '本を保存しました',
-                deleteBook: '本を削除',
-                readingHomeSubtitle: '今日の読書の成長。',
-                readingNavHome: 'ホーム',
-                readingNavBooks: '本棚',
-                readingNavVocab: '単語',
-                readingNavNotes: 'ノート',
-                readingCurrently: '現在読書中',
-                startReading: '読み始める',
-                continueReading: '続きを読む',
-                readingSession: '読書中',
-                saveProgress: '進捗を保存',
-                finishReading: '読了にする',
-                progressSaved: '読書進捗を保存しました',
-                openOnPhone: 'スマホで開く',
-                mobileReaderHint: 'スマホで内蔵リーダーが開かない場合は「スマホで開く」または「外部で開く」を使ってください。',
-                todaysGrowth: '今日の成長',
-                collectedVocabulary: '集めた単語',
-                writtenNotes: '読書ノート',
-                wordsTodayHint: '今日集めた単語がここに表示されます。',
-                notesTodayHint: '今日書いた読書ノートがここに表示されます。',
-                readingLibrary: '本棚',
-                readingVocabulary: '単語帳',
-                readingNotes: 'ノート',
-                readingAdd: '追加',
-                currentlyReading: '読書中',
-                finishedBooks: '読了',
-                wantToRead: '読みたい',
                 seeAll: 'すべて見る',
-                emptyShelf: 'この棚はまだ空です。',
                 searchVocabulary: '単語を検索',
-                reviewVocabulary: '復習',
                 collected: '収集済み',
-                remembered: '覚えた',
-                learning: '学習中',
-                mastered: '覚えた',
-                stillLearning: 'まだ学習中',
-                browse: '一覧',
-                noVocabulary: 'まだ単語がありません。日本語辞書で単語を調べてみましょう。',
-                noReadingNotes: 'まだ読書ノートがありません。',
-                addReadingNote: '読書ノートを追加',
-                noteTitlePh: 'ノートのタイトル',
-                noteBodyPh: '内容、引用、考え',
-                saveNote: 'ノートを保存',
-                noteSaved: 'ノートを保存しました',
-                deleteNote: 'ノートを削除',
-                editNote: 'ノートを編集',
-                readingSeedling: '芽',
-                readingGrowing: '成長中',
-                readingBlooming: '開花',
-                readingComplete: '完了',
-                noCurrentBook: '読書中の本はまだありません。',
-                author: '著者',
-                progress: '進捗',
-                ebookLibrary: '電子書籍ライブラリ',
-                uploadEbook: '電子書籍をアップロード',
-                ebookUploadHint: 'PDF と EPUB に対応。ファイルはこの端末だけに保存されます。',
-                noEbooks: 'アップロードした電子書籍はまだありません。',
-                ebookSaved: '電子書籍を保存しました',
-                ebookUnsupported: '現在は PDF と EPUB のみ対応しています',
-                openEbook: '読む',
-                openExternal: '外部で開く',
-                downloadFile: 'ファイルを保存',
-                retry: '再試行',
-                ebookLoading: '電子書籍を読み込み中...',
-                deleteEbook: '電子書籍を削除',
-                ebookReaderUnavailable: 'EPUB リーダーを読み込めません。ネット接続を確認して再試行してください。',
-                ebookReaderError: '電子書籍を読み込めませんでした。外部で開くか、再アップロードしてください。',
-                pdfInlineHint: 'スマホでプレビューが空白の場合は、外部で開いてください。',
-                previousPage: '前へ',
-                nextPage: '次へ',
-                closeReader: '本棚へ戻る',
                 itemsPageTitle: '持ち物リスト',
                 itemNamePh: '物品名',
                 itemCategory: '分類',
@@ -2159,6 +1722,7 @@
                 shrineRecordSaved: '参拝記録を保存しました',
                 shrineNameRequired: '神社名を入力してください',
                 tapToPreview: 'タップで拡大',
+                removePhoto: '写真を削除',
                 chooseMusic: '先に音楽を選択してください',
                 systemNotReady: 'システム準備中です',
                 musicSaved: '音楽を保存しました',
@@ -2218,7 +1782,6 @@
                 dictionaryNote: '本機メモ',
                 dictionaryNotePh: '理解したこと、例文、覚え方を書く...',
                 dictionaryNoteSaved: '本機メモを保存しました',
-                saveNote: 'メモを保存',
                 localMode: '本機モード',
                 publicDictionary: 'コトバンク',
                 sourceUrl: '出典',
@@ -2276,8 +1839,6 @@
                 shrineSub: 'Visits and wishes',
                 meditation: 'Meditation',
                 meditationSub: 'Timer and guides',
-                readingFeature: 'Reading',
-                readingSub: 'Books and notes',
                 items: 'Items',
                 itemsSub: 'Owned list',
                 links: 'Links',
@@ -2362,91 +1923,9 @@
                 noVideoLogs: 'No video records yet',
                 editVideoRecord: 'Edit video record',
                 videoCountPrompt: 'Watch / completion count',
-                readingPageTitle: 'Book Reading Log',
-                bookTitlePh: 'Book title',
-                bookAuthorPh: 'Author (optional)',
-                bookStatus: 'Reading status',
-                bookWant: 'Want to read',
-                bookReading: 'Reading',
-                bookDone: 'Finished',
-                bookProgressPh: 'Progress %',
-                bookNotePh: 'A thought, quote, or next action...',
-                saveBook: 'Save book',
-                readingFilter: 'Reading filter',
-                readingHistory: 'Reading history',
-                noBooks: 'No book records yet. Add one you want to read.',
-                bookSaved: 'Book saved',
-                deleteBook: 'Delete book',
-                readingHomeSubtitle: "Here's what happened in your reading today.",
-                readingNavHome: 'Home',
-                readingNavBooks: 'Books',
-                readingNavVocab: 'Vocabulary',
-                readingNavNotes: 'Notes',
-                readingCurrently: 'Currently Reading',
-                startReading: 'Start Reading',
-                continueReading: 'Continue Reading',
-                readingSession: 'Reading',
-                saveProgress: 'Save progress',
-                finishReading: 'Mark finished',
-                progressSaved: 'Reading progress saved',
-                openOnPhone: 'Open on phone',
-                mobileReaderHint: 'If the mobile reader does not open inline, use Open on phone or Open externally.',
-                todaysGrowth: "Today's Growth",
-                collectedVocabulary: 'Vocabulary',
-                writtenNotes: 'Notes',
-                wordsTodayHint: 'Words collected today will appear here.',
-                notesTodayHint: 'Notes written today will appear here.',
-                readingLibrary: 'Library',
-                readingVocabulary: 'Vocabulary',
-                readingNotes: 'Notes',
-                readingAdd: 'Add',
-                currentlyReading: 'Currently Reading',
-                finishedBooks: 'Finished',
-                wantToRead: 'Want to Read',
                 seeAll: 'See all',
-                emptyShelf: 'This shelf is still empty.',
                 searchVocabulary: 'Search vocabulary',
-                reviewVocabulary: 'Review',
                 collected: 'collected',
-                remembered: 'remembered',
-                learning: 'Learning',
-                mastered: 'Mastered',
-                stillLearning: 'Still Learning',
-                browse: 'Browse',
-                noVocabulary: 'No vocabulary yet. Look up a few words in the Japanese dictionary.',
-                noReadingNotes: 'No reading notes yet.',
-                addReadingNote: 'Add reading note',
-                noteTitlePh: 'Note title',
-                noteBodyPh: 'Body, quote, or idea',
-                saveNote: 'Save note',
-                noteSaved: 'Note saved',
-                deleteNote: 'Delete note',
-                editNote: 'Edit note',
-                readingSeedling: 'Seedling',
-                readingGrowing: 'Growing',
-                readingBlooming: 'Blooming',
-                readingComplete: 'Complete',
-                noCurrentBook: 'No current book yet.',
-                author: 'Author',
-                progress: 'Progress',
-                ebookLibrary: 'Ebook Library',
-                uploadEbook: 'Upload ebook',
-                ebookUploadHint: 'Supports PDF and EPUB. Files are stored only on this device.',
-                noEbooks: 'No ebooks uploaded yet.',
-                ebookSaved: 'Ebook saved',
-                ebookUnsupported: 'Only PDF and EPUB are supported right now',
-                openEbook: 'Read',
-                openExternal: 'Open externally',
-                downloadFile: 'Download file',
-                retry: 'Retry',
-                ebookLoading: 'Loading ebook...',
-                deleteEbook: 'Delete ebook',
-                ebookReaderUnavailable: 'EPUB reader is not loaded. Check your connection and try again.',
-                ebookReaderError: 'Could not open this ebook. Try opening it externally or upload it again.',
-                pdfInlineHint: 'If the mobile preview is blank, use Open externally.',
-                previousPage: 'Previous',
-                nextPage: 'Next',
-                closeReader: 'Back to library',
                 itemsPageTitle: 'Owned Items List',
                 itemNamePh: 'Item name',
                 itemCategory: 'Item category',
@@ -2601,6 +2080,7 @@
                 shrineRecordSaved: 'Shrine visit saved',
                 shrineNameRequired: 'Please enter the shrine name',
                 tapToPreview: 'Tap to enlarge',
+                removePhoto: 'Remove photo',
                 chooseMusic: 'Choose music first',
                 systemNotReady: 'System is not ready yet',
                 musicSaved: 'Music saved',
@@ -2660,7 +2140,6 @@
                 dictionaryNote: 'Local note',
                 dictionaryNotePh: 'Write your understanding, examples, or memory hook...',
                 dictionaryNoteSaved: 'Local note saved',
-                saveNote: 'Save note',
                 localMode: 'Local mode',
                 publicDictionary: 'Kotobank',
                 sourceUrl: 'Source',
@@ -2750,7 +2229,7 @@
             STORAGE_KEYS.forEach(key => {
                 if (typeof data?.[key] === 'string') localStorage.setItem(key, data[key]);
             });
-            renderCalendar(); loadWorkouts(); loadLogs(); loadJournals(); loadDictionaryHistory(); loadShrines(); loadShrineWishes(); loadMeditations(); loadMeditationVideos(); renderReadingFilters(); loadBooks(); renderItemFilters(); loadItems(); renderLinkFilters(); loadLinks();
+            renderCalendar(); loadWorkouts(); loadLogs(); loadJournals(); loadDictionaryHistory(); loadShrines(); loadShrineWishes(); loadMeditations(); loadMeditationVideos(); renderItemFilters(); loadItems(); renderLinkFilters(); loadLinks();
         }
 
         function exportData() {
@@ -2785,9 +2264,8 @@
             request.onupgradeneeded = e => {
                 const database = e.target.result;
                 if (!database.objectStoreNames.contains("settings")) database.createObjectStore("settings");
-                if (!database.objectStoreNames.contains("ebooks")) database.createObjectStore("ebooks", { keyPath: "id" });
             };
-            request.onsuccess = e => { db = e.target.result; loadSavedMusic(); loadEbooks(); };
+            request.onsuccess = e => { db = e.target.result; loadSavedMusic(); };
         };
 
         let currentDate = new Date();
@@ -2805,20 +2283,10 @@
         const WORKOUT_PARTS = ['全部', '全身', '腹部', '臀腿', '手臂', '背部', '有氧', '伸展', '未分類'];
         const WORKOUT_PART_KEYS = { '全部': 'partAll', '全身': 'partFull', '腹部': 'partAbs', '臀腿': 'partLegs', '手臂': 'partArms', '背部': 'partBack', '有氧': 'partCardio', '伸展': 'partStretch', '未分類': 'partUncategorized' };
         let workoutFilter = '全部';
-        const BOOK_STATUS_KEYS = { want: 'bookWant', reading: 'bookReading', done: 'bookDone' };
-        const BOOK_FILTERS = ['all', 'want', 'reading', 'done'];
-        let readingFilter = 'all';
-        let readingView = 'home';
-        let currentReadingBookIndex = null;
-        let currentEbookId = null;
-        let currentEpubBook = null;
-        let currentEpubRendition = null;
-        let currentEbookUrl = null;
-        let epubLibraryPromise = null;
         let pendingCloudUpdate = null;
         let cloudUpdateChecking = false;
         let lastCloudUpdateCheck = 0;
-        const editState = { dailyTodo: null, shrineWish: null, workout: null, medVideo: null, log: null, journal: null, shrine: null, book: null, readingNote: null, link: null, item: null, meditation: null };
+        const editState = { dailyTodo: null, shrineWish: null, workout: null, medVideo: null, log: null, journal: null, shrine: null, link: null, item: null, meditation: null };
         const ITEM_CATEGORIES = ['全部', '衣物', '美妝', '書籍', '電子', '家居', '其他'];
         const ITEM_CATEGORY_KEYS = { '全部': 'itemCatAll', '衣物': 'itemCatClothes', '美妝': 'itemCatBeauty', '書籍': 'itemCatBooks', '電子': 'itemCatTech', '家居': 'itemCatHome', '其他': 'itemCatOther' };
         const ITEM_STATUS_KEYS = { active: 'itemActive', stored: 'itemStored', declutter: 'itemDeclutter' };
@@ -2846,13 +2314,10 @@
 
             renderGoalSuggestions();
             renderWorkoutFilters();
-            initDB(); renderCalendar(); loadWorkouts(); loadLogs(); loadJournals(); loadDictionaryHistory(); loadShrines(); loadShrineWishes(); loadMeditations(); loadMeditationVideos(); renderReadingFilters(); loadBooks(); renderItemFilters(); loadItems(); renderLinkFilters(); loadLinks();
+            initDB(); renderCalendar(); loadWorkouts(); loadLogs(); loadJournals(); loadDictionaryHistory(); loadShrines(); loadShrineWishes(); loadMeditations(); loadMeditationVideos(); renderItemFilters(); loadItems(); renderLinkFilters(); loadLinks();
             ['log-image', 'shrine-image', 'item-image', 'bgm-upload'].forEach(bindFileLabel);
-            document.querySelectorAll('[data-feature-tab]').forEach(button => {
-                button.addEventListener('click', event => {
-                    const tab = event.currentTarget.dataset.featureTab;
-                    if (tab) switchTab(tab);
-                });
+            document.getElementById('shrine-image')?.addEventListener('change', () => {
+                if (document.getElementById('shrine-image')?.files?.length) shrineImageRemovePending = false;
             });
 
             document.getElementById('bgm-upload').addEventListener('change', function(e) {
@@ -2874,11 +2339,6 @@
             });
             window.addEventListener('focus', () => checkCloudForUpdates());
             document.addEventListener('keydown', e => {
-                if (readingView === 'reader' && currentEpubRendition && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) {
-                    e.preventDefault();
-                    turnEbookPage(e.key === 'ArrowLeft' ? -1 : 1);
-                    return;
-                }
                 if (e.key === 'Escape') {
                     if (!document.getElementById('modal-journal').classList.contains('hidden')) closeJournalModal();
                     if (!document.getElementById('modal-daily').classList.contains('hidden')) closeDailyModal();
@@ -2896,7 +2356,7 @@
                 tabName = 'track';
             }
             if (tabName === 'journal' && !ensureJournalAccess()) return;
-            ['home', 'track', 'dictionary', 'goals', 'workout', 'log', 'journal', 'shrine', 'meditation', 'reading', 'items', 'links', 'settings'].forEach(tab => {
+            ['home', 'track', 'dictionary', 'goals', 'workout', 'log', 'journal', 'shrine', 'meditation', 'items', 'links', 'settings'].forEach(tab => {
                 document.getElementById(`page-${tab}`)?.classList.add('hidden');
             });
             const targetPage = document.getElementById(`page-${tabName}`);
@@ -2906,7 +2366,6 @@
             document.getElementById('home-brand')?.classList.toggle('hidden', !isHome);
             document.getElementById('back-home')?.classList.toggle('hidden', isHome);
             if (tabName === 'track') setTrackingPanel(trackingView);
-            if (tabName === 'reading') safeRenderReadingPage();
             window.scrollTo(0,0);
         }
 
@@ -4027,671 +3486,43 @@
                 list.appendChild(div); 
             }); 
         }
+        function setShrineCurrentImagePreview(src = '', name = '') {
+            const wrap = document.getElementById('shrine-current-image-wrap');
+            const button = document.getElementById('shrine-current-image-preview');
+            const img = document.getElementById('shrine-current-image-img');
+            if (!wrap || !button || !img) return;
+            const hasImage = Boolean(src);
+            wrap.classList.toggle('hidden', !hasImage);
+            img.src = hasImage ? src : '';
+            img.alt = name || t('goshuin');
+            button.onclick = hasImage ? () => openImageViewer(src, name || t('goshuin')) : null;
+        }
+        function removeCurrentShrineImage() {
+            shrineImageRemovePending = true;
+            const input = document.getElementById('shrine-image');
+            if (input) input.value = '';
+            updateFileLabel('shrine-image');
+            setShrineCurrentImagePreview('', '');
+            showToast(t('updated'));
+        }
         function saveShrine() { 
             const n = document.getElementById('shrine-name').value.trim(); const a = document.getElementById('shrine-address').value.trim(); const d = document.getElementById('shrine-date').value; const text = document.getElementById('shrine-notes').value.trim(); const file = document.getElementById('shrine-image').files[0]; 
             const save = (img) => { 
-                const s = getStorageArray('notion_shrines'); const next = {name:n, address:a, date:d, notes:text, image:img};
-                if (editState.shrine !== null && s[editState.shrine]) { s[editState.shrine] = { ...s[editState.shrine], ...next, image: img ?? s[editState.shrine].image ?? null, updatedAt: new Date().toISOString() }; showToast(t('updated')); }
+                const s = getStorageArray('notion_shrines');
+                const existingImage = editState.shrine !== null && s[editState.shrine] ? s[editState.shrine].image : null;
+                const finalImage = img ?? (shrineImageRemovePending ? null : existingImage ?? null);
+                const next = {name:n, address:a, date:d, notes:text, image:finalImage};
+                if (editState.shrine !== null && s[editState.shrine]) { s[editState.shrine] = { ...s[editState.shrine], ...next, updatedAt: new Date().toISOString() }; showToast(t('updated')); }
                 else { s.push(next); showToast(t('shrineRecordSaved')); }
                 localStorage.setItem('notion_shrines', JSON.stringify(s)); 
+                shrineImageRemovePending = false;
                 cancelEdit('shrine'); 
                 loadShrines(); 
             }; 
             if(n) { if(file) compressImage(file, save); else save(null); } else showToast(t('shrineNameRequired')); 
         }
-        function editShrine(i) { const shrines = getStorageArray('notion_shrines'); const shrine = shrines[i]; if (!shrine) return; editState.shrine = i; document.getElementById('shrine-name').value = shrine.name || ''; document.getElementById('shrine-address').value = shrine.address || ''; document.getElementById('shrine-date').value = shrine.date || todayKey(); document.getElementById('shrine-notes').value = shrine.notes || ''; document.getElementById('shrine-image').value = ''; updateFileLabel('shrine-image'); setCancelVisible('shrine-cancel-edit', true); scrollToControl('shrine-name'); }
+        function editShrine(i) { const shrines = getStorageArray('notion_shrines'); const shrine = shrines[i]; if (!shrine) return; editState.shrine = i; shrineImageRemovePending = false; document.getElementById('shrine-name').value = shrine.name || ''; document.getElementById('shrine-address').value = shrine.address || ''; document.getElementById('shrine-date').value = shrine.date || todayKey(); document.getElementById('shrine-notes').value = shrine.notes || ''; document.getElementById('shrine-image').value = ''; updateFileLabel('shrine-image'); setShrineCurrentImagePreview(shrine.image || '', shrine.name || t('goshuin')); setCancelVisible('shrine-cancel-edit', true); scrollToControl('shrine-name'); }
         function deleteShrine(i) { const s = getStorageArray('notion_shrines'); s.splice(i, 1); localStorage.setItem('notion_shrines', JSON.stringify(s)); loadShrines(); showToast(t('deleted')); }
-
-        // ================= 閱讀書籍紀錄 =================
-        function getBookStatusLabel(status) { return t(BOOK_STATUS_KEYS[status] || 'bookWant'); }
-        function getReadingProgress(book) {
-            return Math.min(100, Math.max(0, parseInt(book?.progress, 10) || ((book?.status || '') === 'done' ? 100 : 0)));
-        }
-        function getReadingStage(book) {
-            const progress = getReadingProgress(book);
-            if ((book?.status || '') === 'done' || progress >= 100) return t('readingComplete');
-            if (progress >= 45) return t('readingGrowing');
-            return t('readingSeedling');
-        }
-        function sameReadingDay(value) {
-            if (!value) return false;
-            const today = new Date();
-            const todayLocale = today.toLocaleDateString();
-            const todayIso = `${today.getFullYear()}-${padDate(today.getMonth() + 1)}-${padDate(today.getDate())}`;
-            return String(value).includes(todayLocale) || String(value).includes(todayIso);
-        }
-        function getEbookStore(mode = 'readonly') {
-            if (!db || !db.objectStoreNames.contains('ebooks')) return null;
-            return db.transaction('ebooks', mode).objectStore('ebooks');
-        }
-        function loadEbooks() {
-            if (readingView === 'books') renderEbookList();
-        }
-        function readAllEbooks() {
-            return new Promise(resolve => {
-                const store = getEbookStore('readonly');
-                if (!store) return resolve([]);
-                const req = store.getAll();
-                req.onsuccess = () => resolve(Array.isArray(req.result) ? req.result : []);
-                req.onerror = () => resolve([]);
-            });
-        }
-        function getEbook(id) {
-            return new Promise(resolve => {
-                const store = getEbookStore('readonly');
-                if (!store) return resolve(null);
-                const req = store.get(id);
-                req.onsuccess = () => resolve(req.result || null);
-                req.onerror = () => resolve(null);
-            });
-        }
-        function updateEbookMeta(id, patch) {
-            return new Promise(resolve => {
-                const store = getEbookStore('readwrite');
-                if (!store) return resolve(false);
-                const req = store.get(id);
-                req.onsuccess = () => {
-                    const ebook = req.result;
-                    if (!ebook) return resolve(false);
-                    store.put({ ...ebook, ...patch, updatedAt: new Date().toISOString() });
-                };
-                store.transaction.oncomplete = () => resolve(true);
-                store.transaction.onerror = () => resolve(false);
-            });
-        }
-        function getEbookBlob(ebook) {
-            const blob = ebook?.blob || ebook?.file;
-            return blob instanceof Blob ? blob : null;
-        }
-        function releaseCurrentEbookUrl() {
-            if (!currentEbookUrl) return;
-            try { URL.revokeObjectURL(currentEbookUrl); } catch {}
-            currentEbookUrl = null;
-        }
-        function makeEbookUrl(blob) {
-            releaseCurrentEbookUrl();
-            currentEbookUrl = URL.createObjectURL(blob);
-            return currentEbookUrl;
-        }
-        function loadScriptOnce(src) {
-            return new Promise((resolve, reject) => {
-                const existing = document.querySelector(`script[src="${src}"]`);
-                let timer = setTimeout(() => reject(new Error('script timeout')), 3500);
-                const done = (fn, value) => {
-                    clearTimeout(timer);
-                    fn(value);
-                };
-                if (existing) {
-                    if (window.ePub) return done(resolve);
-                    existing.addEventListener('load', () => done(resolve), { once: true });
-                    existing.addEventListener('error', error => done(reject, error), { once: true });
-                    return;
-                }
-                const script = document.createElement('script');
-                script.src = src;
-                script.async = true;
-                script.onload = () => done(resolve);
-                script.onerror = error => done(reject, error);
-                document.head.appendChild(script);
-            });
-        }
-        async function ensureEpubLibrary() {
-            if (window.ePub) return true;
-            if (!epubLibraryPromise) {
-                const sources = [
-                    'https://cdn.jsdelivr.net/npm/epubjs@0.3.93/dist/epub.min.js',
-                    'https://unpkg.com/epubjs@0.3.93/dist/epub.min.js',
-                    'https://cdnjs.cloudflare.com/ajax/libs/epub.js/0.3.93/epub.min.js'
-                ];
-                epubLibraryPromise = (async () => {
-                    for (const src of sources) {
-                        try {
-                            await loadScriptOnce(src);
-                            if (window.ePub) return true;
-                        } catch {}
-                    }
-                    return false;
-                })();
-            }
-            return epubLibraryPromise;
-        }
-        function renderEbookMessage(message, actionsHTML = '') {
-            const frame = document.getElementById('ebook-reader-frame');
-            if (!frame) return;
-            frame.innerHTML = `<div class="ebook-reader-message"><div><p>${escapeHTML(message)}</p>${actionsHTML ? `<div class="mt-4 flex flex-wrap justify-center gap-2">${actionsHTML}</div>` : ''}</div></div>`;
-        }
-        async function saveEbookFile() {
-            const input = document.getElementById('ebook-upload');
-            const file = input?.files?.[0];
-            if (!file) return;
-            const type = file.type || (file.name.toLowerCase().endsWith('.epub') ? 'application/epub+zip' : '');
-            const isPdf = type.includes('pdf') || file.name.toLowerCase().endsWith('.pdf');
-            const isEpub = type.includes('epub') || file.name.toLowerCase().endsWith('.epub');
-            if (!isPdf && !isEpub) { input.value = ''; return showToast(t('ebookUnsupported')); }
-            const store = getEbookStore('readwrite');
-            if (!store) return showToast(t('systemNotReady'));
-            const mime = type || (isPdf ? 'application/pdf' : 'application/epub+zip');
-            const blob = file.slice(0, file.size, mime);
-            const ebook = { id: `ebook-${Date.now()}-${Math.random().toString(16).slice(2)}`, title: file.name.replace(/\.(pdf|epub)$/i, ''), name: file.name, type: isPdf ? 'pdf' : 'epub', mime, size: file.size, blob, createdAt: new Date().toISOString() };
-            store.put(ebook);
-            store.transaction.oncomplete = () => { input.value = ''; renderEbookList(); showToast(t('ebookSaved')); };
-            store.transaction.onerror = () => showToast(t('invalidBackup'));
-        }
-        async function renderEbookList() {
-            const list = document.getElementById('ebook-list');
-            if (!list) return;
-            const ebooks = await readAllEbooks();
-            if (!ebooks.length) { list.innerHTML = getEmptyStateHTML(t('noEbooks')); return; }
-            list.innerHTML = [...ebooks].reverse().map(book => `<article class="reading-card p-4 flex items-center gap-3">
-                <div class="w-12 h-14 rounded-notion border border-notion-border bg-notion-hover flex items-center justify-center text-xs font-bold uppercase">${escapeHTML(book.type || 'pdf')}</div>
-                <div class="min-w-0 flex-1">
-                    <h4 class="font-bold text-notion-text truncate">${escapeHTML(book.title || book.name)}</h4>
-                    <p class="text-[11px] text-notion-muted mt-1">${escapeHTML(book.name || '')}${book.percent ? `｜${escapeHTML(book.percent)}%` : ''}</p>
-                </div>
-                <div class="flex flex-col gap-2 shrink-0">
-                    <button onclick="openEbook(${jsString(book.id)})" class="px-3 py-1.5 rounded-notion bg-notion-btn text-white text-xs font-bold">${escapeHTML(t('openEbook'))}</button>
-                    <button onclick="deleteEbook(${jsString(book.id)})" class="px-3 py-1.5 rounded-notion border border-notion-border bg-white text-notion-muted text-xs">${escapeHTML(t('delete'))}</button>
-                </div>
-            </article>`).join('');
-        }
-        async function openEbook(id) {
-            currentEbookId = id;
-            readingView = 'reader';
-            await renderReadingPage();
-        }
-        async function downloadCurrentEbook() {
-            const ebook = await getEbook(currentEbookId);
-            const blob = getEbookBlob(ebook);
-            if (!ebook || !blob) return showToast(t('ebookReaderError'));
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = ebook.name || `${ebook.title || 'ebook'}.${ebook.type || 'pdf'}`;
-            document.body.appendChild(a);
-            a.click();
-            a.remove();
-            setTimeout(() => URL.revokeObjectURL(url), 1000);
-        }
-        async function shareCurrentEbook() {
-            const ebook = await getEbook(currentEbookId);
-            const blob = getEbookBlob(ebook);
-            if (!ebook || !blob) return showToast(t('ebookReaderError'));
-            const name = ebook.name || `${ebook.title || 'ebook'}.${ebook.type || 'pdf'}`;
-            const file = new File([blob], name, { type: ebook.mime || blob.type || (ebook.type === 'pdf' ? 'application/pdf' : 'application/epub+zip') });
-            if (navigator.canShare && navigator.canShare({ files: [file] }) && navigator.share) {
-                try {
-                    await navigator.share({ files: [file], title: ebook.title || name });
-                    return;
-                } catch (error) {
-                    if (error?.name === 'AbortError') return;
-                }
-            }
-            await downloadCurrentEbook();
-        }
-        function destroyEpubReader() {
-            try { currentEpubRendition?.destroy?.(); } catch {}
-            try { currentEpubBook?.destroy?.(); } catch {}
-            currentEpubRendition = null;
-            currentEpubBook = null;
-            releaseCurrentEbookUrl();
-        }
-        async function renderEbookReader(content) {
-            destroyEpubReader();
-            const ebook = await getEbook(currentEbookId);
-            if (!ebook) { currentEbookId = null; setReadingView('books'); return; }
-            const blob = getEbookBlob(ebook);
-            if (!blob) {
-                content.innerHTML = `<div class="reading-card p-6 text-center text-sm text-notion-muted">${escapeHTML(t('ebookReaderError'))}<div class="mt-4"><button onclick="closeEbookReader()" class="px-4 py-2 rounded-notion border border-notion-border bg-white text-xs font-bold">${escapeHTML(t('closeReader'))}</button></div></div>`;
-                return;
-            }
-            const url = makeEbookUrl(blob);
-            const externalActions = `<button onclick="shareCurrentEbook()" class="px-3 py-2 rounded-notion bg-notion-btn text-white text-xs font-bold">${escapeHTML(t('openOnPhone'))}</button><a href="${escapeHTML(url)}" target="_blank" rel="noopener noreferrer" class="px-3 py-2 rounded-notion border border-notion-border bg-white text-xs font-bold">${escapeHTML(t('openExternal'))}</a><button onclick="downloadCurrentEbook()" class="px-3 py-2 rounded-notion border border-notion-border bg-white text-xs font-bold">${escapeHTML(t('downloadFile'))}</button>`;
-            content.innerHTML = `<div class="space-y-3">
-                <div class="reading-card p-4 flex items-center justify-between gap-3">
-                    <div class="min-w-0"><p class="reading-kicker">${escapeHTML(ebook.type?.toUpperCase() || '')}<span id="ebook-progress-label" class="ml-2 text-notion-muted">${ebook.percent ? `${escapeHTML(ebook.percent)}%` : ''}</span></p><h3 class="font-bold text-lg truncate">${escapeHTML(ebook.title || ebook.name)}</h3></div>
-                    <div class="flex flex-wrap justify-end gap-2 shrink-0">
-                        ${externalActions}
-                        <button onclick="closeEbookReader()" class="px-3 py-2 rounded-notion border border-notion-border bg-white text-xs font-bold">${escapeHTML(t('closeReader'))}</button>
-                    </div>
-                </div>
-                <p class="text-xs text-notion-muted leading-relaxed px-1">${escapeHTML(t('mobileReaderHint'))}</p>
-                <div id="ebook-reader-frame" class="ebook-reader-frame"></div>
-                ${ebook.type === 'epub' ? `<div class="grid grid-cols-2 gap-2"><button onclick="turnEbookPage(-1)" class="py-3 rounded-notion border border-notion-border bg-white text-sm font-bold">${escapeHTML(t('previousPage'))}</button><button onclick="turnEbookPage(1)" class="py-3 rounded-notion bg-notion-btn text-white text-sm font-bold">${escapeHTML(t('nextPage'))}</button></div>` : ''}
-            </div>`;
-            const frame = document.getElementById('ebook-reader-frame');
-            if (ebook.type === 'pdf') {
-                frame.innerHTML = `<iframe src="${escapeHTML(url)}#toolbar=1&navpanes=0" title="${escapeHTML(ebook.title || ebook.name)}"></iframe>`;
-                frame.insertAdjacentHTML('beforeend', `<div class="sr-only">${escapeHTML(t('pdfInlineHint'))}</div>`);
-                return;
-            }
-            renderEbookMessage(t('ebookLoading'));
-            const hasEpub = await ensureEpubLibrary();
-            if (!hasEpub) {
-                renderEbookMessage(t('ebookReaderUnavailable'), `<button onclick="renderReadingPage()" class="px-3 py-2 rounded-notion bg-notion-btn text-white text-xs font-bold">${escapeHTML(t('retry'))}</button>${externalActions}`);
-                return;
-            }
-            try {
-                currentEpubBook = ePub(url);
-                currentEpubRendition = currentEpubBook.renderTo('ebook-reader-frame', { width: '100%', height: '100%', spread: 'none', flow: 'paginated' });
-                await currentEpubRendition.display(ebook.location || undefined);
-                currentEpubRendition.on('relocated', location => {
-                    const percent = currentEpubBook?.locations?.percentageFromCfi ? Math.round((currentEpubBook.locations.percentageFromCfi(location.start.cfi) || 0) * 100) : '';
-                    const label = document.getElementById('ebook-progress-label');
-                    if (label) label.innerText = percent !== '' ? `${percent}%` : '';
-                    updateEbookMeta(ebook.id, { location: location.start.cfi, percent });
-                });
-                currentEpubBook.ready.then(() => currentEpubBook.locations.generate(800)).catch(() => {});
-                bindEbookGestures();
-            } catch (error) {
-                console.warn('ebook reader failed', error);
-                renderEbookMessage(t('ebookReaderError'), externalActions);
-            }
-        }
-        function turnEbookPage(direction) {
-            if (!currentEpubRendition) return;
-            direction < 0 ? currentEpubRendition.prev() : currentEpubRendition.next();
-        }
-        function bindEbookGestures() {
-            const frame = document.getElementById('ebook-reader-frame');
-            if (!frame) return;
-            let startX = 0;
-            frame.addEventListener('touchstart', e => { startX = e.touches?.[0]?.clientX || 0; }, { passive: true });
-            frame.addEventListener('touchend', e => {
-                const endX = e.changedTouches?.[0]?.clientX || 0;
-                const diff = endX - startX;
-                if (Math.abs(diff) > 54) turnEbookPage(diff > 0 ? -1 : 1);
-            }, { passive: true });
-        }
-        function closeEbookReader() {
-            destroyEpubReader();
-            currentEbookId = null;
-            setReadingView('books');
-        }
-        function deleteEbook(id) {
-            const store = getEbookStore('readwrite');
-            if (!store) return;
-            store.delete(id);
-            store.transaction.oncomplete = () => { if (currentEbookId === id) currentEbookId = null; renderEbookList(); showToast(t('deleted')); };
-        }
-        function renderReadingFilters() { safeRenderReadingPage(); }
-        function setReadingFilter(status) { readingFilter = status; setReadingView('books'); }
-        function setReadingView(view) {
-            if (readingView === 'reader' && view !== 'reader') destroyEpubReader();
-            readingView = view || 'home';
-            safeRenderReadingPage();
-            const shell = document.querySelector('#page-reading .reading-shell');
-            if (shell) shell.scrollIntoView({ block: 'start' });
-        }
-        function getReadingVocab() {
-            return getStorageArray('notion_dictionary_history').map((entry, index) => ({ ...entry, index }));
-        }
-        function renderBookCover(book) {
-            const title = escapeHTML(book?.title || t('untitled'));
-            return `<div class="book-cover"><span>${title.split(/\s+/).slice(0, 5).join('<br>')}</span></div>`;
-        }
-        function startReadingBook(i) {
-            const books = getStorageArray('notion_books');
-            if (!books[i]) return;
-            books[i].status = 'reading';
-            books[i].date = books[i].date || new Date().toLocaleDateString();
-            books[i].updatedAt = new Date().toISOString();
-            localStorage.setItem('notion_books', JSON.stringify(books));
-            currentReadingBookIndex = i;
-            readingView = 'bookDetail';
-            renderReadingPage();
-        }
-        function adjustBookProgress(delta) {
-            const input = document.getElementById('book-detail-progress');
-            if (!input) return;
-            const next = Math.min(100, Math.max(0, (parseInt(input.value, 10) || 0) + delta));
-            input.value = next;
-            const bar = document.getElementById('book-detail-progress-bar');
-            const label = document.getElementById('book-detail-progress-label');
-            if (bar) bar.style.width = `${next}%`;
-            if (label) label.innerText = `${next}%`;
-        }
-        function saveReadingProgress(done = false) {
-            const books = getStorageArray('notion_books');
-            const book = books[currentReadingBookIndex];
-            if (!book) return;
-            const progress = done ? 100 : Math.min(100, Math.max(0, parseInt(document.getElementById('book-detail-progress')?.value, 10) || 0));
-            const note = document.getElementById('book-detail-note')?.value.trim() || '';
-            books[currentReadingBookIndex] = {
-                ...book,
-                progress,
-                note,
-                status: done || progress >= 100 ? 'done' : 'reading',
-                updatedAt: new Date().toISOString()
-            };
-            localStorage.setItem('notion_books', JSON.stringify(books));
-            showToast(done ? t('readingComplete') : t('progressSaved'));
-            renderReadingPage();
-        }
-        function renderBookDetail(content) {
-            const books = getStorageArray('notion_books');
-            const book = books[currentReadingBookIndex];
-            if (!book) { currentReadingBookIndex = null; setReadingView('books'); return; }
-            const progress = getReadingProgress(book);
-            content.innerHTML = `<div class="space-y-4">
-                <section class="reading-card p-5">
-                    <p class="reading-kicker mb-4">${escapeHTML(t('readingSession'))}</p>
-                    <div class="flex gap-5 items-start">
-                        ${renderBookCover(book)}
-                        <div class="min-w-0 flex-1">
-                            <h3 class="text-2xl font-semibold leading-tight">${escapeHTML(book.title || t('untitled'))}</h3>
-                            <p class="text-sm text-notion-muted mt-2">${escapeHTML(book.author || t('author'))}</p>
-                            <p class="text-sm font-bold mt-4">${escapeHTML(getReadingStage(book))}</p>
-                            <div class="flex justify-between text-sm mt-4 mb-2"><span>${escapeHTML(t('progress'))}</span><span id="book-detail-progress-label">${progress}%</span></div>
-                            <div class="reading-progress"><span id="book-detail-progress-bar" style="width:${progress}%"></span></div>
-                        </div>
-                    </div>
-                </section>
-                <section class="reading-card p-5 space-y-4">
-                    <input id="book-detail-progress" type="number" min="0" max="100" value="${progress}" class="w-full border border-notion-border rounded-notion px-3 py-3 text-center font-bold" oninput="adjustBookProgress(0)">
-                    <div class="grid grid-cols-4 gap-2">
-                        <button onclick="adjustBookProgress(-10)" class="rounded-notion border border-notion-border bg-white py-3 text-sm font-bold">-10</button>
-                        <button onclick="adjustBookProgress(-5)" class="rounded-notion border border-notion-border bg-white py-3 text-sm font-bold">-5</button>
-                        <button onclick="adjustBookProgress(5)" class="rounded-notion bg-notion-btn text-white py-3 text-sm font-bold">+5</button>
-                        <button onclick="adjustBookProgress(10)" class="rounded-notion bg-notion-btn text-white py-3 text-sm font-bold">+10</button>
-                    </div>
-                    <textarea id="book-detail-note" rows="5" class="w-full border border-notion-border rounded-notion px-3 py-3 text-sm resize-none" placeholder="${escapeHTML(t('bookNotePh'))}">${escapeHTML(book.note || '')}</textarea>
-                    <button onclick="saveReadingProgress(false)" class="w-full bg-notion-btn text-white rounded-notion py-3 text-sm font-bold">${escapeHTML(t('saveProgress'))}</button>
-                    <button onclick="saveReadingProgress(true)" class="w-full border border-notion-border bg-white rounded-notion py-3 text-sm font-bold">${escapeHTML(t('finishReading'))}</button>
-                    <button onclick="editBook(${currentReadingBookIndex})" class="w-full text-notion-muted py-2 text-xs font-bold">${escapeHTML(t('edit'))}</button>
-                </section>
-            </div>`;
-        }
-        function renderReadingPage() {
-            const content = document.getElementById('reading-content');
-            if (!content) return;
-            document.querySelectorAll('[data-reading-nav]').forEach(btn => {
-                const nav = btn.dataset.readingNav;
-                btn.classList.toggle('active', nav === readingView || (readingView === 'review' && nav === 'vocab') || (readingView === 'bookDetail' && nav === 'books') || (readingView === 'reader' && nav === 'books'));
-            });
-            const titleMap = {
-                home: 'ReadGrow',
-                books: t('readingLibrary'),
-                vocab: t('readingVocabulary'),
-                review: t('readingVocabulary'),
-                notes: t('readingNotes'),
-                add: t('readingAdd'),
-                bookDetail: t('readingSession'),
-                reader: t('ebookLibrary')
-            };
-            const subtitleMap = {
-                home: t('readingHomeSubtitle'),
-                books: '',
-                vocab: '',
-                review: '',
-                notes: '',
-                add: ''
-            };
-            document.getElementById('reading-view-title').innerText = titleMap[readingView] || 'ReadGrow';
-            document.getElementById('reading-view-subtitle').innerText = subtitleMap[readingView] || '';
-            if (readingView === 'books') return renderReadingBooks(content);
-            if (readingView === 'vocab') return renderReadingVocabulary(content);
-            if (readingView === 'review') return renderVocabularyReview(content);
-            if (readingView === 'notes') return renderReadingNotes(content);
-            if (readingView === 'add') return renderReadingAdd(content);
-            if (readingView === 'bookDetail') return renderBookDetail(content);
-            if (readingView === 'reader') return renderEbookReader(content);
-            return renderReadingHome(content);
-        }
-        function safeRenderReadingPage() {
-            try {
-                return renderReadingPage();
-            } catch (error) {
-                console.error('reading render failed', error);
-                const content = document.getElementById('reading-content');
-                const title = document.getElementById('reading-view-title');
-                const subtitle = document.getElementById('reading-view-subtitle');
-                if (title) title.innerText = t('readingPageTitle');
-                if (subtitle) subtitle.innerText = t('mobileReaderHint');
-                if (content) {
-                    content.innerHTML = `<div class="reading-card p-5 space-y-3">
-                        <p class="text-sm text-notion-muted leading-relaxed">${escapeHTML(t('ebookReaderError'))}</p>
-                        <button onclick="readingView='books'; safeRenderReadingPage()" class="w-full bg-notion-btn text-white rounded-notion py-3 text-sm font-bold">${escapeHTML(t('readingLibrary'))}</button>
-                        <button onclick="readingView='add'; safeRenderReadingPage()" class="w-full border border-notion-border bg-white rounded-notion py-3 text-sm font-bold">${escapeHTML(t('readingAdd'))}</button>
-                    </div>`;
-                }
-            }
-        }
-        function renderReadingHome(content) {
-            const books = getStorageArray('notion_books');
-            const current = books.find(book => (book.status || 'want') === 'reading') || books.find(book => (book.status || 'want') !== 'done');
-            const vocabToday = getReadingVocab().filter(entry => sameReadingDay(entry.date)).length;
-            const notesToday = getStorageArray('notion_reading_notes').filter(note => sameReadingDay(note.date)).length + books.filter(book => book.note && sameReadingDay(book.date)).length;
-            const currentHTML = current ? (() => {
-                const progress = getReadingProgress(current);
-                return `<div class="reading-card p-5">
-                    <p class="reading-kicker mb-4">${escapeHTML(t('readingCurrently'))}</p>
-                    <div class="flex gap-5 items-start">
-                        ${renderBookCover(current)}
-                        <div class="min-w-0 flex-1">
-                            <h3 class="text-2xl font-semibold leading-tight text-[#172017]">${escapeHTML(current.title)}</h3>
-                            <p class="text-lg text-[#677067] mt-2">${escapeHTML(current.author || t('author'))}</p>
-                            <p class="text-sm font-bold text-[#477344] mt-4">${escapeHTML(getReadingStage(current))}</p>
-                            <div class="flex justify-between text-sm mt-4 mb-2"><span>${progress}% ${escapeHTML(t('readingComplete'))}</span><span>${progress}%</span></div>
-                            <div class="reading-progress"><span style="width:${progress}%"></span></div>
-                            <p class="text-sm text-[#7A7A75] mt-3">${getReadingVocab().length} ${escapeHTML(t('readingNavVocab'))} · ${getStorageArray('notion_reading_notes').length} ${escapeHTML(t('readingNavNotes'))}</p>
-                            <button onclick="startReadingBook(${books.indexOf(current)})" class="mt-4 w-full bg-[#477344] text-white rounded-xl py-3 text-sm font-bold">${escapeHTML(t('continueReading'))} →</button>
-                        </div>
-                    </div>
-                </div>`;
-            })() : `<div class="reading-card p-5 text-sm text-[#7A7A75]">${escapeHTML(t('noCurrentBook'))}</div>`;
-            content.innerHTML = `${currentHTML}
-                <div>
-                    <p class="reading-kicker mb-4">${escapeHTML(t('todaysGrowth'))}</p>
-                    <div class="space-y-4">
-                        <div class="reading-card p-5 flex gap-4 items-center">
-                            <span class="w-12 h-12 rounded-xl bg-[#EEF6EA] text-[#2E5A35] inline-flex items-center justify-center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5z"/></svg></span>
-                            <div><p class="text-2xl font-semibold">+${vocabToday} ${escapeHTML(t('collectedVocabulary'))}</p><p class="text-sm text-[#7A7A75] mt-2">${escapeHTML(t('wordsTodayHint'))}</p></div>
-                        </div>
-                        <div class="reading-card p-5 flex gap-4 items-center">
-                            <span class="w-12 h-12 rounded-xl bg-[#EEF6EA] text-[#2E5A35] inline-flex items-center justify-center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h12l4 4v12H4z"/><path d="M16 4v4h4"/><path d="M8 13h8M8 17h6"/></svg></span>
-                            <div><p class="text-2xl font-semibold">+${notesToday} ${escapeHTML(t('writtenNotes'))}</p><p class="text-sm text-[#7A7A75] mt-2">${escapeHTML(t('notesTodayHint'))}</p></div>
-                        </div>
-                    </div>
-                </div>`;
-        }
-        function renderShelf(books, emptyText) {
-            if (!books.length) return `<p class="text-[#8F928C] text-sm py-2">${escapeHTML(emptyText || t('emptyShelf'))}</p>`;
-            const allBooks = getStorageArray('notion_books');
-            return `<div class="book-shelf">${books.map(book => {
-                const progress = getReadingProgress(book);
-                const realIdx = allBooks.findIndex(item => item.title === book.title && item.date === book.date && item.author === book.author);
-                const controls = realIdx >= 0 ? `<button onclick="deleteBook(${realIdx})" class="absolute right-1 top-1 z-10 w-10 h-10 rounded-full bg-white/85 text-red-700 shadow" aria-label="${escapeHTML(t('deleteBook'))}">⌫</button>` : '';
-                const actions = realIdx >= 0 ? `<div class="mt-3 grid grid-cols-1 gap-2"><button onclick="startReadingBook(${realIdx})" class="w-full rounded-notion bg-notion-btn text-white py-2 text-xs font-bold">${escapeHTML((book.status || 'want') === 'want' ? t('startReading') : t('continueReading'))}</button><button onclick="editBook(${realIdx})" class="text-xs text-[#2E5A35] font-bold">${escapeHTML(t('edit'))}</button></div>` : '';
-                return `<article class="book-tile">
-                    ${controls}
-                    ${renderBookCover(book)}
-                    <h4 class="mt-3 text-sm font-bold leading-tight text-[#172017]">${escapeHTML(book.title)}</h4>
-                    <p class="text-xs text-[#777C75] mt-1">${escapeHTML(book.author || '')}</p>
-                    <p class="text-xs font-bold text-[#477344] mt-2">${escapeHTML(getReadingStage(book))}</p>
-                    <div class="reading-progress mt-2"><span style="width:${progress}%"></span></div>
-                    ${actions}
-                </article>`;
-            }).join('')}</div>`;
-        }
-        function renderReadingBooks(content) {
-            const books = getStorageArray('notion_books');
-            content.innerHTML = `<div class="space-y-8">
-                <section class="reading-card p-5 space-y-4">
-                    <div class="flex items-start justify-between gap-3">
-                        <div>
-                            <h3 class="text-2xl font-semibold">${escapeHTML(t('ebookLibrary'))}</h3>
-                            <p class="text-sm text-notion-muted mt-1">${escapeHTML(t('ebookUploadHint'))}</p>
-                        </div>
-                        <label class="shrink-0 bg-notion-btn text-white rounded-notion px-3 py-2 text-xs font-bold cursor-pointer">
-                            ${escapeHTML(t('uploadEbook'))}
-                            <input type="file" id="ebook-upload" accept=".pdf,.epub,application/pdf,application/epub+zip" class="sr-only" onchange="saveEbookFile()">
-                        </label>
-                    </div>
-                    <div id="ebook-list" class="space-y-3"></div>
-                </section>
-                <section><div class="flex justify-between items-center mb-3"><h3 class="text-3xl font-semibold">${escapeHTML(t('currentlyReading'))}</h3><button onclick="readingFilter='reading'; renderReadingBooks(document.getElementById('reading-content'))" class="text-[#2E5A35] font-bold text-sm">${escapeHTML(t('seeAll'))}</button></div>${renderShelf(books.filter(book => (book.status || 'want') === 'reading'))}</section>
-                <section><div class="flex justify-between items-center mb-3"><h3 class="text-3xl font-semibold">${escapeHTML(t('finishedBooks'))}</h3><button onclick="readingFilter='done'; renderReadingBooks(document.getElementById('reading-content'))" class="text-[#2E5A35] font-bold text-sm">${escapeHTML(t('seeAll'))}</button></div>${renderShelf(books.filter(book => (book.status || 'want') === 'done'))}</section>
-                <section><div class="flex justify-between items-center mb-3"><h3 class="text-3xl font-semibold">${escapeHTML(t('wantToRead'))}</h3><button onclick="readingFilter='want'; renderReadingBooks(document.getElementById('reading-content'))" class="text-[#2E5A35] font-bold text-sm">${escapeHTML(t('seeAll'))}</button></div>${renderShelf(books.filter(book => (book.status || 'want') === 'want'))}</section>
-            </div>`;
-            renderEbookList();
-        }
-        function renderReadingVocabulary(content, query = '') {
-            const vocab = getReadingVocab();
-            const remembered = vocab.filter(entry => entry.mastered).length;
-            const filtered = vocab.filter(entry => {
-                const haystack = [entry.word, entry.reading, ...(entry.meanings || [])].join(' ').toLowerCase();
-                return haystack.includes(String(query || '').toLowerCase());
-            });
-            content.innerHTML = `<div class="reading-card p-5 space-y-5">
-                <div class="flex justify-between items-center gap-3">
-                    <p class="text-lg text-[#606760]">${vocab.length} ${escapeHTML(t('collected'))} · ${remembered} ${escapeHTML(t('remembered'))}</p>
-                    <button onclick="setReadingView('review')" class="bg-[#477344] text-white rounded-xl py-3 px-4 font-bold">${escapeHTML(t('reviewVocabulary'))} (${Math.max(0, vocab.length - remembered)})</button>
-                </div>
-                <input class="reading-search" type="search" value="${escapeHTML(query)}" oninput="renderReadingVocabulary(document.getElementById('reading-content'), this.value)" placeholder="${escapeHTML(t('searchVocabulary'))}">
-                <div>${filtered.length ? filtered.map(renderVocabEntry).join('') : getEmptyStateHTML(t('noVocabulary'))}</div>
-            </div>`;
-        }
-        function renderVocabEntry(entry) {
-            const meanings = (entry.meanings || [entry.summary || t('noMeaning')]).slice(0, 2).join('、');
-            const example = (entry.examples || entry.ai?.examples || [])[0] || entry.ai?.memoryHint || '';
-            return `<article class="vocab-entry">
-                <div class="flex items-center gap-3">
-                    <div class="min-w-0 flex-1">
-                        <h3 class="text-3xl font-bold text-[#111] leading-none">${escapeHTML(entry.word || '')}</h3>
-                        <p class="text-sm text-[#8A8E87] mt-2">${escapeHTML(entry.reading || t('noReading'))}</p>
-                    </div>
-                    <button onclick='speakVocabulary(${jsString(entry.word || '')})' class="w-12 h-12 rounded-full bg-[#F0F4EF] text-[#516255] inline-flex items-center justify-center" aria-label="sound">♪</button>
-                    <button onclick="toggleVocabMastered(${entry.index})" class="px-3 py-2 rounded-full text-sm font-bold ${entry.mastered ? 'bg-[#477344] text-white' : 'bg-[#EAF4E3] text-[#477344]'}">${escapeHTML(entry.mastered ? t('mastered') : t('learning'))}</button>
-                </div>
-                <p class="text-lg text-[#555B55] leading-relaxed mt-5">${escapeHTML(meanings)}</p>
-                ${example ? `<blockquote class="mt-5 border-l-4 border-[#DEDAD1] pl-4 text-[#8C8C89] leading-relaxed">${escapeHTML(example)}</blockquote>` : ''}
-            </article>`;
-        }
-        function renderVocabularyReview(content) {
-            const vocab = getReadingVocab();
-            const entry = vocab.find(item => !item.mastered) || vocab[0];
-            if (!entry) { content.innerHTML = getEmptyStateHTML(t('noVocabulary')); return; }
-            const meanings = (entry.meanings || [entry.summary || t('noMeaning')]).slice(0, 2).join('、');
-            const example = (entry.examples || entry.ai?.examples || [])[0] || entry.ai?.memoryHint || '';
-            content.innerHTML = `<div class="text-center text-[#8C8C89] mb-4">${vocab.indexOf(entry) + 1} of ${vocab.length}</div>
-                <article class="reading-card p-8 bg-[#EFF8ED] text-center">
-                    <h3 class="text-5xl font-bold font-serif text-[#111]">${escapeHTML(entry.word || '')}</h3>
-                    <p class="text-lg text-[#8A8E87] mt-4">${escapeHTML(entry.reading || t('noReading'))}</p>
-                    <div class="h-px bg-[#E0DDD4] my-8"></div>
-                    <p class="text-xl leading-relaxed text-[#555B55]">${escapeHTML(meanings)}</p>
-                    ${example ? `<blockquote class="mt-8 border-l-4 border-[#DEDAD1] pl-4 text-left text-[#8C8C89] leading-relaxed">${escapeHTML(example)}</blockquote>` : ''}
-                </article>
-                <div class="space-y-3 mt-6">
-                    <button onclick="setVocabMastered(${entry.index}, true)" class="w-full bg-[#477344] text-white rounded-xl py-4 text-lg font-bold">✓ ${escapeHTML(t('mastered'))}</button>
-                    <button onclick="setVocabMastered(${entry.index}, false)" class="w-full bg-white border border-[#E0DDD4] text-[#111] rounded-xl py-4 text-lg font-bold">${escapeHTML(t('stillLearning'))}</button>
-                    <button onclick="setReadingView('vocab')" class="w-full text-[#477344] py-2 font-bold">← ${escapeHTML(t('browse'))}</button>
-                </div>`;
-        }
-        function renderReadingNotes(content) {
-            const notes = getStorageArray('notion_reading_notes');
-            const bookNotes = getStorageArray('notion_books').filter(book => book.note).map((book, index) => ({ title: book.title, body: book.note, date: book.date, bookIndex: index, fromBook: true }));
-            const allNotes = [...notes.map((note, index) => ({ ...note, index })), ...bookNotes].reverse();
-            const editingNote = editState.readingNote !== null ? notes[editState.readingNote] : null;
-            content.innerHTML = `<div class="reading-card p-5 space-y-3">
-                <p class="reading-kicker">${escapeHTML(t('addReadingNote'))}</p>
-                <input id="reading-note-title" class="reading-search" placeholder="${escapeHTML(t('noteTitlePh'))}" value="${escapeHTML(editingNote?.title || '')}">
-                <textarea id="reading-note-body" rows="4" class="reading-search resize-none" placeholder="${escapeHTML(t('noteBodyPh'))}">${escapeHTML(editingNote?.body || '')}</textarea>
-                <button onclick="saveReadingNote()" class="w-full bg-[#477344] text-white rounded-xl py-3 font-bold">${escapeHTML(t('saveNote'))}</button>
-                ${editingNote ? `<button onclick="cancelEdit('readingNote')" class="w-full bg-white border border-notion-border text-notion-text rounded-xl py-3 text-sm font-bold">${escapeHTML(t('cancel'))}</button>` : ''}
-            </div>
-            <div class="space-y-3">${allNotes.length ? allNotes.map(note => `<article class="reading-card p-4">
-                <div class="flex justify-between gap-3">
-                    <div class="min-w-0"><h3 class="font-bold text-lg">${escapeHTML(note.title || t('untitled'))}</h3><p class="text-xs text-[#8C8C89] mt-1">${escapeHTML(note.date || '')}</p></div>
-                    ${note.fromBook ? '' : `<div class="flex gap-1 shrink-0"><button onclick="editReadingNote(${note.index})" class="text-xs text-[#477344] font-bold px-2">${escapeHTML(t('edit'))}</button><button onclick="deleteReadingNote(${note.index})" class="text-xs text-[#8C443E] font-bold px-2" aria-label="${escapeHTML(t('deleteNote'))}">✕</button></div>`}
-                </div>
-                <p class="text-sm text-[#555B55] leading-relaxed mt-3 whitespace-pre-wrap">${escapeHTML(note.body || '')}</p>
-            </article>`).join('') : getEmptyStateHTML(t('noReadingNotes'))}</div>`;
-        }
-        function renderReadingAdd(content) {
-            const editingBook = editState.book !== null ? getStorageArray('notion_books')[editState.book] : null;
-            content.innerHTML = `<div class="reading-card p-5 space-y-3">
-                <p class="reading-kicker">${escapeHTML(t('saveBook'))}</p>
-                <input type="text" id="book-title" placeholder="${escapeHTML(t('bookTitlePh'))}" class="reading-search" value="${escapeHTML(editingBook?.title || '')}">
-                <input type="text" id="book-author" placeholder="${escapeHTML(t('bookAuthorPh'))}" class="reading-search" value="${escapeHTML(editingBook?.author || '')}">
-                <div class="grid grid-cols-2 gap-2">
-                    <select id="book-status" class="reading-search" aria-label="${escapeHTML(t('bookStatus'))}">
-                        <option value="want" ${(editingBook?.status || 'want') === 'want' ? 'selected' : ''}>${escapeHTML(t('bookWant'))}</option>
-                        <option value="reading" ${editingBook?.status === 'reading' ? 'selected' : ''}>${escapeHTML(t('bookReading'))}</option>
-                        <option value="done" ${editingBook?.status === 'done' ? 'selected' : ''}>${escapeHTML(t('bookDone'))}</option>
-                    </select>
-                    <input type="number" id="book-progress" min="0" max="100" placeholder="${escapeHTML(t('bookProgressPh'))}" class="reading-search" value="${escapeHTML(editingBook?.progress ?? '')}">
-                </div>
-                <textarea id="book-note" rows="4" placeholder="${escapeHTML(t('bookNotePh'))}" class="reading-search resize-none">${escapeHTML(editingBook?.note || '')}</textarea>
-                <button onclick="saveBook()" class="w-full bg-[#477344] text-white rounded-xl py-4 text-base font-bold">${escapeHTML(t('saveBook'))}</button>
-                ${editingBook ? `<button onclick="cancelEdit('book')" class="w-full bg-white border border-notion-border text-notion-text rounded-xl py-3 text-sm font-bold">${escapeHTML(t('cancel'))}</button>` : ''}
-            </div>`;
-        }
-        function loadBooks() {
-            safeRenderReadingPage();
-        }
-        function saveBook() {
-            const title = document.getElementById('book-title').value.trim();
-            if (!title) return showToast(t('fillContent'));
-            const author = document.getElementById('book-author').value.trim();
-            const status = document.getElementById('book-status').value;
-            const progress = Math.min(100, Math.max(0, parseInt(document.getElementById('book-progress').value, 10) || (status === 'done' ? 100 : 0)));
-            const note = document.getElementById('book-note').value.trim();
-            const books = getStorageArray('notion_books');
-            if (editState.book !== null && books[editState.book]) { books[editState.book] = { ...books[editState.book], title, author, status, progress, note, updatedAt: new Date().toISOString() }; showToast(t('updated')); }
-            else { books.push({ title, author, status, progress, note, date: new Date().toLocaleDateString() }); showToast(t('bookSaved')); }
-            localStorage.setItem('notion_books', JSON.stringify(books));
-            editState.book = null;
-            readingView = 'books';
-            loadBooks();
-        }
-        function editBook(i) {
-            const books = getStorageArray('notion_books');
-            if (!books[i]) return;
-            editState.book = i;
-            setReadingView('add');
-        }
-        function deleteBook(i) { const books = getStorageArray('notion_books'); books.splice(i, 1); localStorage.setItem('notion_books', JSON.stringify(books)); loadBooks(); showToast(t('deleted')); }
-        function toggleVocabMastered(i) {
-            const entries = getStorageArray('notion_dictionary_history');
-            if (!entries[i]) return;
-            entries[i].mastered = !entries[i].mastered;
-            localStorage.setItem('notion_dictionary_history', JSON.stringify(entries));
-            loadDictionaryHistory();
-            loadBooks();
-        }
-        function setVocabMastered(i, value) {
-            const entries = getStorageArray('notion_dictionary_history');
-            if (!entries[i]) return;
-            entries[i].mastered = !!value;
-            localStorage.setItem('notion_dictionary_history', JSON.stringify(entries));
-            loadDictionaryHistory();
-            renderVocabularyReview(document.getElementById('reading-content'));
-        }
-        function speakVocabulary(word) {
-            if (!word || !('speechSynthesis' in window)) return;
-            const utterance = new SpeechSynthesisUtterance(word);
-            utterance.lang = 'ja-JP';
-            speechSynthesis.cancel();
-            speechSynthesis.speak(utterance);
-        }
-        function saveReadingNote() {
-            const title = document.getElementById('reading-note-title').value.trim();
-            const body = document.getElementById('reading-note-body').value.trim();
-            if (!title && !body) return showToast(t('fillContent'));
-            const notes = getStorageArray('notion_reading_notes');
-            if (editState.readingNote !== null && notes[editState.readingNote]) { notes[editState.readingNote] = { ...notes[editState.readingNote], title: title || t('untitled'), body, updatedAt: new Date().toISOString() }; editState.readingNote = null; showToast(t('updated')); }
-            else { notes.push({ title: title || t('untitled'), body, date: new Date().toLocaleDateString() }); showToast(t('noteSaved')); }
-            localStorage.setItem('notion_reading_notes', JSON.stringify(notes));
-            renderReadingNotes(document.getElementById('reading-content'));
-        }
-        function editReadingNote(i) {
-            const notes = getStorageArray('notion_reading_notes');
-            if (!notes[i]) return;
-            editState.readingNote = i;
-            renderReadingNotes(document.getElementById('reading-content'));
-            scrollToControl('reading-note-title');
-        }
-        function deleteReadingNote(i) { const notes = getStorageArray('notion_reading_notes'); notes.splice(i, 1); localStorage.setItem('notion_reading_notes', JSON.stringify(notes)); renderReadingNotes(document.getElementById('reading-content')); showToast(t('deleted')); }
 
         // ================= 擁有物品清單 =================
         // ================= 常用連結 =================
