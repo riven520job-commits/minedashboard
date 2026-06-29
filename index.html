@@ -354,9 +354,9 @@
                 <button onclick="switchTab('dictionary')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5z"/><path d="M9 7h6M9 11h4"/></svg></span><span class="text-lg font-semibold" data-i18n="dictionary">字典</span><span class="text-xs text-notion-muted" data-i18n="dictionarySub">日語查詢與複習</span></button>
                 <button onclick="switchTab('shrine')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M6 6v16M18 6v16M4 10h16M9 10v6M15 10v6"/></svg></span><span class="text-lg font-semibold" data-i18n="shrine">神社</span><span class="text-xs text-notion-muted" data-i18n="shrineSub">參拜與願望</span></button>
                 <button onclick="switchTab('meditation')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a14.5 14.5 0 0 0 0 20"/></svg></span><span class="text-lg font-semibold" data-i18n="meditation">冥想</span><span class="text-xs text-notion-muted" data-i18n="meditationSub">計時與導引</span></button>
-                <button onclick="switchTab('places')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18 3 21V6l6-3 6 3 6-3v15l-6 3-6-3z"/><path d="M9 3v15M15 6v15"/></svg></span><span class="text-lg font-semibold" data-i18n="places">遊玩</span><span class="text-xs text-notion-muted" data-i18n="placesSub">想去清單</span></button>
+                <button onclick="switchTab('places')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18 3 21V6l6-3 6 3 6-3v15l-6 3-6-3z"/><path d="M9 3v15M15 6v15"/></svg></span><span class="text-lg font-semibold" data-i18n="places">冒險</span><span class="text-xs text-notion-muted" data-i18n="placesSub">想去 / 已去</span></button>
                 <button onclick="switchTab('cycle')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2s6 6.2 6 11a6 6 0 0 1-12 0c0-4.8 6-11 6-11z"/><path d="M9 14a3 3 0 0 0 6 0"/></svg></span><span class="text-lg font-semibold" data-i18n="cycle">生理期</span><span class="text-xs text-notion-muted" data-i18n="cycleSub">週期與症狀</span></button>
-                <button onclick="switchTab('items')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.3 7 12 12l8.7-5M12 22V12"/></svg></span><span class="text-lg font-semibold" data-i18n="items">物品</span><span class="text-xs text-notion-muted" data-i18n="itemsSub">擁有清單</span></button>
+                <button onclick="switchTab('items')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7h-5a3 3 0 0 1-6 0H4l1.5 14h13L20 7z"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/></svg></span><span class="text-lg font-semibold" data-i18n="items">衣櫥</span><span class="text-xs text-notion-muted" data-i18n="itemsSub">穿搭與物品</span></button>
                 <button onclick="switchTab('links')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.1.1l2.8-2.8a5 5 0 0 0-7.1-7.1L11.2 5"/><path d="M14 11a5 5 0 0 0-7.1-.1L4.1 13.7a5 5 0 0 0 7.1 7.1l1.6-1.6"/></svg></span><span class="text-lg font-semibold" data-i18n="links">連結</span><span class="text-xs text-notion-muted" data-i18n="linksSub">常用網站</span></button>
             </div>
             <button onclick="switchTab('settings')" class="w-full py-3 text-sm bg-notion-btn text-white rounded-notion font-medium" data-i18n="settingsButton">設定 / 同步 / 備份</button>
@@ -623,14 +623,55 @@
         <div id="page-items" class="space-y-5 hidden">
             <div class="bg-notion-card border border-notion-border rounded-notion p-4 space-y-3 shadow-sm">
                 <div class="flex items-center justify-between pb-2 border-b border-notion-border">
-                    <span class="text-sm font-semibold text-notion-text tracking-wider uppercase" data-i18n="itemsPageTitle">擁有物品清單</span>
+                    <span class="text-sm font-semibold text-notion-text tracking-wider uppercase" data-i18n="outfitPlanner">隨機穿搭</span>
+                </div>
+                <div class="grid grid-cols-3 gap-2">
+                    <select id="outfit-style" class="text-sm border border-notion-border rounded px-3 py-2 bg-white focus:outline-none focus:border-notion-muted" aria-label="穿搭風格" data-i18n-aria="itemStyle">
+                        <option value="全部" data-i18n="itemCatAll">全部</option>
+                        <option value="極簡" data-i18n="styleMinimal">極簡</option>
+                        <option value="通勤" data-i18n="styleOffice">通勤</option>
+                        <option value="休閒" data-i18n="styleCasual">休閒</option>
+                        <option value="約會" data-i18n="styleDate">約會</option>
+                        <option value="日系" data-i18n="styleJapanese">日系</option>
+                        <option value="韓系" data-i18n="styleKorean">韓系</option>
+                        <option value="運動" data-i18n="styleSport">運動</option>
+                    </select>
+                    <select id="outfit-season" class="text-sm border border-notion-border rounded px-3 py-2 bg-white focus:outline-none focus:border-notion-muted" aria-label="穿搭季節" data-i18n-aria="itemSeason">
+                        <option value="全部" data-i18n="itemCatAll">全部</option>
+                        <option value="四季" data-i18n="seasonAllYear">四季</option>
+                        <option value="春夏" data-i18n="seasonSpringSummer">春夏</option>
+                        <option value="秋冬" data-i18n="seasonFallWinter">秋冬</option>
+                        <option value="夏" data-i18n="seasonSummer">夏</option>
+                        <option value="冬" data-i18n="seasonWinter">冬</option>
+                    </select>
+                    <select id="outfit-occasion" class="text-sm border border-notion-border rounded px-3 py-2 bg-white focus:outline-none focus:border-notion-muted" aria-label="穿搭場合" data-i18n-aria="itemOccasion">
+                        <option value="全部" data-i18n="itemCatAll">全部</option>
+                        <option value="日常" data-i18n="occasionDaily">日常</option>
+                        <option value="工作" data-i18n="occasionWork">工作</option>
+                        <option value="約會" data-i18n="occasionDate">約會</option>
+                        <option value="旅行" data-i18n="occasionTravel">旅行</option>
+                        <option value="正式" data-i18n="occasionFormal">正式</option>
+                    </select>
+                </div>
+                <button onclick="randomizeOutfit()" class="w-full py-3 text-sm bg-notion-btn text-white rounded-notion font-medium active:scale-[0.98] transition-transform" data-i18n="randomOutfit">產生今日穿搭</button>
+                <div id="outfit-result" class="hidden bg-notion-hover border border-notion-border rounded-notion p-3 text-sm"></div>
+            </div>
+            <div class="bg-notion-card border border-notion-border rounded-notion p-4 space-y-3 shadow-sm">
+                <div class="flex items-center justify-between pb-2 border-b border-notion-border">
+                    <span class="text-sm font-semibold text-notion-text tracking-wider uppercase" data-i18n="itemsPageTitle">電子衣櫥</span>
                 </div>
                 <input type="text" id="item-name" placeholder="物品名稱" data-i18n-placeholder="itemNamePh" class="w-full text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted">
                 <div class="grid grid-cols-2 gap-2">
                     <select id="item-category" class="text-sm border border-notion-border rounded px-3 py-2 bg-white focus:outline-none focus:border-notion-muted" aria-label="物品分類" data-i18n-aria="itemCategory">
-                        <option value="衣物" data-i18n="itemCatClothes">衣物</option>
+                        <option value="上衣" data-i18n="itemCatTop">上衣</option>
+                        <option value="下身" data-i18n="itemCatBottom">下身</option>
+                        <option value="外套" data-i18n="itemCatOuter">外套</option>
+                        <option value="洋裝" data-i18n="itemCatDress">洋裝</option>
+                        <option value="鞋" data-i18n="itemCatShoes">鞋</option>
+                        <option value="包" data-i18n="itemCatBag">包</option>
+                        <option value="帽" data-i18n="itemCatHat">帽</option>
+                        <option value="飾品" data-i18n="itemCatAccessory">飾品</option>
                         <option value="美妝" data-i18n="itemCatBeauty">美妝</option>
-                        <option value="書籍" data-i18n="itemCatBooks">書籍</option>
                         <option value="電子" data-i18n="itemCatTech">電子</option>
                         <option value="家居" data-i18n="itemCatHome">家居</option>
                         <option value="其他" data-i18n="itemCatOther">其他</option>
@@ -639,6 +680,37 @@
                         <option value="active" data-i18n="itemActive">常用</option>
                         <option value="stored" data-i18n="itemStored">收納</option>
                         <option value="declutter" data-i18n="itemDeclutter">考慮斷捨離</option>
+                    </select>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <select id="item-style" class="text-sm border border-notion-border rounded px-3 py-2 bg-white focus:outline-none focus:border-notion-muted" aria-label="風格" data-i18n-aria="itemStyle">
+                        <option value="" data-i18n="styleUnset">風格</option>
+                        <option value="極簡" data-i18n="styleMinimal">極簡</option>
+                        <option value="通勤" data-i18n="styleOffice">通勤</option>
+                        <option value="休閒" data-i18n="styleCasual">休閒</option>
+                        <option value="約會" data-i18n="styleDate">約會</option>
+                        <option value="日系" data-i18n="styleJapanese">日系</option>
+                        <option value="韓系" data-i18n="styleKorean">韓系</option>
+                        <option value="運動" data-i18n="styleSport">運動</option>
+                    </select>
+                    <input type="text" id="item-color" placeholder="顏色，例如 黑 / 白 / 牛仔" data-i18n-placeholder="itemColorPh" class="text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted">
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <select id="item-season" class="text-sm border border-notion-border rounded px-3 py-2 bg-white focus:outline-none focus:border-notion-muted" aria-label="季節" data-i18n-aria="itemSeason">
+                        <option value="" data-i18n="seasonUnset">季節</option>
+                        <option value="四季" data-i18n="seasonAllYear">四季</option>
+                        <option value="春夏" data-i18n="seasonSpringSummer">春夏</option>
+                        <option value="秋冬" data-i18n="seasonFallWinter">秋冬</option>
+                        <option value="夏" data-i18n="seasonSummer">夏</option>
+                        <option value="冬" data-i18n="seasonWinter">冬</option>
+                    </select>
+                    <select id="item-occasion" class="text-sm border border-notion-border rounded px-3 py-2 bg-white focus:outline-none focus:border-notion-muted" aria-label="場合" data-i18n-aria="itemOccasion">
+                        <option value="" data-i18n="occasionUnset">場合</option>
+                        <option value="日常" data-i18n="occasionDaily">日常</option>
+                        <option value="工作" data-i18n="occasionWork">工作</option>
+                        <option value="約會" data-i18n="occasionDate">約會</option>
+                        <option value="旅行" data-i18n="occasionTravel">旅行</option>
+                        <option value="正式" data-i18n="occasionFormal">正式</option>
                     </select>
                 </div>
                 <div class="grid grid-cols-2 gap-2">
@@ -706,11 +778,15 @@
         <div id="page-places" class="space-y-5 hidden">
             <div class="bg-notion-card border border-notion-border rounded-notion p-4 space-y-3 shadow-sm">
                 <div class="flex items-center justify-between pb-2 border-b border-notion-border">
-                    <span class="text-sm font-semibold text-notion-text tracking-wider uppercase" data-i18n="placesPageTitle">想去遊玩地方</span>
+                    <span class="text-sm font-semibold text-notion-text tracking-wider uppercase" data-i18n="placesPageTitle">冒險清單</span>
                 </div>
                 <input type="text" id="place-name" placeholder="地點名稱" data-i18n-placeholder="placeNamePh" class="w-full text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted">
                 <div class="grid grid-cols-2 gap-2">
-                    <select id="place-category" class="text-sm border border-notion-border rounded px-3 py-2 bg-white focus:outline-none focus:border-notion-muted" aria-label="遊玩分類" data-i18n-aria="placeCategory">
+                    <select id="place-status" class="text-sm border border-notion-border rounded px-3 py-2 bg-white focus:outline-none focus:border-notion-muted" aria-label="冒險狀態" data-i18n-aria="placeStatus">
+                        <option value="want" data-i18n="placeWant">想去</option>
+                        <option value="visited" data-i18n="visited">已去</option>
+                    </select>
+                    <select id="place-category" class="text-sm border border-notion-border rounded px-3 py-2 bg-white focus:outline-none focus:border-notion-muted" aria-label="冒險分類" data-i18n-aria="placeCategory">
                         <option value="咖啡" data-i18n="placeCafe">咖啡</option>
                         <option value="餐廳" data-i18n="placeFood">餐廳</option>
                         <option value="景點" data-i18n="placeSpot">景點</option>
@@ -731,9 +807,10 @@
                 <button onclick="savePlace()" id="place-save-btn" class="w-full py-3 text-sm bg-notion-btn text-white rounded-notion font-medium active:scale-[0.98] transition-transform" data-i18n="savePlace">儲存地點</button>
                 <button onclick="cancelEdit('place')" id="place-cancel-edit" class="hidden w-full py-2 text-xs bg-notion-hover border border-notion-border text-notion-text rounded-notion" data-i18n="cancel">取消</button>
             </div>
-            <div id="place-filter" class="flex gap-2 overflow-x-auto pb-1" aria-label="遊玩分類篩選" data-i18n-aria="placeFilter"></div>
+            <div id="place-status-filter" class="grid grid-cols-3 gap-2" aria-label="冒險狀態篩選" data-i18n-aria="placeStatusFilter"></div>
+            <div id="place-filter" class="flex gap-2 overflow-x-auto pb-1" aria-label="冒險分類篩選" data-i18n-aria="placeFilter"></div>
             <div class="space-y-3 pb-4">
-                <span class="text-xs font-medium text-notion-muted block" data-i18n="placeHistory">遊玩清單</span>
+                <span class="text-xs font-medium text-notion-muted block" data-i18n="placeHistory">冒險紀錄</span>
                 <div id="place-list" class="space-y-3"></div>
             </div>
         </div>
@@ -1048,8 +1125,12 @@
                 setCancelVisible('link-cancel-edit', false);
             } else if (type === 'item') {
                 document.getElementById('item-name').value = '';
-                document.getElementById('item-category').value = '衣物';
+                document.getElementById('item-category').value = '上衣';
                 document.getElementById('item-status').value = 'active';
+                document.getElementById('item-style').value = '';
+                document.getElementById('item-color').value = '';
+                document.getElementById('item-season').value = '';
+                document.getElementById('item-occasion').value = '';
                 document.getElementById('item-qty').value = '1';
                 document.getElementById('item-date').valueAsDate = new Date();
                 document.getElementById('item-size').value = '';
@@ -1062,6 +1143,7 @@
                 setCancelVisible('item-cancel-edit', false);
             } else if (type === 'place') {
                 document.getElementById('place-name').value = '';
+                document.getElementById('place-status').value = 'want';
                 document.getElementById('place-category').value = '咖啡';
                 document.getElementById('place-priority').value = 'medium';
                 document.getElementById('place-date').value = '';
@@ -1233,12 +1315,12 @@
                 pin: '置頂',
                 unpin: '取消置頂',
                 pinned: '置頂',
-                places: '遊玩',
-                placesSub: '想去清單',
+                places: '冒險',
+                placesSub: '想去 / 已去',
                 cycle: '生理期',
                 cycleSub: '週期與症狀',
-                items: '物品',
-                itemsSub: '擁有清單',
+                items: '衣櫥',
+                itemsSub: '穿搭與物品',
                 links: '連結',
                 linksSub: '常用網站',
                 settingsButton: '設定 / 同步 / 備份',
@@ -1275,9 +1357,13 @@
                 deleteLink: '刪除連結',
                 linkSaved: '連結已儲存',
                 fillLinkContent: '請填寫網站名稱與有效網址',
-                placesPageTitle: '想去遊玩地方',
+                placesPageTitle: '冒險清單',
                 placeNamePh: '地點名稱',
-                placeCategory: '遊玩分類',
+                placeStatus: '冒險狀態',
+                placeStatusFilter: '冒險狀態篩選',
+                placeStatusAll: '全部',
+                placeWant: '想去',
+                placeCategory: '冒險分類',
                 placeCatAll: '全部',
                 placeCafe: '咖啡',
                 placeFood: '餐廳',
@@ -1293,10 +1379,10 @@
                 placeUrlPh: '官方網站 / Instagram / Google Map',
                 placeNotePh: '想去原因、必點、預算或同行者...',
                 savePlace: '儲存地點',
-                placeFilter: '遊玩分類篩選',
-                placeHistory: '遊玩清單',
-                noPlaces: '還沒有想去的地方，先收藏一個週末目的地吧',
-                placeSaved: '地點已儲存',
+                placeFilter: '冒險分類篩選',
+                placeHistory: '冒險紀錄',
+                noPlaces: '還沒有冒險地點，先收藏一個想去或已去的地方吧',
+                placeSaved: '冒險地點已儲存',
                 deletePlace: '刪除地點',
                 markVisited: '標記已去',
                 markUnvisited: '改回想去',
@@ -1384,12 +1470,25 @@
                 seeAll: '查看全部',
                 searchVocabulary: '搜尋單字',
                 collected: '已收集',
-                itemsPageTitle: '擁有物品清單',
+                itemsPageTitle: '電子衣櫥',
+                outfitPlanner: '隨機穿搭',
+                randomOutfit: '產生今日穿搭',
+                todayOutfit: '今日穿搭',
+                noOutfitItems: '目前沒有符合條件的衣櫥項目，先新增上衣、下身、鞋或包吧',
+                outfitMissing: '尚未找到',
                 itemNamePh: '物品名稱',
                 itemCategory: '物品分類',
                 itemStatus: '物品狀態',
                 itemCatAll: '全部',
                 itemCatClothes: '衣物',
+                itemCatTop: '上衣',
+                itemCatBottom: '下身',
+                itemCatOuter: '外套',
+                itemCatDress: '洋裝',
+                itemCatShoes: '鞋',
+                itemCatBag: '包',
+                itemCatHat: '帽',
+                itemCatAccessory: '飾品',
                 itemCatBeauty: '美妝',
                 itemCatBooks: '書籍',
                 itemCatTech: '電子',
@@ -1398,6 +1497,34 @@
                 itemActive: '常用',
                 itemStored: '收納',
                 itemDeclutter: '考慮斷捨離',
+                itemStyle: '風格',
+                itemSeason: '季節',
+                itemOccasion: '場合',
+                style: '風格',
+                color: '顏色',
+                season: '季節',
+                occasion: '場合',
+                styleUnset: '風格',
+                styleMinimal: '極簡',
+                styleOffice: '通勤',
+                styleCasual: '休閒',
+                styleDate: '約會',
+                styleJapanese: '日系',
+                styleKorean: '韓系',
+                styleSport: '運動',
+                seasonUnset: '季節',
+                seasonAllYear: '四季',
+                seasonSpringSummer: '春夏',
+                seasonFallWinter: '秋冬',
+                seasonSummer: '夏',
+                seasonWinter: '冬',
+                occasionUnset: '場合',
+                occasionDaily: '日常',
+                occasionWork: '工作',
+                occasionDate: '約會',
+                occasionTravel: '旅行',
+                occasionFormal: '正式',
+                itemColorPh: '顏色，例如 黑 / 白 / 牛仔',
                 itemQtyPh: '數量',
                 itemSizePh: '尺寸',
                 itemPricePh: '價格',
@@ -1664,12 +1791,12 @@
                 pin: '固定',
                 unpin: '固定解除',
                 pinned: '固定',
-                places: 'おでかけ',
-                placesSub: '行きたい場所',
+                places: '冒険',
+                placesSub: '行きたい / 行った',
                 cycle: '生理',
                 cycleSub: '周期と症状',
-                items: '持ち物',
-                itemsSub: '所有リスト',
+                items: 'クローゼット',
+                itemsSub: 'コーデと持ち物',
                 links: 'リンク',
                 linksSub: 'よく使うサイト',
                 settingsButton: '設定 / 同期 / バックアップ',
@@ -1706,9 +1833,13 @@
                 deleteLink: 'リンクを削除',
                 linkSaved: 'リンクを保存しました',
                 fillLinkContent: 'サイト名と有効なURLを入力してください',
-                placesPageTitle: '行きたい場所',
+                placesPageTitle: '冒険リスト',
                 placeNamePh: '場所名',
-                placeCategory: 'おでかけ分類',
+                placeStatus: '冒険ステータス',
+                placeStatusFilter: '冒険ステータスフィルター',
+                placeStatusAll: 'すべて',
+                placeWant: '行きたい',
+                placeCategory: '冒険分類',
                 placeCatAll: 'すべて',
                 placeCafe: 'カフェ',
                 placeFood: 'レストラン',
@@ -1724,10 +1855,10 @@
                 placeUrlPh: '公式サイト / Instagram / Google Map',
                 placeNotePh: '行きたい理由、必食、予算、同行者...',
                 savePlace: '場所を保存',
-                placeFilter: 'おでかけ分類フィルター',
-                placeHistory: '場所リスト',
-                noPlaces: '行きたい場所はまだありません。週末の目的地を保存しましょう。',
-                placeSaved: '場所を保存しました',
+                placeFilter: '冒険分類フィルター',
+                placeHistory: '冒険記録',
+                noPlaces: '冒険スポットはまだありません。行きたい場所や行った場所を保存しましょう。',
+                placeSaved: '冒険スポットを保存しました',
                 deletePlace: '場所を削除',
                 markVisited: '行ったにする',
                 markUnvisited: '未訪問に戻す',
@@ -1815,12 +1946,25 @@
                 seeAll: 'すべて見る',
                 searchVocabulary: '単語を検索',
                 collected: '収集済み',
-                itemsPageTitle: '持ち物リスト',
+                itemsPageTitle: '電子クローゼット',
+                outfitPlanner: 'ランダムコーデ',
+                randomOutfit: '今日のコーデを作る',
+                todayOutfit: '今日のコーデ',
+                noOutfitItems: '条件に合うクローゼット項目がありません。トップス、ボトムス、靴、バッグを追加しましょう。',
+                outfitMissing: '未登録',
                 itemNamePh: '物品名',
                 itemCategory: '分類',
                 itemStatus: '状態',
                 itemCatAll: 'すべて',
                 itemCatClothes: '衣類',
+                itemCatTop: 'トップス',
+                itemCatBottom: 'ボトムス',
+                itemCatOuter: 'アウター',
+                itemCatDress: 'ワンピース',
+                itemCatShoes: '靴',
+                itemCatBag: 'バッグ',
+                itemCatHat: '帽子',
+                itemCatAccessory: 'アクセサリー',
                 itemCatBeauty: '美容',
                 itemCatBooks: '本',
                 itemCatTech: '電子',
@@ -1829,6 +1973,34 @@
                 itemActive: 'よく使う',
                 itemStored: '収納',
                 itemDeclutter: '手放し検討',
+                itemStyle: 'スタイル',
+                itemSeason: '季節',
+                itemOccasion: 'シーン',
+                style: 'スタイル',
+                color: '色',
+                season: '季節',
+                occasion: 'シーン',
+                styleUnset: 'スタイル',
+                styleMinimal: 'ミニマル',
+                styleOffice: '通勤',
+                styleCasual: 'カジュアル',
+                styleDate: 'デート',
+                styleJapanese: '日本系',
+                styleKorean: '韓国系',
+                styleSport: 'スポーツ',
+                seasonUnset: '季節',
+                seasonAllYear: '通年',
+                seasonSpringSummer: '春夏',
+                seasonFallWinter: '秋冬',
+                seasonSummer: '夏',
+                seasonWinter: '冬',
+                occasionUnset: 'シーン',
+                occasionDaily: '日常',
+                occasionWork: '仕事',
+                occasionDate: 'デート',
+                occasionTravel: '旅行',
+                occasionFormal: 'フォーマル',
+                itemColorPh: '色 例：黒 / 白 / デニム',
                 itemQtyPh: '数量',
                 itemSizePh: 'サイズ',
                 itemPricePh: '価格',
@@ -2095,12 +2267,12 @@
                 pin: 'Pin',
                 unpin: 'Unpin',
                 pinned: 'Pinned',
-                places: 'Places',
-                placesSub: 'Want-to-go list',
+                places: 'Adventure',
+                placesSub: 'Want / Visited',
                 cycle: 'Cycle',
                 cycleSub: 'Period and symptoms',
-                items: 'Items',
-                itemsSub: 'Owned list',
+                items: 'Closet',
+                itemsSub: 'Outfits and items',
                 links: 'Links',
                 linksSub: 'Favorite sites',
                 settingsButton: 'Settings / Sync / Backup',
@@ -2137,9 +2309,13 @@
                 deleteLink: 'Delete link',
                 linkSaved: 'Link saved',
                 fillLinkContent: 'Enter a website name and valid URL',
-                placesPageTitle: 'Places to Visit',
+                placesPageTitle: 'Adventure List',
                 placeNamePh: 'Place name',
-                placeCategory: 'Place category',
+                placeStatus: 'Adventure status',
+                placeStatusFilter: 'Adventure status filter',
+                placeStatusAll: 'All',
+                placeWant: 'Want to go',
+                placeCategory: 'Adventure category',
                 placeCatAll: 'All',
                 placeCafe: 'Cafe',
                 placeFood: 'Restaurant',
@@ -2155,10 +2331,10 @@
                 placeUrlPh: 'Official site / Instagram / Google Map',
                 placeNotePh: 'Reason, must-order, budget, or companion...',
                 savePlace: 'Save place',
-                placeFilter: 'Place category filter',
-                placeHistory: 'Place list',
-                noPlaces: 'No places yet. Save a weekend destination.',
-                placeSaved: 'Place saved',
+                placeFilter: 'Adventure category filter',
+                placeHistory: 'Adventure records',
+                noPlaces: 'No adventure spots yet. Save somewhere you want to go or already visited.',
+                placeSaved: 'Adventure spot saved',
                 deletePlace: 'Delete place',
                 markVisited: 'Mark visited',
                 markUnvisited: 'Mark unvisited',
@@ -2246,12 +2422,25 @@
                 seeAll: 'See all',
                 searchVocabulary: 'Search vocabulary',
                 collected: 'collected',
-                itemsPageTitle: 'Owned Items List',
+                itemsPageTitle: 'Digital Closet',
+                outfitPlanner: 'Random Outfit',
+                randomOutfit: 'Generate today outfit',
+                todayOutfit: 'Today Outfit',
+                noOutfitItems: 'No matching closet items yet. Add tops, bottoms, shoes, or bags first.',
+                outfitMissing: 'Not found yet',
                 itemNamePh: 'Item name',
                 itemCategory: 'Item category',
                 itemStatus: 'Item status',
                 itemCatAll: 'All',
                 itemCatClothes: 'Clothes',
+                itemCatTop: 'Top',
+                itemCatBottom: 'Bottom',
+                itemCatOuter: 'Outerwear',
+                itemCatDress: 'Dress',
+                itemCatShoes: 'Shoes',
+                itemCatBag: 'Bag',
+                itemCatHat: 'Hat',
+                itemCatAccessory: 'Accessory',
                 itemCatBeauty: 'Beauty',
                 itemCatBooks: 'Books',
                 itemCatTech: 'Tech',
@@ -2260,6 +2449,34 @@
                 itemActive: 'Active',
                 itemStored: 'Stored',
                 itemDeclutter: 'Declutter maybe',
+                itemStyle: 'Style',
+                itemSeason: 'Season',
+                itemOccasion: 'Occasion',
+                style: 'Style',
+                color: 'Color',
+                season: 'Season',
+                occasion: 'Occasion',
+                styleUnset: 'Style',
+                styleMinimal: 'Minimal',
+                styleOffice: 'Office',
+                styleCasual: 'Casual',
+                styleDate: 'Date',
+                styleJapanese: 'Japanese',
+                styleKorean: 'Korean',
+                styleSport: 'Sport',
+                seasonUnset: 'Season',
+                seasonAllYear: 'All year',
+                seasonSpringSummer: 'Spring/Summer',
+                seasonFallWinter: 'Fall/Winter',
+                seasonSummer: 'Summer',
+                seasonWinter: 'Winter',
+                occasionUnset: 'Occasion',
+                occasionDaily: 'Daily',
+                occasionWork: 'Work',
+                occasionDate: 'Date',
+                occasionTravel: 'Travel',
+                occasionFormal: 'Formal',
+                itemColorPh: 'Color, e.g. black / white / denim',
                 itemQtyPh: 'Qty',
                 itemSizePh: 'Size',
                 itemPricePh: 'Price',
@@ -2549,7 +2766,7 @@
             STORAGE_KEYS.forEach(key => {
                 if (typeof data?.[key] === 'string') localStorage.setItem(key, data[key]);
             });
-            renderCalendar(); loadWorkouts(); loadLogs(); loadJournals(); loadDictionaryHistory(); loadShrines(); loadShrineWishes(); loadMeditations(); renderPlaceFilters(); loadPlaces(); loadCycles(); renderItemFilters(); loadItems(); renderLinkFilters(); loadLinks();
+            renderCalendar(); loadWorkouts(); loadLogs(); loadJournals(); loadDictionaryHistory(); loadShrines(); loadShrineWishes(); loadMeditations(); renderPlaceStatusFilters(); renderPlaceFilters(); loadPlaces(); loadCycles(); renderItemFilters(); loadItems(); renderLinkFilters(); loadLinks();
         }
 
         function exportData() {
@@ -2608,10 +2825,13 @@
         let lastCloudUpdateCheck = 0;
         const editState = { dailyTodo: null, shrineWish: null, workout: null, medVideo: null, log: null, journal: null, shrine: null, link: null, item: null, place: null, cycle: null, meditation: null };
         let placeFilter = '全部';
+        let placeStatusFilter = 'all';
         const PLACE_CATEGORIES = ['全部', '咖啡', '餐廳', '景點', '購物', '住宿', '其他'];
         const PLACE_CATEGORY_KEYS = { '全部': 'placeCatAll', '咖啡': 'placeCafe', '餐廳': 'placeFood', '景點': 'placeSpot', '購物': 'placeShopping', '住宿': 'placeStay', '其他': 'placeOther' };
-        const ITEM_CATEGORIES = ['全部', '衣物', '美妝', '書籍', '電子', '家居', '其他'];
-        const ITEM_CATEGORY_KEYS = { '全部': 'itemCatAll', '衣物': 'itemCatClothes', '美妝': 'itemCatBeauty', '書籍': 'itemCatBooks', '電子': 'itemCatTech', '家居': 'itemCatHome', '其他': 'itemCatOther' };
+        const PLACE_STATUS_KEYS = { all: 'placeStatusAll', want: 'placeWant', visited: 'visited' };
+        const ITEM_CATEGORIES = ['全部', '上衣', '下身', '外套', '洋裝', '鞋', '包', '帽', '飾品', '美妝', '電子', '家居', '其他'];
+        const ITEM_CATEGORY_KEYS = { '全部': 'itemCatAll', '衣物': 'itemCatTop', '上衣': 'itemCatTop', '下身': 'itemCatBottom', '外套': 'itemCatOuter', '洋裝': 'itemCatDress', '鞋': 'itemCatShoes', '包': 'itemCatBag', '帽': 'itemCatHat', '飾品': 'itemCatAccessory', '美妝': 'itemCatBeauty', '電子': 'itemCatTech', '家居': 'itemCatHome', '其他': 'itemCatOther' };
+        const WARDROBE_CATEGORIES = ['上衣', '下身', '外套', '洋裝', '鞋', '包', '帽', '飾品'];
         const ITEM_STATUS_KEYS = { active: 'itemActive', stored: 'itemStored', declutter: 'itemDeclutter' };
         let itemFilter = '全部';
         let linkFilter = '全部';
@@ -2640,7 +2860,7 @@
 
             renderGoalSuggestions();
             renderWorkoutFilters();
-            initDB(); renderCalendar(); loadWorkouts(); loadLogs(); loadJournals(); loadDictionaryHistory(); loadShrines(); loadShrineWishes(); loadMeditations(); renderPlaceFilters(); loadPlaces(); loadCycles(); renderItemFilters(); loadItems(); renderLinkFilters(); loadLinks();
+            initDB(); renderCalendar(); loadWorkouts(); loadLogs(); loadJournals(); loadDictionaryHistory(); loadShrines(); loadShrineWishes(); loadMeditations(); renderPlaceStatusFilters(); renderPlaceFilters(); loadPlaces(); loadCycles(); renderItemFilters(); loadItems(); renderLinkFilters(); loadLinks();
             document.getElementById('meditation-date').value = todayKey();
             document.getElementById('meditation-date')?.addEventListener('change', () => fillMeditationFormForDate(document.getElementById('meditation-date').value));
             ['log-image', 'shrine-image', 'item-image'].forEach(bindFileLabel);
@@ -3876,7 +4096,21 @@
         function editShrine(i) { const shrines = getStorageArray('notion_shrines'); const shrine = shrines[i]; if (!shrine) return; editState.shrine = i; shrineImageRemovePending = false; document.getElementById('shrine-name').value = shrine.name || ''; document.getElementById('shrine-address').value = shrine.address || ''; document.getElementById('shrine-date').value = shrine.date || todayKey(); document.getElementById('shrine-notes').value = shrine.notes || ''; document.getElementById('shrine-image').value = ''; updateFileLabel('shrine-image'); setShrineCurrentImagePreview(shrine.image || '', shrine.name || t('goshuin')); setCancelVisible('shrine-cancel-edit', true); scrollToControl('shrine-name'); }
         function deleteShrine(i) { const s = getStorageArray('notion_shrines'); s.splice(i, 1); localStorage.setItem('notion_shrines', JSON.stringify(s)); loadShrines(); showToast(t('deleted')); }
 
-        // ================= 想去遊玩地方 =================
+        // ================= 冒險清單 =================
+        function getPlaceStatus(place) { return place?.status === 'visited' || place?.visited ? 'visited' : 'want'; }
+        function renderPlaceStatusFilters() {
+            const container = document.getElementById('place-status-filter');
+            if (!container) return;
+            const places = getStorageArray('notion_places');
+            const statuses = ['all', 'want', 'visited'];
+            if (!statuses.includes(placeStatusFilter)) placeStatusFilter = 'all';
+            container.innerHTML = statuses.map(status => {
+                const count = status === 'all' ? places.length : places.filter(place => getPlaceStatus(place) === status).length;
+                const active = placeStatusFilter === status;
+                return `<button type="button" class="text-xs border rounded-notion px-3 py-2 ${active ? 'bg-notion-btn text-white border-notion-btn' : 'bg-white text-notion-text border-notion-border'}" onclick="setPlaceStatusFilter(${jsString(status)})">${escapeHTML(t(PLACE_STATUS_KEYS[status]))}${count ? ` ${count}` : ''}</button>`;
+            }).join('');
+        }
+        function setPlaceStatusFilter(status) { placeStatusFilter = status || 'all'; renderPlaceStatusFilters(); loadPlaces(); }
         function renderPlaceFilters() {
             const container = document.getElementById('place-filter');
             if (!container) return;
@@ -3896,8 +4130,13 @@
             const places = getStorageArray('notion_places');
             const list = document.getElementById('place-list');
             if (!list) return;
+            renderPlaceStatusFilters();
             renderPlaceFilters();
-            const filtered = placeFilter === '全部' ? places : places.filter(place => (place.category || '其他') === placeFilter);
+            const filtered = places.filter(place => {
+                const categoryMatch = placeFilter === '全部' || (place.category || '其他') === placeFilter;
+                const statusMatch = placeStatusFilter === 'all' || getPlaceStatus(place) === placeStatusFilter;
+                return categoryMatch && statusMatch;
+            });
             list.innerHTML = '';
             if (!places.length) { list.innerHTML = getEmptyStateHTML(t('noPlaces')); return; }
             if (!filtered.length) { list.innerHTML = getEmptyStateHTML(t('noPlaces')); return; }
@@ -3907,8 +4146,9 @@
                 const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
                 const externalUrl = place.url ? normalizeLinkURL(place.url) : mapUrl;
                 const div = document.createElement('div');
-                div.className = `bg-notion-card border border-notion-border rounded-notion p-4 text-sm ${place.visited ? 'opacity-75' : ''}`;
-                div.innerHTML = `<div class="flex justify-between items-start gap-3"><div class="min-w-0"><div class="flex flex-wrap gap-1.5 mb-2"><span class="text-[10px] text-notion-text font-medium bg-notion-hover px-2 py-0.5 rounded">${escapeHTML(t(PLACE_CATEGORY_KEYS[place.category] || 'placeOther', place.category || t('placeOther')))}</span><span class="text-[10px] text-white font-medium bg-notion-btn px-2 py-0.5 rounded">${escapeHTML(placePriorityLabel(place.priority))}</span>${place.visited ? `<span class="text-[10px] text-notion-muted font-medium border border-notion-border px-2 py-0.5 rounded">${escapeHTML(t('visited'))}</span>` : ''}</div><p class="text-sm font-semibold text-notion-text truncate">${escapeHTML(place.name)}</p>${place.date ? `<p class="text-[11px] text-notion-muted mt-1">${escapeHTML(place.date)}</p>` : ''}</div><div class="flex gap-1 shrink-0"><button onclick="editPlace(${realIdx})" class="text-notion-muted opacity-60 active:opacity-100 text-xs py-1 px-2">${escapeHTML(t('edit'))}</button><button onclick="deletePlace(${realIdx})" class="text-notion-muted opacity-40 active:opacity-100 text-xs py-1 px-2" aria-label="${escapeHTML(t('deletePlace'))}">✕</button></div></div>${place.address ? `<p class="text-xs text-notion-muted mt-2">${escapeHTML(place.address)}</p>` : ''}${place.note ? `<p class="text-xs text-notion-text mt-3 whitespace-pre-wrap bg-notion-hover p-2 rounded">${escapeHTML(place.note)}</p>` : ''}<div class="grid grid-cols-2 gap-2 mt-3"><a href="${escapeHTML(mapUrl)}" target="_blank" rel="noopener noreferrer" class="text-center py-2 text-xs bg-notion-hover border border-notion-border rounded-notion font-medium">${escapeHTML(t('openMap'))}</a><a href="${escapeHTML(externalUrl)}" target="_blank" rel="noopener noreferrer" class="text-center py-2 text-xs bg-notion-btn text-white rounded-notion font-medium">${escapeHTML(place.url ? t('openLink') : t('openMap'))}</a></div><button onclick="togglePlaceVisited(${realIdx})" class="w-full mt-2 py-2 text-xs border border-notion-border bg-white rounded-notion">${escapeHTML(place.visited ? t('markUnvisited') : t('markVisited'))}</button>`;
+                const status = getPlaceStatus(place);
+                div.className = `bg-notion-card border border-notion-border rounded-notion p-4 text-sm ${status === 'visited' ? 'opacity-85' : ''}`;
+                div.innerHTML = `<div class="flex justify-between items-start gap-3"><div class="min-w-0"><div class="flex flex-wrap gap-1.5 mb-2"><span class="text-[10px] text-notion-text font-medium bg-notion-hover px-2 py-0.5 rounded">${escapeHTML(t(PLACE_CATEGORY_KEYS[place.category] || 'placeOther', place.category || t('placeOther')))}</span><span class="text-[10px] text-white font-medium bg-notion-btn px-2 py-0.5 rounded">${escapeHTML(placePriorityLabel(place.priority))}</span><span class="text-[10px] text-notion-muted font-medium border border-notion-border px-2 py-0.5 rounded">${escapeHTML(t(PLACE_STATUS_KEYS[status]))}</span></div><p class="text-sm font-semibold text-notion-text truncate">${escapeHTML(place.name)}</p>${place.date ? `<p class="text-[11px] text-notion-muted mt-1">${escapeHTML(place.date)}</p>` : ''}</div><div class="flex gap-1 shrink-0"><button onclick="editPlace(${realIdx})" class="text-notion-muted opacity-60 active:opacity-100 text-xs py-1 px-2">${escapeHTML(t('edit'))}</button><button onclick="deletePlace(${realIdx})" class="text-notion-muted opacity-40 active:opacity-100 text-xs py-1 px-2" aria-label="${escapeHTML(t('deletePlace'))}">✕</button></div></div>${place.address ? `<p class="text-xs text-notion-muted mt-2">${escapeHTML(place.address)}</p>` : ''}${place.note ? `<p class="text-xs text-notion-text mt-3 whitespace-pre-wrap bg-notion-hover p-2 rounded">${escapeHTML(place.note)}</p>` : ''}<div class="grid grid-cols-2 gap-2 mt-3"><a href="${escapeHTML(mapUrl)}" target="_blank" rel="noopener noreferrer" class="text-center py-2 text-xs bg-notion-hover border border-notion-border rounded-notion font-medium">${escapeHTML(t('openMap'))}</a><a href="${escapeHTML(externalUrl)}" target="_blank" rel="noopener noreferrer" class="text-center py-2 text-xs bg-notion-btn text-white rounded-notion font-medium">${escapeHTML(place.url ? t('openLink') : t('openMap'))}</a></div><button onclick="togglePlaceVisited(${realIdx})" class="w-full mt-2 py-2 text-xs border border-notion-border bg-white rounded-notion">${escapeHTML(status === 'visited' ? t('markUnvisited') : t('markVisited'))}</button>`;
                 list.appendChild(div);
             });
         }
@@ -3924,7 +4164,8 @@
                 address: document.getElementById('place-address').value.trim(),
                 url: document.getElementById('place-url').value.trim(),
                 note: document.getElementById('place-note').value.trim(),
-                visited: editState.place !== null && places[editState.place] ? !!places[editState.place].visited : false,
+                status: document.getElementById('place-status').value === 'visited' ? 'visited' : 'want',
+                visited: document.getElementById('place-status').value === 'visited',
                 updatedAt: new Date().toISOString()
             };
             if (next.url && !/^https?:\/\//i.test(next.url)) next.url = `https://${next.url}`;
@@ -3940,6 +4181,7 @@
             if (!place) return;
             editState.place = i;
             document.getElementById('place-name').value = place.name || '';
+            document.getElementById('place-status').value = getPlaceStatus(place);
             document.getElementById('place-category').value = place.category || '其他';
             document.getElementById('place-priority').value = place.priority || 'medium';
             document.getElementById('place-date').value = place.date || '';
@@ -3949,8 +4191,8 @@
             setCancelVisible('place-cancel-edit', true);
             scrollToControl('place-name');
         }
-        function deletePlace(i) { const places = getStorageArray('notion_places'); places.splice(i, 1); localStorage.setItem('notion_places', JSON.stringify(places)); loadPlaces(); showToast(t('deleted')); }
-        function togglePlaceVisited(i) { const places = getStorageArray('notion_places'); if (!places[i]) return; places[i].visited = !places[i].visited; places[i].updatedAt = new Date().toISOString(); localStorage.setItem('notion_places', JSON.stringify(places)); loadPlaces(); showToast(t('updated')); }
+        function deletePlace(i) { const places = getStorageArray('notion_places'); places.splice(i, 1); localStorage.setItem('notion_places', JSON.stringify(places)); renderPlaceStatusFilters(); loadPlaces(); showToast(t('deleted')); }
+        function togglePlaceVisited(i) { const places = getStorageArray('notion_places'); if (!places[i]) return; const nextVisited = getPlaceStatus(places[i]) !== 'visited'; places[i].visited = nextVisited; places[i].status = nextVisited ? 'visited' : 'want'; places[i].updatedAt = new Date().toISOString(); localStorage.setItem('notion_places', JSON.stringify(places)); renderPlaceStatusFilters(); loadPlaces(); showToast(t('updated')); }
 
         // ================= 生理期紀錄 =================
         function cycleLabel(map, value) { return t(map[value] || value); }
@@ -4148,20 +4390,24 @@
 
         function getItemCategoryLabel(category) { return t(ITEM_CATEGORY_KEYS[category] || 'itemCatOther'); }
         function getItemStatusLabel(status) { return t(ITEM_STATUS_KEYS[status] || 'itemActive'); }
+        function isWardrobeItem(item) { return WARDROBE_CATEGORIES.includes(item?.category) || item?.category === '衣物'; }
         function renderItemFilters() {
             const container = document.getElementById('item-filter');
             if (!container) return;
             const items = getStorageArray('notion_items');
             container.innerHTML = ITEM_CATEGORIES.map(category => {
-                const count = category === '全部' ? items.length : items.filter(item => (item.category || '其他') === category).length;
+                const count = category === '全部' ? items.length : items.filter(item => (item.category === '衣物' ? '上衣' : (item.category || '其他')) === category).length;
                 const active = itemFilter === category;
                 return `<button type="button" onclick="setItemFilter('${category}')" class="shrink-0 text-[11px] border rounded-full px-3 py-1.5 ${active ? 'bg-notion-btn text-white border-notion-btn' : 'bg-white text-notion-text border-notion-border'}">${escapeHTML(getItemCategoryLabel(category))}${count ? ` ${count}` : ''}</button>`;
             }).join('');
         }
         function setItemFilter(category) { itemFilter = category; renderItemFilters(); loadItems(); }
+        function outfitMetaChips(item) {
+            return [item.style, item.color, item.season, item.occasion].filter(Boolean).map(value => `<span class="text-[10px] bg-notion-hover border border-notion-border rounded px-2 py-0.5">${escapeHTML(value)}</span>`).join('');
+        }
         function loadItems() {
             const items = getStorageArray('notion_items');
-            const filtered = itemFilter === '全部' ? items : items.filter(item => (item.category || '其他') === itemFilter);
+            const filtered = itemFilter === '全部' ? items : items.filter(item => (item.category === '衣物' ? '上衣' : (item.category || '其他')) === itemFilter);
             const list = document.getElementById('item-list');
             if (!list) return;
             renderItemFilters();
@@ -4174,20 +4420,62 @@
                 div.className = 'bg-notion-card border border-notion-border rounded-notion p-4 text-sm';
                 const imageHTML = item.image ? `<img src="${escapeHTML(item.image)}" alt="${escapeHTML(item.name)}" class="w-20 h-20 object-cover rounded-notion border border-notion-border bg-notion-hover shrink-0">` : '';
                 const detailRows = [
+                    item.color ? `${t('color')}：${escapeHTML(item.color)}` : '',
+                    item.style ? `${t('style')}：${escapeHTML(item.style)}` : '',
+                    item.season ? `${t('season')}：${escapeHTML(item.season)}` : '',
+                    item.occasion ? `${t('occasion')}：${escapeHTML(item.occasion)}` : '',
                     item.size ? `${t('size')}：${escapeHTML(item.size)}` : '',
                     item.price ? `${t('price')}：${escapeHTML(item.price)}` : '',
                     item.place ? `${t('purchasePlace')}：${escapeHTML(item.place)}` : '',
                     item.care ? `${t('careMethod')}：${escapeHTML(item.care)}` : ''
                 ].filter(Boolean);
-                div.innerHTML = `<div class="flex gap-3 items-start">${imageHTML}<div class="flex-1 min-w-0"><div class="flex justify-between gap-3 items-start"><div class="min-w-0"><p class="font-semibold text-notion-text truncate">${escapeHTML(item.name)}</p><p class="text-[11px] text-notion-muted mt-0.5">${escapeHTML(getItemCategoryLabel(item.category || '其他'))}｜${escapeHTML(getItemStatusLabel(item.status || 'active'))}｜${t('quantity')} ${escapeHTML(item.qty || 1)}</p></div><div class="flex gap-1 shrink-0"><button onclick="editItem(${realIdx})" class="text-notion-muted opacity-60 active:opacity-100 text-xs px-2 py-1">${t('edit')}</button><button onclick="deleteItem(${realIdx})" class="text-notion-muted opacity-40 active:opacity-100 text-xs px-2 py-1" aria-label="${t('deleteItem')}">✕</button></div></div>${detailRows.length ? `<div class="mt-2 grid grid-cols-1 gap-1 text-xs text-notion-text">${detailRows.map(row => `<p class="bg-notion-hover rounded px-2 py-1">${row}</p>`).join('')}</div>` : ''}${item.note ? `<p class="mt-2 text-xs leading-relaxed bg-notion-hover rounded p-2 whitespace-pre-wrap">${escapeHTML(item.note)}</p>` : ''}<p class="text-[10px] text-notion-muted mt-2">${escapeHTML(item.date || '')}</p></div></div>`;
+                div.innerHTML = `<div class="flex gap-3 items-start">${imageHTML}<div class="flex-1 min-w-0"><div class="flex justify-between gap-3 items-start"><div class="min-w-0"><p class="font-semibold text-notion-text truncate">${escapeHTML(item.name)}</p><p class="text-[11px] text-notion-muted mt-0.5">${escapeHTML(getItemCategoryLabel(item.category || '其他'))}｜${escapeHTML(getItemStatusLabel(item.status || 'active'))}｜${t('quantity')} ${escapeHTML(item.qty || 1)}</p>${outfitMetaChips(item) ? `<div class="mt-1 flex flex-wrap gap-1">${outfitMetaChips(item)}</div>` : ''}</div><div class="flex gap-1 shrink-0"><button onclick="editItem(${realIdx})" class="text-notion-muted opacity-60 active:opacity-100 text-xs px-2 py-1">${t('edit')}</button><button onclick="deleteItem(${realIdx})" class="text-notion-muted opacity-40 active:opacity-100 text-xs px-2 py-1" aria-label="${t('deleteItem')}">✕</button></div></div>${detailRows.length ? `<div class="mt-2 grid grid-cols-1 gap-1 text-xs text-notion-text">${detailRows.map(row => `<p class="bg-notion-hover rounded px-2 py-1">${row}</p>`).join('')}</div>` : ''}${item.note ? `<p class="mt-2 text-xs leading-relaxed bg-notion-hover rounded p-2 whitespace-pre-wrap">${escapeHTML(item.note)}</p>` : ''}<p class="text-[10px] text-notion-muted mt-2">${escapeHTML(item.date || '')}</p></div></div>`;
                 list.appendChild(div);
             });
+        }
+        function pickRandom(list) { return list.length ? list[Math.floor(Math.random() * list.length)] : null; }
+        function itemMatchesOutfitFilters(item, style, season, occasion) {
+            const styleMatch = style === '全部' || !item.style || item.style === style;
+            const seasonMatch = season === '全部' || !item.season || item.season === season || item.season === '四季';
+            const occasionMatch = occasion === '全部' || !item.occasion || item.occasion === occasion;
+            return styleMatch && seasonMatch && occasionMatch && (item.status || 'active') !== 'declutter' && isWardrobeItem(item);
+        }
+        function outfitCard(item, label) {
+            if (!item) return `<div class="bg-white border border-notion-border rounded-notion p-3 text-xs text-notion-muted">${escapeHTML(label)}：${escapeHTML(t('outfitMissing'))}</div>`;
+            const img = item.image ? `<img src="${escapeHTML(item.image)}" alt="${escapeHTML(item.name)}" class="w-12 h-12 object-cover rounded border border-notion-border">` : `<div class="w-12 h-12 rounded border border-notion-border bg-white flex items-center justify-center text-[10px] text-notion-muted">${escapeHTML(getItemCategoryLabel(item.category))}</div>`;
+            return `<div class="bg-white border border-notion-border rounded-notion p-3 flex gap-3 items-center">${img}<div class="min-w-0"><p class="text-[10px] text-notion-muted">${escapeHTML(label)}</p><p class="text-sm font-semibold text-notion-text truncate">${escapeHTML(item.name)}</p><p class="text-[11px] text-notion-muted truncate">${escapeHTML([item.color, item.style].filter(Boolean).join(' / '))}</p></div></div>`;
+        }
+        function randomizeOutfit() {
+            const result = document.getElementById('outfit-result');
+            if (!result) return;
+            const style = document.getElementById('outfit-style').value || '全部';
+            const season = document.getElementById('outfit-season').value || '全部';
+            const occasion = document.getElementById('outfit-occasion').value || '全部';
+            const wardrobe = getStorageArray('notion_items').filter(item => itemMatchesOutfitFilters(item, style, season, occasion));
+            if (!wardrobe.length) {
+                result.classList.remove('hidden');
+                result.innerHTML = `<p class="text-xs text-notion-muted">${escapeHTML(t('noOutfitItems'))}</p>`;
+                return;
+            }
+            const dress = pickRandom(wardrobe.filter(item => item.category === '洋裝'));
+            const useDress = dress && Math.random() > 0.5;
+            const top = useDress ? dress : pickRandom(wardrobe.filter(item => item.category === '上衣' || item.category === '衣物'));
+            const bottom = useDress ? null : pickRandom(wardrobe.filter(item => item.category === '下身'));
+            const outer = pickRandom(wardrobe.filter(item => item.category === '外套'));
+            const shoes = pickRandom(wardrobe.filter(item => item.category === '鞋'));
+            const extra = pickRandom(wardrobe.filter(item => ['包', '帽', '飾品'].includes(item.category)));
+            result.classList.remove('hidden');
+            result.innerHTML = `<div class="flex items-center justify-between mb-2"><p class="text-sm font-semibold text-notion-text">${escapeHTML(t('todayOutfit'))}</p><span class="text-[10px] text-notion-muted">${escapeHTML([style, season, occasion].filter(value => value !== '全部').join(' / ') || t('itemCatAll'))}</span></div><div class="grid grid-cols-1 gap-2">${outfitCard(top, useDress ? t('itemCatDress') : t('itemCatTop'))}${!useDress ? outfitCard(bottom, t('itemCatBottom')) : ''}${outfitCard(outer, t('itemCatOuter'))}${outfitCard(shoes, t('itemCatShoes'))}${outfitCard(extra, t('itemCatAccessory'))}</div>`;
         }
         function saveItem() {
             const name = document.getElementById('item-name').value.trim();
             if (!name) return showToast(t('fillContent'));
             const category = document.getElementById('item-category').value;
             const status = document.getElementById('item-status').value;
+            const style = document.getElementById('item-style').value;
+            const color = document.getElementById('item-color').value.trim();
+            const season = document.getElementById('item-season').value;
+            const occasion = document.getElementById('item-occasion').value;
             const qty = Math.max(1, parseInt(document.getElementById('item-qty').value, 10) || 1);
             const date = document.getElementById('item-date').value || new Date().toLocaleDateString();
             const size = document.getElementById('item-size').value.trim();
@@ -4198,8 +4486,8 @@
             const file = document.getElementById('item-image').files[0];
             const save = (image = '') => {
                 const items = getStorageArray('notion_items');
-                if (editState.item !== null && items[editState.item]) { items[editState.item] = { ...items[editState.item], name, category, status, qty, date, size, price, place, care, note, image: image || items[editState.item].image || '', updatedAt: new Date().toISOString() }; showToast(t('updated')); }
-                else { items.push({ name, category, status, qty, date, size, price, place, care, note, image }); showToast(t('itemSaved')); }
+                if (editState.item !== null && items[editState.item]) { items[editState.item] = { ...items[editState.item], name, category, status, style, color, season, occasion, qty, date, size, price, place, care, note, image: image || items[editState.item].image || '', updatedAt: new Date().toISOString() }; showToast(t('updated')); }
+                else { items.push({ name, category, status, style, color, season, occasion, qty, date, size, price, place, care, note, image }); showToast(t('itemSaved')); }
                 localStorage.setItem('notion_items', JSON.stringify(items));
                 cancelEdit('item');
                 loadItems();
@@ -4213,8 +4501,12 @@
             if (!item) return;
             editState.item = i;
             document.getElementById('item-name').value = item.name || '';
-            document.getElementById('item-category').value = ITEM_CATEGORY_KEYS[item.category] ? item.category : '其他';
+            document.getElementById('item-category').value = item.category === '衣物' ? '上衣' : (ITEM_CATEGORY_KEYS[item.category] ? item.category : '其他');
             document.getElementById('item-status').value = ITEM_STATUS_KEYS[item.status] ? item.status : 'active';
+            document.getElementById('item-style').value = item.style || '';
+            document.getElementById('item-color').value = item.color || '';
+            document.getElementById('item-season').value = item.season || '';
+            document.getElementById('item-occasion').value = item.occasion || '';
             document.getElementById('item-qty').value = item.qty || 1;
             document.getElementById('item-date').value = item.date || todayKey();
             document.getElementById('item-size').value = item.size || '';
