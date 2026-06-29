@@ -590,44 +590,22 @@
         </div>
 
         <div id="page-meditation" class="space-y-5 hidden">
-            <div class="bg-notion-card border border-notion-border rounded-notion p-5 text-center shadow-sm space-y-5">
-                <h2 class="text-sm font-semibold text-notion-text tracking-widest uppercase pb-2 border-b border-notion-border" data-i18n="meditationTimer">冥想計時器</h2>
-                <div class="text-5xl font-light tracking-widest text-notion-text font-mono py-2" id="timer-display">15:00</div>
-                <div class="flex justify-center items-center gap-2">
-                    <label for="timer-input" class="sr-only" data-i18n="meditationMinutes">冥想分鐘數</label>
-                    <input type="number" id="timer-input" value="15" class="w-16 text-center text-base border-b border-notion-muted px-1 py-1 focus:outline-none" min="1" max="240">
-                    <span class="text-sm text-notion-muted" data-i18n="minutes">分鐘</span>
-                </div>
-                <div class="flex gap-3 justify-center pt-2">
-                    <button onclick="startTimer()" id="btn-timer-start" class="px-8 py-2.5 text-sm bg-notion-btn text-white rounded-notion font-medium active:scale-95 transition-transform" data-i18n="start">開始</button>
-                    <button onclick="stopTimer()" class="px-6 py-2.5 text-sm bg-notion-hover text-notion-text border border-notion-border rounded-notion font-medium active:bg-gray-200" data-i18n="stop">停止</button>
-                </div>
-                <div class="pt-4 border-t border-notion-border mt-4">
-                    <div class="flex flex-col gap-3 items-center">
-                        <span id="music-status" class="text-xs text-notion-muted bg-notion-hover px-3 py-1 rounded" data-i18n="musicNotLoaded">未載入預設本地音樂</span>
-                        <label class="upload-control w-full">
-                            <span data-i18n="chooseMusicFile">選擇音樂檔</span>
-                            <span class="upload-name" id="bgm-upload-name" data-i18n="noFileSelected">尚未選擇</span>
-                            <input type="file" id="bgm-upload" accept="audio/*" class="sr-only" data-file-label="bgm-upload-name">
-                        </label>
-                        <button onclick="saveMusicToDB()" class="w-full py-2 text-sm bg-notion-hover border border-notion-border text-notion-text rounded-notion active:bg-gray-200" data-i18n="saveDefaultMusic">儲存為預設本地音樂</button>
-                        <audio id="med-audio" loop></audio>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-notion-card border border-notion-border rounded-notion p-4 space-y-3 shadow-sm">
-                <div class="flex items-center justify-between pb-2 border-b border-notion-border">
-                    <span class="text-sm font-semibold text-notion-text tracking-wider uppercase" data-i18n="medVideoLibrary">冥想導引影片庫</span>
-                </div>
-                <input type="text" id="med-video-title" placeholder="影片名稱 (例：10分鐘頌缽音療)" data-i18n-placeholder="medVideoTitlePh" class="w-full text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted">
-                <input type="url" id="med-video-url" placeholder="貼上 YouTube 連結..." data-i18n-placeholder="youtubeUrlPh" class="w-full text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted">
-                <button onclick="saveMeditationVideo()" id="med-video-save-btn" class="w-full py-2.5 text-sm bg-notion-btn text-white rounded-notion font-medium hover:opacity-90 active:scale-[0.98] transition-transform" data-i18n="addGuideVideo">新增導引影片</button>
-                <button onclick="cancelEdit('medVideo')" id="med-video-cancel-edit" class="hidden w-full py-2 text-xs bg-notion-hover border border-notion-border text-notion-text rounded-notion" data-i18n="cancel">取消</button>
-                <div id="med-video-list" class="grid grid-cols-2 gap-3 mt-4 pt-2"></div>
-            </div>
-
             <div class="bg-notion-card border border-notion-border rounded-notion p-4 space-y-4 shadow-sm">
+                <div class="flex items-center justify-between pb-2 border-b border-notion-border">
+                    <button onclick="changeMeditationMonth(-1)" class="px-2 py-1 text-notion-muted active:scale-90" aria-label="上一個月" data-i18n-aria="prevMonth">◀</button>
+                    <span class="text-sm font-semibold text-notion-text tracking-wider" id="meditation-month-year"></span>
+                    <button onclick="changeMeditationMonth(1)" class="px-2 py-1 text-notion-muted active:scale-90" aria-label="下一個月" data-i18n-aria="nextMonth">▶</button>
+                </div>
+                <div id="meditation-stats" class="grid grid-cols-3 gap-2 text-center"></div>
+                <div class="grid grid-cols-7 gap-1 text-center text-[10px] font-medium text-notion-muted" id="meditation-weekdays"></div>
+                <div id="meditation-calendar-grid" class="grid grid-cols-7 gap-1.5"></div>
+                <p class="text-[10px] text-notion-muted text-center" data-i18n="meditationCalendarHint">點日期即可寫下冥想感想並打卡</p>
+            </div>
+            <div class="bg-notion-card border border-notion-border rounded-notion p-4 space-y-4 shadow-sm">
+                <div class="flex items-center justify-between pb-2 border-b border-notion-border">
+                    <span class="text-sm font-semibold text-notion-text tracking-wider uppercase" data-i18n="meditationCheckin">冥想打卡</span>
+                    <input type="date" id="meditation-date" class="text-xs border border-notion-border rounded px-2 py-1 bg-white focus:outline-none focus:border-notion-muted">
+                </div>
                 <div class="flex items-start gap-3">
                     <label for="med-notes" class="text-sm w-16 text-notion-text font-medium pt-2" data-i18n="awarenessNote">覺察筆記</label>
                     <textarea id="med-notes" rows="2" placeholder="冥想後的感受或啟發..." data-i18n-placeholder="medNotesPh" class="flex-1 text-sm border border-notion-border rounded px-2 py-2 focus:outline-none focus:border-notion-muted resize-none"></textarea>
@@ -1041,10 +1019,6 @@
                 document.getElementById('workout-url').value = '';
                 document.getElementById('workout-part').value = '全身';
                 setCancelVisible('workout-cancel-edit', false);
-            } else if (type === 'medVideo') {
-                document.getElementById('med-video-title').value = '';
-                document.getElementById('med-video-url').value = '';
-                setCancelVisible('med-video-cancel-edit', false);
             } else if (type === 'log') {
                 document.getElementById('log-date').value = todayKey();
                 document.getElementById('log-weight').value = '';
@@ -1106,6 +1080,7 @@
                 renderCyclePredictionPreview();
                 setCancelVisible('cycle-cancel-edit', false);
             } else if (type === 'meditation') {
+                document.getElementById('meditation-date').value = todayKey();
                 document.getElementById('med-notes').value = '';
                 setCancelVisible('meditation-cancel-edit', false);
             } else if (type === 'journal') {
@@ -1175,7 +1150,6 @@
             loadShrineWishes();
             loadShrines();
             loadMeditations();
-            loadMeditationVideos();
             renderPlaceFilters();
             loadPlaces();
             loadCycles();
@@ -1184,7 +1158,7 @@
             loadItems();
             renderLinkFilters();
             loadLinks();
-            ['log-image', 'shrine-image', 'item-image', 'bgm-upload'].forEach(updateFileLabel);
+            ['log-image', 'shrine-image', 'item-image'].forEach(updateFileLabel);
         }
 
         function setLanguage(lang) {
@@ -1201,7 +1175,6 @@
             'notion_dictionary_history',
             'notion_shrine_wishes',
             'notion_shrines',
-            'notion_med_videos',
             'notion_meditation',
             'notion_places',
             'notion_cycles',
@@ -1251,6 +1224,15 @@
                 shrineSub: '參拜與願望',
                 meditation: '冥想',
                 meditationSub: '計時與導引',
+                meditationCheckin: '冥想打卡',
+                meditationCalendarHint: '點日期即可寫下冥想感想並打卡',
+                meditationMonthCount: '本月',
+                meditationStreak: '連續',
+                meditationTotal: '總計',
+                meditationChecked: '已完成冥想打卡',
+                pin: '置頂',
+                unpin: '取消置頂',
+                pinned: '置頂',
                 places: '遊玩',
                 placesSub: '想去清單',
                 cycle: '生理期',
@@ -1673,6 +1655,15 @@
                 shrineSub: '参拝と願い',
                 meditation: '瞑想',
                 meditationSub: 'タイマーとガイド',
+                meditationCheckin: '瞑想チェックイン',
+                meditationCalendarHint: '日付をタップして感想を書き、チェックイン',
+                meditationMonthCount: '今月',
+                meditationStreak: '連続',
+                meditationTotal: '合計',
+                meditationChecked: '瞑想チェックイン済み',
+                pin: '固定',
+                unpin: '固定解除',
+                pinned: '固定',
                 places: 'おでかけ',
                 placesSub: '行きたい場所',
                 cycle: '生理',
@@ -2095,6 +2086,15 @@
                 shrineSub: 'Visits and wishes',
                 meditation: 'Meditation',
                 meditationSub: 'Timer and guides',
+                meditationCheckin: 'Meditation Check-in',
+                meditationCalendarHint: 'Tap a date to write a reflection and check in',
+                meditationMonthCount: 'Month',
+                meditationStreak: 'Streak',
+                meditationTotal: 'Total',
+                meditationChecked: 'Meditation checked in',
+                pin: 'Pin',
+                unpin: 'Unpin',
+                pinned: 'Pinned',
                 places: 'Places',
                 placesSub: 'Want-to-go list',
                 cycle: 'Cycle',
@@ -2549,7 +2549,7 @@
             STORAGE_KEYS.forEach(key => {
                 if (typeof data?.[key] === 'string') localStorage.setItem(key, data[key]);
             });
-            renderCalendar(); loadWorkouts(); loadLogs(); loadJournals(); loadDictionaryHistory(); loadShrines(); loadShrineWishes(); loadMeditations(); loadMeditationVideos(); renderPlaceFilters(); loadPlaces(); loadCycles(); renderItemFilters(); loadItems(); renderLinkFilters(); loadLinks();
+            renderCalendar(); loadWorkouts(); loadLogs(); loadJournals(); loadDictionaryHistory(); loadShrines(); loadShrineWishes(); loadMeditations(); renderPlaceFilters(); loadPlaces(); loadCycles(); renderItemFilters(); loadItems(); renderLinkFilters(); loadLinks();
         }
 
         function exportData() {
@@ -2585,7 +2585,7 @@
                 const database = e.target.result;
                 if (!database.objectStoreNames.contains("settings")) database.createObjectStore("settings");
             };
-            request.onsuccess = e => { db = e.target.result; loadSavedMusic(); };
+            request.onsuccess = e => { db = e.target.result; };
         };
 
         let currentDate = new Date();
@@ -2640,18 +2640,14 @@
 
             renderGoalSuggestions();
             renderWorkoutFilters();
-            initDB(); renderCalendar(); loadWorkouts(); loadLogs(); loadJournals(); loadDictionaryHistory(); loadShrines(); loadShrineWishes(); loadMeditations(); loadMeditationVideos(); renderPlaceFilters(); loadPlaces(); loadCycles(); renderItemFilters(); loadItems(); renderLinkFilters(); loadLinks();
-            ['log-image', 'shrine-image', 'item-image', 'bgm-upload'].forEach(bindFileLabel);
+            initDB(); renderCalendar(); loadWorkouts(); loadLogs(); loadJournals(); loadDictionaryHistory(); loadShrines(); loadShrineWishes(); loadMeditations(); renderPlaceFilters(); loadPlaces(); loadCycles(); renderItemFilters(); loadItems(); renderLinkFilters(); loadLinks();
+            document.getElementById('meditation-date').value = todayKey();
+            document.getElementById('meditation-date')?.addEventListener('change', () => fillMeditationFormForDate(document.getElementById('meditation-date').value));
+            ['log-image', 'shrine-image', 'item-image'].forEach(bindFileLabel);
             document.getElementById('shrine-image')?.addEventListener('change', () => {
                 if (document.getElementById('shrine-image')?.files?.length) shrineImageRemovePending = false;
             });
 
-            document.getElementById('bgm-upload').addEventListener('change', function(e) {
-                if(e.target.files[0]) {
-                    document.getElementById('med-audio').src = URL.createObjectURL(e.target.files[0]);
-                    document.getElementById('music-status').innerText = t('musicSelected') + e.target.files[0].name;
-                }
-            });
             document.getElementById('import-data').addEventListener('change', function(e) {
                 if(e.target.files[0]) importData(e.target.files[0]);
                 e.target.value = '';
@@ -3361,11 +3357,6 @@
         function deleteWorkout(i) { const w = getStorageArray('notion_workouts'); w.splice(i, 1); localStorage.setItem('notion_workouts', JSON.stringify(w)); loadWorkouts(); showToast(t('deleted')); }
 
         // ================= 冥想影片庫 =================
-        function loadMeditationVideos() { const videos = getStorageArray('notion_med_videos'); const list = document.getElementById('med-video-list'); list.innerHTML = ''; if (videos.length === 0) { list.innerHTML = getEmptyStateHTML(t('noMeditationVideos')); return; } [...videos].reverse().forEach((v, i) => { const realIdx = videos.length - 1 - i; const thumbUrl = v.ytId ? `https://img.youtube.com/vi/${escapeHTML(v.ytId)}/hqdefault.jpg` : 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="%239B9B9B" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>'; const card = document.createElement('div'); card.className = "bg-notion-card border border-notion-border rounded flex flex-col relative group overflow-hidden shadow-sm"; card.innerHTML = `<div class="absolute top-1 right-1 flex gap-1 z-10"><button onclick="editMeditationVideo(${realIdx})" class="bg-black/50 text-white rounded-full min-w-6 h-6 px-1.5 flex items-center justify-center text-[10px] opacity-0 group-hover:opacity-100 active:opacity-100 backdrop-blur-sm" aria-label="${t('edit')}">${t('edit')}</button><button onclick="deleteMeditationVideo(${realIdx})" class="bg-black/50 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 active:opacity-100 backdrop-blur-sm" aria-label="${t('deleteGuideVideo')}">✕</button></div><a href="${escapeHTML(safeExternalURL(v.url))}" target="_blank" rel="noopener noreferrer" onclick="recordVideoWatch('notion_med_videos', ${realIdx}, '${t('meditation')}', event)" class="flex flex-col h-full active:opacity-70 transition-opacity"><div class="aspect-video bg-notion-hover flex items-center justify-center overflow-hidden"><img src="${thumbUrl}" alt="" class="w-full h-full object-cover"></div><div class="p-2 flex-1 flex flex-col justify-center gap-2"><h4 class="text-[11px] font-medium text-notion-text leading-tight line-clamp-2">${escapeHTML(v.title || t('unnamedVideo'))}</h4><span class="text-[10px] font-semibold tracking-wider uppercase border-t border-notion-border pt-1">${t('watchAndRecord')}</span></div></a>`; list.appendChild(card); }); }
-        function saveMeditationVideo() { const title = document.getElementById('med-video-title').value.trim(); const url = document.getElementById('med-video-url').value.trim(); if(url && safeExternalURL(url) !== '#') { const ytId = getYouTubeId(url); const videos = getStorageArray('notion_med_videos'); const item = { title: title || t('unnamedVideo'), url, ytId }; if (editState.medVideo !== null && videos[editState.medVideo]) { videos[editState.medVideo] = { ...videos[editState.medVideo], ...item, updatedAt: new Date().toISOString() }; showToast(t('updated')); } else { videos.push(item); showToast(t('guideVideoSaved')); } localStorage.setItem('notion_med_videos', JSON.stringify(videos)); cancelEdit('medVideo'); loadMeditationVideos(); } else { showToast(t('invalidLink')); } }
-        function editMeditationVideo(i) { const videos = getStorageArray('notion_med_videos'); const item = videos[i]; if (!item) return; editState.medVideo = i; document.getElementById('med-video-title').value = item.title || ''; document.getElementById('med-video-url').value = item.url || ''; setCancelVisible('med-video-cancel-edit', true); scrollToControl('med-video-title'); }
-        function deleteMeditationVideo(i) { const v = getStorageArray('notion_med_videos'); v.splice(i, 1); localStorage.setItem('notion_med_videos', JSON.stringify(v)); loadMeditationVideos(); showToast(t('deleted')); }
-
         // ================= 其他功能 (日誌、日記、冥想紀錄) =================
         function compressImage(file, callback) { const reader = new FileReader(); reader.readAsDataURL(file); reader.onload = e => { const img = new Image(); img.src = e.target.result; img.onload = () => { const canvas = document.createElement('canvas'); const scale = img.width > 600 ? 600 / img.width : 1; canvas.width = img.width * scale; canvas.height = img.height * scale; canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height); callback(canvas.toDataURL('image/jpeg', 0.6)); } } }
         
@@ -4238,59 +4229,120 @@
         }
         function deleteItem(i) { const items = getStorageArray('notion_items'); items.splice(i, 1); localStorage.setItem('notion_items', JSON.stringify(items)); loadItems(); showToast(t('deleted')); }
 
-        let timerInterval; let timeLeft = 0; let bellAudioContext = null;
-        function saveMusicToDB() { const file = document.getElementById('bgm-upload').files[0]; if (!file) return showToast(t('chooseMusic')); if (!db) return showToast(t('systemNotReady')); const tx = db.transaction("settings", "readwrite"); tx.objectStore("settings").put(file, "bgm"); tx.oncomplete = () => { document.getElementById('music-status').innerText = file.name; showToast(t('musicSaved')); }; }
-        function loadSavedMusic() { if (!db) return; const tx = db.transaction("settings", "readonly"); const req = tx.objectStore("settings").get("bgm"); req.onsuccess = () => { if (req.result) { document.getElementById('med-audio').src = URL.createObjectURL(req.result); document.getElementById('music-status').innerText = t('musicLoaded'); } }; }
-        function formatTime(sec) { return `${Math.floor(sec / 60).toString().padStart(2, '0')}:${(sec % 60).toString().padStart(2, '0')}`; }
-        function getBellAudioContext() {
-            const AudioCtx = window.AudioContext || window.webkitAudioContext;
-            if (!AudioCtx) return null;
-            if (!bellAudioContext) bellAudioContext = new AudioCtx();
-            if (bellAudioContext.state === 'suspended') bellAudioContext.resume().catch(() => {});
-            return bellAudioContext;
+        let meditationMonth = new Date().getMonth();
+        let meditationYear = new Date().getFullYear();
+        function normalizeMeditationDate(item) {
+            if (item?.dateKey) return item.dateKey;
+            if (/^\d{4}-\d{2}-\d{2}$/.test(item?.date || '')) return item.date;
+            const parsed = new Date(item?.date || Date.now());
+            return Number.isNaN(parsed.getTime()) ? todayKey() : getFormatDate(parsed.getFullYear(), parsed.getMonth(), parsed.getDate());
         }
-        function unlockBellAudio() {
-            const ctx = getBellAudioContext();
-            if (!ctx) return;
-            const gain = ctx.createGain();
-            gain.gain.setValueAtTime(0.0001, ctx.currentTime);
-            gain.connect(ctx.destination);
-            const osc = ctx.createOscillator();
-            osc.frequency.setValueAtTime(440, ctx.currentTime);
-            osc.connect(gain);
-            osc.start(ctx.currentTime);
-            osc.stop(ctx.currentTime + 0.03);
+        function getMeditationRecordForDate(dateKey) {
+            const meds = getStorageArray('notion_meditation');
+            const index = meds.findIndex(item => normalizeMeditationDate(item) === dateKey);
+            return { meds, index, record: index >= 0 ? meds[index] : null };
         }
-        function playBellTone(ctx, startAt, frequency) {
-            const osc = ctx.createOscillator();
-            const gain = ctx.createGain();
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(frequency, startAt);
-            osc.frequency.exponentialRampToValueAtTime(frequency * 0.72, startAt + 1.8);
-            gain.gain.setValueAtTime(0.0001, startAt);
-            gain.gain.exponentialRampToValueAtTime(0.42, startAt + 0.03);
-            gain.gain.exponentialRampToValueAtTime(0.0001, startAt + 2.4);
-            osc.connect(gain);
-            gain.connect(ctx.destination);
-            osc.start(startAt);
-            osc.stop(startAt + 2.5);
+        function getMeditationStats(meds) {
+            const currentMonthCount = meds.filter(item => {
+                const key = normalizeMeditationDate(item);
+                const d = new Date(key);
+                return d.getFullYear() === meditationYear && d.getMonth() === meditationMonth;
+            }).length;
+            let streak = 0;
+            const keys = new Set(meds.map(normalizeMeditationDate));
+            const cursor = new Date();
+            while (keys.has(getFormatDate(cursor.getFullYear(), cursor.getMonth(), cursor.getDate()))) {
+                streak++;
+                cursor.setDate(cursor.getDate() - 1);
+            }
+            return { month: currentMonthCount, streak, total: meds.length };
         }
-        function playDing() {
-            const ctx = getBellAudioContext();
-            if (!ctx) return;
-            [0, 0.9, 1.8].forEach((delay, index) => {
-                const startAt = ctx.currentTime + delay;
-                playBellTone(ctx, startAt, [880, 740, 660][index]);
-                playBellTone(ctx, startAt + 0.02, [1320, 1110, 990][index]);
+        function renderMeditationCalendar(meds = getStorageArray('notion_meditation')) {
+            const title = document.getElementById('meditation-month-year');
+            const weekdays = document.getElementById('meditation-weekdays');
+            const grid = document.getElementById('meditation-calendar-grid');
+            const stats = document.getElementById('meditation-stats');
+            if (!title || !weekdays || !grid || !stats) return;
+            title.innerText = `${meditationYear}${getLanguage() === 'en' ? '/' : '年 '}${padDate(meditationMonth + 1)}${getLanguage() === 'en' ? '' : '月'}`;
+            const dict = I18N[getLanguage()] || I18N.zh;
+            weekdays.innerHTML = (dict.weekdays || I18N.zh.weekdays).map(day => `<div>${escapeHTML(day)}</div>`).join('');
+            const recordKeys = new Set(meds.map(normalizeMeditationDate));
+            const firstDay = new Date(meditationYear, meditationMonth, 1).getDay();
+            const daysInMonth = new Date(meditationYear, meditationMonth + 1, 0).getDate();
+            let html = '';
+            for (let i = 0; i < firstDay; i++) html += '<div></div>';
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dateKey = getFormatDate(meditationYear, meditationMonth, day);
+                const checked = recordKeys.has(dateKey);
+                const isToday = dateKey === todayKey();
+                html += `<button type="button" onclick="selectMeditationDate(${jsString(dateKey)})" class="aspect-square border rounded-notion text-xs flex flex-col items-center justify-center gap-1 ${checked ? 'bg-notion-btn text-white border-notion-btn' : 'bg-notion-card border-notion-border text-notion-text'} ${isToday && !checked ? 'today-cell' : ''}" aria-label="${escapeHTML(dateKey)}"><span>${day}</span>${checked ? '<span class="text-[10px] leading-none">●</span>' : ''}</button>`;
+            }
+            grid.innerHTML = html;
+            const s = getMeditationStats(meds);
+            stats.innerHTML = [
+                ['meditationMonthCount', s.month],
+                ['meditationStreak', s.streak],
+                ['meditationTotal', s.total]
+            ].map(([key, value]) => `<div class="bg-notion-hover rounded-notion p-2"><p class="text-[10px] text-notion-muted">${escapeHTML(t(key))}</p><p class="text-lg font-semibold">${escapeHTML(value)}</p></div>`).join('');
+        }
+        function changeMeditationMonth(delta) {
+            meditationMonth += delta;
+            if (meditationMonth < 0) { meditationMonth = 11; meditationYear--; }
+            if (meditationMonth > 11) { meditationMonth = 0; meditationYear++; }
+            renderMeditationCalendar();
+        }
+        function selectMeditationDate(dateKey) {
+            document.getElementById('meditation-date').value = dateKey;
+            fillMeditationFormForDate(dateKey);
+            scrollToControl('med-notes');
+        }
+        function fillMeditationFormForDate(dateKey) {
+            const { index, record } = getMeditationRecordForDate(dateKey || todayKey());
+            editState.meditation = index >= 0 ? index : null;
+            document.getElementById('meditation-date').value = dateKey || todayKey();
+            document.getElementById('med-notes').value = record?.notes || '';
+            setCancelVisible('meditation-cancel-edit', index >= 0);
+        }
+        function loadMeditations() {
+            const meds = getStorageArray('notion_meditation');
+            const list = document.getElementById('meditation-list');
+            if (!list) return;
+            renderMeditationCalendar(meds);
+            list.innerHTML = '';
+            if (meds.length === 0) { list.innerHTML = getEmptyStateHTML(t('noMeditations')); return; }
+            const sorted = meds.map((m, index) => ({ ...m, index, dateKey: normalizeMeditationDate(m) })).sort((a, b) => (b.pinned === true) - (a.pinned === true) || String(b.dateKey).localeCompare(String(a.dateKey)));
+            sorted.forEach(m => {
+                const div = document.createElement('div');
+                div.className = `bg-notion-card border border-notion-border rounded-notion p-4 text-sm ${m.pinned ? 'ring-1 ring-notion-btn' : ''}`;
+                div.innerHTML = `<div class="flex justify-between items-start gap-3"><div class="min-w-0"><div class="flex items-center gap-2"><span class="text-[10px] font-semibold bg-notion-hover px-2 py-0.5 rounded">${escapeHTML(m.dateKey)}</span>${m.pinned ? `<span class="text-[10px] text-white bg-notion-btn px-2 py-0.5 rounded">${escapeHTML(t('pinned'))}</span>` : ''}</div>${m.notes ? `<p class="text-sm text-notion-text mt-3 leading-relaxed whitespace-pre-wrap">${escapeHTML(m.notes)}</p>` : `<p class="text-sm text-notion-muted mt-3">${escapeHTML(t('meditationChecked'))}</p>`}</div><div class="flex flex-col gap-1 shrink-0"><button onclick="toggleMeditationPin(${m.index})" class="text-notion-muted opacity-70 active:opacity-100 text-xs py-1 px-2">${escapeHTML(m.pinned ? t('unpin') : t('pin'))}</button><button onclick="editMeditation(${m.index})" class="text-notion-muted opacity-70 active:opacity-100 text-xs py-1 px-2">${escapeHTML(t('edit'))}</button><button onclick="deleteMeditation(${m.index})" class="text-notion-muted opacity-50 active:opacity-100 text-xs py-1 px-2" aria-label="${escapeHTML(t('deleteMeditation'))}">✕</button></div></div>`;
+                list.appendChild(div);
             });
         }
-        function getTimerMinutes() { return Math.min(240, Math.max(1, parseInt(document.getElementById('timer-input').value, 10) || 15)); }
-        function startTimer() { clearInterval(timerInterval); unlockBellAudio(); const minutes = getTimerMinutes(); document.getElementById('timer-input').value = minutes; timeLeft = minutes * 60; document.getElementById('timer-display').innerText = formatTime(timeLeft); const audio = document.getElementById('med-audio'); if(audio.src) audio.play().catch(() => showToast(t('browserCantPlay'))); document.getElementById('btn-timer-start').innerText = t('inProgress'); timerInterval = setInterval(() => { timeLeft--; document.getElementById('timer-display').innerText = formatTime(timeLeft); if (timeLeft <= 0) { stopTimer(); playDing(); showToast(t('timerFinished')); } }, 1000); }
-        function stopTimer() { clearInterval(timerInterval); const audio = document.getElementById('med-audio'); audio.pause(); audio.currentTime = 0; document.getElementById('btn-timer-start').innerText = t('start'); document.getElementById('timer-display').innerText = formatTime(getTimerMinutes() * 60); }
-        function loadMeditations() { const meds = getStorageArray('notion_meditation'); const list = document.getElementById('meditation-list'); list.innerHTML = ''; if (meds.length === 0) { list.innerHTML = getEmptyStateHTML(t('noMeditations')); return; } [...meds].reverse().forEach((m, i) => { const realIdx = meds.length - 1 - i; const div = document.createElement('div'); div.className = "bg-notion-card border border-notion-border rounded p-3 mb-2 flex justify-between items-start"; div.innerHTML = `<div class="flex-1 pr-2"><div class="flex items-center gap-2"><span class="text-xs font-semibold bg-notion-hover px-2 py-0.5 rounded text-notion-text">${escapeHTML(m.duration)} ${t('minutes')}</span><span class="text-[10px] text-notion-muted">${escapeHTML(m.date)}</span></div>${m.notes ? `<p class="text-sm text-notion-text mt-2 leading-relaxed bg-notion-hover p-2 rounded">${escapeHTML(m.notes)}</p>` : ''}</div><div class="flex gap-1 shrink-0"><button onclick="editMeditation(${realIdx})" class="text-notion-muted opacity-60 active:opacity-100 text-xs py-1 px-2" aria-label="${t('edit')}">${t('edit')}</button><button onclick="deleteMeditation(${realIdx})" class="text-notion-muted opacity-40 active:opacity-100 text-xs py-1 px-2" aria-label="${t('deleteMeditation')}">✕</button></div>`; list.appendChild(div); }); }
-        function saveMeditation() { const duration = getTimerMinutes(); const notes = document.getElementById('med-notes').value.trim(); if (duration) { const meds = getStorageArray('notion_meditation'); if (editState.meditation !== null && meds[editState.meditation]) { meds[editState.meditation] = { ...meds[editState.meditation], duration, notes, updatedAt: new Date().toISOString() }; showToast(t('updated')); } else { meds.push({ duration, notes, date: new Date().toLocaleDateString() }); showToast(t('meditationSaved')); } localStorage.setItem('notion_meditation', JSON.stringify(meds)); cancelEdit('meditation'); loadMeditations(); } }
-        function editMeditation(i) { const meds = getStorageArray('notion_meditation'); const med = meds[i]; if (!med) return; editState.meditation = i; document.getElementById('timer-input').value = Math.min(240, Math.max(1, parseInt(med.duration, 10) || 15)); document.getElementById('timer-display').innerText = formatTime(getTimerMinutes() * 60); document.getElementById('med-notes').value = med.notes || ''; setCancelVisible('meditation-cancel-edit', true); scrollToControl('med-notes'); }
-        function deleteMeditation(i) { const m = getStorageArray('notion_meditation'); m.splice(i, 1); localStorage.setItem('notion_meditation', JSON.stringify(m)); loadMeditations(); showToast(t('deleted')); }
+        function saveMeditation() {
+            const dateKey = document.getElementById('meditation-date').value || todayKey();
+            const notes = document.getElementById('med-notes').value.trim();
+            const meds = getStorageArray('notion_meditation');
+            const existingIndex = editState.meditation !== null ? editState.meditation : meds.findIndex(item => normalizeMeditationDate(item) === dateKey);
+            const next = { date: dateKey, dateKey, notes, checked: true, updatedAt: new Date().toISOString() };
+            if (existingIndex >= 0 && meds[existingIndex]) { meds[existingIndex] = { ...meds[existingIndex], ...next }; showToast(t('updated')); }
+            else { meds.push({ ...next, pinned: false, createdAt: new Date().toISOString() }); showToast(t('meditationSaved')); }
+            localStorage.setItem('notion_meditation', JSON.stringify(meds));
+            cancelEdit('meditation');
+            loadMeditations();
+        }
+        function editMeditation(i) {
+            const meds = getStorageArray('notion_meditation');
+            const med = meds[i];
+            if (!med) return;
+            editState.meditation = i;
+            const dateKey = normalizeMeditationDate(med);
+            document.getElementById('meditation-date').value = dateKey;
+            document.getElementById('med-notes').value = med.notes || '';
+            setCancelVisible('meditation-cancel-edit', true);
+            scrollToControl('med-notes');
+        }
+        function deleteMeditation(i) { const m = getStorageArray('notion_meditation'); m.splice(i, 1); localStorage.setItem('notion_meditation', JSON.stringify(m)); cancelEdit('meditation'); loadMeditations(); showToast(t('deleted')); }
+        function toggleMeditationPin(i) { const m = getStorageArray('notion_meditation'); if (!m[i]) return; m[i].pinned = !m[i].pinned; m[i].updatedAt = new Date().toISOString(); localStorage.setItem('notion_meditation', JSON.stringify(m)); loadMeditations(); showToast(t('updated')); }
     </script>
 </body>
 </html>
