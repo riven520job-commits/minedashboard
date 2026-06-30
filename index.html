@@ -29,7 +29,17 @@
     </script>
     <style>
         html { touch-action: manipulation; }
-        body { background-color: #F7F6F2; color: #37352F; -webkit-tap-highlight-color: transparent; touch-action: manipulation; overscroll-behavior: none; }
+        body {
+            background-color: #F7F6F2;
+            background-image:
+                linear-gradient(rgba(46, 44, 39, 0.035) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(46, 44, 39, 0.035) 1px, transparent 1px);
+            background-size: 28px 28px;
+            color: #37352F;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            overscroll-behavior: none;
+        }
         button, a, input, textarea, select, label, summary { touch-action: manipulation; }
         :root {
             --ui-2xs: clamp(11px, 2.9vw, 13px);
@@ -95,7 +105,7 @@
         .app-mark {
             width: 28px;
             height: 28px;
-            border-radius: 6px;
+            border-radius: 2px;
             background: #0B0B0B;
             color: #F7F5EF;
             display: inline-flex;
@@ -126,7 +136,7 @@
             border: 1px solid #EAEAEA;
             background: #FFFFFF;
             color: #37352F;
-            border-radius: 999px;
+            border-radius: 3px;
             padding: 6px 10px;
             font-size: 11px;
             line-height: 1;
@@ -135,9 +145,10 @@
             background: #F1F1EF;
         }
         .feature-tile {
-            border: 1px solid #E3DFD6;
+            position: relative;
+            border: 1px solid #2E2C27;
             background: #FFFFFF;
-            border-radius: 6px;
+            border-radius: 2px;
             padding: 16px;
             text-align: center;
             min-height: 92px;
@@ -145,20 +156,49 @@
             flex-direction: column;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 10px 28px rgba(39, 36, 31, 0.04);
+            box-shadow: 5px 5px 0 rgba(46, 44, 39, 0.10);
+        }
+        .feature-tile::before {
+            content: "";
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            width: 10px;
+            height: 10px;
+            border-top: 1px solid #2E2C27;
+            border-left: 1px solid #2E2C27;
+            opacity: 0.45;
         }
         .feature-icon {
-            width: 28px;
-            height: 28px;
+            width: 30px;
+            height: 30px;
             color: #2E2C27;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             margin-bottom: 10px;
+            border: 1px solid #2E2C27;
+            transform: rotate(45deg);
         }
         .feature-icon svg {
             width: 16px;
             height: 16px;
+            transform: rotate(-45deg);
+        }
+        .feature-tile .text-notion-muted {
+            min-height: 2.2em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow-wrap: anywhere;
+        }
+        .feature-tile #calendar-card-summary,
+        .feature-tile [id^="home-"][id$="-summary"] {
+            width: 100%;
+            border-top: 1px solid #EAE6DE;
+            padding-top: 8px;
+            margin-top: 4px;
         }
         .feature-tile:active {
             background: #F1F1EF;
@@ -166,8 +206,8 @@
         }
         .track-tab {
             min-height: 38px;
-            border: 1px solid #EAEAEA;
-            border-radius: 6px;
+            border: 1px solid #2E2C27;
+            border-radius: 2px;
             background: #FFFFFF;
             color: #37352F;
             font-size: 12px;
@@ -183,7 +223,7 @@
             display: block;
             width: 100%;
             overflow: hidden;
-            border-radius: 6px;
+            border-radius: 2px;
             border: 1px solid #E3DFD6;
             background: #F1F1EF;
         }
@@ -199,7 +239,7 @@
             right: 8px;
             top: 8px;
             padding: 5px 8px;
-            border-radius: 999px;
+            border-radius: 2px;
             background: rgba(46,44,39,0.92);
             border: 1px solid rgba(255,255,255,0.2);
             color: #FFFFFF;
@@ -209,7 +249,7 @@
             text-transform: uppercase;
         }
         .bg-notion-card {
-            box-shadow: 0 14px 36px rgba(39, 36, 31, 0.045);
+            box-shadow: 6px 6px 0 rgba(46, 44, 39, 0.055);
         }
         input, textarea, select, .upload-control {
             background-color: #FFFFFF;
@@ -297,7 +337,20 @@
             letter-spacing: 0.03em;
         }
         .rounded-notion {
-            border-radius: 6px !important;
+            border-radius: 2px !important;
+        }
+        .geo-segment {
+            min-height: 42px;
+            border: 1px solid #2E2C27;
+            border-radius: 2px;
+            background: #FFFFFF;
+            color: #37352F;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+        }
+        .geo-segment.active {
+            background: #2E2C27;
+            color: #FFFFFF;
         }
         main > div > .bg-notion-card,
         #tracking-today-panel .bg-notion-card {
@@ -350,14 +403,14 @@
             </div>
             <div class="grid grid-cols-2 gap-3">
                 <button onclick="switchTab('track')" class="feature-tile col-span-2"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M7 14h3M14 14h3M7 18h3M14 18h3"/></svg></span><span class="text-lg font-semibold" data-i18n="dailyTracking">每日追蹤</span><span class="text-xs text-notion-muted" id="calendar-card-summary">今日 0/0｜本月 0%</span></button>
-                <button onclick="switchTab('journal')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h6"/></svg></span><span class="text-lg font-semibold" data-i18n="journal">日記</span><span class="text-xs text-notion-muted" data-i18n="journalSub">顯化筆記</span></button>
-                <button onclick="switchTab('dictionary')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5z"/><path d="M9 7h6M9 11h4"/></svg></span><span class="text-lg font-semibold" data-i18n="dictionary">字典</span><span class="text-xs text-notion-muted" data-i18n="dictionarySub">日語查詢與複習</span></button>
-                <button onclick="switchTab('shrine')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M6 6v16M18 6v16M4 10h16M9 10v6M15 10v6"/></svg></span><span class="text-lg font-semibold" data-i18n="shrine">神社</span><span class="text-xs text-notion-muted" data-i18n="shrineSub">參拜與願望</span></button>
-                <button onclick="switchTab('meditation')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a14.5 14.5 0 0 0 0 20"/></svg></span><span class="text-lg font-semibold" data-i18n="meditation">冥想</span><span class="text-xs text-notion-muted" data-i18n="meditationSub">計時與導引</span></button>
-                <button onclick="switchTab('places')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18 3 21V6l6-3 6 3 6-3v15l-6 3-6-3z"/><path d="M9 3v15M15 6v15"/></svg></span><span class="text-lg font-semibold" data-i18n="places">冒險</span><span class="text-xs text-notion-muted" data-i18n="placesSub">想去 / 已去</span></button>
-                <button onclick="switchTab('cycle')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2s6 6.2 6 11a6 6 0 0 1-12 0c0-4.8 6-11 6-11z"/><path d="M9 14a3 3 0 0 0 6 0"/></svg></span><span class="text-lg font-semibold" data-i18n="cycle">生理期</span><span class="text-xs text-notion-muted" data-i18n="cycleSub">週期與症狀</span></button>
-                <button onclick="switchTab('items')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7h-5a3 3 0 0 1-6 0H4l1.5 14h13L20 7z"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/></svg></span><span class="text-lg font-semibold" data-i18n="items">衣櫥</span><span class="text-xs text-notion-muted" data-i18n="itemsSub">穿搭與物品</span></button>
-                <button onclick="switchTab('links')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.1.1l2.8-2.8a5 5 0 0 0-7.1-7.1L11.2 5"/><path d="M14 11a5 5 0 0 0-7.1-.1L4.1 13.7a5 5 0 0 0 7.1 7.1l1.6-1.6"/></svg></span><span class="text-lg font-semibold" data-i18n="links">連結</span><span class="text-xs text-notion-muted" data-i18n="linksSub">常用網站</span></button>
+                <button onclick="switchTab('journal')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h6"/></svg></span><span class="text-lg font-semibold" data-i18n="journal">日記</span><span id="home-journal-summary" class="text-xs text-notion-muted" data-i18n="journalSub">顯化筆記</span></button>
+                <button onclick="switchTab('dictionary')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5z"/><path d="M9 7h6M9 11h4"/></svg></span><span class="text-lg font-semibold" data-i18n="dictionary">字典</span><span id="home-dictionary-summary" class="text-xs text-notion-muted" data-i18n="dictionarySub">日語查詢與複習</span></button>
+                <button onclick="switchTab('shrine')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M6 6v16M18 6v16M4 10h16M9 10v6M15 10v6"/></svg></span><span class="text-lg font-semibold" data-i18n="shrine">神社</span><span id="home-shrine-summary" class="text-xs text-notion-muted" data-i18n="shrineSub">參拜與願望</span></button>
+                <button onclick="switchTab('meditation')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a14.5 14.5 0 0 0 0 20"/></svg></span><span class="text-lg font-semibold" data-i18n="meditation">冥想</span><span id="home-meditation-summary" class="text-xs text-notion-muted" data-i18n="meditationSub">計時與導引</span></button>
+                <button onclick="switchTab('places')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18 3 21V6l6-3 6 3 6-3v15l-6 3-6-3z"/><path d="M9 3v15M15 6v15"/></svg></span><span class="text-lg font-semibold" data-i18n="places">冒險</span><span id="home-places-summary" class="text-xs text-notion-muted" data-i18n="placesSub">想去 / 已去</span></button>
+                <button onclick="switchTab('cycle')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2s6 6.2 6 11a6 6 0 0 1-12 0c0-4.8 6-11 6-11z"/><path d="M9 14a3 3 0 0 0 6 0"/></svg></span><span class="text-lg font-semibold" data-i18n="cycle">生理期</span><span id="home-cycle-summary" class="text-xs text-notion-muted" data-i18n="cycleSub">週期與症狀</span></button>
+                <button onclick="switchTab('items')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7h-5a3 3 0 0 1-6 0H4l1.5 14h13L20 7z"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/></svg></span><span class="text-lg font-semibold" data-i18n="items">衣櫥</span><span id="home-items-summary" class="text-xs text-notion-muted" data-i18n="itemsSub">穿搭與物品</span></button>
+                <button onclick="switchTab('links')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.1.1l2.8-2.8a5 5 0 0 0-7.1-7.1L11.2 5"/><path d="M14 11a5 5 0 0 0-7.1-.1L4.1 13.7a5 5 0 0 0 7.1 7.1l1.6-1.6"/></svg></span><span class="text-lg font-semibold" data-i18n="links">連結</span><span id="home-links-summary" class="text-xs text-notion-muted" data-i18n="linksSub">常用網站</span></button>
             </div>
             <button onclick="switchTab('settings')" class="w-full py-3 text-sm bg-notion-btn text-white rounded-notion font-medium" data-i18n="settingsButton">設定 / 同步 / 備份</button>
         </div>
@@ -532,7 +585,8 @@
         </div>
 
         <div id="page-shrine" class="space-y-5 hidden">
-            <div class="bg-notion-card border border-notion-border rounded-notion p-4 space-y-3 shadow-sm">
+            <div id="shrine-status-filter" class="grid grid-cols-3 gap-2" aria-label="神社狀態篩選" data-i18n-aria="shrineStatusFilter"></div>
+            <div id="shrine-wish-section" class="bg-notion-card border border-notion-border rounded-notion p-4 space-y-3 shadow-sm">
                 <div class="flex items-center justify-between pb-2 border-b border-notion-border">
                     <span class="text-sm font-semibold text-notion-text tracking-wider uppercase" data-i18n="shrineWishTitle">想去的神社清單</span>
                 </div>
@@ -544,7 +598,7 @@
                 <div id="shrine-wish-list" class="space-y-2 mt-2 max-h-48 overflow-y-auto pr-1"></div>
             </div>
 
-            <div class="bg-notion-card border border-notion-border rounded-notion p-4 space-y-4 shadow-sm mt-6">
+            <div id="shrine-record-form-section" class="bg-notion-card border border-notion-border rounded-notion p-4 space-y-4 shadow-sm mt-6">
                 <div class="flex items-center justify-between pb-2 border-b border-notion-border">
                     <span class="text-sm font-semibold text-notion-text tracking-wider uppercase" data-i18n="newShrineRecord">新增參拜紀錄</span>
                 </div>
@@ -583,7 +637,7 @@
                 <button onclick="cancelEdit('shrine')" id="shrine-cancel-edit" class="hidden w-full py-2 text-xs bg-notion-hover border border-notion-border text-notion-text rounded-notion" data-i18n="cancel">取消</button>
             </div>
             
-            <div class="space-y-3 pb-4">
+            <div id="shrine-history-section" class="space-y-3 pb-4">
                 <span class="text-xs font-medium text-notion-muted block" data-i18n="shrineHistory">參拜歷史</span>
                 <div id="shrine-list" class="space-y-3"></div>
             </div>
@@ -1220,8 +1274,12 @@
                 button.className = `py-2 text-xs border rounded-notion ${active ? 'bg-notion-btn text-white border-notion-btn' : 'bg-white text-notion-text border-notion-border'}`;
             });
             renderCalendar();
+            renderShrineStatusFilters();
+            loadShrineWishes();
+            loadShrines();
             updateCalendarCard();
             updateTrackingOverview();
+            updateHomeDashboard();
             rotateHomeQuote(true);
             renderGoalSuggestions();
             renderWorkoutFilters();
@@ -1549,6 +1607,11 @@
                 shrineWishPh: '新增想去的神社名稱...',
                 add: '新增',
                 shrineWishHint: '打勾後會自動將神社名稱帶入下方的參拜紀錄中',
+                shrineStatusFilter: '神社狀態篩選',
+                shrineStatusAll: '全部',
+                shrineWant: '想去',
+                shrineVisited: '已參拜',
+                shrineWishCompleted: '已帶入',
                 newShrineRecord: '新增參拜紀錄',
                 shrineName: '神社',
                 shrineNamePh: '例如：明治神宮',
@@ -2025,6 +2088,11 @@
                 shrineWishPh: '行きたい神社名を追加...',
                 add: '追加',
                 shrineWishHint: 'チェックすると下の参拝記録フォームに神社名が入ります',
+                shrineStatusFilter: '神社ステータスフィルター',
+                shrineStatusAll: 'すべて',
+                shrineWant: '行きたい',
+                shrineVisited: '参拝済み',
+                shrineWishCompleted: '入力済み',
                 newShrineRecord: '参拝記録を追加',
                 shrineName: '神社',
                 shrineNamePh: '例：明治神宮',
@@ -2501,6 +2569,11 @@
                 shrineWishPh: 'Add a shrine name...',
                 add: 'Add',
                 shrineWishHint: 'Checking an item fills the shrine name into the visit form below',
+                shrineStatusFilter: 'Shrine status filter',
+                shrineStatusAll: 'All',
+                shrineWant: 'Want to visit',
+                shrineVisited: 'Visited',
+                shrineWishCompleted: 'Filled',
                 newShrineRecord: 'Add Shrine Visit',
                 shrineName: 'Shrine',
                 shrineNamePh: 'Example: Meiji Jingu',
@@ -2766,7 +2839,7 @@
             STORAGE_KEYS.forEach(key => {
                 if (typeof data?.[key] === 'string') localStorage.setItem(key, data[key]);
             });
-            renderCalendar(); loadWorkouts(); loadLogs(); loadJournals(); loadDictionaryHistory(); loadShrines(); loadShrineWishes(); loadMeditations(); renderPlaceStatusFilters(); renderPlaceFilters(); loadPlaces(); loadCycles(); renderItemFilters(); loadItems(); renderLinkFilters(); loadLinks();
+            renderCalendar(); loadWorkouts(); loadLogs(); loadJournals(); loadDictionaryHistory(); renderShrineStatusFilters(); loadShrines(); loadShrineWishes(); loadMeditations(); renderPlaceStatusFilters(); renderPlaceFilters(); loadPlaces(); loadCycles(); renderItemFilters(); loadItems(); renderLinkFilters(); loadLinks(); updateHomeDashboard();
         }
 
         function exportData() {
@@ -2820,6 +2893,8 @@
         const WORKOUT_PARTS = ['全部', '全身', '腹部', '臀腿', '手臂', '背部', '有氧', '伸展', '未分類'];
         const WORKOUT_PART_KEYS = { '全部': 'partAll', '全身': 'partFull', '腹部': 'partAbs', '臀腿': 'partLegs', '手臂': 'partArms', '背部': 'partBack', '有氧': 'partCardio', '伸展': 'partStretch', '未分類': 'partUncategorized' };
         let workoutFilter = '全部';
+        let shrineStatusFilter = 'all';
+        const SHRINE_STATUS_KEYS = { all: 'shrineStatusAll', want: 'shrineWant', visited: 'shrineVisited' };
         let pendingCloudUpdate = null;
         let cloudUpdateChecking = false;
         let lastCloudUpdateCheck = 0;
@@ -2860,7 +2935,7 @@
 
             renderGoalSuggestions();
             renderWorkoutFilters();
-            initDB(); renderCalendar(); loadWorkouts(); loadLogs(); loadJournals(); loadDictionaryHistory(); loadShrines(); loadShrineWishes(); loadMeditations(); renderPlaceStatusFilters(); renderPlaceFilters(); loadPlaces(); loadCycles(); renderItemFilters(); loadItems(); renderLinkFilters(); loadLinks();
+            initDB(); renderCalendar(); loadWorkouts(); loadLogs(); loadJournals(); loadDictionaryHistory(); renderShrineStatusFilters(); loadShrines(); loadShrineWishes(); loadMeditations(); renderPlaceStatusFilters(); renderPlaceFilters(); loadPlaces(); loadCycles(); renderItemFilters(); loadItems(); renderLinkFilters(); loadLinks(); updateHomeDashboard();
             document.getElementById('meditation-date').value = todayKey();
             document.getElementById('meditation-date')?.addEventListener('change', () => fillMeditationFormForDate(document.getElementById('meditation-date').value));
             ['log-image', 'shrine-image', 'item-image'].forEach(bindFileLabel);
@@ -2912,6 +2987,7 @@
             const isHome = tabName === 'home';
             document.getElementById('home-brand')?.classList.toggle('hidden', !isHome);
             document.getElementById('back-home')?.classList.toggle('hidden', isHome);
+            if (isHome) updateHomeDashboard();
             if (tabName === 'track') setTrackingPanel(trackingView);
             window.scrollTo(0,0);
         }
@@ -2939,6 +3015,91 @@
             const videoCount = getTodayVideoViews().reduce((sum, item) => sum + (parseInt(item.count, 10) || 0), 0);
             const videoEl = document.getElementById('tracking-today-videos');
             if (videoEl) videoEl.innerText = videoCount;
+        }
+
+        function dashboardWord(key) {
+            const lang = getLanguage();
+            const words = {
+                zh: {
+                    entries: '筆',
+                    words: '個單字',
+                    visits: '次參拜',
+                    wishes: '個願望',
+                    checkins: '次打卡',
+                    want: '想去',
+                    visited: '已去',
+                    items: '件',
+                    sites: '個網站',
+                    next: '下次',
+                    unset: '未設定'
+                },
+                ja: {
+                    entries: '件',
+                    words: '単語',
+                    visits: '参拝',
+                    wishes: '願い',
+                    checkins: 'チェックイン',
+                    want: '行きたい',
+                    visited: '行った',
+                    items: '点',
+                    sites: 'サイト',
+                    next: '次回',
+                    unset: '未設定'
+                },
+                en: {
+                    entries: 'entries',
+                    words: 'words',
+                    visits: 'visits',
+                    wishes: 'wishes',
+                    checkins: 'check-ins',
+                    want: 'want',
+                    visited: 'visited',
+                    items: 'items',
+                    sites: 'sites',
+                    next: 'next',
+                    unset: 'unset'
+                }
+            };
+            return (words[lang] || words.zh)[key] || key;
+        }
+
+        function setHomeSummary(id, text) {
+            const el = document.getElementById(id);
+            if (el) el.innerText = text;
+        }
+
+        function nextCycleDateLabel(cycles = getStorageArray('notion_cycles')) {
+            if (!cycles.length) return dashboardWord('unset');
+            const latest = [...cycles].sort((a, b) => new Date(b.start || 0) - new Date(a.start || 0))[0];
+            if (!latest?.start) return dashboardWord('unset');
+            const d = new Date(latest.start);
+            if (Number.isNaN(d.getTime())) return dashboardWord('unset');
+            d.setDate(d.getDate() + (parseInt(latest.cycleLength, 10) || getPredictedCycleLength(cycles)));
+            return getFormatDate(d.getFullYear(), d.getMonth(), d.getDate());
+        }
+
+        function updateHomeDashboard() {
+            const journals = getStorageArray('notion_journals_v2');
+            const dictionary = getStorageArray('notion_dictionary_history');
+            const shrines = getStorageArray('notion_shrines');
+            const wishes = getStorageArray('notion_shrine_wishes');
+            const meds = getStorageArray('notion_meditation');
+            const places = getStorageArray('notion_places');
+            const cycles = getStorageArray('notion_cycles');
+            const items = getStorageArray('notion_items');
+            const links = getStorageArray('notion_links');
+            const wantPlaces = places.filter(place => getPlaceStatus(place) === 'want').length;
+            const visitedPlaces = places.filter(place => getPlaceStatus(place) === 'visited').length;
+            const wardrobeCount = items.filter(isWardrobeItem).length;
+
+            setHomeSummary('home-journal-summary', `${journals.length} ${dashboardWord('entries')}`);
+            setHomeSummary('home-dictionary-summary', `${dictionary.length} ${dashboardWord('words')}`);
+            setHomeSummary('home-shrine-summary', `${shrines.length} ${dashboardWord('visits')}｜${wishes.filter(w => !w.completed).length} ${dashboardWord('wishes')}`);
+            setHomeSummary('home-meditation-summary', `${meds.length} ${dashboardWord('checkins')}`);
+            setHomeSummary('home-places-summary', `${wantPlaces} ${dashboardWord('want')}｜${visitedPlaces} ${dashboardWord('visited')}`);
+            setHomeSummary('home-cycle-summary', `${dashboardWord('next')} ${nextCycleDateLabel(cycles)}`);
+            setHomeSummary('home-items-summary', `${wardrobeCount}/${items.length} ${dashboardWord('items')}`);
+            setHomeSummary('home-links-summary', `${links.length} ${dashboardWord('sites')}`);
         }
 
         function setTrackingPanel(view = 'today') {
@@ -3967,12 +4128,41 @@
         }
 
         // ================= 神社願望清單 (自動帶入功能) =================
+        function renderShrineStatusFilters() {
+            const container = document.getElementById('shrine-status-filter');
+            if (!container) return;
+            const statuses = ['all', 'want', 'visited'];
+            const wishes = getStorageArray('notion_shrine_wishes');
+            const shrines = getStorageArray('notion_shrines');
+            if (!statuses.includes(shrineStatusFilter)) shrineStatusFilter = 'all';
+            const counts = {
+                all: wishes.filter(w => !w.completed).length + shrines.length,
+                want: wishes.filter(w => !w.completed).length,
+                visited: shrines.length
+            };
+            container.innerHTML = statuses.map(status => {
+                const active = shrineStatusFilter === status;
+                return `<button type="button" class="geo-segment ${active ? 'active' : ''}" onclick="setShrineStatusFilter(${jsString(status)})">${escapeHTML(t(SHRINE_STATUS_KEYS[status]))}${counts[status] ? ` ${counts[status]}` : ''}</button>`;
+            }).join('');
+            document.getElementById('shrine-wish-section')?.classList.toggle('hidden', shrineStatusFilter === 'visited');
+            document.getElementById('shrine-record-form-section')?.classList.toggle('hidden', shrineStatusFilter === 'want');
+            document.getElementById('shrine-history-section')?.classList.toggle('hidden', shrineStatusFilter === 'want');
+        }
+        function setShrineStatusFilter(status) {
+            shrineStatusFilter = status || 'all';
+            renderShrineStatusFilters();
+            loadShrineWishes();
+            loadShrines();
+        }
         function loadShrineWishes() {
             const wishes = getStorageArray('notion_shrine_wishes');
             const list = document.getElementById('shrine-wish-list'); list.innerHTML = '';
-            if (wishes.length === 0) { list.innerHTML = `<div class="text-center py-4 text-notion-muted text-xs">${t('noShrineWishes')}</div>`; return; }
+            renderShrineStatusFilters();
+            const visibleWishes = shrineStatusFilter === 'all' ? wishes : wishes.filter(w => !w.completed);
+            if (visibleWishes.length === 0) { list.innerHTML = `<div class="text-center py-4 text-notion-muted text-xs">${t('noShrineWishes')}</div>`; return; }
             
-            wishes.forEach((w, i) => {
+            visibleWishes.forEach((w) => {
+                const i = wishes.indexOf(w);
                 const div = document.createElement('div');
                 div.className = "flex justify-between items-center bg-notion-hover border border-notion-border rounded p-2 mb-1.5";
                 const mapQuery = encodeURIComponent(w.name);
@@ -3982,6 +4172,7 @@
                     <label class="flex items-center gap-3 cursor-pointer flex-1 min-w-0">
                         <input type="checkbox" ${w.completed ? 'checked' : ''} onchange="toggleShrineWish(${i})" class="w-4 h-4 accent-notion-muted">
                         <span class="text-sm text-notion-text truncate flex-1 flex items-center">${escapeHTML(w.name)} ${mapLink}</span>
+                        <span class="text-[10px] border border-notion-border bg-white px-2 py-0.5 rounded">${escapeHTML(t(w.completed ? 'shrineWishCompleted' : 'shrineWant'))}</span>
                     </label>
                     <div class="flex items-center gap-1 shrink-0">
                         <button onclick="editShrineWish(${i})" class="text-notion-muted opacity-60 active:opacity-100 text-xs px-2 py-1" aria-label="${t('edit')}">${t('edit')}</button>
@@ -3998,7 +4189,7 @@
                 if (editState.shrineWish !== null && wishes[editState.shrineWish]) { wishes[editState.shrineWish].name = name; editState.shrineWish = null; showToast(t('updated')); }
                 else { wishes.push({ name, completed: false }); showToast(t('shrineWishAdded')); }
                 localStorage.setItem('notion_shrine_wishes', JSON.stringify(wishes));
-                input.value = ''; loadShrineWishes();
+                input.value = ''; renderShrineStatusFilters(); loadShrineWishes(); updateHomeDashboard();
             }
         }
         
@@ -4026,15 +4217,18 @@
             }
             
             localStorage.setItem('notion_shrine_wishes', JSON.stringify(wishes)); 
+            renderShrineStatusFilters();
             loadShrineWishes(); 
+            updateHomeDashboard();
         }
         
         function editShrineWish(i) { const wishes = getStorageArray('notion_shrine_wishes'); if (!wishes[i]) return; editState.shrineWish = i; const input = document.getElementById('shrine-wish-input'); input.value = wishes[i].name || ''; input.focus(); input.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
-        function deleteShrineWish(i) { const wishes = getStorageArray('notion_shrine_wishes'); wishes.splice(i, 1); localStorage.setItem('notion_shrine_wishes', JSON.stringify(wishes)); loadShrineWishes(); showToast(t('deleted')); }
+        function deleteShrineWish(i) { const wishes = getStorageArray('notion_shrine_wishes'); wishes.splice(i, 1); localStorage.setItem('notion_shrine_wishes', JSON.stringify(wishes)); renderShrineStatusFilters(); loadShrineWishes(); updateHomeDashboard(); showToast(t('deleted')); }
 
         // ================= 神社參拜紀錄 (含地圖功能) =================
         function loadShrines() { 
             const shrines = getStorageArray('notion_shrines'); const list = document.getElementById('shrine-list'); list.innerHTML = ''; 
+            renderShrineStatusFilters();
             if (shrines.length === 0) { list.innerHTML = getEmptyStateHTML(t('noShrineRecords')); return; } 
             
             [...shrines].reverse().forEach((s, i) => { 
@@ -4045,7 +4239,7 @@
                 const mapQuery = encodeURIComponent(s.address || s.name);
                 const mapLink = `<a href="https://www.google.com/maps/search/?api=1&query=${mapQuery}" target="_blank" rel="noopener noreferrer" class="text-[10px] text-notion-muted hover:text-notion-text flex items-center gap-1 mt-1.5 w-fit active:opacity-70 bg-notion-hover px-1.5 py-0.5 rounded transition-colors"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>${escapeHTML(s.address || t('viewOnMap'))}</a>`;
                 
-                div.innerHTML = `<div class="flex justify-between items-start"><span class="text-[10px] text-notion-text font-medium bg-notion-hover px-2 py-0.5 rounded">${escapeHTML(s.date)}</span><div class="flex gap-1"><button onclick="editShrine(${realIdx})" class="text-notion-muted opacity-60 active:opacity-100 text-xs py-1 px-2" aria-label="${t('edit')}">${t('edit')}</button><button onclick="deleteShrine(${realIdx})" class="text-notion-muted opacity-40 active:opacity-100 text-xs py-1 px-2" aria-label="${t('deleteShrineRecord')}">✕</button></div></div><div class="mt-2 space-y-1"><p class="text-sm font-semibold text-notion-text">${escapeHTML(s.name)}</p>${mapLink}${s.notes ? `<p class="text-xs text-notion-text mt-2 whitespace-pre-wrap bg-notion-hover p-2 rounded">${escapeHTML(s.notes)}</p>` : ''}</div>${imgHTML}`; 
+                div.innerHTML = `<div class="flex justify-between items-start"><div class="flex flex-wrap gap-1.5"><span class="text-[10px] text-notion-text font-medium bg-notion-hover px-2 py-0.5 rounded">${escapeHTML(s.date)}</span><span class="text-[10px] text-white font-medium bg-notion-btn px-2 py-0.5 rounded">${escapeHTML(t('shrineVisited'))}</span></div><div class="flex gap-1"><button onclick="editShrine(${realIdx})" class="text-notion-muted opacity-60 active:opacity-100 text-xs py-1 px-2" aria-label="${t('edit')}">${t('edit')}</button><button onclick="deleteShrine(${realIdx})" class="text-notion-muted opacity-40 active:opacity-100 text-xs py-1 px-2" aria-label="${t('deleteShrineRecord')}">✕</button></div></div><div class="mt-2 space-y-1"><p class="text-sm font-semibold text-notion-text">${escapeHTML(s.name)}</p>${mapLink}${s.notes ? `<p class="text-xs text-notion-text mt-2 whitespace-pre-wrap bg-notion-hover p-2 rounded">${escapeHTML(s.notes)}</p>` : ''}</div>${imgHTML}`; 
                 list.appendChild(div); 
             }); 
             list.querySelectorAll('.shrine-image-preview').forEach(button => {
@@ -4081,20 +4275,30 @@
             const n = document.getElementById('shrine-name').value.trim(); const a = document.getElementById('shrine-address').value.trim(); const d = document.getElementById('shrine-date').value; const text = document.getElementById('shrine-notes').value.trim(); const file = document.getElementById('shrine-image').files[0]; 
             const save = (img) => { 
                 const s = getStorageArray('notion_shrines');
+                const wishes = getStorageArray('notion_shrine_wishes');
                 const existingImage = editState.shrine !== null && s[editState.shrine] ? s[editState.shrine].image : null;
                 const finalImage = img ?? (shrineImageRemovePending ? null : existingImage ?? null);
-                const next = {name:n, address:a, date:d, notes:text, image:finalImage};
+                const next = {name:n, address:a, date:d, notes:text, image:finalImage, status:'visited'};
                 if (editState.shrine !== null && s[editState.shrine]) { s[editState.shrine] = { ...s[editState.shrine], ...next, updatedAt: new Date().toISOString() }; showToast(t('updated')); }
                 else { s.push(next); showToast(t('shrineRecordSaved')); }
                 localStorage.setItem('notion_shrines', JSON.stringify(s)); 
+                const matchedWish = wishes.find(w => (w.name || '').trim() === n);
+                if (matchedWish) {
+                    matchedWish.completed = true;
+                    matchedWish.updatedAt = new Date().toISOString();
+                    localStorage.setItem('notion_shrine_wishes', JSON.stringify(wishes));
+                }
                 shrineImageRemovePending = false;
                 cancelEdit('shrine'); 
+                renderShrineStatusFilters();
+                loadShrineWishes();
                 loadShrines(); 
+                updateHomeDashboard();
             }; 
             if(n) { if(file) compressImage(file, save); else save(null); } else showToast(t('shrineNameRequired')); 
         }
         function editShrine(i) { const shrines = getStorageArray('notion_shrines'); const shrine = shrines[i]; if (!shrine) return; editState.shrine = i; shrineImageRemovePending = false; document.getElementById('shrine-name').value = shrine.name || ''; document.getElementById('shrine-address').value = shrine.address || ''; document.getElementById('shrine-date').value = shrine.date || todayKey(); document.getElementById('shrine-notes').value = shrine.notes || ''; document.getElementById('shrine-image').value = ''; updateFileLabel('shrine-image'); setShrineCurrentImagePreview(shrine.image || '', shrine.name || t('goshuin')); setCancelVisible('shrine-cancel-edit', true); scrollToControl('shrine-name'); }
-        function deleteShrine(i) { const s = getStorageArray('notion_shrines'); s.splice(i, 1); localStorage.setItem('notion_shrines', JSON.stringify(s)); loadShrines(); showToast(t('deleted')); }
+        function deleteShrine(i) { const s = getStorageArray('notion_shrines'); s.splice(i, 1); localStorage.setItem('notion_shrines', JSON.stringify(s)); renderShrineStatusFilters(); loadShrines(); updateHomeDashboard(); showToast(t('deleted')); }
 
         // ================= 冒險清單 =================
         function getPlaceStatus(place) { return place?.status === 'visited' || place?.visited ? 'visited' : 'want'; }
