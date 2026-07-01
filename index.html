@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>顯化人生 - Notion極簡版</title>
-    <meta name="theme-color" content="#0B0B0B">
+    <meta name="theme-color" content="#F7F7F5">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="MANIFEST">
-    <link rel="icon" href='data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"%3E%3Crect width="512" height="512" rx="82" fill="%230b0b0b"/%3E%3Crect x="54" y="54" width="404" height="404" rx="22" fill="none" stroke="%23f7f5ef" stroke-width="10"/%3E%3Ctext x="256" y="254" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="116" font-weight="700" fill="%23f7f5ef" letter-spacing="-8"%3EMF%3C/text%3E%3Ctext x="256" y="336" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="31" font-weight="700" fill="%23f7f5ef" letter-spacing="8"%3EATELIER%3C/text%3E%3C/svg%3E'>
-    <link rel="apple-touch-icon" href='data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"%3E%3Crect width="512" height="512" rx="82" fill="%230b0b0b"/%3E%3Crect x="54" y="54" width="404" height="404" rx="22" fill="none" stroke="%23f7f5ef" stroke-width="10"/%3E%3Ctext x="256" y="254" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="116" font-weight="700" fill="%23f7f5ef" letter-spacing="-8"%3EMF%3C/text%3E%3Ctext x="256" y="336" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="31" font-weight="700" fill="%23f7f5ef" letter-spacing="8"%3EATELIER%3C/text%3E%3C/svg%3E'>
+    <link rel="icon" href='data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"%3E%3Crect width="512" height="512" rx="96" fill="%231f1f1d"/%3E%3Crect x="58" y="58" width="396" height="396" rx="28" fill="none" stroke="%23ffffff" stroke-opacity=".86" stroke-width="8"/%3E%3Ccircle cx="96" cy="96" r="7" fill="%23ffffff" fill-opacity=".72"/%3E%3Ccircle cx="416" cy="96" r="7" fill="%23ffffff" fill-opacity=".72"/%3E%3Ccircle cx="96" cy="416" r="7" fill="%23ffffff" fill-opacity=".72"/%3E%3Ccircle cx="416" cy="416" r="7" fill="%23ffffff" fill-opacity=".72"/%3E%3Ctext x="256" y="266" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="118" font-weight="700" fill="%23ffffff" letter-spacing="-7"%3EMF%3C/text%3E%3Cpath d="M150 314H362" stroke="%23ffffff" stroke-opacity=".56" stroke-width="3"/%3E%3Ctext x="256" y="356" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" fill="%23ffffff" letter-spacing="10"%3EATELIER%3C/text%3E%3C/svg%3E'>
+    <link rel="apple-touch-icon" href='data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"%3E%3Crect width="512" height="512" rx="96" fill="%231f1f1d"/%3E%3Crect x="58" y="58" width="396" height="396" rx="28" fill="none" stroke="%23ffffff" stroke-opacity=".86" stroke-width="8"/%3E%3Ccircle cx="96" cy="96" r="7" fill="%23ffffff" fill-opacity=".72"/%3E%3Ccircle cx="416" cy="96" r="7" fill="%23ffffff" fill-opacity=".72"/%3E%3Ccircle cx="96" cy="416" r="7" fill="%23ffffff" fill-opacity=".72"/%3E%3Ccircle cx="416" cy="416" r="7" fill="%23ffffff" fill-opacity=".72"/%3E%3Ctext x="256" y="266" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="118" font-weight="700" fill="%23ffffff" letter-spacing="-7"%3EMF%3C/text%3E%3Cpath d="M150 314H362" stroke="%23ffffff" stroke-opacity=".56" stroke-width="3"/%3E%3Ctext x="256" y="356" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" fill="%23ffffff" letter-spacing="10"%3EATELIER%3C/text%3E%3C/svg%3E'>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,7 +20,7 @@
                 extend: {
                     fontFamily: { sans: ['"Inter"', '"Noto Sans TC"', 'sans-serif'], },
                     colors: {
-                        notion: { bg: '#FFFFFF', card: '#FFFFFF', text: '#37352F', muted: '#9B9B9B', border: '#EAEAEA', hover: '#F1F1EF', btn: '#2E2C27' }
+                        notion: { bg: '#F7F7F5', card: '#FFFFFF', text: '#37352F', muted: '#787774', border: '#E3E2DF', hover: '#F1F1EF', btn: '#2F2E2A' }
                     },
                     borderRadius: { 'notion': '6px', }
                 }
@@ -30,11 +30,8 @@
     <style>
         html { touch-action: manipulation; }
         body {
-            background-color: #F7F6F2;
-            background-image:
-                linear-gradient(rgba(46, 44, 39, 0.035) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(46, 44, 39, 0.035) 1px, transparent 1px);
-            background-size: 28px 28px;
+            background-color: #F7F7F5;
+            background-image: linear-gradient(180deg, #FFFFFF 0%, #F7F7F5 220px);
             color: #37352F;
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
@@ -95,31 +92,31 @@
         
         .stamp-yoku {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-15deg);
-            border: 1.5px solid #2E2C27; color: #2E2C27; border-radius: 50%;
+            border: 1.5px solid #37352F; color: #37352F; border-radius: 50%;
             font-size: 8px; width: 40px; height: 40px;
             display: flex; align-items: center; justify-content: center;
             text-align: center; line-height: 1.1; font-weight: 700;
             opacity: 0.68; pointer-events: none;
-            box-shadow: inset 0 0 0 1px rgba(46, 44, 39, 0.14); letter-spacing: -0.5px;
+            box-shadow: inset 0 0 0 1px rgba(55, 53, 47, 0.12); letter-spacing: -0.5px;
         }
         .app-mark {
-            width: 28px;
-            height: 28px;
-            border-radius: 2px;
-            background: #0B0B0B;
-            color: #F7F5EF;
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            background: #1F1F1D;
+            color: #FFFFFF;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            border: 1px solid #0B0B0B;
-            box-shadow: inset 0 0 0 1px rgba(247, 245, 239, 0.18);
+            border: 1px solid #1F1F1D;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.24), 0 1px 2px rgba(15, 15, 15, 0.14);
             font-size: 10px;
             font-weight: 700;
             letter-spacing: -0.04em;
         }
         .today-cell {
-            border-color: #2E2C27;
-            box-shadow: inset 0 0 0 1px #2E2C27, 0 0 0 2px #F7F5EF;
+            border-color: #37352F;
+            box-shadow: inset 0 0 0 1px #37352F, 0 0 0 2px #FFFFFF;
         }
         .today-label {
             position: absolute;
@@ -128,15 +125,15 @@
             font-size: 7px;
             font-weight: 700;
             letter-spacing: 0.08em;
-            color: #2E2C27;
-            border-top: 1px solid #2E2C27;
+            color: #37352F;
+            border-top: 1px solid #37352F;
             padding-top: 1px;
         }
         .suggestion-chip {
-            border: 1px solid #EAEAEA;
+            border: 1px solid #E3E2DF;
             background: #FFFFFF;
             color: #37352F;
-            border-radius: 3px;
+            border-radius: 999px;
             padding: 6px 10px;
             font-size: 11px;
             line-height: 1;
@@ -146,44 +143,44 @@
         }
         .feature-tile {
             position: relative;
-            border: 1px solid #2E2C27;
+            border: 1px solid #E3E2DF;
             background: #FFFFFF;
-            border-radius: 2px;
-            padding: 16px;
+            border-radius: 8px;
+            padding: 14px 12px;
             text-align: center;
-            min-height: 92px;
+            min-height: 104px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 5px 5px 0 rgba(46, 44, 39, 0.10);
+            box-shadow: 0 1px 2px rgba(15, 15, 15, 0.04);
         }
         .feature-tile::before {
-            content: "";
-            position: absolute;
-            top: 8px;
-            left: 8px;
-            width: 10px;
-            height: 10px;
-            border-top: 1px solid #2E2C27;
-            border-left: 1px solid #2E2C27;
-            opacity: 0.45;
+            display: none;
         }
         .feature-icon {
-            width: 30px;
-            height: 30px;
-            color: #2E2C27;
+            width: 32px;
+            height: 32px;
+            color: #37352F;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 10px;
-            border: 1px solid #2E2C27;
-            transform: rotate(45deg);
+            margin-bottom: 6px;
+            border: 1px solid #E3E2DF;
+            border-radius: 8px;
+            background: #F7F7F5;
         }
         .feature-icon svg {
-            width: 16px;
-            height: 16px;
-            transform: rotate(-45deg);
+            width: 17px;
+            height: 17px;
+        }
+        #page-home .feature-tile .text-lg {
+            font-size: clamp(16px, 4.1vw, 18px) !important;
+            line-height: 1.25;
+        }
+        #page-home .feature-tile .text-xs {
+            font-size: clamp(12px, 3.1vw, 13px) !important;
+            line-height: 1.35;
         }
         .feature-tile .text-notion-muted {
             min-height: 2.2em;
@@ -196,26 +193,83 @@
         .feature-tile #calendar-card-summary,
         .feature-tile [id^="home-"][id$="-summary"] {
             width: 100%;
-            border-top: 1px solid #EAE6DE;
-            padding-top: 8px;
+            border-top: 1px solid #F1F1EF;
+            padding-top: 7px;
             margin-top: 4px;
         }
         .feature-tile:active {
-            background: #F1F1EF;
+            background: #F7F7F5;
             transform: scale(0.99);
+        }
+        .home-widget-card {
+            border: 1px solid #E3E2DF;
+            background: #FFFFFF;
+            border-radius: 8px;
+            padding: 14px;
+            box-shadow: 0 1px 2px rgba(15, 15, 15, 0.04);
+        }
+        .home-widget-progress {
+            height: 6px;
+            border-radius: 999px;
+            background: #F1F1EF;
+            overflow: hidden;
+        }
+        .home-widget-progress span {
+            display: block;
+            height: 100%;
+            width: 0%;
+            border-radius: inherit;
+            background: #37352F;
+            transition: width 220ms ease;
+        }
+        .home-widget-goal {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-height: 30px;
+            padding: 6px 8px;
+            border-radius: 6px;
+            background: #F7F7F5;
+            color: #37352F;
+        }
+        .home-widget-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 999px;
+            border: 1.5px solid #C9C8C5;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .home-widget-goal.done .home-widget-dot {
+            border-color: #37352F;
+            background: #37352F;
+        }
+        .home-widget-goal.done .home-widget-dot::after {
+            content: "";
+            width: 5px;
+            height: 3px;
+            border-left: 1.5px solid #FFFFFF;
+            border-bottom: 1.5px solid #FFFFFF;
+            transform: rotate(-45deg) translateY(-1px);
+        }
+        .home-widget-goal.done .home-widget-text {
+            color: #787774;
+            text-decoration: line-through;
         }
         .track-tab {
             min-height: 38px;
-            border: 1px solid #2E2C27;
-            border-radius: 2px;
+            border: 1px solid #E3E2DF;
+            border-radius: 999px;
             background: #FFFFFF;
             color: #37352F;
             font-size: 12px;
             font-weight: 600;
         }
         .track-tab.active {
-            background: #2E2C27;
-            border-color: #2E2C27;
+            background: #2F2E2A;
+            border-color: #2F2E2A;
             color: #FFFFFF;
         }
         .image-preview-button {
@@ -223,24 +277,45 @@
             display: block;
             width: 100%;
             overflow: hidden;
-            border-radius: 2px;
-            border: 1px solid #E3DFD6;
+            border-radius: 8px;
+            border: 1px solid #E3E2DF;
             background: #F1F1EF;
         }
         .image-preview-button img {
             width: 100%;
             aspect-ratio: 4 / 3;
-            max-height: 240px;
+            max-height: 210px;
             object-fit: cover;
             display: block;
+        }
+        .image-preview-button.compact-image img {
+            aspect-ratio: 16 / 10;
+            max-height: 138px;
+        }
+        .image-preview-button.compact-image .image-preview-badge {
+            font-size: 10px;
+            padding: 4px 7px;
+        }
+        .readable-card-title {
+            font-size: clamp(16px, 4.2vw, 18px);
+            line-height: 1.28;
+        }
+        .readable-card-meta,
+        .readable-card-body {
+            font-size: clamp(13px, 3.5vw, 15px);
+            line-height: 1.55;
+        }
+        .readable-action {
+            font-size: clamp(12px, 3.2vw, 14px);
+            min-height: 38px;
         }
         .image-preview-badge {
             position: absolute;
             right: 8px;
             top: 8px;
             padding: 5px 8px;
-            border-radius: 2px;
-            background: rgba(46,44,39,0.92);
+            border-radius: 999px;
+            background: rgba(47, 46, 42, 0.92);
             border: 1px solid rgba(255,255,255,0.2);
             color: #FFFFFF;
             font-size: 11px;
@@ -249,11 +324,12 @@
             text-transform: uppercase;
         }
         .bg-notion-card {
-            box-shadow: 6px 6px 0 rgba(46, 44, 39, 0.055);
+            background-color: #FFFFFF;
+            box-shadow: 0 1px 2px rgba(15, 15, 15, 0.04);
         }
         input, textarea, select, .upload-control {
             background-color: #FFFFFF;
-            border-color: #E3DFD6 !important;
+            border-color: #E3E2DF !important;
         }
         .link-button-grid {
             display: grid;
@@ -298,6 +374,7 @@
             #page-cycle,
             #page-items,
             #page-links,
+            #page-inspiration,
             #page-settings {
                 max-width: 760px;
                 margin-left: auto;
@@ -309,7 +386,7 @@
                 margin-right: auto;
             }
             .feature-tile {
-                min-height: 138px;
+                min-height: 118px;
             }
         }
         @media (min-width: 1024px) {
@@ -322,9 +399,9 @@
         }
         .upload-control {
             min-height: 44px;
-            border: 1px solid #E3DFD6;
-            border-radius: 6px;
-            background: #FBFAF7;
+            border: 1px solid #E3E2DF;
+            border-radius: 8px;
+            background: #FFFFFF;
             color: #37352F;
             display: flex;
             align-items: center;
@@ -335,26 +412,72 @@
         }
         .bg-notion-btn {
             letter-spacing: 0.03em;
+            background-color: #2F2E2A !important;
         }
         .rounded-notion {
-            border-radius: 2px !important;
+            border-radius: 8px !important;
         }
         .geo-segment {
             min-height: 42px;
-            border: 1px solid #2E2C27;
-            border-radius: 2px;
+            border: 1px solid #E3E2DF;
+            border-radius: 999px;
             background: #FFFFFF;
             color: #37352F;
-            font-weight: 700;
-            letter-spacing: 0.04em;
+            font-weight: 600;
+            letter-spacing: 0.02em;
         }
         .geo-segment.active {
-            background: #2E2C27;
+            background: #2F2E2A;
+            border-color: #2F2E2A;
             color: #FFFFFF;
+        }
+        header {
+            background-color: rgba(255, 255, 255, 0.9) !important;
+            backdrop-filter: blur(18px);
+        }
+        .border-notion-border {
+            border-color: #E3E2DF !important;
+        }
+        .bg-notion-hover {
+            background-color: #F1F1EF !important;
+        }
+        .text-notion-text {
+            color: #37352F !important;
+        }
+        .text-notion-muted {
+            color: #787774 !important;
+        }
+        .bg-white {
+            background-color: #FFFFFF !important;
+        }
+        input,
+        textarea,
+        select {
+            border-radius: 8px !important;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72);
+        }
+        label,
+        .tracking-wide,
+        .tracking-wider {
+            letter-spacing: 0.045em;
+        }
+        .bg-notion-card.border {
+            border-color: rgba(55, 53, 47, 0.12) !important;
+        }
+        span.bg-notion-hover,
+        p.bg-notion-hover,
+        div.bg-notion-hover {
+            border-radius: 999px;
+        }
+        textarea.bg-notion-hover,
+        .bg-notion-hover.p-2,
+        .bg-notion-hover.p-3,
+        .bg-notion-hover.p-4 {
+            border-radius: 8px;
         }
         main > div > .bg-notion-card,
         #tracking-today-panel .bg-notion-card {
-            border-color: #E3DFD6;
+            border-color: #E3E2DF;
         }
         .upload-control:active {
             background: #F1F1EF;
@@ -401,6 +524,23 @@
                 <p class="text-xs text-notion-muted font-medium tracking-wider uppercase" data-i18n="homeEyebrow">Manifest Atelier</p>
                 <h2 class="text-2xl font-semibold leading-tight text-notion-text min-h-[3.5rem]" data-i18n="homeTitle" id="home-quote">今天想照顧哪一部分？</h2>
             </div>
+            <section class="home-widget-card space-y-3" aria-labelledby="home-goal-widget-title">
+                <button type="button" onclick="openDailyModal(todayKey())" class="w-full text-left active:opacity-80">
+                    <div class="flex items-start justify-between gap-3">
+                        <div class="min-w-0">
+                            <p id="home-goal-widget-title" class="text-xs text-notion-muted font-medium tracking-wider uppercase" data-i18n="homeGoalWidget">今日目標 Widget</p>
+                            <p id="home-goal-widget-date" class="text-lg font-semibold text-notion-text mt-1"></p>
+                        </div>
+                        <div class="text-right shrink-0">
+                            <p id="home-goal-widget-count" class="text-xl font-semibold text-notion-text">0/0</p>
+                            <p class="text-[11px] text-notion-muted" data-i18n="homeGoalWidgetSub">像桌面小工具一樣快速查看</p>
+                        </div>
+                    </div>
+                    <div class="home-widget-progress mt-3" aria-hidden="true"><span id="home-goal-widget-progress"></span></div>
+                </button>
+                <div id="home-goal-widget-list" class="space-y-1.5"></div>
+                <button type="button" onclick="openDailyModal(todayKey())" class="w-full py-2 text-xs bg-notion-hover border border-notion-border text-notion-text rounded-notion font-medium" data-i18n="homeGoalWidgetAction">打開今日目標</button>
+            </section>
             <div class="grid grid-cols-2 gap-3">
                 <button onclick="switchTab('track')" class="feature-tile col-span-2"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M7 14h3M14 14h3M7 18h3M14 18h3"/></svg></span><span class="text-lg font-semibold" data-i18n="dailyTracking">每日追蹤</span><span class="text-xs text-notion-muted" id="calendar-card-summary">今日 0/0｜本月 0%</span></button>
                 <button onclick="switchTab('journal')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h6"/></svg></span><span class="text-lg font-semibold" data-i18n="journal">日記</span><span id="home-journal-summary" class="text-xs text-notion-muted" data-i18n="journalSub">顯化筆記</span></button>
@@ -411,6 +551,7 @@
                 <button onclick="switchTab('cycle')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2s6 6.2 6 11a6 6 0 0 1-12 0c0-4.8 6-11 6-11z"/><path d="M9 14a3 3 0 0 0 6 0"/></svg></span><span class="text-lg font-semibold" data-i18n="cycle">生理期</span><span id="home-cycle-summary" class="text-xs text-notion-muted" data-i18n="cycleSub">週期與症狀</span></button>
                 <button onclick="switchTab('items')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7h-5a3 3 0 0 1-6 0H4l1.5 14h13L20 7z"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/></svg></span><span class="text-lg font-semibold" data-i18n="items">衣櫥</span><span id="home-items-summary" class="text-xs text-notion-muted" data-i18n="itemsSub">穿搭與物品</span></button>
                 <button onclick="switchTab('links')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.1.1l2.8-2.8a5 5 0 0 0-7.1-7.1L11.2 5"/><path d="M14 11a5 5 0 0 0-7.1-.1L4.1 13.7a5 5 0 0 0 7.1 7.1l1.6-1.6"/></svg></span><span class="text-lg font-semibold" data-i18n="links">連結</span><span id="home-links-summary" class="text-xs text-notion-muted" data-i18n="linksSub">常用網站</span></button>
+                <button onclick="switchTab('inspiration')" class="feature-tile col-span-2"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M2 10a10 10 0 1 1 20 0c0 3.4-1.7 5.4-3.4 6.8-.9.7-1.6 1.7-1.6 2.2H7c0-.5-.7-1.5-1.6-2.2C3.7 15.4 2 13.4 2 10z"/><path d="M9 10h6"/></svg></span><span class="text-lg font-semibold" data-i18n="inspiration">靈感</span><span id="home-inspiration-summary" class="text-xs text-notion-muted" data-i18n="inspirationSub">網站與圖片素材</span></button>
             </div>
             <button onclick="switchTab('settings')" class="w-full py-3 text-sm bg-notion-btn text-white rounded-notion font-medium" data-i18n="settingsButton">設定 / 同步 / 備份</button>
         </div>
@@ -556,6 +697,13 @@
                         <span class="upload-name" id="log-image-name" data-i18n="noFileSelected">尚未選擇</span>
                         <input type="file" id="log-image" accept="image/*" class="sr-only" data-file-label="log-image-name">
                     </label>
+                </div>
+                <div id="log-current-image-wrap" class="hidden pl-[3.75rem] space-y-2">
+                    <button type="button" id="log-current-image-preview" class="image-preview-button active:opacity-80" aria-label="點選放大" data-i18n-aria="tapToPreview">
+                        <img id="log-current-image-img" src="" alt="">
+                        <span class="image-preview-badge" data-i18n="tapToPreview">點選放大</span>
+                    </button>
+                    <button type="button" onclick="removeCurrentLogImage()" class="w-full py-2 text-xs bg-white border border-notion-border text-notion-muted rounded-notion" data-i18n="removePhoto">移除照片</button>
                 </div>
                 <button onclick="saveLog()" id="log-save-btn" class="w-full py-3 text-sm bg-notion-btn text-white rounded-notion font-medium hover:opacity-90 mt-2 active:scale-[0.98] transition-transform" data-i18n="saveRecord">儲存紀錄</button>
                 <button onclick="cancelEdit('log')" id="log-cancel-edit" class="hidden w-full py-2 text-xs bg-notion-hover border border-notion-border text-notion-text rounded-notion" data-i18n="cancel">取消</button>
@@ -829,6 +977,46 @@
             </div>
         </div>
 
+        <div id="page-inspiration" class="space-y-5 hidden">
+            <div class="bg-notion-card border border-notion-border rounded-notion p-4 space-y-3 shadow-sm">
+                <div class="flex items-center justify-between pb-2 border-b border-notion-border">
+                    <span class="text-sm font-semibold text-notion-text tracking-wider uppercase" data-i18n="inspirationPageTitle">靈感收藏</span>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <button type="button" id="inspiration-type-link" onclick="setInspirationType('link')" class="py-2 text-xs border rounded-notion bg-notion-btn text-white border-notion-btn" data-i18n="inspirationWebsite">網站</button>
+                    <button type="button" id="inspiration-type-image" onclick="setInspirationType('image')" class="py-2 text-xs border rounded-notion bg-white text-notion-text border-notion-border" data-i18n="inspirationImage">圖片</button>
+                </div>
+                <input type="text" id="inspiration-title" placeholder="靈感標題" data-i18n-placeholder="inspirationTitlePh" class="w-full text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted">
+                <input type="url" id="inspiration-url" placeholder="https://example.com" data-i18n-placeholder="linkUrlPh" class="w-full text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted">
+                <div id="inspiration-image-section" class="hidden space-y-2">
+                    <label class="upload-control w-full">
+                        <span data-i18n="chooseImage">選擇圖片</span>
+                        <span class="upload-name" id="inspiration-image-name" data-i18n="noFileSelected">尚未選擇</span>
+                        <input type="file" id="inspiration-image" accept="image/*" class="sr-only" data-file-label="inspiration-image-name">
+                    </label>
+                    <div id="inspiration-current-image-wrap" class="hidden space-y-2">
+                        <button type="button" id="inspiration-current-image-preview" class="image-preview-button active:opacity-80" aria-label="點選放大" data-i18n-aria="tapToPreview">
+                            <img id="inspiration-current-image-img" src="" alt="">
+                            <span class="image-preview-badge" data-i18n="tapToPreview">點選放大</span>
+                        </button>
+                        <button type="button" onclick="removeCurrentInspirationImage()" class="w-full py-2 text-xs bg-white border border-notion-border text-notion-muted rounded-notion" data-i18n="removePhoto">移除照片</button>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <input type="text" id="inspiration-category" placeholder="分類，例如 穿搭 / 空間" data-i18n-placeholder="inspirationCategoryPh" class="text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted">
+                    <input type="text" id="inspiration-tags" placeholder="標籤，例如 黑白, 秋冬" data-i18n-placeholder="inspirationTagsPh" class="text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted">
+                </div>
+                <textarea id="inspiration-note" rows="2" placeholder="為什麼收藏、想如何使用..." data-i18n-placeholder="inspirationNotePh" class="w-full text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted resize-none"></textarea>
+                <button onclick="saveInspiration()" id="inspiration-save-btn" class="w-full py-3 text-sm bg-notion-btn text-white rounded-notion font-medium active:scale-[0.98] transition-transform" data-i18n="saveInspiration">儲存靈感</button>
+                <button onclick="cancelEdit('inspiration')" id="inspiration-cancel-edit" class="hidden w-full py-2 text-xs bg-notion-hover border border-notion-border text-notion-text rounded-notion" data-i18n="cancel">取消</button>
+            </div>
+            <div id="inspiration-filter" class="flex gap-2 overflow-x-auto pb-1" aria-label="靈感分類篩選" data-i18n-aria="inspirationFilter"></div>
+            <div class="space-y-3 pb-4">
+                <span class="text-xs font-medium text-notion-muted block" data-i18n="inspirationHistory">靈感板</span>
+                <div id="inspiration-list" class="space-y-3"></div>
+            </div>
+        </div>
+
         <div id="page-places" class="space-y-5 hidden">
             <div class="bg-notion-card border border-notion-border rounded-notion p-4 space-y-3 shadow-sm">
                 <div class="flex items-center justify-between pb-2 border-b border-notion-border">
@@ -948,7 +1136,7 @@
             <textarea id="journal-content" rows="6" placeholder="寫下你的靈感與覺察..." data-i18n-placeholder="journalContentPh" class="w-full text-sm placeholder-notion-muted border-none focus:outline-none resize-none"></textarea>
             <label class="flex items-center justify-between gap-3 rounded-notion border border-notion-border bg-notion-hover px-3 py-2 text-xs">
                 <span data-i18n="lockThisJournal">這篇日記上鎖</span>
-                <input type="checkbox" id="journal-locked-entry" class="w-4 h-4 accent-[#2E2C27]">
+                <input type="checkbox" id="journal-locked-entry" class="w-4 h-4 accent-[#37352F]">
             </label>
             <div class="flex gap-2 pt-2 border-t border-notion-border mt-2">
                 <button onclick="closeJournalModal()" class="flex-1 py-2.5 text-sm bg-notion-hover text-notion-text rounded-notion font-medium" data-i18n="cancel">取消</button>
@@ -1159,6 +1347,8 @@
                 document.getElementById('log-reflection').value = '';
                 document.getElementById('log-image').value = '';
                 updateFileLabel('log-image');
+                logImageRemovePending = false;
+                setLogCurrentImagePreview('', '');
                 setCancelVisible('log-cancel-edit', false);
             } else if (type === 'shrine') {
                 document.getElementById('shrine-name').value = '';
@@ -1177,6 +1367,18 @@
                 document.getElementById('link-icon').value = 'link';
                 document.getElementById('link-note').value = '';
                 setCancelVisible('link-cancel-edit', false);
+            } else if (type === 'inspiration') {
+                document.getElementById('inspiration-title').value = '';
+                document.getElementById('inspiration-url').value = '';
+                document.getElementById('inspiration-category').value = '';
+                document.getElementById('inspiration-tags').value = '';
+                document.getElementById('inspiration-note').value = '';
+                document.getElementById('inspiration-image').value = '';
+                updateFileLabel('inspiration-image');
+                inspirationImageRemovePending = false;
+                setInspirationType('link');
+                setInspirationCurrentImagePreview('', '');
+                setCancelVisible('inspiration-cancel-edit', false);
             } else if (type === 'item') {
                 document.getElementById('item-name').value = '';
                 document.getElementById('item-category').value = '上衣';
@@ -1298,7 +1500,9 @@
             loadItems();
             renderLinkFilters();
             loadLinks();
-            ['log-image', 'shrine-image', 'item-image'].forEach(updateFileLabel);
+            renderInspirationFilters();
+            loadInspirations();
+            ['log-image', 'shrine-image', 'item-image', 'inspiration-image'].forEach(updateFileLabel);
         }
 
         function setLanguage(lang) {
@@ -1320,6 +1524,7 @@
             'notion_cycles',
             'notion_items',
             'notion_links',
+            'notion_inspirations',
             'notion_video_views'
         ];
 
@@ -1333,11 +1538,16 @@
         let cloudUser = null;
         let journalUnlocked = false;
         let shrineImageRemovePending = false;
+        let logImageRemovePending = false;
         const I18N = {
             zh: {
                 homeEyebrow: 'Manifest Atelier',
                 appTitle: '我會成為我想成為的人',
                 homeTitle: '今天想照顧哪一部分？',
+                homeGoalWidget: '今日目標 Widget',
+                homeGoalWidgetSub: '像桌面小工具一樣快速查看',
+                homeGoalWidgetEmpty: '今天還沒有目標，點一下新增。',
+                homeGoalWidgetAction: '打開今日目標',
                 dailyTracking: '每日追蹤',
                 dailyTrackingSub: '目標、運動、體重與影片紀錄集中管理',
                 trackingToday: '今日',
@@ -1381,6 +1591,23 @@
                 itemsSub: '穿搭與物品',
                 links: '連結',
                 linksSub: '常用網站',
+                inspiration: '靈感',
+                inspirationSub: '網站與圖片素材',
+                inspirationPageTitle: '靈感收藏',
+                inspirationWebsite: '網站',
+                inspirationImage: '圖片',
+                chooseImage: '選擇圖片',
+                inspirationTitlePh: '靈感標題',
+                inspirationCategoryPh: '分類，例如 穿搭 / 空間',
+                inspirationTagsPh: '標籤，例如 黑白, 秋冬',
+                inspirationNotePh: '為什麼收藏、想如何使用...',
+                saveInspiration: '儲存靈感',
+                inspirationHistory: '靈感板',
+                inspirationFilter: '靈感分類篩選',
+                noInspirations: '還沒有靈感收藏，先存一個網站或圖片吧',
+                inspirationSaved: '靈感已儲存',
+                fillInspirationContent: '請填寫標題，並提供網站或圖片',
+                deleteInspiration: '刪除靈感',
                 settingsButton: '設定 / 同步 / 備份',
                 settings: '設定',
                 settingsSub: '資料備份、還原與雲端同步',
@@ -1819,6 +2046,10 @@
                 homeEyebrow: 'Manifest Atelier',
                 appTitle: 'なりたい私になる',
                 homeTitle: '今日はどこを整える？',
+                homeGoalWidget: '今日の目標 Widget',
+                homeGoalWidgetSub: 'ホーム画面のウィジェット感覚で確認',
+                homeGoalWidgetEmpty: '今日の目標はまだありません。タップして追加。',
+                homeGoalWidgetAction: '今日の目標を開く',
                 dailyTracking: 'デイリー記録',
                 dailyTrackingSub: '目標、運動、体重、動画記録をまとめて管理',
                 trackingToday: '今日',
@@ -1862,6 +2093,23 @@
                 itemsSub: 'コーデと持ち物',
                 links: 'リンク',
                 linksSub: 'よく使うサイト',
+                inspiration: 'インスピレーション',
+                inspirationSub: 'サイトと画像素材',
+                inspirationPageTitle: 'インスピレーション',
+                inspirationWebsite: 'サイト',
+                inspirationImage: '画像',
+                chooseImage: '画像を選択',
+                inspirationTitlePh: 'タイトル',
+                inspirationCategoryPh: '分類 例：服装 / 空間',
+                inspirationTagsPh: 'タグ 例：白黒, 秋冬',
+                inspirationNotePh: '保存理由や使い方...',
+                saveInspiration: '保存する',
+                inspirationHistory: 'ボード',
+                inspirationFilter: '分類フィルター',
+                noInspirations: 'まだありません。サイトや画像を保存しましょう。',
+                inspirationSaved: '保存しました',
+                fillInspirationContent: 'タイトルとサイトまたは画像を入力してください',
+                deleteInspiration: '削除',
                 settingsButton: '設定 / 同期 / バックアップ',
                 settings: '設定',
                 settingsSub: 'バックアップ、復元、クラウド同期',
@@ -2300,6 +2548,10 @@
                 homeEyebrow: 'Manifest Atelier',
                 appTitle: 'I become who I choose to be',
                 homeTitle: 'What are we caring for today?',
+                homeGoalWidget: 'Today Goal Widget',
+                homeGoalWidgetSub: 'A quick home-screen style glance',
+                homeGoalWidgetEmpty: 'No goals yet today. Tap to add one.',
+                homeGoalWidgetAction: 'Open today goals',
                 dailyTracking: 'Daily Tracking',
                 dailyTrackingSub: 'Goals, workouts, weight, and video records in one place',
                 trackingToday: 'Today',
@@ -2343,6 +2595,23 @@
                 itemsSub: 'Outfits and items',
                 links: 'Links',
                 linksSub: 'Favorite sites',
+                inspiration: 'Inspiration',
+                inspirationSub: 'Sites and image references',
+                inspirationPageTitle: 'Inspiration Board',
+                inspirationWebsite: 'Website',
+                inspirationImage: 'Image',
+                chooseImage: 'Choose image',
+                inspirationTitlePh: 'Inspiration title',
+                inspirationCategoryPh: 'Category, e.g. outfits / interiors',
+                inspirationTagsPh: 'Tags, e.g. black-white, autumn',
+                inspirationNotePh: 'Why you saved it or how to use it...',
+                saveInspiration: 'Save inspiration',
+                inspirationHistory: 'Inspiration board',
+                inspirationFilter: 'Inspiration category filter',
+                noInspirations: 'No inspiration yet. Save a site or image first.',
+                inspirationSaved: 'Inspiration saved',
+                fillInspirationContent: 'Enter a title and provide a website or image',
+                deleteInspiration: 'Delete inspiration',
                 settingsButton: 'Settings / Sync / Backup',
                 settings: 'Settings',
                 settingsSub: 'Backup, restore, and cloud sync',
@@ -2839,7 +3108,7 @@
             STORAGE_KEYS.forEach(key => {
                 if (typeof data?.[key] === 'string') localStorage.setItem(key, data[key]);
             });
-            renderCalendar(); loadWorkouts(); loadLogs(); loadJournals(); loadDictionaryHistory(); renderShrineStatusFilters(); loadShrines(); loadShrineWishes(); loadMeditations(); renderPlaceStatusFilters(); renderPlaceFilters(); loadPlaces(); loadCycles(); renderItemFilters(); loadItems(); renderLinkFilters(); loadLinks(); updateHomeDashboard();
+            renderCalendar(); loadWorkouts(); loadLogs(); loadJournals(); loadDictionaryHistory(); renderShrineStatusFilters(); loadShrines(); loadShrineWishes(); loadMeditations(); renderPlaceStatusFilters(); renderPlaceFilters(); loadPlaces(); loadCycles(); renderItemFilters(); loadItems(); renderLinkFilters(); loadLinks(); renderInspirationFilters(); loadInspirations(); updateHomeDashboard();
         }
 
         function exportData() {
@@ -2898,7 +3167,7 @@
         let pendingCloudUpdate = null;
         let cloudUpdateChecking = false;
         let lastCloudUpdateCheck = 0;
-        const editState = { dailyTodo: null, shrineWish: null, workout: null, medVideo: null, log: null, journal: null, shrine: null, link: null, item: null, place: null, cycle: null, meditation: null };
+        const editState = { dailyTodo: null, shrineWish: null, workout: null, medVideo: null, log: null, journal: null, shrine: null, link: null, inspiration: null, item: null, place: null, cycle: null, meditation: null };
         let placeFilter = '全部';
         let placeStatusFilter = 'all';
         const PLACE_CATEGORIES = ['全部', '咖啡', '餐廳', '景點', '購物', '住宿', '其他'];
@@ -2910,6 +3179,9 @@
         const ITEM_STATUS_KEYS = { active: 'itemActive', stored: 'itemStored', declutter: 'itemDeclutter' };
         let itemFilter = '全部';
         let linkFilter = '全部';
+        let inspirationFilter = '全部';
+        let inspirationType = 'link';
+        let inspirationImageRemovePending = false;
         let trackingView = 'today';
         const LINK_ICONS = {
             link: '<path d="M10 13a5 5 0 0 0 7.1.1l2.8-2.8a5 5 0 0 0-7.1-7.1L11.2 5"/><path d="M14 11a5 5 0 0 0-7.1-.1L4.1 13.7a5 5 0 0 0 7.1 7.1l1.6-1.6"/>',
@@ -2935,12 +3207,24 @@
 
             renderGoalSuggestions();
             renderWorkoutFilters();
-            initDB(); renderCalendar(); loadWorkouts(); loadLogs(); loadJournals(); loadDictionaryHistory(); renderShrineStatusFilters(); loadShrines(); loadShrineWishes(); loadMeditations(); renderPlaceStatusFilters(); renderPlaceFilters(); loadPlaces(); loadCycles(); renderItemFilters(); loadItems(); renderLinkFilters(); loadLinks(); updateHomeDashboard();
+            initDB(); renderCalendar(); loadWorkouts(); loadLogs(); loadJournals(); loadDictionaryHistory(); renderShrineStatusFilters(); loadShrines(); loadShrineWishes(); loadMeditations(); renderPlaceStatusFilters(); renderPlaceFilters(); loadPlaces(); loadCycles(); renderItemFilters(); loadItems(); renderLinkFilters(); loadLinks(); renderInspirationFilters(); loadInspirations(); updateHomeDashboard();
             document.getElementById('meditation-date').value = todayKey();
             document.getElementById('meditation-date')?.addEventListener('change', () => fillMeditationFormForDate(document.getElementById('meditation-date').value));
-            ['log-image', 'shrine-image', 'item-image'].forEach(bindFileLabel);
+            ['log-image', 'shrine-image', 'item-image', 'inspiration-image'].forEach(bindFileLabel);
+            document.getElementById('log-image')?.addEventListener('change', () => {
+                if (document.getElementById('log-image')?.files?.length) {
+                    logImageRemovePending = false;
+                    setLogCurrentImagePreview('', '');
+                }
+            });
             document.getElementById('shrine-image')?.addEventListener('change', () => {
                 if (document.getElementById('shrine-image')?.files?.length) shrineImageRemovePending = false;
+            });
+            document.getElementById('inspiration-image')?.addEventListener('change', () => {
+                if (document.getElementById('inspiration-image')?.files?.length) {
+                    inspirationImageRemovePending = false;
+                    setInspirationCurrentImagePreview('', '');
+                }
             });
 
             document.getElementById('import-data').addEventListener('change', function(e) {
@@ -2978,7 +3262,7 @@
                 trackingView = trackingMap[tabName];
                 tabName = 'track';
             }
-            ['home', 'track', 'dictionary', 'goals', 'workout', 'log', 'journal', 'shrine', 'meditation', 'places', 'cycle', 'items', 'links', 'settings'].forEach(tab => {
+            ['home', 'track', 'dictionary', 'goals', 'workout', 'log', 'journal', 'shrine', 'meditation', 'places', 'cycle', 'items', 'links', 'inspiration', 'settings'].forEach(tab => {
                 document.getElementById(`page-${tab}`)?.classList.add('hidden');
             });
             const targetPage = document.getElementById(`page-${tabName}`);
@@ -3088,6 +3372,7 @@
             const cycles = getStorageArray('notion_cycles');
             const items = getStorageArray('notion_items');
             const links = getStorageArray('notion_links');
+            const inspirations = getStorageArray('notion_inspirations');
             const wantPlaces = places.filter(place => getPlaceStatus(place) === 'want').length;
             const visitedPlaces = places.filter(place => getPlaceStatus(place) === 'visited').length;
             const wardrobeCount = items.filter(isWardrobeItem).length;
@@ -3100,6 +3385,34 @@
             setHomeSummary('home-cycle-summary', `${dashboardWord('next')} ${nextCycleDateLabel(cycles)}`);
             setHomeSummary('home-items-summary', `${wardrobeCount}/${items.length} ${dashboardWord('items')}`);
             setHomeSummary('home-links-summary', `${links.length} ${dashboardWord('sites')}`);
+            setHomeSummary('home-inspiration-summary', `${inspirations.length} ${dashboardWord('entries')}`);
+            updateHomeGoalWidget();
+        }
+
+        function updateHomeGoalWidget() {
+            const list = document.getElementById('home-goal-widget-list');
+            const dateEl = document.getElementById('home-goal-widget-date');
+            const countEl = document.getElementById('home-goal-widget-count');
+            const progressEl = document.getElementById('home-goal-widget-progress');
+            if (!list || !dateEl || !countEl || !progressEl) return;
+            const today = todayKey();
+            const todos = getStorageArray('notion_todos_v2').filter(todo => todo.date === today);
+            const done = todos.filter(todo => todo.completed).length;
+            const rate = todos.length ? Math.round((done / todos.length) * 100) : 0;
+            const lang = getLanguage();
+            const weekday = currentDate.toLocaleDateString(lang === 'zh' ? 'zh-TW' : lang === 'ja' ? 'ja-JP' : 'en-US', { weekday: 'short' });
+            dateEl.innerText = `${today} ${weekday}`;
+            countEl.innerText = `${done}/${todos.length}`;
+            progressEl.style.width = `${rate}%`;
+            if (!todos.length) {
+                list.innerHTML = `<button type="button" onclick="openDailyModal(todayKey())" class="home-widget-goal w-full text-left"><span class="home-widget-dot"></span><span class="home-widget-text text-xs text-notion-muted">${escapeHTML(t('homeGoalWidgetEmpty'))}</span></button>`;
+                return;
+            }
+            const visibleTodos = todos.slice(0, 3);
+            list.innerHTML = visibleTodos.map(todo => `<div class="home-widget-goal ${todo.completed ? 'done' : ''}"><span class="home-widget-dot"></span><span class="home-widget-text text-xs truncate">${escapeHTML(todo.text || '')}</span></div>`).join('');
+            if (todos.length > visibleTodos.length) {
+                list.insertAdjacentHTML('beforeend', `<button type="button" onclick="openDailyModal(todayKey())" class="w-full text-left text-[11px] text-notion-muted px-2 py-1">+${todos.length - visibleTodos.length}</button>`);
+            }
         }
 
         function setTrackingPanel(view = 'today') {
@@ -3706,6 +4019,7 @@
                 : lang === 'en'
                     ? `Today ${doneToday}/${todayTodos.length} | Month ${monthRate}%`
                     : `今日 ${doneToday}/${todayTodos.length}｜本月 ${monthRate}%`;
+            updateHomeGoalWidget();
             updateTrackingOverview();
         }
         function openDailyModal(dateStr) { selectedDateStr = dateStr; document.getElementById('daily-modal-title').innerText = `${dateStr} ${t('goalSuffix')}`; const modal = document.getElementById('modal-daily'); const content = document.getElementById('modal-daily-content'); renderDailyTodos(); modal.classList.remove('hidden'); modal.classList.add('flex'); setTimeout(() => { content.classList.remove('translate-y-full'); }, 10); }
@@ -3772,17 +4086,119 @@
             const diff = latest.weight - first.weight;
             if (summary) summary.innerText = `${latest.weight.toFixed(1)} kg${coords.length > 1 ? `｜${diff >= 0 ? '+' : ''}${diff.toFixed(1)} kg` : ''}`;
             chart.innerHTML = `<svg viewBox="0 0 ${width} ${height}" class="w-full h-full" role="img" aria-label="${escapeHTML(t('weightTrend'))}">
-                <line x1="${pad}" y1="${height - pad}" x2="${width - pad}" y2="${height - pad}" stroke="#EAEAEA" stroke-width="1"/>
-                <line x1="${pad}" y1="${pad}" x2="${pad}" y2="${height - pad}" stroke="#EAEAEA" stroke-width="1"/>
-                <polyline points="${line}" fill="none" stroke="#2E2C27" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                ${coords.map(p => `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="3.8" fill="#2E2C27"><title>${escapeHTML(p.date)} ${p.weight.toFixed(1)}kg</title></circle>`).join('')}
-                <text x="${pad}" y="16" fill="#9B9B9B" font-size="10">${max.toFixed(1)}kg</text>
-                <text x="${pad}" y="${height - 6}" fill="#9B9B9B" font-size="10">${min.toFixed(1)}kg</text>
+                <line x1="${pad}" y1="${height - pad}" x2="${width - pad}" y2="${height - pad}" stroke="#E3E2DF" stroke-width="1"/>
+                <line x1="${pad}" y1="${pad}" x2="${pad}" y2="${height - pad}" stroke="#E3E2DF" stroke-width="1"/>
+                <polyline points="${line}" fill="none" stroke="#37352F" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                ${coords.map(p => `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="3.8" fill="#37352F"><title>${escapeHTML(p.date)} ${p.weight.toFixed(1)}kg</title></circle>`).join('')}
+                <text x="${pad}" y="16" fill="#787774" font-size="10">${max.toFixed(1)}kg</text>
+                <text x="${pad}" y="${height - 6}" fill="#787774" font-size="10">${min.toFixed(1)}kg</text>
             </svg>`;
         }
-        function loadLogs() { renderTodayVideoSummary(); const logs = getStorageArray('notion_logs_v2'); const weightList = document.getElementById('weight-log-list'); const videoList = document.getElementById('video-log-list'); if (!weightList || !videoList) return; renderWeightChart(logs); weightList.innerHTML = ''; videoList.innerHTML = ''; const weightLogs = logs.map((log, index) => ({ log, index })).filter(item => hasWeightLog(item.log)).reverse().slice(0, 5); const videoLogs = logs.map((log, index) => ({ log, index })).filter(item => Array.isArray(item.log.videoViews) && item.log.videoViews.length).reverse().slice(0, 5); if (!weightLogs.length) weightList.innerHTML = getEmptyStateHTML(t('noWeightLogs')); weightLogs.forEach(({ log, index }) => { const div = document.createElement('div'); div.className = "bg-notion-card border border-notion-border rounded-notion p-4 text-sm"; const imgHTML = log.image ? `<img src="${escapeHTML(log.image)}" alt="${t('photo')}" class="mt-3 rounded-notion object-cover w-full max-h-48 border border-notion-border bg-notion-hover">` : ''; const meals = getMealRows(log); div.innerHTML = `<div class="flex justify-between items-start"><span class="text-[10px] text-notion-text font-medium bg-notion-hover px-2 py-0.5 rounded">${escapeHTML(logDisplayDate(log))}</span><div class="flex gap-1"><button onclick="editLog(${index})" class="text-notion-muted opacity-60 active:opacity-100 text-xs py-1 px-2" aria-label="${t('edit')}">${t('edit')}</button><button onclick="deleteLog(${index})" class="text-notion-muted opacity-40 active:opacity-100 text-xs py-1 px-2" aria-label="${t('deleteRecord')}">✕</button></div></div><div class="mt-2 space-y-1">${log.weight ? `<p class="text-sm font-semibold">⚖️ ${escapeHTML(log.weight)} kg</p>` : ''}${meals.map(row => `<p class="text-xs bg-notion-hover rounded px-2 py-1">${row}</p>`).join('')}${log.reflection ? `<p class="text-xs text-notion-text mt-2 whitespace-pre-wrap border-l-2 border-notion-border pl-2">${escapeHTML(log.reflection)}</p>` : ''}</div>${imgHTML}`; weightList.appendChild(div); }); if (!videoLogs.length) videoList.innerHTML = getEmptyStateHTML(t('noVideoLogs')); videoLogs.forEach(({ log, index }) => { const div = document.createElement('div'); div.className = "bg-notion-card border border-notion-border rounded-notion p-4 text-sm"; div.innerHTML = `<div class="flex justify-between items-start mb-2"><span class="text-[10px] text-notion-text font-medium bg-notion-hover px-2 py-0.5 rounded">${escapeHTML(logDisplayDate(log))}</span></div><div class="space-y-2">${log.videoViews.map((v, videoIndex) => `<div class="flex items-center justify-between gap-2 bg-notion-hover rounded-notion p-2"><div class="min-w-0"><p class="text-xs font-medium truncate">${escapeHTML(v.type)}｜${escapeHTML(v.title)}</p><p class="text-[11px] text-notion-muted">${escapeHTML(v.count)} ${getLanguage() === 'en' ? 'x' : '次'}</p></div><div class="flex gap-1 shrink-0"><button onclick="editLogVideo(${index}, ${videoIndex})" class="text-notion-muted opacity-60 active:opacity-100 text-xs px-2 py-1">${t('edit')}</button><button onclick="deleteLogVideo(${index}, ${videoIndex})" class="text-notion-muted opacity-40 active:opacity-100 text-xs px-2 py-1" aria-label="${t('deleteRecord')}">✕</button></div></div>`).join('')}</div>`; videoList.appendChild(div); }); }
-        function saveLog() { const w = document.getElementById('log-weight').value.trim(); const breakfast = document.getElementById('log-breakfast').value.trim(); const lunch = document.getElementById('log-lunch').value.trim(); const dinner = document.getElementById('log-dinner').value.trim(); const reflection = document.getElementById('log-reflection').value.trim(); const file = document.getElementById('log-image').files[0]; const dateKey = document.getElementById('log-date').value || todayKey(); const save = (img) => { const l = getStorageArray('notion_logs_v2'); const next = {weight:w, breakfast, lunch, dinner, reflection, image:img, date:dateKey, dateKey}; if (editState.log !== null && l[editState.log]) { l[editState.log] = { ...l[editState.log], ...next, food: l[editState.log].food || '', image: img ?? l[editState.log].image ?? null, updatedAt: new Date().toISOString() }; showToast(t('updated')); } else { l.push(next); if(l.length>60) l.shift(); showToast(t('recordSaved')); } localStorage.setItem('notion_logs_v2', JSON.stringify(l)); cancelEdit('log'); loadLogs(); updateTrackingOverview(); }; if(file) compressImage(file, save); else if(w||breakfast||lunch||dinner||reflection||editState.log !== null) save(null); else showToast(t('fillContent')); }
-        function editLog(i) { const logs = getStorageArray('notion_logs_v2'); const log = logs[i]; if (!log) return; editState.log = i; document.getElementById('log-date').value = log.dateKey || log.date || todayKey(); document.getElementById('log-weight').value = log.weight || ''; document.getElementById('log-breakfast').value = log.breakfast || log.food || ''; document.getElementById('log-lunch').value = log.lunch || ''; document.getElementById('log-dinner').value = log.dinner || ''; document.getElementById('log-reflection').value = log.reflection || ''; document.getElementById('log-image').value = ''; updateFileLabel('log-image'); setCancelVisible('log-cancel-edit', true); scrollToControl('log-date'); }
+        function loadLogs() {
+            renderTodayVideoSummary();
+            const logs = getStorageArray('notion_logs_v2');
+            const weightList = document.getElementById('weight-log-list');
+            const videoList = document.getElementById('video-log-list');
+            if (!weightList || !videoList) return;
+            renderWeightChart(logs);
+            weightList.innerHTML = '';
+            videoList.innerHTML = '';
+            const weightLogs = logs.map((log, index) => ({ log, index })).filter(item => hasWeightLog(item.log)).reverse().slice(0, 5);
+            const videoLogs = logs.map((log, index) => ({ log, index })).filter(item => Array.isArray(item.log.videoViews) && item.log.videoViews.length).reverse().slice(0, 5);
+            if (!weightLogs.length) weightList.innerHTML = getEmptyStateHTML(t('noWeightLogs'));
+            weightLogs.forEach(({ log, index }) => {
+                const div = document.createElement('div');
+                div.className = "bg-notion-card border border-notion-border rounded-notion p-4 text-sm";
+                const imgHTML = log.image ? `<button type="button" data-log-image-index="${index}" class="image-preview-button compact-image log-image-preview mt-3 active:opacity-80" aria-label="${escapeHTML(t('tapToPreview'))} ${escapeHTML(t('photo'))}"><img src="${escapeHTML(log.image)}" alt="${escapeHTML(t('photo'))}"><span class="image-preview-badge">${escapeHTML(t('tapToPreview'))}</span></button>` : '';
+                const meals = getMealRows(log);
+                div.innerHTML = `<div class="flex justify-between items-start"><span class="text-[10px] text-notion-text font-medium bg-notion-hover px-2 py-0.5 rounded">${escapeHTML(logDisplayDate(log))}</span><div class="flex gap-1"><button onclick="editLog(${index})" class="text-notion-muted opacity-60 active:opacity-100 text-xs py-1 px-2" aria-label="${t('edit')}">${t('edit')}</button><button onclick="deleteLog(${index})" class="text-notion-muted opacity-40 active:opacity-100 text-xs py-1 px-2" aria-label="${t('deleteRecord')}">✕</button></div></div><div class="mt-2 space-y-1">${log.weight ? `<p class="text-sm font-semibold">⚖️ ${escapeHTML(log.weight)} kg</p>` : ''}${meals.map(row => `<p class="text-xs bg-notion-hover rounded px-2 py-1">${row}</p>`).join('')}${log.reflection ? `<p class="text-xs text-notion-text mt-2 whitespace-pre-wrap border-l-2 border-notion-border pl-2">${escapeHTML(log.reflection)}</p>` : ''}</div>${imgHTML}`;
+                weightList.appendChild(div);
+            });
+            weightList.querySelectorAll('.log-image-preview').forEach(button => {
+                button.addEventListener('click', event => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    const idx = parseInt(button.dataset.logImageIndex, 10);
+                    const log = getStorageArray('notion_logs_v2')[idx];
+                    if (log?.image) openImageViewer(log.image, t('photo'));
+                });
+            });
+            if (!videoLogs.length) videoList.innerHTML = getEmptyStateHTML(t('noVideoLogs'));
+            videoLogs.forEach(({ log, index }) => {
+                const div = document.createElement('div');
+                div.className = "bg-notion-card border border-notion-border rounded-notion p-4 text-sm";
+                div.innerHTML = `<div class="flex justify-between items-start mb-2"><span class="text-[10px] text-notion-text font-medium bg-notion-hover px-2 py-0.5 rounded">${escapeHTML(logDisplayDate(log))}</span></div><div class="space-y-2">${log.videoViews.map((v, videoIndex) => `<div class="flex items-center justify-between gap-2 bg-notion-hover rounded-notion p-2"><div class="min-w-0"><p class="text-xs font-medium truncate">${escapeHTML(v.type)}｜${escapeHTML(v.title)}</p><p class="text-[11px] text-notion-muted">${escapeHTML(v.count)} ${getLanguage() === 'en' ? 'x' : '次'}</p></div><div class="flex gap-1 shrink-0"><button onclick="editLogVideo(${index}, ${videoIndex})" class="text-notion-muted opacity-60 active:opacity-100 text-xs px-2 py-1">${t('edit')}</button><button onclick="deleteLogVideo(${index}, ${videoIndex})" class="text-notion-muted opacity-40 active:opacity-100 text-xs px-2 py-1" aria-label="${t('deleteRecord')}">✕</button></div></div>`).join('')}</div>`;
+                videoList.appendChild(div);
+            });
+        }
+        function setLogCurrentImagePreview(src = '', name = '') {
+            const wrap = document.getElementById('log-current-image-wrap');
+            const button = document.getElementById('log-current-image-preview');
+            const img = document.getElementById('log-current-image-img');
+            if (!wrap || !button || !img) return;
+            const hasImage = Boolean(src);
+            wrap.classList.toggle('hidden', !hasImage);
+            img.src = hasImage ? src : '';
+            img.alt = name || t('photo');
+            button.onclick = hasImage ? () => openImageViewer(src, name || t('photo')) : null;
+        }
+        function removeCurrentLogImage() {
+            logImageRemovePending = true;
+            const input = document.getElementById('log-image');
+            if (input) input.value = '';
+            updateFileLabel('log-image');
+            setLogCurrentImagePreview('', '');
+            showToast(t('updated'));
+        }
+        function saveLog() {
+            const w = document.getElementById('log-weight').value.trim();
+            const breakfast = document.getElementById('log-breakfast').value.trim();
+            const lunch = document.getElementById('log-lunch').value.trim();
+            const dinner = document.getElementById('log-dinner').value.trim();
+            const reflection = document.getElementById('log-reflection').value.trim();
+            const file = document.getElementById('log-image').files[0];
+            const dateKey = document.getElementById('log-date').value || todayKey();
+            const save = (img) => {
+                const l = getStorageArray('notion_logs_v2');
+                const existingImage = editState.log !== null && l[editState.log] ? l[editState.log].image : null;
+                const finalImage = img ?? (logImageRemovePending ? null : existingImage ?? null);
+                const next = { weight: w, breakfast, lunch, dinner, reflection, image: finalImage, date: dateKey, dateKey };
+                if (editState.log !== null && l[editState.log]) {
+                    l[editState.log] = { ...l[editState.log], ...next, food: l[editState.log].food || '', image: finalImage, updatedAt: new Date().toISOString() };
+                    showToast(t('updated'));
+                } else {
+                    l.push(next);
+                    if (l.length > 60) l.shift();
+                    showToast(t('recordSaved'));
+                }
+                logImageRemovePending = false;
+                localStorage.setItem('notion_logs_v2', JSON.stringify(l));
+                cancelEdit('log');
+                loadLogs();
+                updateTrackingOverview();
+            };
+            if (file) compressImage(file, save);
+            else if (w || breakfast || lunch || dinner || reflection || editState.log !== null || logImageRemovePending) save(null);
+            else showToast(t('fillContent'));
+        }
+        function editLog(i) {
+            const logs = getStorageArray('notion_logs_v2');
+            const log = logs[i];
+            if (!log) return;
+            editState.log = i;
+            logImageRemovePending = false;
+            document.getElementById('log-date').value = log.dateKey || log.date || todayKey();
+            document.getElementById('log-weight').value = log.weight || '';
+            document.getElementById('log-breakfast').value = log.breakfast || log.food || '';
+            document.getElementById('log-lunch').value = log.lunch || '';
+            document.getElementById('log-dinner').value = log.dinner || '';
+            document.getElementById('log-reflection').value = log.reflection || '';
+            document.getElementById('log-image').value = '';
+            updateFileLabel('log-image');
+            setLogCurrentImagePreview(log.image || '', t('photo'));
+            setCancelVisible('log-cancel-edit', true);
+            scrollToControl('log-date');
+        }
         function editLogVideo(logIndex, videoIndex) { const logs = getStorageArray('notion_logs_v2'); const video = logs[logIndex]?.videoViews?.[videoIndex]; if (!video) return; const title = prompt(t('editVideoRecord'), video.title || ''); if (title === null) return; const type = prompt(t('watchedVideos'), video.type || t('workout')); if (type === null) return; const count = prompt(t('videoCountPrompt'), video.count || 1); if (count === null) return; video.title = title.trim() || video.title; video.type = type.trim() || video.type; video.count = Math.max(1, parseInt(count, 10) || 1); localStorage.setItem('notion_logs_v2', JSON.stringify(logs)); loadLogs(); showToast(t('updated')); }
         function deleteLogVideo(logIndex, videoIndex) { const logs = getStorageArray('notion_logs_v2'); if (!logs[logIndex]?.videoViews) return; logs[logIndex].videoViews.splice(videoIndex, 1); if (!hasWeightLog(logs[logIndex]) && logs[logIndex].videoViews.length === 0) logs.splice(logIndex, 1); localStorage.setItem('notion_logs_v2', JSON.stringify(logs)); loadLogs(); showToast(t('deleted')); }
         function deleteLog(i) { const l = getStorageArray('notion_logs_v2'); if (!l[i]) return; if (Array.isArray(l[i].videoViews) && l[i].videoViews.length) { l[i].weight = ''; l[i].food = ''; l[i].image = null; } else { l.splice(i, 1); } localStorage.setItem('notion_logs_v2', JSON.stringify(l)); loadLogs(); showToast(t('deleted')); }
@@ -4234,7 +4650,7 @@
             [...shrines].reverse().forEach((s, i) => { 
                 const realIdx = shrines.length - 1 - i; 
                 const div = document.createElement('div'); div.className = "bg-notion-card border border-notion-border rounded-notion p-4 text-sm"; 
-                let imgHTML = s.image ? `<button type="button" data-shrine-image-index="${realIdx}" class="image-preview-button shrine-image-preview mt-3 active:opacity-80" aria-label="${escapeHTML(t('tapToPreview'))} ${escapeHTML(s.name || t('goshuin'))}"><img src="${escapeHTML(s.image)}" alt="${escapeHTML(s.name || t('goshuin'))}"><span class="image-preview-badge">${escapeHTML(t('tapToPreview'))}</span></button>` : ''; 
+                let imgHTML = s.image ? `<button type="button" data-shrine-image-index="${realIdx}" class="image-preview-button compact-image shrine-image-preview mt-3 active:opacity-80" aria-label="${escapeHTML(t('tapToPreview'))} ${escapeHTML(s.name || t('goshuin'))}"><img src="${escapeHTML(s.image)}" alt="${escapeHTML(s.name || t('goshuin'))}"><span class="image-preview-badge">${escapeHTML(t('tapToPreview'))}</span></button>` : ''; 
                 
                 const mapQuery = encodeURIComponent(s.address || s.name);
                 const mapLink = `<a href="https://www.google.com/maps/search/?api=1&query=${mapQuery}" target="_blank" rel="noopener noreferrer" class="text-[10px] text-notion-muted hover:text-notion-text flex items-center gap-1 mt-1.5 w-fit active:opacity-70 bg-notion-hover px-1.5 py-0.5 rounded transition-colors"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>${escapeHTML(s.address || t('viewOnMap'))}</a>`;
@@ -4591,6 +5007,169 @@
             scrollToControl('link-title');
         }
         function deleteLink(i) { const links = getStorageArray('notion_links'); links.splice(i, 1); localStorage.setItem('notion_links', JSON.stringify(links)); loadLinks(); showToast(t('deleted')); }
+
+        // ================= 靈感收藏 =================
+        function setInspirationType(type = 'link') {
+            inspirationType = type === 'image' ? 'image' : 'link';
+            document.getElementById('inspiration-type-link')?.classList.toggle('bg-notion-btn', inspirationType === 'link');
+            document.getElementById('inspiration-type-link')?.classList.toggle('text-white', inspirationType === 'link');
+            document.getElementById('inspiration-type-link')?.classList.toggle('bg-white', inspirationType !== 'link');
+            document.getElementById('inspiration-type-link')?.classList.toggle('text-notion-text', inspirationType !== 'link');
+            document.getElementById('inspiration-type-link')?.classList.toggle('border-notion-btn', inspirationType === 'link');
+            document.getElementById('inspiration-type-link')?.classList.toggle('border-notion-border', inspirationType !== 'link');
+            document.getElementById('inspiration-type-image')?.classList.toggle('bg-notion-btn', inspirationType === 'image');
+            document.getElementById('inspiration-type-image')?.classList.toggle('text-white', inspirationType === 'image');
+            document.getElementById('inspiration-type-image')?.classList.toggle('bg-white', inspirationType !== 'image');
+            document.getElementById('inspiration-type-image')?.classList.toggle('text-notion-text', inspirationType !== 'image');
+            document.getElementById('inspiration-type-image')?.classList.toggle('border-notion-btn', inspirationType === 'image');
+            document.getElementById('inspiration-type-image')?.classList.toggle('border-notion-border', inspirationType !== 'image');
+            document.getElementById('inspiration-url')?.classList.toggle('hidden', inspirationType !== 'link');
+            document.getElementById('inspiration-image-section')?.classList.toggle('hidden', inspirationType !== 'image');
+        }
+        function getInspirationFilters(items = getStorageArray('notion_inspirations')) {
+            return ['全部', '網站', '圖片', ...Array.from(new Set(items.map(item => (item.category || '').trim()).filter(Boolean)))];
+        }
+        function renderInspirationFilters() {
+            const container = document.getElementById('inspiration-filter');
+            if (!container) return;
+            const inspirations = getStorageArray('notion_inspirations');
+            const filters = getInspirationFilters(inspirations);
+            if (!filters.includes(inspirationFilter)) inspirationFilter = '全部';
+            container.innerHTML = filters.map(filter => {
+                const count = filter === '全部'
+                    ? inspirations.length
+                    : filter === '網站'
+                        ? inspirations.filter(item => item.type !== 'image').length
+                        : filter === '圖片'
+                            ? inspirations.filter(item => item.type === 'image').length
+                            : inspirations.filter(item => (item.category || '') === filter).length;
+                const label = filter === '全部' ? t('linkCatAll') : filter === '網站' ? t('inspirationWebsite') : filter === '圖片' ? t('inspirationImage') : filter;
+                return `<button type="button" data-inspiration-filter="${escapeHTML(filter)}" class="inspiration-filter-btn shrink-0 text-[11px] border rounded-full px-3 py-1.5 ${inspirationFilter === filter ? 'bg-notion-btn text-white border-notion-btn' : 'bg-white text-notion-text border-notion-border'}">${escapeHTML(label)}${count ? ` ${count}` : ''}</button>`;
+            }).join('');
+            container.querySelectorAll('.inspiration-filter-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    inspirationFilter = button.dataset.inspirationFilter || '全部';
+                    renderInspirationFilters();
+                    loadInspirations();
+                });
+            });
+        }
+        function getFilteredInspirations(inspirations) {
+            if (inspirationFilter === '全部') return inspirations;
+            if (inspirationFilter === '網站') return inspirations.filter(item => item.type !== 'image');
+            if (inspirationFilter === '圖片') return inspirations.filter(item => item.type === 'image');
+            return inspirations.filter(item => (item.category || '') === inspirationFilter);
+        }
+        function loadInspirations() {
+            const inspirations = getStorageArray('notion_inspirations');
+            const filtered = getFilteredInspirations(inspirations);
+            const list = document.getElementById('inspiration-list');
+            if (!list) return;
+            renderInspirationFilters();
+            list.innerHTML = '';
+            list.className = 'space-y-3';
+            if (!inspirations.length) { list.innerHTML = getEmptyStateHTML(t('noInspirations')); return; }
+            if (!filtered.length) { list.innerHTML = getEmptyStateHTML(t('noInspirations')); return; }
+            list.className = 'grid grid-cols-1 min-[420px]:grid-cols-2 gap-3';
+            [...filtered].reverse().forEach(item => {
+                const realIdx = inspirations.indexOf(item);
+                const isImage = item.type === 'image';
+                const div = document.createElement('div');
+                div.className = 'bg-notion-card border border-notion-border rounded-notion p-3 text-sm shadow-sm';
+                const media = isImage && item.image
+                    ? `<button type="button" onclick="openInspirationImage(${realIdx})" class="image-preview-button compact-image mb-3 active:opacity-80" aria-label="${escapeHTML(t('tapToPreview'))}"><img src="${escapeHTML(item.image)}" alt="${escapeHTML(item.title || t('inspirationImage'))}"><span class="image-preview-badge">${escapeHTML(t('tapToPreview'))}</span></button>`
+                    : `<button type="button" onclick="openInspirationLink(${realIdx})" class="w-full min-h-[76px] rounded-notion bg-notion-hover border border-notion-border flex items-center justify-center text-notion-text active:scale-[0.98]"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-7 h-7"><path d="M10 13a5 5 0 0 0 7.1.1l2.8-2.8a5 5 0 0 0-7.1-7.1L11.2 5"/><path d="M14 11a5 5 0 0 0-7.1-.1L4.1 13.7a5 5 0 0 0 7.1 7.1l1.6-1.6"/></svg></button>`;
+                const tagHTML = (item.tags || '').split(',').map(tag => tag.trim()).filter(Boolean).slice(0, 3).map(tag => `<span class="readable-card-meta bg-notion-hover rounded-full px-2 py-1">${escapeHTML(tag)}</span>`).join('');
+                div.innerHTML = `${media}<div class="space-y-2"><div class="flex items-start justify-between gap-2"><div class="min-w-0"><p class="readable-card-title font-semibold text-notion-text line-clamp-2">${escapeHTML(item.title || t('inspiration'))}</p><p class="readable-card-meta text-notion-muted mt-1">${escapeHTML(isImage ? t('inspirationImage') : t('inspirationWebsite'))}${item.category ? `｜${escapeHTML(item.category)}` : ''}</p></div></div>${tagHTML ? `<div class="flex flex-wrap gap-1">${tagHTML}</div>` : ''}${item.note ? `<p class="readable-card-body text-notion-muted line-clamp-2">${escapeHTML(item.note)}</p>` : ''}<div class="grid grid-cols-3 gap-2 pt-1"><button onclick="${isImage ? `openInspirationImage(${realIdx})` : `openInspirationLink(${realIdx})`}" class="readable-action border border-notion-border rounded py-1.5 bg-white">${isImage ? t('tapToPreview') : t('openLink')}</button><button onclick="editInspiration(${realIdx})" class="readable-action border border-notion-border rounded py-1.5 bg-white">${t('edit')}</button><button onclick="deleteInspiration(${realIdx})" class="readable-action border border-notion-border rounded py-1.5 bg-white text-notion-muted" aria-label="${t('deleteInspiration')}">✕</button></div></div>`;
+                list.appendChild(div);
+            });
+        }
+        function setInspirationCurrentImagePreview(src = '', name = '') {
+            const wrap = document.getElementById('inspiration-current-image-wrap');
+            const button = document.getElementById('inspiration-current-image-preview');
+            const img = document.getElementById('inspiration-current-image-img');
+            if (!wrap || !button || !img) return;
+            const hasImage = Boolean(src);
+            wrap.classList.toggle('hidden', !hasImage);
+            img.src = hasImage ? src : '';
+            img.alt = name || t('inspirationImage');
+            button.onclick = hasImage ? () => openImageViewer(src, name || t('inspirationImage')) : null;
+        }
+        function removeCurrentInspirationImage() {
+            inspirationImageRemovePending = true;
+            const input = document.getElementById('inspiration-image');
+            if (input) input.value = '';
+            updateFileLabel('inspiration-image');
+            setInspirationCurrentImagePreview('', '');
+            showToast(t('updated'));
+        }
+        function saveInspiration() {
+            const title = document.getElementById('inspiration-title').value.trim();
+            const rawUrl = document.getElementById('inspiration-url').value.trim();
+            const file = document.getElementById('inspiration-image').files[0];
+            const category = document.getElementById('inspiration-category').value.trim() || t('uncategorized');
+            const tags = document.getElementById('inspiration-tags').value.trim();
+            const note = document.getElementById('inspiration-note').value.trim();
+            const type = inspirationType === 'image' ? 'image' : 'link';
+            const save = (img) => {
+                const inspirations = getStorageArray('notion_inspirations');
+                const existing = editState.inspiration !== null ? inspirations[editState.inspiration] : null;
+                const existingImage = existing?.image || null;
+                const finalImage = img ?? (inspirationImageRemovePending ? null : existingImage);
+                const url = type === 'link' ? normalizeLinkURL(rawUrl) : (rawUrl ? normalizeLinkURL(rawUrl) : '');
+                if (!title || (type === 'link' && url === '#') || (type === 'image' && !finalImage)) return showToast(t('fillInspirationContent'));
+                const next = { title, type, url, image: type === 'image' ? finalImage : null, category, tags, note };
+                if (existing) inspirations[editState.inspiration] = { ...existing, ...next, updatedAt: new Date().toISOString() };
+                else inspirations.push({ ...next, createdAt: new Date().toISOString() });
+                localStorage.setItem('notion_inspirations', JSON.stringify(inspirations));
+                inspirationFilter = category;
+                inspirationImageRemovePending = false;
+                cancelEdit('inspiration');
+                renderInspirationFilters();
+                loadInspirations();
+                updateHomeDashboard();
+                showToast(t('inspirationSaved'));
+            };
+            if (type === 'image' && file) compressImage(file, save);
+            else save(null);
+        }
+        function editInspiration(i) {
+            const inspirations = getStorageArray('notion_inspirations');
+            const item = inspirations[i];
+            if (!item) return;
+            editState.inspiration = i;
+            inspirationImageRemovePending = false;
+            setInspirationType(item.type === 'image' ? 'image' : 'link');
+            document.getElementById('inspiration-title').value = item.title || '';
+            document.getElementById('inspiration-url').value = item.url || '';
+            document.getElementById('inspiration-category').value = item.category || '';
+            document.getElementById('inspiration-tags').value = item.tags || '';
+            document.getElementById('inspiration-note').value = item.note || '';
+            document.getElementById('inspiration-image').value = '';
+            updateFileLabel('inspiration-image');
+            setInspirationCurrentImagePreview(item.image || '', item.title || t('inspirationImage'));
+            setCancelVisible('inspiration-cancel-edit', true);
+            scrollToControl('inspiration-title');
+        }
+        function deleteInspiration(i) {
+            const inspirations = getStorageArray('notion_inspirations');
+            inspirations.splice(i, 1);
+            localStorage.setItem('notion_inspirations', JSON.stringify(inspirations));
+            renderInspirationFilters();
+            loadInspirations();
+            updateHomeDashboard();
+            showToast(t('deleted'));
+        }
+        function openInspirationLink(i) {
+            const item = getStorageArray('notion_inspirations')[i];
+            const url = normalizeLinkURL(item?.url);
+            if (url === '#') return showToast(t('invalidLink'));
+            window.open(url, '_blank', 'noopener,noreferrer');
+        }
+        function openInspirationImage(i) {
+            const item = getStorageArray('notion_inspirations')[i];
+            if (item?.image) openImageViewer(item.image, item.title || t('inspirationImage'));
+        }
 
         function getItemCategoryLabel(category) { return t(ITEM_CATEGORY_KEYS[category] || 'itemCatOther'); }
         function getItemStatusLabel(status) { return t(ITEM_STATUS_KEYS[status] || 'itemActive'); }
