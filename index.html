@@ -315,6 +315,165 @@
         .home-feature-grid .feature-tile {
             min-height: 96px;
         }
+        .home-shell {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+        .home-hero {
+            padding: 8px 2px 0;
+        }
+        .home-hero-date {
+            margin-top: 10px;
+            font-size: clamp(12px, 3vw, 13px);
+            color: #787774;
+            font-weight: 600;
+        }
+        .home-status-card {
+            border: 1px solid #E3E2DF;
+            background: #FFFFFF;
+            border-radius: 8px;
+            padding: 14px;
+            box-shadow: 0 1px 2px rgba(15, 15, 15, 0.04);
+        }
+        .home-status-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 8px;
+        }
+        .home-status-item {
+            min-height: 72px;
+            border: 1px solid #EDECE9;
+            border-radius: 8px;
+            background: #F7F7F5;
+            padding: 10px 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            text-align: left;
+        }
+        .home-status-label {
+            font-size: clamp(10px, 2.7vw, 11px);
+            color: #787774;
+            font-weight: 700;
+            line-height: 1.25;
+        }
+        .home-status-value {
+            font-size: clamp(17px, 4.6vw, 22px);
+            color: #37352F;
+            font-weight: 750;
+            line-height: 1.1;
+            margin-top: 8px;
+        }
+        .home-primary-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+        .home-primary-card {
+            min-height: 132px;
+            border: 1px solid #E3E2DF;
+            background: #FFFFFF;
+            border-radius: 8px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            text-align: left;
+            box-shadow: 0 1px 2px rgba(15, 15, 15, 0.04);
+        }
+        .home-primary-card:active,
+        .home-recent-button:active,
+        .hub-child-card:active {
+            background: #F7F7F5;
+            transform: scale(0.99);
+        }
+        .home-primary-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 8px;
+            border: 1px solid #E3E2DF;
+            background: #F7F7F5;
+            color: #37352F;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .home-primary-icon svg {
+            width: 20px;
+            height: 20px;
+        }
+        .home-primary-title {
+            margin-top: 14px;
+            font-size: clamp(18px, 4.7vw, 21px);
+            line-height: 1.15;
+            font-weight: 750;
+            color: #37352F;
+        }
+        .home-primary-sub {
+            margin-top: 6px;
+            font-size: clamp(11px, 2.9vw, 12px);
+            line-height: 1.45;
+            color: #787774;
+        }
+        .home-recent-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .home-recent-button {
+            width: 100%;
+            min-height: 54px;
+            border: 1px solid #E3E2DF;
+            background: #FFFFFF;
+            border-radius: 8px;
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            text-align: left;
+        }
+        .hub-header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 14px;
+            padding-top: 4px;
+            padding-bottom: 4px;
+        }
+        .hub-title {
+            font-size: clamp(28px, 8vw, 40px);
+            line-height: 1;
+            font-weight: 760;
+            color: #37352F;
+        }
+        .hub-subtitle {
+            margin-top: 8px;
+            font-size: clamp(12px, 3.2vw, 14px);
+            color: #787774;
+            line-height: 1.5;
+        }
+        .hub-child-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+        .hub-child-card {
+            min-height: 112px;
+            border: 1px solid #E3E2DF;
+            background: #FFFFFF;
+            border-radius: 8px;
+            padding: 13px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            text-align: left;
+            box-shadow: 0 1px 2px rgba(15, 15, 15, 0.04);
+        }
+        .hub-child-card .feature-icon {
+            margin-bottom: 10px;
+        }
         .track-tab {
             min-height: 38px;
             border: 1px solid #E3E2DF;
@@ -420,6 +579,54 @@
                 margin-left: auto;
                 margin-right: auto;
             }
+            .home-shell {
+                gap: 22px;
+            }
+            .home-hero {
+                display: grid;
+                grid-template-columns: minmax(0, 1fr) auto;
+                align-items: end;
+                gap: 24px;
+                padding-top: 20px;
+            }
+            .home-hero p:first-child {
+                grid-column: 1 / -1;
+            }
+            .home-hero-date {
+                margin-top: 0;
+                white-space: nowrap;
+            }
+            .home-status-card {
+                padding: 18px;
+            }
+            .home-status-item {
+                min-height: 88px;
+                padding: 14px;
+            }
+            .home-primary-grid {
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+                gap: 12px;
+            }
+            .home-primary-card {
+                min-height: 152px;
+                padding: 16px;
+            }
+            .home-recent-list {
+                display: grid;
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+            .home-recent-button {
+                min-height: 72px;
+                align-items: flex-start;
+            }
+            .hub-child-grid {
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+                gap: 12px;
+            }
+            .hub-child-card {
+                min-height: 132px;
+                padding: 15px;
+            }
             #page-home .grid {
                 grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
             }
@@ -432,6 +639,7 @@
             #page-items,
             #page-links,
             #page-inspiration,
+            #page-hub,
             #page-settings {
                 max-width: 760px;
                 margin-left: auto;
@@ -570,78 +778,87 @@
             <div class="app-mark" aria-hidden="true">MF</div>
             <h1 id="header-title" class="text-base font-semibold tracking-wide leading-snug" data-i18n="appTitle">我會成為我想成為的人</h1>
             </div>
-            <span class="text-xs text-notion-muted font-medium hidden min-[360px]:inline" id="current-date"></span>
+            <div class="flex items-center gap-2 shrink-0">
+                <span class="text-xs text-notion-muted font-medium hidden min-[360px]:inline" id="current-date"></span>
+                <button type="button" onclick="switchTab('settings')" class="w-9 h-9 inline-flex items-center justify-center bg-notion-hover border border-notion-border rounded-notion text-notion-text active:bg-gray-200" data-i18n-aria="settings" aria-label="設定">
+                    <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 .6V20a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1-.6 1.7 1.7 0 0 0-1.88.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-.6-1H4a2 2 0 1 1 0-4h.09a1.7 1.7 0 0 0 .6-1 1.7 1.7 0 0 0-.34-1.88l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-.6V4a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 .6 1.7 1.7 0 0 0 1.88-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.4 9c.22.34.43.67.6 1H20a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-.51 1z"/></svg>
+                </button>
+            </div>
         </div>
     </header>
 
     <main class="flex-1 overflow-y-auto pb-8 px-5 pt-5 space-y-6 hide-scrollbar">
         
         <div id="page-home" class="space-y-5">
-            <div class="space-y-1">
+            <div class="home-shell">
+            <section class="home-hero">
                 <p class="text-xs text-notion-muted font-medium tracking-wider uppercase" data-i18n="homeEyebrow">Manifest Atelier</p>
-                <h2 class="text-2xl font-semibold leading-tight text-notion-text min-h-[3.5rem]" data-i18n="homeTitle" id="home-quote">今天想照顧哪一部分？</h2>
-            </div>
-            <section class="home-widget-card space-y-3" aria-labelledby="home-goal-widget-title">
-                <button type="button" onclick="openDailyModal(todayKey())" class="w-full text-left active:opacity-80">
-                    <div class="flex items-start justify-between gap-3">
-                        <div class="min-w-0">
-                            <p id="home-goal-widget-title" class="text-xs text-notion-muted font-medium tracking-wider uppercase" data-i18n="homeGoalWidget">今日目標 Widget</p>
-                            <p id="home-goal-widget-date" class="text-lg font-semibold text-notion-text mt-1"></p>
-                        </div>
-                        <div class="text-right shrink-0">
-                            <p id="home-goal-widget-count" class="text-xl font-semibold text-notion-text">0/0</p>
-                            <p class="text-[11px] text-notion-muted" data-i18n="homeGoalWidgetSub">像桌面小工具一樣快速查看</p>
-                        </div>
-                    </div>
-                    <div class="home-widget-progress mt-3" aria-hidden="true"><span id="home-goal-widget-progress"></span></div>
-                </button>
-                <div id="home-goal-widget-list" class="space-y-1.5"></div>
+                <h2 class="text-3xl font-semibold leading-tight text-notion-text min-h-[4.5rem]" data-i18n="homeTitle" id="home-quote">今天想照顧哪一部分？</h2>
+                <p id="home-date-line" class="home-hero-date"></p>
+            </section>
+
+            <section class="home-status-card space-y-3" aria-labelledby="today-review-title">
+                <div class="home-section-title">
+                    <span id="today-review-title" data-i18n="todayReview">今日狀態</span>
+                    <span data-i18n="todayReviewSub">只看最重要的三件事</span>
+                </div>
+                <div class="home-status-grid">
+                    <button type="button" onclick="switchTab('track')" class="home-status-item">
+                        <span class="home-status-label" data-i18n="todayGoals">今日目標</span>
+                        <span id="home-recap-goals" class="home-status-value">0/0</span>
+                    </button>
+                    <button type="button" onclick="switchTab('log')" class="home-status-item">
+                        <span class="home-status-label" data-i18n="latestWeight">最近體重</span>
+                        <span id="home-recap-weight" class="home-status-value">--</span>
+                    </button>
+                    <button type="button" onclick="switchTab('meditation')" class="home-status-item">
+                        <span class="home-status-label" data-i18n="meditation">冥想</span>
+                        <span id="home-recap-meditation" class="home-status-value">0</span>
+                    </button>
+                </div>
                 <button type="button" onclick="openDailyModal(todayKey())" class="w-full py-2 text-xs bg-notion-hover border border-notion-border text-notion-text rounded-notion font-medium" data-i18n="homeGoalWidgetAction">打開今日目標</button>
             </section>
+
             <section class="home-section">
-                <div class="home-section-title"><span data-i18n="todayReview">今日回顧</span><span data-i18n="todayReviewSub">今天完成了什麼</span></div>
-                <div class="home-recap-grid">
-                    <button type="button" onclick="switchTab('track')" class="home-recap-item text-left active:bg-notion-hover"><span class="recap-label" data-i18n="todayGoals">今日目標</span><span id="home-recap-goals" class="recap-value">0/0</span></button>
-                    <button type="button" onclick="switchTab('meditation')" class="home-recap-item text-left active:bg-notion-hover"><span class="recap-label" data-i18n="meditation">冥想</span><span id="home-recap-meditation" class="recap-value">0</span></button>
-                    <button type="button" onclick="switchTab('dictionary')" class="home-recap-item text-left active:bg-notion-hover"><span class="recap-label" data-i18n="dictionary">字典</span><span id="home-recap-dictionary" class="recap-value">0</span></button>
-                    <button type="button" onclick="switchTab('log')" class="home-recap-item text-left active:bg-notion-hover"><span class="recap-label" data-i18n="todayLogTitle">今日狀態紀錄</span><span id="home-recap-log" class="recap-value">0</span></button>
+                <div class="home-section-title"><span data-i18n="mainFunctions">主要功能</span><span data-i18n="mainFunctionsSub">先選方向，再進入細節</span></div>
+                <div class="home-primary-grid">
+                    <button type="button" onclick="openHub('today')" class="home-primary-card">
+                        <span class="home-primary-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M8 15h8"/></svg></span>
+                        <span><span class="home-primary-title block" data-i18n="dashboardToday">今日</span><span class="home-primary-sub block" data-i18n="dashboardTodaySub">記錄與打卡</span></span>
+                    </button>
+                    <button type="button" onclick="openHub('library')" class="home-primary-card">
+                        <span class="home-primary-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5z"/></svg></span>
+                        <span><span class="home-primary-title block" data-i18n="dashboardLibrary">收藏</span><span class="home-primary-sub block" data-i18n="dashboardLibrarySub">靈感、連結、衣櫥</span></span>
+                    </button>
+                    <button type="button" onclick="openHub('explore')" class="home-primary-card">
+                        <span class="home-primary-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18 3 21V6l6-3 6 3 6-3v15l-6 3-6-3z"/><path d="M9 3v15M15 6v15"/></svg></span>
+                        <span><span class="home-primary-title block" data-i18n="dashboardExplore">探索</span><span class="home-primary-sub block" data-i18n="dashboardExploreSub">神社、冒險、願望</span></span>
+                    </button>
+                    <button type="button" onclick="openHub('body')" class="home-primary-card">
+                        <span class="home-primary-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2s6 6.2 6 11a6 6 0 0 1-12 0c0-4.8 6-11 6-11z"/><path d="M8 20h8"/></svg></span>
+                        <span><span class="home-primary-title block" data-i18n="dashboardBody">身體</span><span class="home-primary-sub block" data-i18n="dashboardBodySub">體重、飲食、週期</span></span>
+                    </button>
                 </div>
             </section>
 
             <section class="home-section">
-                <div class="home-section-title"><span data-i18n="dashboardToday">今日</span><span data-i18n="dashboardTodaySub">每天最常用</span></div>
-                <div class="home-feature-grid">
-                    <button onclick="switchTab('track')" class="feature-tile col-span-2"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M7 14h3M14 14h3M7 18h3M14 18h3"/></svg></span><span class="text-lg font-semibold" data-i18n="dailyTracking">每日追蹤</span><span class="text-xs text-notion-muted" id="calendar-card-summary">今日 0/0｜本月 0%</span></button>
-                    <button onclick="switchTab('journal')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h6"/></svg></span><span class="text-lg font-semibold" data-i18n="journal">日記</span><span id="home-journal-summary" class="text-xs text-notion-muted" data-i18n="journalSub">顯化筆記</span></button>
-                    <button onclick="switchTab('meditation')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a14.5 14.5 0 0 0 0 20"/></svg></span><span class="text-lg font-semibold" data-i18n="meditation">冥想</span><span id="home-meditation-summary" class="text-xs text-notion-muted" data-i18n="meditationSub">計時與導引</span></button>
-                </div>
+                <div class="home-section-title"><span data-i18n="recentUsed">最近使用</span><span data-i18n="recentUsedSub">快速回到剛才的地方</span></div>
+                <div id="home-recent-list" class="home-recent-list"></div>
             </section>
+            </div>
+        </div>
 
-            <section class="home-section">
-                <div class="home-section-title"><span data-i18n="dashboardLearning">學習</span><span data-i18n="dashboardLearningSub">單字與複習</span></div>
-                <div class="home-feature-grid">
-                    <button onclick="switchTab('dictionary')" class="feature-tile col-span-2"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5z"/><path d="M9 7h6M9 11h4"/></svg></span><span class="text-lg font-semibold" data-i18n="dictionary">字典</span><span id="home-dictionary-summary" class="text-xs text-notion-muted" data-i18n="dictionarySub">日語查詢與複習</span></button>
+        <div id="page-hub" class="space-y-5 hidden">
+            <div class="hub-header">
+                <div>
+                    <h2 id="hub-title" class="hub-title">今日</h2>
+                    <p id="hub-subtitle" class="hub-subtitle">記錄與打卡</p>
                 </div>
-            </section>
-
-            <section class="home-section">
-                <div class="home-section-title"><span data-i18n="dashboardLibrary">生活收藏</span><span data-i18n="dashboardLibrarySub">物品、靈感、連結</span></div>
-                <div class="home-feature-grid">
-                    <button onclick="switchTab('items')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7h-5a3 3 0 0 1-6 0H4l1.5 14h13L20 7z"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/></svg></span><span class="text-lg font-semibold" data-i18n="items">衣櫥</span><span id="home-items-summary" class="text-xs text-notion-muted" data-i18n="itemsSub">穿搭與物品</span></button>
-                    <button onclick="switchTab('inspiration')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M2 10a10 10 0 1 1 20 0c0 3.4-1.7 5.4-3.4 6.8-.9.7-1.6 1.7-1.6 2.2H7c0-.5-.7-1.5-1.6-2.2C3.7 15.4 2 13.4 2 10z"/><path d="M9 10h6"/></svg></span><span class="text-lg font-semibold" data-i18n="inspiration">靈感</span><span id="home-inspiration-summary" class="text-xs text-notion-muted" data-i18n="inspirationSub">網站與圖片素材</span></button>
-                    <button onclick="switchTab('links')" class="feature-tile col-span-2"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.1.1l2.8-2.8a5 5 0 0 0-7.1-7.1L11.2 5"/><path d="M14 11a5 5 0 0 0-7.1-.1L4.1 13.7a5 5 0 0 0 7.1 7.1l1.6-1.6"/></svg></span><span class="text-lg font-semibold" data-i18n="links">連結</span><span id="home-links-summary" class="text-xs text-notion-muted" data-i18n="linksSub">常用網站</span></button>
-                </div>
-            </section>
-
-            <section class="home-section">
-                <div class="home-section-title"><span data-i18n="dashboardJourney">願望與探索</span><span data-i18n="dashboardJourneySub">身體、神社、冒險</span></div>
-                <div class="home-feature-grid">
-                    <button onclick="switchTab('shrine')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M6 6v16M18 6v16M4 10h16M9 10v6M15 10v6"/></svg></span><span class="text-lg font-semibold" data-i18n="shrine">神社</span><span id="home-shrine-summary" class="text-xs text-notion-muted" data-i18n="shrineSub">參拜與願望</span></button>
-                    <button onclick="switchTab('places')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18 3 21V6l6-3 6 3 6-3v15l-6 3-6-3z"/><path d="M9 3v15M15 6v15"/></svg></span><span class="text-lg font-semibold" data-i18n="places">冒險</span><span id="home-places-summary" class="text-xs text-notion-muted" data-i18n="placesSub">想去 / 已去</span></button>
-                    <button onclick="switchTab('cycle')" class="feature-tile col-span-2"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2s6 6.2 6 11a6 6 0 0 1-12 0c0-4.8 6-11 6-11z"/><path d="M9 14a3 3 0 0 0 6 0"/></svg></span><span class="text-lg font-semibold" data-i18n="cycle">生理期</span><span id="home-cycle-summary" class="text-xs text-notion-muted" data-i18n="cycleSub">週期與症狀</span></button>
-                </div>
-            </section>
-            <button onclick="switchTab('settings')" class="w-full py-3 text-sm bg-notion-btn text-white rounded-notion font-medium" data-i18n="settingsButton">設定 / 同步 / 備份</button>
+                <button type="button" onclick="switchTab('settings')" class="w-11 h-11 inline-flex items-center justify-center bg-notion-hover border border-notion-border rounded-notion text-notion-text active:bg-gray-200" data-i18n-aria="settings">
+                    <svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 15.5A3.5 3.5 0 1 0 12 8a3.5 3.5 0 0 0 0 7.5z"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 .6V20a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1-.6 1.7 1.7 0 0 0-1.88.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-.6-1H4a2 2 0 1 1 0-4h.09a1.7 1.7 0 0 0 .6-1 1.7 1.7 0 0 0-.34-1.88l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-.6V4a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 .6 1.7 1.7 0 0 0 1.88-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.4 9c.22.34.43.67.6 1H20a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-.51 1z"/></svg>
+                </button>
+            </div>
+            <div id="hub-grid" class="hub-child-grid"></div>
         </div>
 
         <div id="page-track" class="space-y-4 hidden">
@@ -1580,6 +1797,7 @@
             updateCalendarCard();
             updateTrackingOverview();
             updateHomeDashboard();
+            renderHubPage(currentHub);
             rotateHomeQuote(true);
             renderGoalSuggestions();
             renderWorkoutFilters();
@@ -1646,15 +1864,23 @@
                 homeGoalWidgetSub: '像桌面小工具一樣快速查看',
                 homeGoalWidgetEmpty: '今天還沒有目標，點一下新增。',
                 homeGoalWidgetAction: '打開今日目標',
-                todayReview: '今日回顧',
-                todayReviewSub: '把今天最需要看的狀態放在最上方',
+                todayReview: '今日狀態',
+                todayReviewSub: '只看最重要的三件事',
+                mainFunctions: '主要功能',
+                mainFunctionsSub: '先選方向，再進入細節',
+                recentUsed: '最近使用',
+                recentUsedSub: '快速回到剛才的地方',
                 dashboardToday: '今日',
                 dashboardTodaySub: '記錄與打卡',
                 dashboardLearning: '學習',
                 dashboardLearningSub: '查詢與複習',
-                dashboardLibrary: '生活收藏',
+                dashboardLibrary: '收藏',
                 dashboardLibrarySub: '靈感、連結、衣櫥',
-                dashboardJourney: '願望與探索',
+                dashboardExplore: '探索',
+                dashboardExploreSub: '神社、冒險、願望',
+                dashboardBody: '身體',
+                dashboardBodySub: '體重、飲食、週期',
+                dashboardJourney: '探索',
                 dashboardJourneySub: '神社、冒險、生理期',
                 dailyTracking: '每日追蹤',
                 dailyTrackingSub: '目標、運動、體重與影片紀錄集中管理',
@@ -2169,15 +2395,23 @@
                 homeGoalWidgetSub: 'ホーム画面のウィジェット感覚で確認',
                 homeGoalWidgetEmpty: '今日の目標はまだありません。タップして追加。',
                 homeGoalWidgetAction: '今日の目標を開く',
-                todayReview: '今日の振り返り',
-                todayReviewSub: '今日見たい状態を上にまとめる',
+                todayReview: '今日の状態',
+                todayReviewSub: '大事な3つだけを見る',
+                mainFunctions: '主な機能',
+                mainFunctionsSub: '方向を選んでから細部へ',
+                recentUsed: '最近使った',
+                recentUsedSub: 'すぐ前の場所に戻る',
                 dashboardToday: '今日',
                 dashboardTodaySub: '記録とチェックイン',
                 dashboardLearning: '学習',
                 dashboardLearningSub: '検索と復習',
-                dashboardLibrary: '暮らしの保存',
+                dashboardLibrary: '保存',
                 dashboardLibrarySub: 'インスピレーション、リンク、クローゼット',
-                dashboardJourney: '願いと探索',
+                dashboardExplore: '探索',
+                dashboardExploreSub: '神社、冒険、願い',
+                dashboardBody: 'からだ',
+                dashboardBodySub: '体重、食事、周期',
+                dashboardJourney: '探索',
                 dashboardJourneySub: '神社、冒険、生理',
                 dailyTracking: 'デイリー記録',
                 dailyTrackingSub: '目標、運動、体重、動画記録をまとめて管理',
@@ -2692,15 +2926,23 @@
                 homeGoalWidgetSub: 'A quick home-screen style glance',
                 homeGoalWidgetEmpty: 'No goals yet today. Tap to add one.',
                 homeGoalWidgetAction: 'Open today goals',
-                todayReview: 'Today Review',
-                todayReviewSub: 'Your most useful daily signals, first',
+                todayReview: 'Today Status',
+                todayReviewSub: 'Only the three signals that matter',
+                mainFunctions: 'Main Areas',
+                mainFunctionsSub: 'Choose a direction, then go deeper',
+                recentUsed: 'Recently Used',
+                recentUsedSub: 'Return to where you just were',
                 dashboardToday: 'Today',
                 dashboardTodaySub: 'Logs and check-ins',
                 dashboardLearning: 'Learning',
                 dashboardLearningSub: 'Search and review',
-                dashboardLibrary: 'Life Library',
+                dashboardLibrary: 'Library',
                 dashboardLibrarySub: 'Inspiration, links, wardrobe',
-                dashboardJourney: 'Wishes & Explore',
+                dashboardExplore: 'Explore',
+                dashboardExploreSub: 'Shrines, adventure, wishes',
+                dashboardBody: 'Body',
+                dashboardBodySub: 'Weight, meals, cycle',
+                dashboardJourney: 'Explore',
                 dashboardJourneySub: 'Shrines, adventure, cycle',
                 dailyTracking: 'Daily Tracking',
                 dailyTrackingSub: 'Goals, workouts, weight, and video records in one place',
@@ -3347,6 +3589,7 @@
         let dictionaryReviewIndex = 0;
         let dictionaryReviewFlipped = false;
         let trackingView = 'today';
+        let currentHub = 'today';
         const LINK_ICONS = {
             link: '<path d="M10 13a5 5 0 0 0 7.1.1l2.8-2.8a5 5 0 0 0-7.1-7.1L11.2 5"/><path d="M14 11a5 5 0 0 0-7.1-.1L4.1 13.7a5 5 0 0 0 7.1 7.1l1.6-1.6"/>',
             star: '<path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21 7 14.2 2 9.3l6.9-1L12 2z"/>',
@@ -3357,6 +3600,63 @@
             spark: '<path d="M12 2v6M12 16v6M4.9 4.9l4.2 4.2M14.9 14.9l4.2 4.2M2 12h6M16 12h6M4.9 19.1l4.2-4.2M14.9 9.1l4.2-4.2"/>',
             map: '<path d="M9 18 3 21V6l6-3 6 3 6-3v15l-6 3-6-3z"/><path d="M9 3v15M15 6v15"/>',
             heart: '<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/>'
+        };
+        const HOME_RECENT_KEY = 'manifestation_recent_tabs';
+        const HUB_ICONS = {
+            calendar: '<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M8 15h8"/>',
+            journal: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h6"/>',
+            meditation: '<circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a14.5 14.5 0 0 0 0 20"/>',
+            dictionary: '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5z"/><path d="M9 7h6M9 11h4"/>',
+            wardrobe: '<path d="M20 7h-5a3 3 0 0 1-6 0H4l1.5 14h13L20 7z"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/>',
+            inspiration: '<path d="M9 18h6"/><path d="M10 22h4"/><path d="M2 10a10 10 0 1 1 20 0c0 3.4-1.7 5.4-3.4 6.8-.9.7-1.6 1.7-1.6 2.2H7c0-.5-.7-1.5-1.6-2.2C3.7 15.4 2 13.4 2 10z"/><path d="M9 10h6"/>',
+            link: LINK_ICONS.link,
+            shrine: '<path d="M4 6h16M6 6v16M18 6v16M4 10h16M9 10v6M15 10v6"/>',
+            map: LINK_ICONS.map,
+            body: '<path d="M12 2s6 6.2 6 11a6 6 0 0 1-12 0c0-4.8 6-11 6-11z"/><path d="M8 20h8"/>',
+            workout: '<path d="M6 8v8M18 8v8M3 10v4M21 10v4M6 12h12"/>',
+            weight: '<path d="M6 20h12a2 2 0 0 0 2-2V8a6 6 0 0 0-16 0v10a2 2 0 0 0 2 2z"/><path d="M12 8v4l3 2"/>'
+        };
+        const HUBS = {
+            today: {
+                titleKey: 'dashboardToday',
+                subKey: 'dashboardTodaySub',
+                items: [
+                    { tab: 'track', titleKey: 'dailyTracking', subKey: 'dailyTrackingSub', icon: 'calendar' },
+                    { tab: 'journal', titleKey: 'journal', subKey: 'journalSub', icon: 'journal' },
+                    { tab: 'meditation', titleKey: 'meditation', subKey: 'meditationSub', icon: 'meditation' },
+                    { tab: 'dictionary', titleKey: 'dictionary', subKey: 'dictionarySub', icon: 'dictionary' }
+                ]
+            },
+            library: {
+                titleKey: 'dashboardLibrary',
+                subKey: 'dashboardLibrarySub',
+                items: [
+                    { tab: 'items', titleKey: 'items', subKey: 'itemsSub', icon: 'wardrobe' },
+                    { tab: 'inspiration', titleKey: 'inspiration', subKey: 'inspirationSub', icon: 'inspiration' },
+                    { tab: 'links', titleKey: 'links', subKey: 'linksSub', icon: 'link' },
+                    { tab: 'dictionary', titleKey: 'dictionary', subKey: 'dictionarySub', icon: 'dictionary' }
+                ]
+            },
+            explore: {
+                titleKey: 'dashboardExplore',
+                subKey: 'dashboardExploreSub',
+                items: [
+                    { tab: 'shrine', titleKey: 'shrine', subKey: 'shrineSub', icon: 'shrine' },
+                    { tab: 'places', titleKey: 'places', subKey: 'placesSub', icon: 'map' },
+                    { tab: 'journal', titleKey: 'journal', subKey: 'journalSub', icon: 'journal' },
+                    { tab: 'inspiration', titleKey: 'inspiration', subKey: 'inspirationSub', icon: 'inspiration' }
+                ]
+            },
+            body: {
+                titleKey: 'dashboardBody',
+                subKey: 'dashboardBodySub',
+                items: [
+                    { tab: 'log', titleKey: 'log', subKey: 'logSub', icon: 'weight' },
+                    { tab: 'workout', titleKey: 'workout', subKey: 'workoutSub', icon: 'workout' },
+                    { tab: 'cycle', titleKey: 'cycle', subKey: 'cycleSub', icon: 'body' },
+                    { tab: 'meditation', titleKey: 'meditation', subKey: 'meditationSub', icon: 'meditation' }
+                ]
+            }
         };
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -3422,11 +3722,12 @@
         function switchTab(tabName) {
             try { closeTransientOverlays(); } catch (error) { console.warn('close overlays failed', error); }
             const trackingMap = { goals: 'calendar', workout: 'workout', log: 'log' };
+            const originalTab = tabName;
             if (trackingMap[tabName]) {
                 trackingView = trackingMap[tabName];
                 tabName = 'track';
             }
-            ['home', 'track', 'dictionary', 'goals', 'workout', 'log', 'journal', 'shrine', 'meditation', 'places', 'cycle', 'items', 'links', 'inspiration', 'settings'].forEach(tab => {
+            ['home', 'hub', 'track', 'dictionary', 'goals', 'workout', 'log', 'journal', 'shrine', 'meditation', 'places', 'cycle', 'items', 'links', 'inspiration', 'settings'].forEach(tab => {
                 document.getElementById(`page-${tab}`)?.classList.add('hidden');
             });
             const targetPage = document.getElementById(`page-${tabName}`);
@@ -3436,8 +3737,68 @@
             document.getElementById('home-brand')?.classList.toggle('hidden', !isHome);
             document.getElementById('back-home')?.classList.toggle('hidden', isHome);
             if (isHome) updateHomeDashboard();
+            if (!isHome && tabName !== 'hub' && tabName !== 'settings') rememberRecentTab(originalTab);
             if (tabName === 'track') setTrackingPanel(trackingView);
             window.scrollTo(0,0);
+        }
+
+        function openHub(hubKey) {
+            currentHub = HUBS[hubKey] ? hubKey : 'today';
+            renderHubPage(currentHub);
+            try { closeTransientOverlays(); } catch (error) { console.warn('close overlays failed', error); }
+            ['home', 'hub', 'track', 'dictionary', 'goals', 'workout', 'log', 'journal', 'shrine', 'meditation', 'places', 'cycle', 'items', 'links', 'inspiration', 'settings'].forEach(tab => {
+                document.getElementById(`page-${tab}`)?.classList.add('hidden');
+            });
+            document.getElementById('page-hub')?.classList.remove('hidden');
+            document.getElementById('home-brand')?.classList.add('hidden');
+            document.getElementById('back-home')?.classList.remove('hidden');
+            window.scrollTo(0,0);
+        }
+
+        function renderHubPage(hubKey = currentHub) {
+            const hub = HUBS[hubKey] || HUBS.today;
+            const title = document.getElementById('hub-title');
+            const subtitle = document.getElementById('hub-subtitle');
+            const grid = document.getElementById('hub-grid');
+            if (!title || !subtitle || !grid) return;
+            title.innerText = t(hub.titleKey);
+            subtitle.innerText = t(hub.subKey);
+            grid.innerHTML = hub.items.map(item => {
+                const icon = HUB_ICONS[item.icon] || HUB_ICONS.calendar;
+                return `<button type="button" onclick="switchTab('${item.tab}')" class="hub-child-card">
+                    <span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${icon}</svg></span>
+                    <span><span class="text-base font-semibold text-notion-text block">${escapeHTML(t(item.titleKey))}</span><span class="text-xs text-notion-muted leading-relaxed block mt-1">${escapeHTML(t(item.subKey))}</span></span>
+                </button>`;
+            }).join('');
+        }
+
+        function rememberRecentTab(tabName) {
+            const tab = tabName === 'goals' ? 'track' : tabName;
+            const allowed = ['track', 'dictionary', 'journal', 'shrine', 'meditation', 'places', 'cycle', 'items', 'links', 'inspiration', 'workout', 'log'];
+            if (!allowed.includes(tab)) return;
+            const recent = getStorageArray(HOME_RECENT_KEY).filter(item => item !== tab);
+            recent.unshift(tab);
+            localStorage.setItem(HOME_RECENT_KEY, JSON.stringify(recent.slice(0, 3)));
+        }
+
+        function renderRecentTabs() {
+            const list = document.getElementById('home-recent-list');
+            if (!list) return;
+            let recent = getStorageArray(HOME_RECENT_KEY).filter(tab => getFeatureMeta(tab));
+            if (!recent.length) recent = ['journal', 'dictionary', 'items'];
+            list.innerHTML = recent.slice(0, 3).map(tab => {
+                const meta = getFeatureMeta(tab);
+                const icon = HUB_ICONS[meta.icon] || HUB_ICONS.calendar;
+                return `<button type="button" onclick="switchTab('${tab}')" class="home-recent-button">
+                    <span class="flex items-center gap-3 min-w-0"><span class="feature-icon !mb-0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${icon}</svg></span><span class="min-w-0"><span class="text-sm font-semibold text-notion-text block truncate">${escapeHTML(t(meta.titleKey))}</span><span class="text-xs text-notion-muted block truncate">${escapeHTML(t(meta.subKey))}</span></span></span>
+                    <span class="text-notion-muted text-lg leading-none">›</span>
+                </button>`;
+            }).join('');
+        }
+
+        function getFeatureMeta(tab) {
+            const allItems = Object.values(HUBS).flatMap(hub => hub.items);
+            return allItems.find(item => item.tab === tab) || null;
         }
 
         function getYouTubeId(url) {
@@ -3552,6 +3913,16 @@
             setHomeSummary('home-inspiration-summary', `${inspirations.length} ${dashboardWord('entries')}`);
             updateHomeGoalWidget();
             updateHomeRecap();
+            renderRecentTabs();
+            updateHomeDateLine();
+        }
+
+        function updateHomeDateLine() {
+            const line = document.getElementById('home-date-line');
+            if (!line) return;
+            const lang = getLanguage();
+            const locale = lang === 'zh' ? 'zh-TW' : lang === 'ja' ? 'ja-JP' : 'en-US';
+            line.innerText = currentDate.toLocaleDateString(locale, { year: 'numeric', month: '2-digit', day: '2-digit', weekday: 'short' });
         }
 
         function updateHomeRecap() {
@@ -3573,11 +3944,19 @@
             setRecapValue('home-recap-meditation', `${meds.length}`);
             setRecapValue('home-recap-dictionary', `${dictionaryToday.length}`);
             setRecapValue('home-recap-log', `${logs.length + getTodayVideoViews().length}`);
+            setRecapValue('home-recap-weight', latestWeightLabel());
         }
 
         function setRecapValue(id, value) {
             const node = document.getElementById(id);
             if (node) node.innerText = value;
+        }
+
+        function latestWeightLabel() {
+            const logs = getStorageArray('notion_logs_v2')
+                .filter(log => log.weight)
+                .sort((a, b) => new Date(logDisplayDate(b) || 0) - new Date(logDisplayDate(a) || 0));
+            return logs[0]?.weight ? `${logs[0].weight}kg` : '--';
         }
 
         function updateHomeGoalWidget() {
