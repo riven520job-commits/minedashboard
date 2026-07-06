@@ -258,6 +258,63 @@
             color: #787774;
             text-decoration: line-through;
         }
+        .home-section {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .home-section-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 0 2px;
+        }
+        .home-section-title span:first-child {
+            font-size: clamp(13px, 3.5vw, 15px);
+            font-weight: 700;
+            color: #37352F;
+        }
+        .home-section-title span:last-child {
+            font-size: clamp(11px, 2.9vw, 12px);
+            color: #787774;
+        }
+        .home-recap-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 8px;
+        }
+        .home-recap-item {
+            min-height: 74px;
+            border: 1px solid #E3E2DF;
+            background: #FFFFFF;
+            border-radius: 8px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 1px 2px rgba(15, 15, 15, 0.04);
+        }
+        .home-recap-item .recap-label {
+            font-size: clamp(11px, 2.9vw, 12px);
+            color: #787774;
+            font-weight: 600;
+        }
+        .home-recap-item .recap-value {
+            font-size: clamp(20px, 5.4vw, 24px);
+            color: #37352F;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-top: 8px;
+        }
+        .home-feature-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+        .home-feature-grid .feature-tile {
+            min-height: 96px;
+        }
         .track-tab {
             min-height: 38px;
             border: 1px solid #E3E2DF;
@@ -541,18 +598,49 @@
                 <div id="home-goal-widget-list" class="space-y-1.5"></div>
                 <button type="button" onclick="openDailyModal(todayKey())" class="w-full py-2 text-xs bg-notion-hover border border-notion-border text-notion-text rounded-notion font-medium" data-i18n="homeGoalWidgetAction">打開今日目標</button>
             </section>
-            <div class="grid grid-cols-2 gap-3">
-                <button onclick="switchTab('track')" class="feature-tile col-span-2"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M7 14h3M14 14h3M7 18h3M14 18h3"/></svg></span><span class="text-lg font-semibold" data-i18n="dailyTracking">每日追蹤</span><span class="text-xs text-notion-muted" id="calendar-card-summary">今日 0/0｜本月 0%</span></button>
-                <button onclick="switchTab('journal')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h6"/></svg></span><span class="text-lg font-semibold" data-i18n="journal">日記</span><span id="home-journal-summary" class="text-xs text-notion-muted" data-i18n="journalSub">顯化筆記</span></button>
-                <button onclick="switchTab('dictionary')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5z"/><path d="M9 7h6M9 11h4"/></svg></span><span class="text-lg font-semibold" data-i18n="dictionary">字典</span><span id="home-dictionary-summary" class="text-xs text-notion-muted" data-i18n="dictionarySub">日語查詢與複習</span></button>
-                <button onclick="switchTab('shrine')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M6 6v16M18 6v16M4 10h16M9 10v6M15 10v6"/></svg></span><span class="text-lg font-semibold" data-i18n="shrine">神社</span><span id="home-shrine-summary" class="text-xs text-notion-muted" data-i18n="shrineSub">參拜與願望</span></button>
-                <button onclick="switchTab('meditation')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a14.5 14.5 0 0 0 0 20"/></svg></span><span class="text-lg font-semibold" data-i18n="meditation">冥想</span><span id="home-meditation-summary" class="text-xs text-notion-muted" data-i18n="meditationSub">計時與導引</span></button>
-                <button onclick="switchTab('places')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18 3 21V6l6-3 6 3 6-3v15l-6 3-6-3z"/><path d="M9 3v15M15 6v15"/></svg></span><span class="text-lg font-semibold" data-i18n="places">冒險</span><span id="home-places-summary" class="text-xs text-notion-muted" data-i18n="placesSub">想去 / 已去</span></button>
-                <button onclick="switchTab('cycle')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2s6 6.2 6 11a6 6 0 0 1-12 0c0-4.8 6-11 6-11z"/><path d="M9 14a3 3 0 0 0 6 0"/></svg></span><span class="text-lg font-semibold" data-i18n="cycle">生理期</span><span id="home-cycle-summary" class="text-xs text-notion-muted" data-i18n="cycleSub">週期與症狀</span></button>
-                <button onclick="switchTab('items')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7h-5a3 3 0 0 1-6 0H4l1.5 14h13L20 7z"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/></svg></span><span class="text-lg font-semibold" data-i18n="items">衣櫥</span><span id="home-items-summary" class="text-xs text-notion-muted" data-i18n="itemsSub">穿搭與物品</span></button>
-                <button onclick="switchTab('links')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.1.1l2.8-2.8a5 5 0 0 0-7.1-7.1L11.2 5"/><path d="M14 11a5 5 0 0 0-7.1-.1L4.1 13.7a5 5 0 0 0 7.1 7.1l1.6-1.6"/></svg></span><span class="text-lg font-semibold" data-i18n="links">連結</span><span id="home-links-summary" class="text-xs text-notion-muted" data-i18n="linksSub">常用網站</span></button>
-                <button onclick="switchTab('inspiration')" class="feature-tile col-span-2"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M2 10a10 10 0 1 1 20 0c0 3.4-1.7 5.4-3.4 6.8-.9.7-1.6 1.7-1.6 2.2H7c0-.5-.7-1.5-1.6-2.2C3.7 15.4 2 13.4 2 10z"/><path d="M9 10h6"/></svg></span><span class="text-lg font-semibold" data-i18n="inspiration">靈感</span><span id="home-inspiration-summary" class="text-xs text-notion-muted" data-i18n="inspirationSub">網站與圖片素材</span></button>
-            </div>
+            <section class="home-section">
+                <div class="home-section-title"><span data-i18n="todayReview">今日回顧</span><span data-i18n="todayReviewSub">今天完成了什麼</span></div>
+                <div class="home-recap-grid">
+                    <button type="button" onclick="switchTab('track')" class="home-recap-item text-left active:bg-notion-hover"><span class="recap-label" data-i18n="todayGoals">今日目標</span><span id="home-recap-goals" class="recap-value">0/0</span></button>
+                    <button type="button" onclick="switchTab('meditation')" class="home-recap-item text-left active:bg-notion-hover"><span class="recap-label" data-i18n="meditation">冥想</span><span id="home-recap-meditation" class="recap-value">0</span></button>
+                    <button type="button" onclick="switchTab('dictionary')" class="home-recap-item text-left active:bg-notion-hover"><span class="recap-label" data-i18n="dictionary">字典</span><span id="home-recap-dictionary" class="recap-value">0</span></button>
+                    <button type="button" onclick="switchTab('log')" class="home-recap-item text-left active:bg-notion-hover"><span class="recap-label" data-i18n="todayLogTitle">今日狀態紀錄</span><span id="home-recap-log" class="recap-value">0</span></button>
+                </div>
+            </section>
+
+            <section class="home-section">
+                <div class="home-section-title"><span data-i18n="dashboardToday">今日</span><span data-i18n="dashboardTodaySub">每天最常用</span></div>
+                <div class="home-feature-grid">
+                    <button onclick="switchTab('track')" class="feature-tile col-span-2"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M7 14h3M14 14h3M7 18h3M14 18h3"/></svg></span><span class="text-lg font-semibold" data-i18n="dailyTracking">每日追蹤</span><span class="text-xs text-notion-muted" id="calendar-card-summary">今日 0/0｜本月 0%</span></button>
+                    <button onclick="switchTab('journal')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h6"/></svg></span><span class="text-lg font-semibold" data-i18n="journal">日記</span><span id="home-journal-summary" class="text-xs text-notion-muted" data-i18n="journalSub">顯化筆記</span></button>
+                    <button onclick="switchTab('meditation')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a14.5 14.5 0 0 0 0 20"/></svg></span><span class="text-lg font-semibold" data-i18n="meditation">冥想</span><span id="home-meditation-summary" class="text-xs text-notion-muted" data-i18n="meditationSub">計時與導引</span></button>
+                </div>
+            </section>
+
+            <section class="home-section">
+                <div class="home-section-title"><span data-i18n="dashboardLearning">學習</span><span data-i18n="dashboardLearningSub">單字與複習</span></div>
+                <div class="home-feature-grid">
+                    <button onclick="switchTab('dictionary')" class="feature-tile col-span-2"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5z"/><path d="M9 7h6M9 11h4"/></svg></span><span class="text-lg font-semibold" data-i18n="dictionary">字典</span><span id="home-dictionary-summary" class="text-xs text-notion-muted" data-i18n="dictionarySub">日語查詢與複習</span></button>
+                </div>
+            </section>
+
+            <section class="home-section">
+                <div class="home-section-title"><span data-i18n="dashboardLibrary">生活收藏</span><span data-i18n="dashboardLibrarySub">物品、靈感、連結</span></div>
+                <div class="home-feature-grid">
+                    <button onclick="switchTab('items')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7h-5a3 3 0 0 1-6 0H4l1.5 14h13L20 7z"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/></svg></span><span class="text-lg font-semibold" data-i18n="items">衣櫥</span><span id="home-items-summary" class="text-xs text-notion-muted" data-i18n="itemsSub">穿搭與物品</span></button>
+                    <button onclick="switchTab('inspiration')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M2 10a10 10 0 1 1 20 0c0 3.4-1.7 5.4-3.4 6.8-.9.7-1.6 1.7-1.6 2.2H7c0-.5-.7-1.5-1.6-2.2C3.7 15.4 2 13.4 2 10z"/><path d="M9 10h6"/></svg></span><span class="text-lg font-semibold" data-i18n="inspiration">靈感</span><span id="home-inspiration-summary" class="text-xs text-notion-muted" data-i18n="inspirationSub">網站與圖片素材</span></button>
+                    <button onclick="switchTab('links')" class="feature-tile col-span-2"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.1.1l2.8-2.8a5 5 0 0 0-7.1-7.1L11.2 5"/><path d="M14 11a5 5 0 0 0-7.1-.1L4.1 13.7a5 5 0 0 0 7.1 7.1l1.6-1.6"/></svg></span><span class="text-lg font-semibold" data-i18n="links">連結</span><span id="home-links-summary" class="text-xs text-notion-muted" data-i18n="linksSub">常用網站</span></button>
+                </div>
+            </section>
+
+            <section class="home-section">
+                <div class="home-section-title"><span data-i18n="dashboardJourney">願望與探索</span><span data-i18n="dashboardJourneySub">身體、神社、冒險</span></div>
+                <div class="home-feature-grid">
+                    <button onclick="switchTab('shrine')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M6 6v16M18 6v16M4 10h16M9 10v6M15 10v6"/></svg></span><span class="text-lg font-semibold" data-i18n="shrine">神社</span><span id="home-shrine-summary" class="text-xs text-notion-muted" data-i18n="shrineSub">參拜與願望</span></button>
+                    <button onclick="switchTab('places')" class="feature-tile"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18 3 21V6l6-3 6 3 6-3v15l-6 3-6-3z"/><path d="M9 3v15M15 6v15"/></svg></span><span class="text-lg font-semibold" data-i18n="places">冒險</span><span id="home-places-summary" class="text-xs text-notion-muted" data-i18n="placesSub">想去 / 已去</span></button>
+                    <button onclick="switchTab('cycle')" class="feature-tile col-span-2"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2s6 6.2 6 11a6 6 0 0 1-12 0c0-4.8 6-11 6-11z"/><path d="M9 14a3 3 0 0 0 6 0"/></svg></span><span class="text-lg font-semibold" data-i18n="cycle">生理期</span><span id="home-cycle-summary" class="text-xs text-notion-muted" data-i18n="cycleSub">週期與症狀</span></button>
+                </div>
+            </section>
             <button onclick="switchTab('settings')" class="w-full py-3 text-sm bg-notion-btn text-white rounded-notion font-medium" data-i18n="settingsButton">設定 / 同步 / 備份</button>
         </div>
 
@@ -606,6 +694,16 @@
                 <p class="text-[10px] text-notion-muted leading-relaxed" data-i18n="dictionaryHint">會先查公開字典資料；無法連線時會自動建立本機學習筆記，查詢後保存紀錄。</p>
             </div>
             <div id="dictionary-result" class="space-y-3"></div>
+            <div id="dictionary-review-panel" class="bg-notion-card border border-notion-border rounded-notion p-4 space-y-3 shadow-sm">
+                <div class="flex items-center justify-between gap-3">
+                    <div>
+                        <span class="text-xs font-semibold text-notion-muted tracking-wider uppercase" data-i18n="ankiReview">Anki 複習</span>
+                        <p id="dictionary-review-stats" class="text-sm text-notion-muted mt-1">0 cards</p>
+                    </div>
+                    <button onclick="startDictionaryReview()" class="px-4 py-2 text-xs bg-notion-btn text-white rounded-notion active:scale-95 transition-transform" data-i18n="startReview">開始複習</button>
+                </div>
+                <div id="dictionary-flashcard" class="hidden"></div>
+            </div>
             <div class="space-y-3 pb-4">
                 <div class="flex items-center justify-between">
                     <span class="text-xs font-medium text-notion-muted block" data-i18n="dictionaryHistory">查詢紀錄</span>
@@ -1548,6 +1646,16 @@
                 homeGoalWidgetSub: '像桌面小工具一樣快速查看',
                 homeGoalWidgetEmpty: '今天還沒有目標，點一下新增。',
                 homeGoalWidgetAction: '打開今日目標',
+                todayReview: '今日回顧',
+                todayReviewSub: '把今天最需要看的狀態放在最上方',
+                dashboardToday: '今日',
+                dashboardTodaySub: '記錄與打卡',
+                dashboardLearning: '學習',
+                dashboardLearningSub: '查詢與複習',
+                dashboardLibrary: '生活收藏',
+                dashboardLibrarySub: '靈感、連結、衣櫥',
+                dashboardJourney: '願望與探索',
+                dashboardJourneySub: '神社、冒險、生理期',
                 dailyTracking: '每日追蹤',
                 dailyTrackingSub: '目標、運動、體重與影片紀錄集中管理',
                 trackingToday: '今日',
@@ -2033,6 +2141,17 @@
                 unfavorite: '取消收藏',
                 dictionaryDelete: '刪除紀錄',
                 dictionaryUseAgain: '再查一次',
+                ankiReview: 'Anki 複習',
+                startReview: '開始複習',
+                flipCard: '翻面',
+                remembered: '記住',
+                stillLearning: '還在學',
+                reviewEmpty: '還沒有可複習的單字',
+                reviewComplete: '今天複習完成',
+                reviewCards: '張卡片',
+                reviewDue: '待複習',
+                reviewProgress: '進度',
+                nextCard: '下一張',
                 aiPromptCopied: 'AI 提問已複製',
                 aiExplainFallback: '把這個詞拆成「讀音、詞性、核心意思、3 個生活例句、常見錯誤、記憶法」來學。',
                 localAiNote: '可先掌握讀音與核心意思，再把它放進自己的生活句子中。',
@@ -2050,6 +2169,16 @@
                 homeGoalWidgetSub: 'ホーム画面のウィジェット感覚で確認',
                 homeGoalWidgetEmpty: '今日の目標はまだありません。タップして追加。',
                 homeGoalWidgetAction: '今日の目標を開く',
+                todayReview: '今日の振り返り',
+                todayReviewSub: '今日見たい状態を上にまとめる',
+                dashboardToday: '今日',
+                dashboardTodaySub: '記録とチェックイン',
+                dashboardLearning: '学習',
+                dashboardLearningSub: '検索と復習',
+                dashboardLibrary: '暮らしの保存',
+                dashboardLibrarySub: 'インスピレーション、リンク、クローゼット',
+                dashboardJourney: '願いと探索',
+                dashboardJourneySub: '神社、冒険、生理',
                 dailyTracking: 'デイリー記録',
                 dailyTrackingSub: '目標、運動、体重、動画記録をまとめて管理',
                 trackingToday: '今日',
@@ -2535,6 +2664,17 @@
                 unfavorite: '保存解除',
                 dictionaryDelete: '履歴を削除',
                 dictionaryUseAgain: 'もう一度検索',
+                ankiReview: 'Anki復習',
+                startReview: '復習を始める',
+                flipCard: '裏返す',
+                remembered: '覚えた',
+                stillLearning: 'まだ学習中',
+                reviewEmpty: '復習できる単語がまだありません',
+                reviewComplete: '今日の復習が完了しました',
+                reviewCards: 'カード',
+                reviewDue: '復習待ち',
+                reviewProgress: '進捗',
+                nextCard: '次のカード',
                 aiPromptCopied: 'AI質問をコピーしました',
                 aiExplainFallback: 'この語を「読み、品詞、中心意味、生活例文3つ、よくある間違い、覚え方」に分けて学ぶ。',
                 localAiNote: 'まず読みと中心意味をつかみ、自分の生活文に入れて覚えましょう。',
@@ -2552,6 +2692,16 @@
                 homeGoalWidgetSub: 'A quick home-screen style glance',
                 homeGoalWidgetEmpty: 'No goals yet today. Tap to add one.',
                 homeGoalWidgetAction: 'Open today goals',
+                todayReview: 'Today Review',
+                todayReviewSub: 'Your most useful daily signals, first',
+                dashboardToday: 'Today',
+                dashboardTodaySub: 'Logs and check-ins',
+                dashboardLearning: 'Learning',
+                dashboardLearningSub: 'Search and review',
+                dashboardLibrary: 'Life Library',
+                dashboardLibrarySub: 'Inspiration, links, wardrobe',
+                dashboardJourney: 'Wishes & Explore',
+                dashboardJourneySub: 'Shrines, adventure, cycle',
                 dailyTracking: 'Daily Tracking',
                 dailyTrackingSub: 'Goals, workouts, weight, and video records in one place',
                 trackingToday: 'Today',
@@ -3037,6 +3187,17 @@
                 unfavorite: 'Unfavorite',
                 dictionaryDelete: 'Delete record',
                 dictionaryUseAgain: 'Search again',
+                ankiReview: 'Anki Review',
+                startReview: 'Start review',
+                flipCard: 'Flip',
+                remembered: 'Remembered',
+                stillLearning: 'Still learning',
+                reviewEmpty: 'No words to review yet',
+                reviewComplete: 'Review complete for today',
+                reviewCards: 'cards',
+                reviewDue: 'due',
+                reviewProgress: 'Progress',
+                nextCard: 'Next card',
                 aiPromptCopied: 'AI prompt copied',
                 aiExplainFallback: 'Study this term by breaking it into reading, part of speech, core meaning, 3 daily-life examples, common mistakes, and a memory hook.',
                 localAiNote: 'Start with the reading and core meaning, then place it into sentences from your own life.',
@@ -3182,6 +3343,9 @@
         let inspirationFilter = '全部';
         let inspirationType = 'link';
         let inspirationImageRemovePending = false;
+        let dictionaryReviewQueue = [];
+        let dictionaryReviewIndex = 0;
+        let dictionaryReviewFlipped = false;
         let trackingView = 'today';
         const LINK_ICONS = {
             link: '<path d="M10 13a5 5 0 0 0 7.1.1l2.8-2.8a5 5 0 0 0-7.1-7.1L11.2 5"/><path d="M14 11a5 5 0 0 0-7.1-.1L4.1 13.7a5 5 0 0 0 7.1 7.1l1.6-1.6"/>',
@@ -3387,6 +3551,33 @@
             setHomeSummary('home-links-summary', `${links.length} ${dashboardWord('sites')}`);
             setHomeSummary('home-inspiration-summary', `${inspirations.length} ${dashboardWord('entries')}`);
             updateHomeGoalWidget();
+            updateHomeRecap();
+        }
+
+        function updateHomeRecap() {
+            const today = todayKey();
+            const todos = getStorageArray('notion_todos_v2').filter(todo => todo.date === today);
+            const doneGoals = todos.filter(todo => todo.completed).length;
+            const meds = getStorageArray('notion_meditation').filter(item => (item.dateKey || item.date) === today);
+            const dictionaryToday = getStorageArray('notion_dictionary_history').filter(entry => {
+                const created = entry.createdAt ? String(entry.createdAt).slice(0, 10) : '';
+                const reviewed = entry.review?.reviewedAt ? String(entry.review.reviewedAt).slice(0, 10) : '';
+                return created === today || reviewed === today;
+            });
+            const logs = getStorageArray('notion_logs_v2').filter(log => {
+                const hasTodayRecord = logDisplayDate(log) === today && hasWeightLog(log);
+                const hasTodayVideo = Array.isArray(log.videoViews) && log.videoViews.length && (log.dateKey === today || log.date === today);
+                return hasTodayRecord || hasTodayVideo;
+            });
+            setRecapValue('home-recap-goals', `${doneGoals}/${todos.length}`);
+            setRecapValue('home-recap-meditation', `${meds.length}`);
+            setRecapValue('home-recap-dictionary', `${dictionaryToday.length}`);
+            setRecapValue('home-recap-log', `${logs.length + getTodayVideoViews().length}`);
+        }
+
+        function setRecapValue(id, value) {
+            const node = document.getElementById(id);
+            if (node) node.innerText = value;
         }
 
         function updateHomeGoalWidget() {
@@ -4245,6 +4436,110 @@
             return getStorageArray('notion_dictionary_history');
         }
 
+        function getDictionaryReviewItems(history = getDictionaryHistory(), dueOnly = true) {
+            const now = Date.now();
+            const items = history.filter(entry => entry?.word || entry?.query);
+            const due = dueOnly
+                ? items.filter(entry => !entry.review?.dueAt || new Date(entry.review.dueAt).getTime() <= now)
+                : items;
+            return due.sort((a, b) => {
+                const favDiff = Number(!!b.favorite) - Number(!!a.favorite);
+                if (favDiff) return favDiff;
+                const aLevel = parseInt(a.review?.level, 10) || 0;
+                const bLevel = parseInt(b.review?.level, 10) || 0;
+                if (aLevel !== bLevel) return aLevel - bLevel;
+                return String(b.createdAt || '').localeCompare(String(a.createdAt || ''));
+            });
+        }
+
+        function updateDictionaryReviewStats() {
+            const stats = document.getElementById('dictionary-review-stats');
+            if (!stats) return;
+            const history = getDictionaryHistory();
+            const dueCount = getDictionaryReviewItems(history, true).length;
+            stats.innerText = `${dueCount} ${t('reviewDue')} / ${history.length} ${t('reviewCards')}`;
+        }
+
+        function startDictionaryReview() {
+            const history = getDictionaryHistory();
+            dictionaryReviewQueue = getDictionaryReviewItems(history, true);
+            if (!dictionaryReviewQueue.length) dictionaryReviewQueue = getDictionaryReviewItems(history, false);
+            dictionaryReviewIndex = 0;
+            dictionaryReviewFlipped = false;
+            if (!dictionaryReviewQueue.length) return showToast(t('reviewEmpty'));
+            renderDictionaryFlashcard();
+        }
+
+        function getDictionaryReviewEntry() {
+            const current = dictionaryReviewQueue[dictionaryReviewIndex];
+            if (!current) return null;
+            return getDictionaryHistory().find(entry => entry.id === current.id) || current;
+        }
+
+        function renderDictionaryFlashcard() {
+            const box = document.getElementById('dictionary-flashcard');
+            if (!box) return;
+            const entry = getDictionaryReviewEntry();
+            if (!entry) {
+                box.classList.remove('hidden');
+                box.innerHTML = `<div class="text-center py-6 text-sm text-notion-muted bg-notion-hover border border-dashed border-notion-border rounded-notion">${escapeHTML(t('reviewComplete'))}</div>`;
+                updateDictionaryReviewStats();
+                return;
+            }
+            const total = dictionaryReviewQueue.length;
+            const progress = `${dictionaryReviewIndex + 1}/${total}`;
+            const meanings = (entry.meanings || [t('noMeaning')]).map(escapeHTML).join(' / ');
+            const examples = entry.examples?.length
+                ? `<div class="mt-3 space-y-2">${entry.examples.slice(0, 2).map(example => `<p class="text-sm text-notion-muted bg-white border border-notion-border rounded px-3 py-2">${escapeHTML(example)}</p>`).join('')}</div>`
+                : '';
+            box.classList.remove('hidden');
+            box.innerHTML = `<div class="border border-notion-border rounded-notion bg-notion-hover p-4 space-y-4">
+                <div class="flex items-center justify-between text-xs text-notion-muted">
+                    <span>${escapeHTML(t('reviewProgress'))} ${escapeHTML(progress)}</span>
+                    <span>${escapeHTML(entry.favorite ? '★' : '☆')}</span>
+                </div>
+                <button type="button" onclick="flipDictionaryCard()" class="w-full min-h-[168px] bg-white border border-notion-border rounded-notion p-5 text-center active:scale-[0.99] transition-transform">
+                    <p class="text-3xl font-semibold text-notion-text break-words">${escapeHTML(entry.word || entry.query)}</p>
+                    <p class="text-base text-notion-muted mt-2">${escapeHTML(entry.reading || t('noReading'))}</p>
+                    ${dictionaryReviewFlipped ? `<div class="mt-5 border-t border-notion-border pt-4 text-left"><p class="text-sm font-semibold text-notion-text">${meanings}</p><p class="text-sm text-notion-muted mt-2">${escapeHTML((entry.parts || [t('noPart')]).join(' / '))}</p>${entry.note ? `<p class="text-sm text-notion-text mt-3 bg-notion-hover rounded px-3 py-2">${escapeHTML(entry.note)}</p>` : ''}${examples}</div>` : `<p class="text-sm text-notion-muted mt-6">${escapeHTML(t('flipCard'))}</p>`}
+                </button>
+                ${dictionaryReviewFlipped
+                    ? `<div class="grid grid-cols-2 gap-2"><button onclick="gradeDictionaryCard(false)" class="py-3 text-sm bg-white border border-notion-border rounded-notion">${escapeHTML(t('stillLearning'))}</button><button onclick="gradeDictionaryCard(true)" class="py-3 text-sm bg-notion-btn text-white rounded-notion">${escapeHTML(t('remembered'))}</button></div>`
+                    : `<button onclick="flipDictionaryCard()" class="w-full py-3 text-sm bg-notion-btn text-white rounded-notion">${escapeHTML(t('flipCard'))}</button>`}
+            </div>`;
+        }
+
+        function flipDictionaryCard() {
+            dictionaryReviewFlipped = true;
+            renderDictionaryFlashcard();
+        }
+
+        function gradeDictionaryCard(remembered) {
+            const current = getDictionaryReviewEntry();
+            if (!current) return;
+            const history = getDictionaryHistory();
+            const entry = history.find(item => item.id === current.id);
+            if (entry) {
+                const level = Math.max(0, parseInt(entry.review?.level, 10) || 0);
+                const nextLevel = remembered ? Math.min(level + 1, 5) : 0;
+                const dueDays = remembered ? Math.max(1, Math.pow(2, nextLevel - 1)) : 0;
+                const due = new Date();
+                due.setDate(due.getDate() + dueDays);
+                entry.review = {
+                    level: nextLevel,
+                    reviewedAt: new Date().toISOString(),
+                    dueAt: due.toISOString(),
+                    correct: (entry.review?.correct || 0) + (remembered ? 1 : 0),
+                    again: (entry.review?.again || 0) + (remembered ? 0 : 1)
+                };
+                localStorage.setItem('notion_dictionary_history', JSON.stringify(history));
+            }
+            dictionaryReviewIndex += 1;
+            dictionaryReviewFlipped = false;
+            loadDictionaryHistory();
+            renderDictionaryFlashcard();
+        }
+
         function extractDictionaryAccent(apiItem = null, japanese = {}) {
             const candidates = [
                 apiItem?.pitch_accent,
@@ -4450,6 +4745,7 @@
             const list = document.getElementById('dictionary-history');
             if (!list) return;
             const history = getDictionaryHistory();
+            updateDictionaryReviewStats();
             if (!history.length) {
                 list.innerHTML = getEmptyStateHTML(t('dictionaryHistoryEmpty'));
                 return;
@@ -4459,6 +4755,7 @@
                     <button onclick="showDictionaryEntry('${entry.id}')" class="text-left min-w-0 flex-1">
                         <span class="font-semibold text-notion-text block truncate">${escapeHTML(entry.word || entry.query)}</span>
                         <span class="text-[11px] text-notion-muted block truncate">${escapeHTML(entry.reading || t('noReading'))}｜${escapeHTML((entry.meanings || [t('noMeaning')])[0])}</span>
+                        <span class="text-[11px] text-notion-muted block mt-1">${escapeHTML(t('ankiReview'))} Lv.${escapeHTML(entry.review?.level || 0)}</span>
                     </button>
                     <div class="flex items-center gap-1 shrink-0">
                         <button onclick="toggleDictionaryFavorite('${entry.id}')" class="text-xs text-notion-muted px-1">${entry.favorite ? '★' : '☆'}</button>
