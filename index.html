@@ -910,6 +910,20 @@
                 </div>
                 <p class="text-[10px] text-notion-muted leading-relaxed" data-i18n="dictionaryHint">會先查公開字典資料；無法連線時會自動建立本機學習筆記，查詢後保存紀錄。</p>
             </div>
+            <div class="bg-notion-card border border-notion-border rounded-notion p-4 space-y-3 shadow-sm">
+                <div class="flex items-center justify-between gap-3">
+                    <span class="text-xs font-semibold text-notion-muted tracking-wider uppercase" data-i18n="manualWordAdd">自己新增單字</span>
+                    <span class="text-[11px] text-notion-muted" data-i18n="manualWordAddSub">會加入 Anki 複習</span>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <input type="text" id="dictionary-manual-word" placeholder="單字" data-i18n-placeholder="manualWordPh" class="text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted">
+                    <input type="text" id="dictionary-manual-reading" placeholder="讀音" data-i18n-placeholder="manualReadingPh" class="text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted">
+                </div>
+                <input type="text" id="dictionary-manual-part" placeholder="詞性，例如 動詞 / 名詞" data-i18n-placeholder="manualPartPh" class="w-full text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted">
+                <textarea id="dictionary-manual-meaning" rows="3" placeholder="繁體中文意思..." data-i18n-placeholder="manualMeaningPh" class="w-full text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted resize-none"></textarea>
+                <textarea id="dictionary-manual-note" rows="2" placeholder="例句、記憶法或備註..." data-i18n-placeholder="manualNotePh" class="w-full text-sm border border-notion-border rounded px-3 py-2 focus:outline-none focus:border-notion-muted resize-none"></textarea>
+                <button onclick="addManualDictionaryEntry()" class="w-full py-2 text-sm bg-notion-btn text-white rounded-notion active:scale-[0.99] transition-transform" data-i18n="saveManualWord">新增到字典</button>
+            </div>
             <div id="dictionary-result" class="space-y-3"></div>
             <div id="dictionary-review-panel" class="bg-notion-card border border-notion-border rounded-notion p-4 space-y-3 shadow-sm">
                 <div class="flex items-center justify-between gap-3">
@@ -2367,6 +2381,16 @@
                 unfavorite: '取消收藏',
                 dictionaryDelete: '刪除紀錄',
                 dictionaryUseAgain: '再查一次',
+                manualWordAdd: '自己新增單字',
+                manualWordAddSub: '會加入 Anki 複習',
+                manualWordPh: '單字',
+                manualReadingPh: '讀音',
+                manualPartPh: '詞性，例如 動詞 / 名詞',
+                manualMeaningPh: '繁體中文意思...',
+                manualNotePh: '例句、記憶法或備註...',
+                saveManualWord: '新增到字典',
+                manualWordRequired: '請至少輸入單字與繁體中文意思',
+                traditionalMeaning: '繁體中文',
                 ankiReview: 'Anki 複習',
                 startReview: '開始複習',
                 flipCard: '翻面',
@@ -2898,6 +2922,16 @@
                 unfavorite: '保存解除',
                 dictionaryDelete: '履歴を削除',
                 dictionaryUseAgain: 'もう一度検索',
+                manualWordAdd: '自分で単語を追加',
+                manualWordAddSub: 'Anki復習に入ります',
+                manualWordPh: '単語',
+                manualReadingPh: '読み',
+                manualPartPh: '品詞 例：動詞 / 名詞',
+                manualMeaningPh: '繁体字中国語の意味...',
+                manualNotePh: '例文、覚え方、メモ...',
+                saveManualWord: '辞書に追加',
+                manualWordRequired: '単語と繁体字中国語の意味を入力してください',
+                traditionalMeaning: '繁体字中国語',
                 ankiReview: 'Anki復習',
                 startReview: '復習を始める',
                 flipCard: '裏返す',
@@ -3429,6 +3463,16 @@
                 unfavorite: 'Unfavorite',
                 dictionaryDelete: 'Delete record',
                 dictionaryUseAgain: 'Search again',
+                manualWordAdd: 'Add your own word',
+                manualWordAddSub: 'It will be added to Anki review',
+                manualWordPh: 'Word',
+                manualReadingPh: 'Reading',
+                manualPartPh: 'Part of speech, e.g. verb / noun',
+                manualMeaningPh: 'Traditional Chinese meaning...',
+                manualNotePh: 'Examples, memory hook, or notes...',
+                saveManualWord: 'Add to dictionary',
+                manualWordRequired: 'Please enter at least a word and Traditional Chinese meaning',
+                traditionalMeaning: 'Traditional Chinese',
                 ankiReview: 'Anki Review',
                 startReview: 'Start review',
                 flipCard: 'Flip',
@@ -4839,6 +4883,12 @@
             stats.innerText = `${dueCount} ${t('reviewDue')} / ${history.length} ${t('reviewCards')}`;
         }
 
+        function getDictionaryTraditionalMeaning(entry = {}) {
+            const direct = entry.zhMeaning || entry.traditionalMeaning || entry.ai?.traditionalChinese || entry.ai?.zhMeaning || entry.ai?.summary || '';
+            if (direct) return String(direct).trim();
+            return (entry.meanings || [t('noMeaning')]).filter(Boolean).join(' / ');
+        }
+
         function startDictionaryReview() {
             const history = getDictionaryHistory();
             dictionaryReviewQueue = getDictionaryReviewItems(history, true);
@@ -4867,7 +4917,13 @@
             }
             const total = dictionaryReviewQueue.length;
             const progress = `${dictionaryReviewIndex + 1}/${total}`;
-            const meanings = (entry.meanings || [t('noMeaning')]).map(escapeHTML).join(' / ');
+            const primaryMeaning = getDictionaryTraditionalMeaning(entry);
+            const meanings = escapeHTML(primaryMeaning || t('noMeaning'));
+            const originalMeanings = (entry.meanings || [])
+                .filter(item => item && item !== primaryMeaning)
+                .slice(0, 4)
+                .map(escapeHTML)
+                .join(' / ');
             const examples = entry.examples?.length
                 ? `<div class="mt-3 space-y-2">${entry.examples.slice(0, 2).map(example => `<p class="text-sm text-notion-muted bg-white border border-notion-border rounded px-3 py-2">${escapeHTML(example)}</p>`).join('')}</div>`
                 : '';
@@ -4880,7 +4936,7 @@
                 <button type="button" onclick="flipDictionaryCard()" class="w-full min-h-[168px] bg-white border border-notion-border rounded-notion p-5 text-center active:scale-[0.99] transition-transform">
                     <p class="text-3xl font-semibold text-notion-text break-words">${escapeHTML(entry.word || entry.query)}</p>
                     <p class="text-base text-notion-muted mt-2">${escapeHTML(entry.reading || t('noReading'))}</p>
-                    ${dictionaryReviewFlipped ? `<div class="mt-5 border-t border-notion-border pt-4 text-left"><p class="text-sm font-semibold text-notion-text">${meanings}</p><p class="text-sm text-notion-muted mt-2">${escapeHTML((entry.parts || [t('noPart')]).join(' / '))}</p>${entry.note ? `<p class="text-sm text-notion-text mt-3 bg-notion-hover rounded px-3 py-2">${escapeHTML(entry.note)}</p>` : ''}${examples}</div>` : `<p class="text-sm text-notion-muted mt-6">${escapeHTML(t('flipCard'))}</p>`}
+                    ${dictionaryReviewFlipped ? `<div class="mt-5 border-t border-notion-border pt-4 text-left"><p class="text-[11px] text-notion-muted tracking-wider uppercase mb-1">${escapeHTML(t('traditionalMeaning'))}</p><p class="text-base font-semibold text-notion-text leading-relaxed">${meanings}</p>${originalMeanings ? `<p class="text-xs text-notion-muted mt-2">${originalMeanings}</p>` : ''}<p class="text-sm text-notion-muted mt-3">${escapeHTML((entry.parts || [t('noPart')]).join(' / '))}</p>${entry.note ? `<p class="text-sm text-notion-text mt-3 bg-notion-hover rounded px-3 py-2">${escapeHTML(entry.note)}</p>` : ''}${examples}</div>` : `<p class="text-sm text-notion-muted mt-6">${escapeHTML(t('flipCard'))}</p>`}
                 </button>
                 ${dictionaryReviewFlipped
                     ? `<div class="grid grid-cols-2 gap-2"><button onclick="gradeDictionaryCard(false)" class="py-3 text-sm bg-white border border-notion-border rounded-notion">${escapeHTML(t('stillLearning'))}</button><button onclick="gradeDictionaryCard(true)" class="py-3 text-sm bg-notion-btn text-white rounded-notion">${escapeHTML(t('remembered'))}</button></div>`
@@ -4958,6 +5014,7 @@
                 examples,
                 sourceUrl: apiItem?.url || '',
                 sourceName: apiItem?.dictionaryName || '',
+                zhMeaning: '',
                 favorite: false,
                 note: '',
                 createdAt: new Date().toISOString(),
@@ -4991,10 +5048,14 @@
             const aiNotes = buildDictionaryAiNotes(entry);
             const sourceLabel = entry.source === 'local'
                 ? t('localMode')
+                : entry.source === 'manual'
+                    ? t('manualWordAdd')
                 : entry.source === 'jisho'
                     ? 'Jisho'
                     : (entry.sourceName || t('publicDictionary'));
             const accentText = entry.accent || entry.ai?.accent || t('accentUnavailable');
+            const traditionalText = getDictionaryTraditionalMeaning(entry);
+            const displayMeanings = (entry.meanings || [t('noMeaning')]).filter(x => x && x !== traditionalText);
             const sourceHTML = entry.sourceUrl
                 ? `<a href="${escapeHTML(entry.sourceUrl)}" target="_blank" rel="noopener noreferrer" class="text-[11px] text-notion-muted underline underline-offset-2">${t('sourceUrl')}：${t('publicDictionary')}</a>`
                 : '';
@@ -5023,7 +5084,8 @@
                 </div>
                 <div>
                     <p class="text-xs text-notion-muted tracking-wider uppercase mb-2">${t('meanings')}</p>
-                    <div class="space-y-2">${entry.meanings.map((x, index) => `<div class="flex gap-2 bg-notion-hover border border-notion-border rounded px-3 py-2"><span class="text-xs text-notion-muted shrink-0">${index + 1}</span><span class="text-sm text-notion-text leading-relaxed">${escapeHTML(x)}</span></div>`).join('')}</div>
+                    ${traditionalText ? `<div class="mb-2 bg-white border border-notion-border rounded px-3 py-2"><p class="text-[11px] text-notion-muted tracking-wider uppercase">${t('traditionalMeaning')}</p><p class="text-sm font-semibold text-notion-text leading-relaxed mt-1">${escapeHTML(traditionalText)}</p></div>` : ''}
+                    ${displayMeanings.length ? `<div class="space-y-2">${displayMeanings.map((x, index) => `<div class="flex gap-2 bg-notion-hover border border-notion-border rounded px-3 py-2"><span class="text-xs text-notion-muted shrink-0">${index + 1}</span><span class="text-sm text-notion-text leading-relaxed">${escapeHTML(x)}</span></div>`).join('')}</div>` : ''}
                 </div>
                 ${examplesHTML}
                 <div class="border-t border-notion-border pt-3">
@@ -5120,6 +5182,41 @@
             showToast(t('dictionarySaved'));
         }
 
+        function addManualDictionaryEntry() {
+            const wordInput = document.getElementById('dictionary-manual-word');
+            const readingInput = document.getElementById('dictionary-manual-reading');
+            const partInput = document.getElementById('dictionary-manual-part');
+            const meaningInput = document.getElementById('dictionary-manual-meaning');
+            const noteInput = document.getElementById('dictionary-manual-note');
+            const word = (wordInput?.value || '').trim();
+            const reading = (readingInput?.value || '').trim();
+            const part = (partInput?.value || '').trim();
+            const zhMeaning = (meaningInput?.value || '').trim();
+            const note = (noteInput?.value || '').trim();
+            if (!word || !zhMeaning) return showToast(t('manualWordRequired'));
+            const entry = {
+                id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+                query: word,
+                word,
+                reading,
+                accent: '',
+                zhMeaning,
+                meanings: [zhMeaning],
+                parts: part ? part.split('/').map(item => item.trim()).filter(Boolean) : [t('noPart')],
+                examples: [],
+                sourceUrl: '',
+                sourceName: '',
+                favorite: false,
+                note,
+                createdAt: new Date().toISOString(),
+                source: 'manual'
+            };
+            saveDictionaryEntry(entry);
+            document.getElementById('dictionary-result').innerHTML = renderDictionaryEntry(entry);
+            [wordInput, readingInput, partInput, meaningInput, noteInput].forEach(input => { if (input) input.value = ''; });
+            updateHomeDashboard();
+        }
+
         function loadDictionaryHistory() {
             const list = document.getElementById('dictionary-history');
             if (!list) return;
@@ -5133,7 +5230,7 @@
                 <div class="flex justify-between gap-3 items-start">
                     <button onclick="showDictionaryEntry('${entry.id}')" class="text-left min-w-0 flex-1">
                         <span class="font-semibold text-notion-text block truncate">${escapeHTML(entry.word || entry.query)}</span>
-                        <span class="text-[11px] text-notion-muted block truncate">${escapeHTML(entry.reading || t('noReading'))}｜${escapeHTML((entry.meanings || [t('noMeaning')])[0])}</span>
+                        <span class="text-[11px] text-notion-muted block truncate">${escapeHTML(entry.reading || t('noReading'))}｜${escapeHTML(getDictionaryTraditionalMeaning(entry))}</span>
                         <span class="text-[11px] text-notion-muted block mt-1">${escapeHTML(t('ankiReview'))} Lv.${escapeHTML(entry.review?.level || 0)}</span>
                     </button>
                     <div class="flex items-center gap-1 shrink-0">
@@ -5181,6 +5278,8 @@
             if (word === null) return;
             const reading = prompt(t('reading'), entry.reading || '');
             if (reading === null) return;
+            const zhMeaning = prompt(t('traditionalMeaning'), getDictionaryTraditionalMeaning(entry));
+            if (zhMeaning === null) return;
             const meaning = prompt(t('meanings'), (entry.meanings || []).join(' / '));
             if (meaning === null) return;
             const note = prompt(t('dictionaryNote'), entry.note || '');
@@ -5188,8 +5287,9 @@
             entry.word = word.trim() || entry.word || entry.query;
             entry.query = entry.word;
             entry.reading = reading.trim();
+            entry.zhMeaning = zhMeaning.trim();
             entry.meanings = meaning.split('/').map(item => item.trim()).filter(Boolean);
-            if (!entry.meanings.length) entry.meanings = [t('noMeaning')];
+            if (!entry.meanings.length) entry.meanings = [entry.zhMeaning || t('noMeaning')];
             entry.note = note.trim();
             localStorage.setItem('notion_dictionary_history', JSON.stringify(history));
             loadDictionaryHistory();
