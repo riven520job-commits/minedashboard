@@ -3821,12 +3821,15 @@
                 const tag = isExternal ? 'a' : 'button';
                 const action = isExternal
                     ? `href="${escapeHTML(safeExternalURL(item.url))}" target="_blank" rel="noopener noreferrer"`
-                    : `type="button" onclick="switchTab(${jsString(item.tab)})"`;
+                    : `type="button" data-hub-tab="${escapeHTML(item.tab)}"`;
                 return `<${tag} ${action} class="hub-child-card">
                     <span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${icon}</svg></span>
                     <span><span class="text-base font-semibold text-notion-text block">${escapeHTML(t(item.titleKey))}</span><span class="text-xs text-notion-muted leading-relaxed block mt-1">${escapeHTML(t(item.subKey))}</span></span>
                 </${tag}>`;
             }).join('');
+            grid.querySelectorAll('[data-hub-tab]').forEach(button => {
+                button.addEventListener('click', () => switchTab(button.dataset.hubTab || 'home'));
+            });
         }
 
         function rememberRecentTab(tabName) {
