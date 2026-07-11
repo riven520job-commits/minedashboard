@@ -1510,6 +1510,10 @@
                 <button onclick="pushCloudSync()" class="py-2.5 text-sm bg-notion-btn text-white rounded-notion font-medium" data-i18n="uploadLocal">上傳本機</button>
                 <button onclick="pullCloudSync()" class="py-2.5 text-sm bg-notion-btn text-white rounded-notion font-medium" data-i18n="downloadCloud">下載雲端</button>
             </div>
+            <label class="flex items-center justify-between gap-3 rounded-notion border border-notion-border bg-notion-hover px-3 py-2.5 text-xs">
+                <span><span class="font-medium block" data-i18n="autoSync">自動同步</span><span class="text-[10px] text-notion-muted block mt-0.5" data-i18n="autoSyncHint">資料變更後自動上傳，並定期檢查其他裝置的更新</span></span>
+                <input type="checkbox" id="auto-sync-enabled" onchange="setAutoSyncEnabled(this.checked)" class="w-4 h-4 accent-[#37352F]">
+            </label>
             <p id="sync-status" class="text-[11px] text-notion-muted min-h-4"></p>
         </div>
     </div>
@@ -1866,6 +1870,10 @@
         const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_UBILTYcAxnDMitdXDWCOoA_2ioS966t';
         let supabaseClient = null;
         let cloudUser = null;
+        let autoSyncTimer = null;
+        let autoSyncInFlight = false;
+        let autoSyncApplyingCloud = false;
+        let lastAppDataFingerprint = '';
         let journalUnlocked = false;
         let shrineImageRemovePending = false;
         let logImageRemovePending = false;
@@ -2335,6 +2343,10 @@
                 authLogoutFailed: '登出失敗',
                 uploading: '上傳中...',
                 uploadedSupabase: '已上傳到 Supabase',
+                autoSync: '自動同步',
+                autoSyncHint: '資料變更後自動上傳，並定期檢查其他裝置的更新',
+                autoSyncSaved: '已自動同步',
+                autoSyncConflict: '雲端有較新的資料，已暫停自動上傳',
                 uploadToast: 'Supabase 同步已上傳',
                 supabaseLoadFailed: '無法載入 Supabase SDK，請檢查網路',
                 uploadFailed: '上傳失敗：{error}',
@@ -2878,6 +2890,10 @@
                 authLogoutFailed: 'ログアウトに失敗しました',
                 uploading: 'アップロード中...',
                 uploadedSupabase: 'Supabaseにアップロードしました',
+                autoSync: '自動同期',
+                autoSyncHint: '変更後に自動アップロードし、他の端末の更新を定期確認します',
+                autoSyncSaved: '自動同期しました',
+                autoSyncConflict: 'クラウドに新しいデータがあるため、自動アップロードを停止しました',
                 uploadToast: 'Supabase同期をアップロードしました',
                 supabaseLoadFailed: 'Supabase SDKを読み込めません。ネットワークを確認してください',
                 uploadFailed: 'アップロード失敗：{error}',
@@ -3421,6 +3437,10 @@
                 authLogoutFailed: 'Sign out failed',
                 uploading: 'Uploading...',
                 uploadedSupabase: 'Uploaded to Supabase',
+                autoSync: 'Auto sync',
+                autoSyncHint: 'Uploads changes automatically and checks other devices for updates',
+                autoSyncSaved: 'Automatically synced',
+                autoSyncConflict: 'Newer cloud data found; automatic upload was paused',
                 uploadToast: 'Supabase sync uploaded',
                 supabaseLoadFailed: 'Could not load Supabase SDK. Check your network',
                 uploadFailed: 'Upload failed: {error}',
@@ -3558,10 +3578,13 @@
         }
 
         function applyAppData(data) {
+            autoSyncApplyingCloud = true;
             STORAGE_KEYS.forEach(key => {
                 if (typeof data?.[key] === 'string') localStorage.setItem(key, data[key]);
             });
             renderCalendar(); loadWorkouts(); loadLogs(); loadJournals(); loadDictionaryHistory(); renderShrineStatusFilters(); loadShrines(); loadShrineWishes(); loadMeditations(); renderPlaceStatusFilters(); renderPlaceFilters(); loadPlaces(); loadCycles(); renderItemFilters(); loadItems(); renderLinkFilters(); loadLinks(); renderInspirationFilters(); loadInspirations(); updateHomeDashboard();
+            lastAppDataFingerprint = JSON.stringify(getAllAppData());
+            setTimeout(() => { autoSyncApplyingCloud = false; }, 0);
         }
 
         function exportData() {
@@ -3756,10 +3779,24 @@
             });
             renderCyclePredictionPreview();
             handleAuthRedirect().then(() => initCloudSync()).then(() => setTimeout(() => checkCloudForUpdates(), 1200));
+            lastAppDataFingerprint = JSON.stringify(getAllAppData());
+            setInterval(watchLocalDataChanges, 2000);
+            setInterval(() => {
+                if (!document.hidden && isAutoSyncEnabled()) checkCloudForUpdates();
+            }, 20000);
             document.addEventListener('visibilitychange', () => {
-                if (!document.hidden) checkCloudForUpdates();
+                if (!document.hidden) {
+                    watchLocalDataChanges();
+                    checkCloudForUpdates(true);
+                } else {
+                    watchLocalDataChanges();
+                }
             });
-            window.addEventListener('focus', () => checkCloudForUpdates());
+            window.addEventListener('focus', () => checkCloudForUpdates(true));
+            window.addEventListener('online', () => {
+                watchLocalDataChanges();
+                checkCloudForUpdates(true);
+            });
             document.addEventListener('keydown', e => {
                 if (e.key === 'Escape') {
                     if (!document.getElementById('modal-journal').classList.contains('hidden')) closeJournalModal();
@@ -4139,6 +4176,8 @@
             if (manualInput && !manualInput.value) manualInput.value = getManualSyncId().replace(/^manual:/, '');
             const emailInput = document.getElementById('cloud-email-input');
             if (emailInput && !emailInput.value) emailInput.value = localStorage.getItem('manifestation_cloud_email') || '';
+            const autoSyncInput = document.getElementById('auto-sync-enabled');
+            if (autoSyncInput) autoSyncInput.checked = isAutoSyncEnabled();
             document.getElementById('modal-sync').classList.remove('hidden');
             document.getElementById('modal-sync').classList.add('flex');
         }
@@ -4159,6 +4198,64 @@
         function setSyncStatus(message) {
             const status = document.getElementById('sync-status');
             if (status) status.innerText = message;
+        }
+
+        function isAutoSyncEnabled() {
+            return getSyncSettings().autoSync !== false;
+        }
+
+        function setAutoSyncEnabled(enabled) {
+            const settings = getSyncSettings();
+            localStorage.setItem(SYNC_SETTINGS_KEY, JSON.stringify({ ...settings, autoSync: Boolean(enabled) }));
+            if (enabled) {
+                lastAppDataFingerprint = JSON.stringify(getAllAppData());
+                checkCloudForUpdates(true);
+            } else {
+                clearTimeout(autoSyncTimer);
+            }
+        }
+
+        function scheduleAutoSync() {
+            if (!isAutoSyncEnabled() || autoSyncApplyingCloud || document.hidden) return;
+            clearTimeout(autoSyncTimer);
+            autoSyncTimer = setTimeout(runAutoSync, 1400);
+        }
+
+        async function runAutoSync() {
+            if (autoSyncInFlight || autoSyncApplyingCloud || !isAutoSyncEnabled() || !navigator.onLine) return;
+            autoSyncInFlight = true;
+            try {
+                const syncId = await getActiveSyncId();
+                const remote = await callManifestSync('download', syncId);
+                const seen = getSeenCloudVersion(syncId);
+                const remoteTime = remote?.updated_at ? new Date(remote.updated_at).getTime() : 0;
+                const seenTime = seen ? new Date(seen).getTime() : 0;
+                if (remote?.data && seen && remoteTime > seenTime) {
+                    openCloudUpdateModal(remote, syncId);
+                    setSyncStatus(t('autoSyncConflict'));
+                    return;
+                }
+                const result = await callManifestSync('upload', syncId, getAllAppData());
+                if (result.updated_at) markCloudVersionSeen(syncId, result.updated_at);
+                lastAppDataFingerprint = JSON.stringify(getAllAppData());
+                setSyncStatus(t('autoSyncSaved'));
+            } catch {
+                // Automatic sync stays quiet when offline or not configured; manual sync reports details.
+            } finally {
+                autoSyncInFlight = false;
+            }
+        }
+
+        function watchLocalDataChanges() {
+            const fingerprint = JSON.stringify(getAllAppData());
+            if (!lastAppDataFingerprint) {
+                lastAppDataFingerprint = fingerprint;
+                return;
+            }
+            if (fingerprint !== lastAppDataFingerprint) {
+                lastAppDataFingerprint = fingerprint;
+                scheduleAutoSync();
+            }
         }
 
         function getAuthDebugText() {
@@ -4575,7 +4672,7 @@
         async function checkCloudForUpdates(force = false) {
             if (cloudUpdateChecking) return;
             const now = Date.now();
-            if (!force && now - lastCloudUpdateCheck < 60000) return;
+            if (!force && now - lastCloudUpdateCheck < 20000) return;
             lastCloudUpdateCheck = now;
             cloudUpdateChecking = true;
             try {
