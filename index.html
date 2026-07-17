@@ -7,6 +7,8 @@
     <meta name="theme-color" content="#F7F7F5">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="MANIFEST">
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="manifest" href="./manifest.webmanifest">
     <link rel="icon" href='data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"%3E%3Crect width="512" height="512" rx="96" fill="%231f1f1d"/%3E%3Crect x="58" y="58" width="396" height="396" rx="28" fill="none" stroke="%23ffffff" stroke-opacity=".86" stroke-width="8"/%3E%3Ccircle cx="96" cy="96" r="7" fill="%23ffffff" fill-opacity=".72"/%3E%3Ccircle cx="416" cy="96" r="7" fill="%23ffffff" fill-opacity=".72"/%3E%3Ccircle cx="96" cy="416" r="7" fill="%23ffffff" fill-opacity=".72"/%3E%3Ccircle cx="416" cy="416" r="7" fill="%23ffffff" fill-opacity=".72"/%3E%3Ctext x="256" y="266" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="118" font-weight="700" fill="%23ffffff" letter-spacing="-7"%3EMF%3C/text%3E%3Cpath d="M150 314H362" stroke="%23ffffff" stroke-opacity=".56" stroke-width="3"/%3E%3Ctext x="256" y="356" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" fill="%23ffffff" letter-spacing="10"%3EATELIER%3C/text%3E%3C/svg%3E'>
     <link rel="apple-touch-icon" href='data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"%3E%3Crect width="512" height="512" rx="96" fill="%231f1f1d"/%3E%3Crect x="58" y="58" width="396" height="396" rx="28" fill="none" stroke="%23ffffff" stroke-opacity=".86" stroke-width="8"/%3E%3Ccircle cx="96" cy="96" r="7" fill="%23ffffff" fill-opacity=".72"/%3E%3Ccircle cx="416" cy="96" r="7" fill="%23ffffff" fill-opacity=".72"/%3E%3Ccircle cx="96" cy="416" r="7" fill="%23ffffff" fill-opacity=".72"/%3E%3Ccircle cx="416" cy="416" r="7" fill="%23ffffff" fill-opacity=".72"/%3E%3Ctext x="256" y="266" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="118" font-weight="700" fill="%23ffffff" letter-spacing="-7"%3EMF%3C/text%3E%3Cpath d="M150 314H362" stroke="%23ffffff" stroke-opacity=".56" stroke-width="3"/%3E%3Ctext x="256" y="356" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" fill="%23ffffff" letter-spacing="10"%3EATELIER%3C/text%3E%3C/svg%3E'>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -1461,6 +1463,26 @@
                 <div><h2 class="text-xl font-semibold">資訊收藏庫</h2><p class="text-xs text-notion-muted mt-1">集中整理值得稍後回來的內容</p></div>
                 <button type="button" onclick="openBookmarkModal()" class="px-4 py-2 bg-notion-btn text-white rounded-notion text-sm font-medium">＋ 新增</button>
             </div>
+            <details class="bg-notion-card border border-notion-border rounded-notion p-4 shadow-sm">
+                <summary class="flex items-center justify-between cursor-pointer"><span class="text-sm font-semibold">快速收藏設定</span><span class="text-notion-muted">›</span></summary>
+                <div class="pt-4 space-y-3 text-xs text-notion-muted">
+                    <p>從 YouTube、Threads、Instagram、小紅書或瀏覽器分享網址，可直接帶入收藏表單。</p>
+                    <button id="bookmark-install-app" type="button" onclick="installBookmarkApp()" class="hidden w-full py-3 bg-notion-btn text-white rounded-notion font-medium">安裝 MineDashboard App</button>
+                    <button type="button" onclick="copyBookmarklet()" class="w-full py-3 bg-white border border-notion-border text-notion-text rounded-notion font-medium">複製桌面一鍵收藏工具</button>
+                    <details class="bg-notion-hover border border-notion-border rounded-notion p-3">
+                        <summary class="font-medium text-notion-text cursor-pointer">iPhone／iPad 捷徑設定</summary>
+                        <ol class="list-decimal pl-5 pt-3 space-y-2 leading-relaxed">
+                            <li>在「捷徑」新增捷徑，命名為「存到 MineDashboard」。</li>
+                            <li>開啟「顯示於分享表單」，接收「URL」與「文字」。</li>
+                            <li>加入「URL 編碼」動作，輸入使用「捷徑輸入」。</li>
+                            <li>加入「URL」動作，貼上本站分享入口，再把編碼結果接在最後。</li>
+                            <li>最後加入「打開 URL」動作。</li>
+                        </ol>
+                        <button type="button" onclick="copyIOSShortcutURL()" class="w-full mt-3 py-2 bg-white border border-notion-border text-notion-text rounded-notion">複製本站分享入口</button>
+                    </details>
+                    <p class="leading-relaxed">桌面：複製後新增瀏覽器書籤，將書籤網址替換成剪貼簿內容。Android：安裝 App 後即可在系統分享選單找到 MineDashboard。</p>
+                </div>
+            </details>
             <div class="bg-notion-card border border-notion-border rounded-notion p-3 space-y-2 shadow-sm">
                 <input id="bookmark-search" type="search" oninput="renderBookmarks()" placeholder="搜尋標題、備註、網址或標籤…" class="w-full border border-notion-border px-3 py-2">
                 <div class="grid grid-cols-3 gap-2">
@@ -3824,6 +3846,61 @@
             const url = document.getElementById('bookmark-url')?.value.trim() || '';
             const select = document.getElementById('bookmark-platform');
             if (select && url) select.value = detectBookmarkPlatform(url);
+            const thumbnail = document.getElementById('bookmark-thumbnail');
+            const youtubeId = getYouTubeId(url);
+            if (thumbnail && youtubeId && !thumbnail.value.trim()) thumbnail.value = `https://i.ytimg.com/vi/${youtubeId}/hqdefault.jpg`;
+        }
+        function extractSharedURL(...values) {
+            for (const value of values) {
+                const text = String(value || '').trim();
+                if (safeExternalURL(text) !== '#') return text;
+                const match = text.match(/https?:\/\/[^\s<>"']+/i);
+                if (match && safeExternalURL(match[0]) !== '#') return match[0].replace(/[),.。]+$/, '');
+            }
+            return '';
+        }
+        function handleIncomingBookmarkShare() {
+            const params = new URLSearchParams(location.search);
+            if (!params.has('share-target') && !params.has('bookmark-url')) return;
+            const sharedTitle = (params.get('title') || '').trim();
+            const sharedText = (params.get('text') || '').trim();
+            const sharedURL = extractSharedURL(params.get('url'), params.get('bookmark-url'), sharedText);
+            switchTab('bookmarks');
+            openBookmarkModal();
+            document.getElementById('bookmark-url').value = sharedURL;
+            document.getElementById('bookmark-title').value = sharedTitle || sharedText.replace(sharedURL, '').trim().slice(0, 160) || sharedURL;
+            detectBookmarkPlatformFromInput();
+            history.replaceState({}, document.title, `${location.pathname}${location.hash}`);
+            if (!sharedURL) showToast('未找到分享網址，請貼上網址');
+        }
+        function getBookmarkShareBase() { return `${location.origin}${location.pathname}?share-target=1&text=`; }
+        async function copyTextWithFallback(value, successMessage) {
+            try { await navigator.clipboard.writeText(value); }
+            catch {
+                const area = document.createElement('textarea');
+                area.value = value; area.style.position = 'fixed'; area.style.opacity = '0';
+                document.body.appendChild(area); area.select(); document.execCommand('copy'); area.remove();
+            }
+            showToast(successMessage);
+        }
+        function copyIOSShortcutURL() { copyTextWithFallback(getBookmarkShareBase(), '分享入口已複製'); }
+        function copyBookmarklet() {
+            const base = `${location.origin}${location.pathname}`;
+            const code = `javascript:(()=>{location.href=${JSON.stringify(base + '?share-target=1&url=')}+encodeURIComponent(location.href)+'&title='+encodeURIComponent(document.title)})()`;
+            copyTextWithFallback(code, '一鍵收藏工具已複製');
+        }
+        let bookmarkInstallPrompt = null;
+        window.addEventListener('beforeinstallprompt', event => {
+            event.preventDefault();
+            bookmarkInstallPrompt = event;
+            document.getElementById('bookmark-install-app')?.classList.remove('hidden');
+        });
+        async function installBookmarkApp() {
+            if (!bookmarkInstallPrompt) return showToast('請使用瀏覽器的「加到主畫面／安裝 App」功能');
+            bookmarkInstallPrompt.prompt();
+            await bookmarkInstallPrompt.userChoice;
+            bookmarkInstallPrompt = null;
+            document.getElementById('bookmark-install-app')?.classList.add('hidden');
         }
         function openBookmarkModal(id = null) {
             editState.bookmark = id;
@@ -3925,6 +4002,10 @@
             document.getElementById('cycle-duration').value = '5';
             document.getElementById('log-date').value = todayKey();
             applyLanguage();
+            handleIncomingBookmarkShare();
+            if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+                navigator.serviceWorker.register('./service-worker.js').catch(error => console.warn('service worker registration failed', error));
+            }
 
             renderGoalSuggestions();
             renderWorkoutFilters();
