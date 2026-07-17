@@ -1475,8 +1475,9 @@
                         <ol class="list-decimal pl-5 pt-3 space-y-2 leading-relaxed">
                             <li>點上方按鈕開啟捷徑 App，命名為「存到 MineDashboard」。</li>
                             <li>開啟「顯示於分享表單」，接收「URL」與「文字」。</li>
-                            <li>先加入「從輸入中取得 URL」，輸入使用「捷徑輸入」。</li>
-                            <li>再加入「URL 編碼」，輸入使用上一個動作取得的 URL。</li>
+                            <li>分享表單的接收類型保留「任何」。</li>
+                            <li>先加入「從輸入中取得文字」，輸入使用「捷徑輸入」。</li>
+                            <li>再加入「URL 編碼」，輸入使用上一個動作取得的文字。</li>
                             <li>加入「URL」動作，貼上本站分享入口，再把編碼結果接在最後。</li>
                             <li>最後加入「打開 URL」；若要放到桌面，再選「加入主畫面」。</li>
                         </ol>
@@ -1525,7 +1526,7 @@
     <div id="modal-bookmark" class="fixed inset-0 bg-black/40 backdrop-blur-sm hidden justify-center items-end sm:items-center p-0 sm:p-4 z-50" role="dialog" aria-modal="true" aria-labelledby="bookmark-modal-title" onclick="if(event.target===this) closeBookmarkModal()">
         <form id="bookmark-form" class="bookmark-modal-panel bg-white rounded-t-2xl sm:rounded-notion p-5 space-y-3 shadow-xl" onsubmit="saveBookmark(event)">
             <div class="flex items-center justify-between border-b border-notion-border pb-3"><h3 id="bookmark-modal-title" class="font-semibold">新增收藏</h3><button type="button" onclick="closeBookmarkModal()" class="text-notion-muted px-2" aria-label="關閉">✕</button></div>
-            <div><label for="bookmark-url" class="text-xs text-notion-muted">網址 *</label><input id="bookmark-url" required type="url" placeholder="https://…" oninput="detectBookmarkPlatformFromInput()" class="w-full mt-1 border border-notion-border px-3 py-2"></div>
+            <div><div class="flex items-center justify-between"><label for="bookmark-url" class="text-xs text-notion-muted">網址 *</label><button type="button" onclick="pasteBookmarkURL()" class="text-xs text-notion-text underline underline-offset-2">從剪貼簿貼上</button></div><input id="bookmark-url" required type="url" placeholder="https://…" oninput="detectBookmarkPlatformFromInput()" class="w-full mt-1 border border-notion-border px-3 py-2"></div>
             <div class="grid grid-cols-2 gap-2"><div><label for="bookmark-platform" class="text-xs text-notion-muted">平台</label><select id="bookmark-platform" class="w-full mt-1 border border-notion-border px-3 py-2 bg-white"><option>YouTube</option><option>Threads</option><option>Instagram</option><option>小紅書</option><option>其他</option></select></div><div><label for="bookmark-status" class="text-xs text-notion-muted">狀態</label><select id="bookmark-status" class="w-full mt-1 border border-notion-border px-3 py-2 bg-white"><option value="inbox">待整理</option><option value="unread">稍後閱讀</option><option value="completed">已完成</option><option value="archived">已封存</option></select></div></div>
             <div><label for="bookmark-title" class="text-xs text-notion-muted">標題 *</label><input id="bookmark-title" required maxlength="160" class="w-full mt-1 border border-notion-border px-3 py-2"></div>
             <div class="grid grid-cols-2 gap-2"><div><label for="bookmark-category" class="text-xs text-notion-muted">分類</label><input id="bookmark-category" placeholder="學習、靈感…" class="w-full mt-1 border border-notion-border px-3 py-2"></div><div><label for="bookmark-tags" class="text-xs text-notion-muted">標籤</label><input id="bookmark-tags" placeholder="逗號分隔" class="w-full mt-1 border border-notion-border px-3 py-2"></div></div>
@@ -3852,6 +3853,19 @@
             const youtubeId = getYouTubeId(url);
             if (thumbnail && youtubeId && !thumbnail.value.trim()) thumbnail.value = `https://i.ytimg.com/vi/${youtubeId}/hqdefault.jpg`;
         }
+        async function pasteBookmarkURL() {
+            try {
+                const clipboardText = await navigator.clipboard.readText();
+                const url = extractSharedURL(clipboardText);
+                if (!url) return showToast('剪貼簿中沒有可辨識的網址');
+                document.getElementById('bookmark-url').value = url;
+                detectBookmarkPlatformFromInput();
+                const currentTitle = document.getElementById('bookmark-title').value.trim();
+                if (!currentTitle) document.getElementById('bookmark-title').value = url;
+                hydrateSharedBookmarkMetadata(url, currentTitle);
+                showToast('已從剪貼簿貼上網址');
+            } catch { showToast('無法讀取剪貼簿，請長按網址欄位貼上'); }
+        }
         function extractSharedURL(...values) {
             for (const value of values) {
                 const text = String(value || '').trim();
@@ -3892,7 +3906,7 @@
             detectBookmarkPlatformFromInput();
             hydrateSharedBookmarkMetadata(sharedURL, sharedTitle || sharedText.replace(sharedURL, '').trim());
             history.replaceState({}, document.title, `${location.pathname}${location.hash}`);
-            if (!sharedURL) showToast('未找到分享網址，請貼上網址');
+            if (!sharedURL) showToast('平台未提供分享網址，請先複製連結，再按「從剪貼簿貼上」');
         }
         function getBookmarkShareBase() { return `${location.origin}${location.pathname}?share-target=1&text=`; }
         async function copyTextWithFallback(value, successMessage) {
