@@ -1467,16 +1467,18 @@
                 <summary class="flex items-center justify-between cursor-pointer"><span class="text-sm font-semibold">快速收藏設定</span><span class="text-notion-muted">›</span></summary>
                 <div class="pt-4 space-y-3 text-xs text-notion-muted">
                     <p>從 YouTube、Threads、Instagram、小紅書或瀏覽器分享網址，可直接帶入收藏表單。</p>
+                    <a href="shortcuts://create-shortcut" class="block w-full py-3 text-center bg-notion-btn text-white rounded-notion font-medium">開啟 iPhone／iPad 捷徑建立畫面</a>
                     <button id="bookmark-install-app" type="button" onclick="installBookmarkApp()" class="hidden w-full py-3 bg-notion-btn text-white rounded-notion font-medium">安裝 MineDashboard App</button>
                     <button type="button" onclick="copyBookmarklet()" class="w-full py-3 bg-white border border-notion-border text-notion-text rounded-notion font-medium">複製桌面一鍵收藏工具</button>
                     <details class="bg-notion-hover border border-notion-border rounded-notion p-3">
                         <summary class="font-medium text-notion-text cursor-pointer">iPhone／iPad 捷徑設定</summary>
                         <ol class="list-decimal pl-5 pt-3 space-y-2 leading-relaxed">
-                            <li>在「捷徑」新增捷徑，命名為「存到 MineDashboard」。</li>
+                            <li>點上方按鈕開啟捷徑 App，命名為「存到 MineDashboard」。</li>
                             <li>開啟「顯示於分享表單」，接收「URL」與「文字」。</li>
-                            <li>加入「URL 編碼」動作，輸入使用「捷徑輸入」。</li>
+                            <li>先加入「從輸入中取得 URL」，輸入使用「捷徑輸入」。</li>
+                            <li>再加入「URL 編碼」，輸入使用上一個動作取得的 URL。</li>
                             <li>加入「URL」動作，貼上本站分享入口，再把編碼結果接在最後。</li>
-                            <li>最後加入「打開 URL」動作。</li>
+                            <li>最後加入「打開 URL」；若要放到桌面，再選「加入主畫面」。</li>
                         </ol>
                         <button type="button" onclick="copyIOSShortcutURL()" class="w-full mt-3 py-2 bg-white border border-notion-border text-notion-text rounded-notion">複製本站分享入口</button>
                     </details>
@@ -3856,8 +3858,26 @@
                 if (safeExternalURL(text) !== '#') return text;
                 const match = text.match(/https?:\/\/[^\s<>"']+/i);
                 if (match && safeExternalURL(match[0]) !== '#') return match[0].replace(/[),.。]+$/, '');
+                try {
+                    const decoded = decodeURIComponent(text);
+                    const decodedMatch = decoded.match(/https?:\/\/[^\s<>"']+/i);
+                    if (decodedMatch && safeExternalURL(decodedMatch[0]) !== '#') return decodedMatch[0].replace(/[),.。]+$/, '');
+                } catch {}
             }
             return '';
+        }
+        async function hydrateSharedBookmarkMetadata(url, suppliedTitle = '') {
+            if (!url || detectBookmarkPlatform(url) !== 'YouTube') return;
+            const titleInput = document.getElementById('bookmark-title');
+            const thumbnailInput = document.getElementById('bookmark-thumbnail');
+            if (suppliedTitle && suppliedTitle !== url) return;
+            try {
+                const response = await fetch(`https://noembed.com/embed?url=${encodeURIComponent(url)}`);
+                if (!response.ok) return;
+                const metadata = await response.json();
+                if (titleInput && metadata.title) titleInput.value = String(metadata.title).slice(0, 160);
+                if (thumbnailInput && metadata.thumbnail_url) thumbnailInput.value = safeExternalURL(metadata.thumbnail_url) === '#' ? thumbnailInput.value : metadata.thumbnail_url;
+            } catch (error) { console.warn('bookmark metadata lookup failed', error); }
         }
         function handleIncomingBookmarkShare() {
             const params = new URLSearchParams(location.search);
@@ -3870,6 +3890,7 @@
             document.getElementById('bookmark-url').value = sharedURL;
             document.getElementById('bookmark-title').value = sharedTitle || sharedText.replace(sharedURL, '').trim().slice(0, 160) || sharedURL;
             detectBookmarkPlatformFromInput();
+            hydrateSharedBookmarkMetadata(sharedURL, sharedTitle || sharedText.replace(sharedURL, '').trim());
             history.replaceState({}, document.title, `${location.pathname}${location.hash}`);
             if (!sharedURL) showToast('未找到分享網址，請貼上網址');
         }
