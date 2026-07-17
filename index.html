@@ -7,8 +7,6 @@
     <meta name="theme-color" content="#F7F7F5">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="MANIFEST">
-    <meta name="mobile-web-app-capable" content="yes">
-    <link rel="manifest" href="./manifest.webmanifest">
     <link rel="icon" href='data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"%3E%3Crect width="512" height="512" rx="96" fill="%231f1f1d"/%3E%3Crect x="58" y="58" width="396" height="396" rx="28" fill="none" stroke="%23ffffff" stroke-opacity=".86" stroke-width="8"/%3E%3Ccircle cx="96" cy="96" r="7" fill="%23ffffff" fill-opacity=".72"/%3E%3Ccircle cx="416" cy="96" r="7" fill="%23ffffff" fill-opacity=".72"/%3E%3Ccircle cx="96" cy="416" r="7" fill="%23ffffff" fill-opacity=".72"/%3E%3Ccircle cx="416" cy="416" r="7" fill="%23ffffff" fill-opacity=".72"/%3E%3Ctext x="256" y="266" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="118" font-weight="700" fill="%23ffffff" letter-spacing="-7"%3EMF%3C/text%3E%3Cpath d="M150 314H362" stroke="%23ffffff" stroke-opacity=".56" stroke-width="3"/%3E%3Ctext x="256" y="356" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" fill="%23ffffff" letter-spacing="10"%3EATELIER%3C/text%3E%3C/svg%3E'>
     <link rel="apple-touch-icon" href='data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"%3E%3Crect width="512" height="512" rx="96" fill="%231f1f1d"/%3E%3Crect x="58" y="58" width="396" height="396" rx="28" fill="none" stroke="%23ffffff" stroke-opacity=".86" stroke-width="8"/%3E%3Ccircle cx="96" cy="96" r="7" fill="%23ffffff" fill-opacity=".72"/%3E%3Ccircle cx="416" cy="96" r="7" fill="%23ffffff" fill-opacity=".72"/%3E%3Ccircle cx="96" cy="416" r="7" fill="%23ffffff" fill-opacity=".72"/%3E%3Ccircle cx="416" cy="416" r="7" fill="%23ffffff" fill-opacity=".72"/%3E%3Ctext x="256" y="266" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="118" font-weight="700" fill="%23ffffff" letter-spacing="-7"%3EMF%3C/text%3E%3Cpath d="M150 314H362" stroke="%23ffffff" stroke-opacity=".56" stroke-width="3"/%3E%3Ctext x="256" y="356" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" fill="%23ffffff" letter-spacing="10"%3EATELIER%3C/text%3E%3C/svg%3E'>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -641,7 +639,6 @@
             #page-items,
             #page-links,
             #page-inspiration,
-            #page-bookmarks,
             #page-hub,
             #page-settings {
                 max-width: 760px;
@@ -770,15 +767,6 @@
                 min-height: 44px;
             }
         }
-        .bookmark-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
-        .bookmark-card { overflow: hidden; transition: transform .15s ease, box-shadow .15s ease; }
-        .bookmark-card:hover { transform: translateY(-1px); box-shadow: 0 5px 16px rgba(15,15,15,.07); }
-        .bookmark-thumbnail { width: 100%; aspect-ratio: 16/7; object-fit: cover; background: #F1F1EF; }
-        .bookmark-tag { display: inline-flex; padding: 3px 8px; border-radius: 999px; background: #F1F1EF; color: #787774; font-size: 11px; }
-        .bookmark-fab { display: none; position: fixed; right: max(20px, env(safe-area-inset-right)); bottom: max(20px, env(safe-area-inset-bottom)); z-index: 20; width: 54px; height: 54px; border-radius: 50%; background: #2F2E2A; color: white; box-shadow: 0 6px 22px rgba(15,15,15,.24); align-items: center; justify-content: center; font-size: 26px; }
-        .bookmark-modal-panel { width: min(100%, 560px); max-height: min(88dvh, 760px); overflow-y: auto; }
-        @media (min-width: 720px) { .bookmark-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-        @media (max-width: 480px) { #page-bookmarks:not(.hidden) .bookmark-fab { display: flex; } }
     </style>
 </head>
 <body class="flex flex-col h-[100dvh] max-w-md mx-auto select-none font-sans border-x border-notion-border relative">
@@ -851,18 +839,6 @@
                         <span><span class="home-primary-title block" data-i18n="dashboardBody">身體</span><span class="home-primary-sub block" data-i18n="dashboardBodySub">體重、飲食、週期</span></span>
                     </button>
                 </div>
-            </section>
-
-            <section class="home-section">
-                <button type="button" onclick="switchTab('bookmarks')" class="w-full text-left bg-notion-card border border-notion-border rounded-notion p-4 shadow-sm space-y-3">
-                    <div class="flex items-center justify-between"><span class="text-sm font-semibold">資訊收藏庫</span><span class="text-notion-muted">›</span></div>
-                    <div class="grid grid-cols-3 gap-2 text-center">
-                        <span class="bg-notion-hover p-2"><b id="home-bookmark-today" class="block text-lg">0</b><small class="text-notion-muted">今日收藏</small></span>
-                        <span class="bg-notion-hover p-2"><b id="home-bookmark-inbox" class="block text-lg">0</b><small class="text-notion-muted">待整理</small></span>
-                        <span class="bg-notion-hover p-2"><b id="home-bookmark-unread" class="block text-lg">0</b><small class="text-notion-muted">稍後閱讀</small></span>
-                    </div>
-                    <div id="home-bookmark-recent" class="space-y-1 text-xs text-notion-muted"></div>
-                </button>
             </section>
 
             <section class="home-section">
@@ -1458,50 +1434,6 @@
             </div>
         </div>
 
-        <div id="page-bookmarks" class="space-y-5 hidden">
-            <div class="flex items-start justify-between gap-3">
-                <div><h2 class="text-xl font-semibold">資訊收藏庫</h2><p class="text-xs text-notion-muted mt-1">集中整理值得稍後回來的內容</p></div>
-                <button type="button" onclick="openBookmarkModal()" class="px-4 py-2 bg-notion-btn text-white rounded-notion text-sm font-medium shrink-0">＋ 新增</button>
-            </div>
-            <button type="button" onclick="openBookmarkFromClipboard()" class="w-full bg-notion-btn text-white rounded-notion p-4 flex items-center justify-between gap-3 text-left shadow-sm active:scale-[0.99] transition-transform">
-                <span class="flex items-center gap-3"><span class="w-10 h-10 rounded-full bg-white/10 inline-flex items-center justify-center text-xl">↗</span><span><strong class="block text-sm">貼上連結並新增</strong><small class="block text-white/70 mt-1">先在任何 App 複製連結，再按這裡</small></span></span><span class="text-xl">›</span>
-            </button>
-            <details class="bg-notion-card border border-notion-border rounded-notion p-4 shadow-sm">
-                <summary class="flex items-center justify-between cursor-pointer"><span class="text-sm font-semibold">其他收藏方式（選用）</span><span class="text-notion-muted">›</span></summary>
-                <div class="pt-4 space-y-3 text-xs text-notion-muted">
-                    <p>從 YouTube、Threads、Instagram、小紅書或瀏覽器分享網址，可直接帶入收藏表單。</p>
-                    <a href="shortcuts://create-shortcut" class="block w-full py-3 text-center bg-notion-btn text-white rounded-notion font-medium">開啟 iPhone／iPad 捷徑建立畫面</a>
-                    <button id="bookmark-install-app" type="button" onclick="installBookmarkApp()" class="hidden w-full py-3 bg-notion-btn text-white rounded-notion font-medium">安裝 MineDashboard App</button>
-                    <button type="button" onclick="copyBookmarklet()" class="w-full py-3 bg-white border border-notion-border text-notion-text rounded-notion font-medium">複製桌面一鍵收藏工具</button>
-                    <details class="bg-notion-hover border border-notion-border rounded-notion p-3">
-                        <summary class="font-medium text-notion-text cursor-pointer">iPhone／iPad 捷徑設定</summary>
-                        <ol class="list-decimal pl-5 pt-3 space-y-2 leading-relaxed">
-                            <li>點上方按鈕開啟捷徑 App，命名為「存到 MineDashboard」。</li>
-                            <li>開啟「顯示於分享表單」，接收「URL」與「文字」。</li>
-                            <li>分享表單的接收類型保留「任何」。</li>
-                            <li>先加入「從輸入中取得文字」，輸入使用「捷徑輸入」。</li>
-                            <li>再加入「URL 編碼」，輸入使用上一個動作取得的文字。</li>
-                            <li>加入「URL」動作，貼上本站分享入口，再把編碼結果接在最後。</li>
-                            <li>最後加入「打開 URL」；若要放到桌面，再選「加入主畫面」。</li>
-                        </ol>
-                        <button type="button" onclick="copyIOSShortcutURL()" class="w-full mt-3 py-2 bg-white border border-notion-border text-notion-text rounded-notion">複製本站分享入口</button>
-                    </details>
-                    <p class="leading-relaxed">桌面：複製後新增瀏覽器書籤，將書籤網址替換成剪貼簿內容。Android：安裝 App 後即可在系統分享選單找到 MineDashboard。</p>
-                </div>
-            </details>
-            <div class="bg-notion-card border border-notion-border rounded-notion p-3 space-y-2 shadow-sm">
-                <input id="bookmark-search" type="search" oninput="renderBookmarks()" placeholder="搜尋標題、備註、網址或標籤…" class="w-full border border-notion-border px-3 py-2">
-                <div class="grid grid-cols-3 gap-2">
-                    <select id="bookmark-platform-filter" onchange="renderBookmarks()" class="border border-notion-border px-2 py-2 bg-white" aria-label="平台篩選"><option value="all">所有平台</option><option>YouTube</option><option>Threads</option><option>Instagram</option><option>小紅書</option><option>其他</option></select>
-                    <select id="bookmark-category-filter" onchange="renderBookmarks()" class="border border-notion-border px-2 py-2 bg-white" aria-label="分類篩選"><option value="all">所有分類</option></select>
-                    <select id="bookmark-status-filter" onchange="renderBookmarks()" class="border border-notion-border px-2 py-2 bg-white" aria-label="狀態篩選"><option value="all">所有狀態</option><option value="inbox">待整理</option><option value="unread">稍後閱讀</option><option value="completed">已完成</option><option value="archived">已封存</option></select>
-                </div>
-            </div>
-            <div class="flex items-center justify-between"><span id="bookmark-count" class="text-xs text-notion-muted"></span><div class="flex gap-2"><button onclick="exportBookmarks()" class="text-xs border border-notion-border bg-white px-3 py-2 rounded-notion">JSON 匯出</button><label class="text-xs border border-notion-border bg-white px-3 py-2 rounded-notion cursor-pointer">JSON 匯入<input id="bookmark-import" type="file" accept="application/json,.json" class="sr-only" onchange="importBookmarks(this.files[0]);this.value='' "></label></div></div>
-            <div id="bookmark-list" class="bookmark-grid pb-20"></div>
-            <button type="button" class="bookmark-fab" onclick="openBookmarkModal()" aria-label="新增收藏">＋</button>
-        </div>
-
         <div id="page-settings" class="space-y-5 hidden">
             <div class="space-y-1">
                 <h2 class="text-xl font-semibold text-notion-text" data-i18n="settings">設定</h2>
@@ -1525,19 +1457,6 @@
             </div>
         </div>
     </main>
-
-    <div id="modal-bookmark" class="fixed inset-0 bg-black/40 backdrop-blur-sm hidden justify-center items-end sm:items-center p-0 sm:p-4 z-50" role="dialog" aria-modal="true" aria-labelledby="bookmark-modal-title" onclick="if(event.target===this) closeBookmarkModal()">
-        <form id="bookmark-form" class="bookmark-modal-panel bg-white rounded-t-2xl sm:rounded-notion p-5 space-y-3 shadow-xl" onsubmit="saveBookmark(event)">
-            <div class="flex items-center justify-between border-b border-notion-border pb-3"><h3 id="bookmark-modal-title" class="font-semibold">新增收藏</h3><button type="button" onclick="closeBookmarkModal()" class="text-notion-muted px-2" aria-label="關閉">✕</button></div>
-            <div><div class="flex items-center justify-between"><label for="bookmark-url" class="text-xs text-notion-muted">網址 *</label><button type="button" onclick="pasteBookmarkURL()" class="text-xs text-notion-text underline underline-offset-2">從剪貼簿貼上</button></div><input id="bookmark-url" required type="url" placeholder="https://…" oninput="detectBookmarkPlatformFromInput()" class="w-full mt-1 border border-notion-border px-3 py-2"></div>
-            <div class="grid grid-cols-2 gap-2"><div><label for="bookmark-platform" class="text-xs text-notion-muted">平台</label><select id="bookmark-platform" class="w-full mt-1 border border-notion-border px-3 py-2 bg-white"><option>YouTube</option><option>Threads</option><option>Instagram</option><option>小紅書</option><option>其他</option></select></div><div><label for="bookmark-status" class="text-xs text-notion-muted">狀態</label><select id="bookmark-status" class="w-full mt-1 border border-notion-border px-3 py-2 bg-white"><option value="inbox">待整理</option><option value="unread">稍後閱讀</option><option value="completed">已完成</option><option value="archived">已封存</option></select></div></div>
-            <div><label for="bookmark-title" class="text-xs text-notion-muted">標題 *</label><input id="bookmark-title" required maxlength="160" class="w-full mt-1 border border-notion-border px-3 py-2"></div>
-            <div class="grid grid-cols-2 gap-2"><div><label for="bookmark-category" class="text-xs text-notion-muted">分類</label><input id="bookmark-category" placeholder="學習、靈感…" class="w-full mt-1 border border-notion-border px-3 py-2"></div><div><label for="bookmark-tags" class="text-xs text-notion-muted">標籤</label><input id="bookmark-tags" placeholder="逗號分隔" class="w-full mt-1 border border-notion-border px-3 py-2"></div></div>
-            <div><label for="bookmark-thumbnail" class="text-xs text-notion-muted">縮圖網址</label><input id="bookmark-thumbnail" type="url" placeholder="https://…" class="w-full mt-1 border border-notion-border px-3 py-2"></div>
-            <div><label for="bookmark-note" class="text-xs text-notion-muted">備註</label><textarea id="bookmark-note" rows="3" maxlength="1000" class="w-full mt-1 border border-notion-border px-3 py-2 resize-none"></textarea></div>
-            <div class="grid grid-cols-2 gap-2 pt-1"><button type="button" onclick="closeBookmarkModal()" class="py-3 bg-notion-hover border border-notion-border rounded-notion">取消</button><button type="submit" class="py-3 bg-notion-btn text-white rounded-notion font-medium">儲存收藏</button></div>
-        </form>
-    </div>
 
     <div id="modal-journal" class="fixed inset-0 bg-black/40 backdrop-blur-sm hidden justify-center items-center px-6 z-50" role="dialog" aria-modal="true" aria-labelledby="journal-modal-title">
         <div class="bg-notion-card w-full max-w-sm rounded-notion p-5 space-y-4 shadow-2xl">
@@ -1698,12 +1617,6 @@
 
         function t(key, fallback = '') {
             const lang = getLanguage();
-            const bookmarkWords = {
-                zh: { bookmarks: '資訊收藏庫', bookmarksSub: '整理稍後閱讀與社群內容' },
-                ja: { bookmarks: '情報ライブラリ', bookmarksSub: 'あとで読む情報を整理' },
-                en: { bookmarks: 'Information Library', bookmarksSub: 'Organize saved reading and social posts' }
-            };
-            if (bookmarkWords[lang]?.[key]) return bookmarkWords[lang][key];
             return (I18N[lang] && I18N[lang][key]) || I18N.zh[key] || fallback || key;
         }
 
@@ -1853,7 +1766,6 @@
                 { modal: 'modal-daily', content: 'modal-daily-content' },
                 { modal: 'modal-sync' },
                 { modal: 'modal-journal', content: 'modal-journal-content' },
-                { modal: 'modal-bookmark' },
                 { modal: 'modal-image-viewer' }
             ].forEach(({ modal, content }) => {
                 const modalEl = document.getElementById(modal);
@@ -1906,7 +1818,6 @@
             renderHubPage(currentHub);
             rotateHomeQuote(true);
             renderGoalSuggestions();
-            renderBookmarks(); updateBookmarkHomeSummary();
             renderWorkoutFilters();
             loadWorkouts();
             loadLogs();
@@ -1948,7 +1859,6 @@
             'notion_items',
             'notion_links',
             'notion_inspirations',
-            'notion_bookmarks',
             'notion_video_views'
         ];
 
@@ -3672,7 +3582,7 @@
             STORAGE_KEYS.forEach(key => {
                 if (typeof data?.[key] === 'string') localStorage.setItem(key, data[key]);
             });
-            renderCalendar(); loadWorkouts(); loadLogs(); loadJournals(); loadDictionaryHistory(); renderShrineStatusFilters(); loadShrines(); loadShrineWishes(); loadMeditations(); renderPlaceStatusFilters(); renderPlaceFilters(); loadPlaces(); loadCycles(); renderItemFilters(); loadItems(); renderLinkFilters(); loadLinks(); renderInspirationFilters(); loadInspirations(); renderBookmarks(); updateHomeDashboard();
+            renderCalendar(); loadWorkouts(); loadLogs(); loadJournals(); loadDictionaryHistory(); renderShrineStatusFilters(); loadShrines(); loadShrineWishes(); loadMeditations(); renderPlaceStatusFilters(); renderPlaceFilters(); loadPlaces(); loadCycles(); renderItemFilters(); loadItems(); renderLinkFilters(); loadLinks(); renderInspirationFilters(); loadInspirations(); updateHomeDashboard();
             lastAppDataFingerprint = JSON.stringify(getAllAppData());
             setTimeout(() => { autoSyncApplyingCloud = false; }, 0);
         }
@@ -3733,7 +3643,7 @@
         let pendingCloudUpdate = null;
         let cloudUpdateChecking = false;
         let lastCloudUpdateCheck = 0;
-        const editState = { dailyTodo: null, shrineWish: null, workout: null, medVideo: null, log: null, journal: null, shrine: null, link: null, inspiration: null, item: null, place: null, cycle: null, meditation: null, bookmark: null };
+        const editState = { dailyTodo: null, shrineWish: null, workout: null, medVideo: null, log: null, journal: null, shrine: null, link: null, inspiration: null, item: null, place: null, cycle: null, meditation: null };
         let placeFilter = '全部';
         let placeStatusFilter = 'all';
         const PLACE_CATEGORIES = ['全部', '咖啡', '餐廳', '景點', '購物', '住宿', '其他'];
@@ -3779,7 +3689,6 @@
             body: '<path d="M12 2s6 6.2 6 11a6 6 0 0 1-12 0c0-4.8 6-11 6-11z"/><path d="M8 20h8"/>',
             workout: '<path d="M6 8v8M18 8v8M3 10v4M21 10v4M6 12h12"/>',
             weight: '<path d="M6 20h12a2 2 0 0 0 2-2V8a6 6 0 0 0-16 0v10a2 2 0 0 0 2 2z"/><path d="M12 8v4l3 2"/>'
-            ,bookmark: '<path d="M6 3h12a2 2 0 0 1 2 2v17l-8-4-8 4V5a2 2 0 0 1 2-2z"/><path d="M8 8h8M8 12h5"/>'
         };
         const HUBS = {
             today: {
@@ -3796,7 +3705,6 @@
                 titleKey: 'dashboardLibrary',
                 subKey: 'dashboardLibrarySub',
                 items: [
-                    { tab: 'bookmarks', titleKey: 'bookmarks', subKey: 'bookmarksSub', icon: 'bookmark' },
                     { tab: 'items', titleKey: 'items', subKey: 'itemsSub', icon: 'wardrobe' },
                     { tab: 'inspiration', titleKey: 'inspiration', subKey: 'inspirationSub', icon: 'inspiration' },
                     { tab: 'links', titleKey: 'links', subKey: 'linksSub', icon: 'link' },
@@ -3826,224 +3734,6 @@
             }
         };
 
-        // Bookmarks feature: types/service/state/render are kept together so this no-build app
-        // retains a clear boundary equivalent to types, service, hook/state, and components.
-        /** @typedef {'YouTube'|'Threads'|'Instagram'|'小紅書'|'其他'} BookmarkPlatform */
-        /** @typedef {'inbox'|'unread'|'completed'|'archived'} BookmarkStatus */
-        /** @typedef {{id:string,url:string,platform:BookmarkPlatform,title:string,note:string,category:string,tags:string[],status:BookmarkStatus,thumbnailUrl:string,createdAt:string,updatedAt:string}} Bookmark */
-        const BOOKMARK_STORAGE_KEY = 'notion_bookmarks';
-        const BOOKMARK_STATUS_LABELS = { inbox: '待整理', unread: '稍後閱讀', completed: '已完成', archived: '已封存' };
-
-        /** @returns {Bookmark[]} */
-        function getBookmarks() { return getStorageArray(BOOKMARK_STORAGE_KEY).filter(item => item && typeof item.id === 'string'); }
-        /** @param {Bookmark[]} items */
-        function persistBookmarks(items) { localStorage.setItem(BOOKMARK_STORAGE_KEY, JSON.stringify(items)); renderBookmarks(); updateBookmarkHomeSummary(); }
-        function detectBookmarkPlatform(url) {
-            try {
-                const host = new URL(url).hostname.toLowerCase().replace(/^www\./, '');
-                if (host === 'youtu.be' || host.endsWith('youtube.com')) return 'YouTube';
-                if (host === 'threads.net' || host.endsWith('.threads.net')) return 'Threads';
-                if (host === 'instagram.com' || host.endsWith('.instagram.com')) return 'Instagram';
-                if (host === 'xiaohongshu.com' || host.endsWith('.xiaohongshu.com') || host === 'xhslink.com' || host.endsWith('.xhslink.com')) return '小紅書';
-            } catch {}
-            return '其他';
-        }
-        function detectBookmarkPlatformFromInput() {
-            const url = document.getElementById('bookmark-url')?.value.trim() || '';
-            const select = document.getElementById('bookmark-platform');
-            if (select && url) select.value = detectBookmarkPlatform(url);
-            const thumbnail = document.getElementById('bookmark-thumbnail');
-            const youtubeId = getYouTubeId(url);
-            if (thumbnail && youtubeId && !thumbnail.value.trim()) thumbnail.value = `https://i.ytimg.com/vi/${youtubeId}/hqdefault.jpg`;
-        }
-        async function pasteBookmarkURL() {
-            try {
-                const clipboardText = await navigator.clipboard.readText();
-                const url = extractSharedURL(clipboardText);
-                if (!url) return showToast('剪貼簿中沒有可辨識的網址');
-                document.getElementById('bookmark-url').value = url;
-                detectBookmarkPlatformFromInput();
-                const currentTitle = document.getElementById('bookmark-title').value.trim();
-                if (!currentTitle) document.getElementById('bookmark-title').value = url;
-                hydrateSharedBookmarkMetadata(url, currentTitle);
-                showToast('已從剪貼簿貼上網址');
-            } catch { showToast('無法讀取剪貼簿，請長按網址欄位貼上'); }
-        }
-        async function openBookmarkFromClipboard() {
-            try {
-                const clipboardText = await navigator.clipboard.readText();
-                const url = extractSharedURL(clipboardText);
-                if (!url) return showToast('剪貼簿沒有網址，請先在原 App 點「複製連結」');
-                openBookmarkModal();
-                document.getElementById('bookmark-url').value = url;
-                document.getElementById('bookmark-title').value = url;
-                detectBookmarkPlatformFromInput();
-                await hydrateSharedBookmarkMetadata(url, '');
-                showToast('已貼上連結');
-            } catch { showToast('請允許貼上，或使用「＋ 新增」手動貼上網址'); }
-        }
-        function extractSharedURL(...values) {
-            for (const value of values) {
-                const text = String(value || '').trim();
-                if (safeExternalURL(text) !== '#') return text;
-                const match = text.match(/https?:\/\/[^\s<>"']+/i);
-                if (match && safeExternalURL(match[0]) !== '#') return match[0].replace(/[),.。]+$/, '');
-                try {
-                    const decoded = decodeURIComponent(text);
-                    const decodedMatch = decoded.match(/https?:\/\/[^\s<>"']+/i);
-                    if (decodedMatch && safeExternalURL(decodedMatch[0]) !== '#') return decodedMatch[0].replace(/[),.。]+$/, '');
-                } catch {}
-            }
-            return '';
-        }
-        async function hydrateSharedBookmarkMetadata(url, suppliedTitle = '') {
-            if (!url || detectBookmarkPlatform(url) !== 'YouTube') return;
-            const titleInput = document.getElementById('bookmark-title');
-            const thumbnailInput = document.getElementById('bookmark-thumbnail');
-            if (suppliedTitle && suppliedTitle !== url) return;
-            try {
-                const response = await fetch(`https://noembed.com/embed?url=${encodeURIComponent(url)}`);
-                if (!response.ok) return;
-                const metadata = await response.json();
-                if (titleInput && metadata.title) titleInput.value = String(metadata.title).slice(0, 160);
-                if (thumbnailInput && metadata.thumbnail_url) thumbnailInput.value = safeExternalURL(metadata.thumbnail_url) === '#' ? thumbnailInput.value : metadata.thumbnail_url;
-            } catch (error) { console.warn('bookmark metadata lookup failed', error); }
-        }
-        function handleIncomingBookmarkShare() {
-            const params = new URLSearchParams(location.search);
-            if (!params.has('share-target') && !params.has('bookmark-url')) return;
-            const sharedTitle = (params.get('title') || '').trim();
-            const sharedText = (params.get('text') || '').trim();
-            const sharedURL = extractSharedURL(params.get('url'), params.get('bookmark-url'), sharedText);
-            switchTab('bookmarks');
-            openBookmarkModal();
-            document.getElementById('bookmark-url').value = sharedURL;
-            document.getElementById('bookmark-title').value = sharedTitle || sharedText.replace(sharedURL, '').trim().slice(0, 160) || sharedURL;
-            detectBookmarkPlatformFromInput();
-            hydrateSharedBookmarkMetadata(sharedURL, sharedTitle || sharedText.replace(sharedURL, '').trim());
-            history.replaceState({}, document.title, `${location.pathname}${location.hash}`);
-            if (!sharedURL) showToast('平台未提供分享網址，請先複製連結，再按「從剪貼簿貼上」');
-        }
-        function getBookmarkShareBase() { return `${location.origin}${location.pathname}?share-target=1&text=`; }
-        async function copyTextWithFallback(value, successMessage) {
-            try { await navigator.clipboard.writeText(value); }
-            catch {
-                const area = document.createElement('textarea');
-                area.value = value; area.style.position = 'fixed'; area.style.opacity = '0';
-                document.body.appendChild(area); area.select(); document.execCommand('copy'); area.remove();
-            }
-            showToast(successMessage);
-        }
-        function copyIOSShortcutURL() { copyTextWithFallback(getBookmarkShareBase(), '分享入口已複製'); }
-        function copyBookmarklet() {
-            const base = `${location.origin}${location.pathname}`;
-            const code = `javascript:(()=>{location.href=${JSON.stringify(base + '?share-target=1&url=')}+encodeURIComponent(location.href)+'&title='+encodeURIComponent(document.title)})()`;
-            copyTextWithFallback(code, '一鍵收藏工具已複製');
-        }
-        let bookmarkInstallPrompt = null;
-        window.addEventListener('beforeinstallprompt', event => {
-            event.preventDefault();
-            bookmarkInstallPrompt = event;
-            document.getElementById('bookmark-install-app')?.classList.remove('hidden');
-        });
-        async function installBookmarkApp() {
-            if (!bookmarkInstallPrompt) return showToast('請使用瀏覽器的「加到主畫面／安裝 App」功能');
-            bookmarkInstallPrompt.prompt();
-            await bookmarkInstallPrompt.userChoice;
-            bookmarkInstallPrompt = null;
-            document.getElementById('bookmark-install-app')?.classList.add('hidden');
-        }
-        function openBookmarkModal(id = null) {
-            editState.bookmark = id;
-            const item = id ? getBookmarks().find(bookmark => bookmark.id === id) : null;
-            document.getElementById('bookmark-modal-title').innerText = item ? '編輯收藏' : '新增收藏';
-            document.getElementById('bookmark-url').value = item?.url || '';
-            document.getElementById('bookmark-platform').value = item?.platform || '其他';
-            document.getElementById('bookmark-title').value = item?.title || '';
-            document.getElementById('bookmark-note').value = item?.note || '';
-            document.getElementById('bookmark-category').value = item?.category || '';
-            document.getElementById('bookmark-tags').value = item?.tags?.join(', ') || '';
-            document.getElementById('bookmark-status').value = item?.status || 'inbox';
-            document.getElementById('bookmark-thumbnail').value = item?.thumbnailUrl || '';
-            const modal = document.getElementById('modal-bookmark');
-            modal.classList.remove('hidden'); modal.classList.add('flex');
-            setTimeout(() => document.getElementById('bookmark-url')?.focus(), 50);
-        }
-        function closeBookmarkModal() { const modal = document.getElementById('modal-bookmark'); modal?.classList.add('hidden'); modal?.classList.remove('flex'); editState.bookmark = null; }
-        function saveBookmark(event) {
-            event.preventDefault();
-            const url = document.getElementById('bookmark-url').value.trim();
-            if (safeExternalURL(url) === '#') return showToast('請輸入有效的 http(s) 網址');
-            const thumbnailUrl = document.getElementById('bookmark-thumbnail').value.trim();
-            if (thumbnailUrl && safeExternalURL(thumbnailUrl) === '#') return showToast('縮圖網址格式不正確');
-            const items = getBookmarks();
-            const old = editState.bookmark ? items.find(item => item.id === editState.bookmark) : null;
-            const now = new Date().toISOString();
-            const next = {
-                id: old?.id || (crypto.randomUUID?.() || `bookmark-${Date.now()}-${Math.random().toString(16).slice(2)}`),
-                url, platform: document.getElementById('bookmark-platform').value,
-                title: document.getElementById('bookmark-title').value.trim(), note: document.getElementById('bookmark-note').value.trim(),
-                category: document.getElementById('bookmark-category').value.trim(),
-                tags: [...new Set(document.getElementById('bookmark-tags').value.split(/[,，]/).map(tag => tag.trim()).filter(Boolean))],
-                status: document.getElementById('bookmark-status').value, thumbnailUrl,
-                createdAt: old?.createdAt || now, updatedAt: now
-            };
-            if (old) items[items.indexOf(old)] = next; else items.unshift(next);
-            persistBookmarks(items); closeBookmarkModal(); showToast(old ? '收藏已更新' : '收藏已新增');
-        }
-        function editBookmark(id) { openBookmarkModal(id); }
-        function deleteBookmark(id) { if (!confirm('確定刪除這筆收藏？')) return; persistBookmarks(getBookmarks().filter(item => item.id !== id)); showToast('收藏已刪除'); }
-        function renderBookmarkCategoryFilter(items) {
-            const select = document.getElementById('bookmark-category-filter'); if (!select) return;
-            const selected = select.value;
-            const categories = [...new Set(items.map(item => item.category).filter(Boolean))].sort((a,b) => a.localeCompare(b));
-            select.innerHTML = '<option value="all">所有分類</option>' + categories.map(value => `<option value="${escapeHTML(value)}">${escapeHTML(value)}</option>`).join('');
-            select.value = categories.includes(selected) ? selected : 'all';
-        }
-        function renderBookmarks() {
-            const list = document.getElementById('bookmark-list'); if (!list) return;
-            const all = getBookmarks(); renderBookmarkCategoryFilter(all);
-            const query = (document.getElementById('bookmark-search')?.value || '').trim().toLowerCase();
-            const platform = document.getElementById('bookmark-platform-filter')?.value || 'all';
-            const category = document.getElementById('bookmark-category-filter')?.value || 'all';
-            const status = document.getElementById('bookmark-status-filter')?.value || 'all';
-            const items = all.filter(item => {
-                const haystack = [item.title,item.note,item.url,item.category,...(item.tags || [])].join(' ').toLowerCase();
-                return (!query || haystack.includes(query)) && (platform === 'all' || item.platform === platform) && (category === 'all' || item.category === category) && (status === 'all' || item.status === status);
-            }).sort((a,b) => String(b.updatedAt).localeCompare(String(a.updatedAt)));
-            document.getElementById('bookmark-count').innerText = `顯示 ${items.length}／${all.length} 筆`;
-            if (!items.length) { list.innerHTML = getEmptyStateHTML(all.length ? '沒有符合篩選條件的收藏' : '尚無收藏，從右上角新增第一筆'); return; }
-            list.innerHTML = items.map(item => `<article class="bookmark-card bg-notion-card border border-notion-border rounded-notion shadow-sm">
-                ${item.thumbnailUrl ? `<img src="${escapeHTML(safeExternalURL(item.thumbnailUrl))}" alt="" class="bookmark-thumbnail" loading="lazy" onerror="this.remove()">` : ''}
-                <div class="p-4 space-y-3"><div class="flex items-start justify-between gap-2"><div class="min-w-0"><div class="flex gap-2 items-center mb-1"><span class="bookmark-tag">${escapeHTML(item.platform)}</span><span class="bookmark-tag">${escapeHTML(BOOKMARK_STATUS_LABELS[item.status] || item.status)}</span></div><a href="${escapeHTML(safeExternalURL(item.url))}" target="_blank" rel="noopener noreferrer" class="font-semibold text-sm hover:underline break-words">${escapeHTML(item.title)}</a></div><div class="flex shrink-0"><button onclick="editBookmark('${escapeHTML(item.id)}')" class="p-2 text-notion-muted" aria-label="編輯">✎</button><button onclick="deleteBookmark('${escapeHTML(item.id)}')" class="p-2 text-notion-muted" aria-label="刪除">×</button></div></div>
-                ${item.note ? `<p class="text-xs text-notion-muted whitespace-pre-wrap break-words">${escapeHTML(item.note)}</p>` : ''}
-                <div class="flex flex-wrap gap-1">${item.category ? `<span class="bookmark-tag">${escapeHTML(item.category)}</span>` : ''}${(item.tags||[]).map(tag => `<span class="bookmark-tag">#${escapeHTML(tag)}</span>`).join('')}</div>
-                <p class="text-[11px] text-notion-muted">更新於 ${escapeHTML(new Date(item.updatedAt).toLocaleString('zh-TW'))}</p></div></article>`).join('');
-        }
-        function updateBookmarkHomeSummary() {
-            const items = getBookmarks(); const today = todayKey();
-            setHomeSummary('home-bookmark-today', items.filter(item => String(item.createdAt).slice(0,10) === today).length);
-            setHomeSummary('home-bookmark-inbox', items.filter(item => item.status === 'inbox').length);
-            setHomeSummary('home-bookmark-unread', items.filter(item => item.status === 'unread').length);
-            const recent = document.getElementById('home-bookmark-recent'); if (!recent) return;
-            const rows = [...items].sort((a,b) => String(b.createdAt).localeCompare(String(a.createdAt))).slice(0,3);
-            recent.innerHTML = rows.length ? rows.map(item => `<p class="truncate">• ${escapeHTML(item.title)}</p>`).join('') : '<p>尚無收藏</p>';
-        }
-        function exportBookmarks() {
-            const blob = new Blob([JSON.stringify({ version: 1, exportedAt: new Date().toISOString(), bookmarks: getBookmarks() }, null, 2)], { type: 'application/json' });
-            const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = `mine-bookmarks-${todayKey()}.json`; link.click(); URL.revokeObjectURL(link.href); showToast('收藏備份已匯出');
-        }
-        function normalizeImportedBookmark(item) {
-            if (!item || typeof item !== 'object' || safeExternalURL(String(item.url || '')) === '#' || !String(item.title || '').trim()) return null;
-            const now = new Date().toISOString(); const platforms = ['YouTube','Threads','Instagram','小紅書','其他']; const statuses = ['inbox','unread','completed','archived'];
-            return { id: String(item.id || crypto.randomUUID?.() || `bookmark-${Date.now()}-${Math.random()}`), url: String(item.url), platform: platforms.includes(item.platform) ? item.platform : detectBookmarkPlatform(String(item.url)), title: String(item.title).trim(), note: String(item.note || ''), category: String(item.category || ''), tags: Array.isArray(item.tags) ? item.tags.map(String) : [], status: statuses.includes(item.status) ? item.status : 'inbox', thumbnailUrl: safeExternalURL(String(item.thumbnailUrl || '')) === '#' ? '' : String(item.thumbnailUrl || ''), createdAt: String(item.createdAt || now), updatedAt: String(item.updatedAt || now) };
-        }
-        function importBookmarks(file) {
-            if (!file) return; const reader = new FileReader();
-            reader.onload = () => { try { const parsed = JSON.parse(String(reader.result)); const source = Array.isArray(parsed) ? parsed : parsed.bookmarks; if (!Array.isArray(source)) throw new Error(); const incoming = source.map(normalizeImportedBookmark).filter(Boolean); if (!incoming.length && source.length) throw new Error(); const merged = new Map(getBookmarks().map(item => [item.id,item])); incoming.forEach(item => merged.set(item.id,item)); persistBookmarks([...merged.values()]); showToast(`已匯入 ${incoming.length} 筆收藏`); } catch { showToast('收藏備份格式不正確'); } };
-            reader.readAsText(file);
-        }
-
         document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('current-date').innerText = `${currentDate.getFullYear()}/${padDate(currentDate.getMonth()+1)}/${padDate(currentDate.getDate())}`;
             document.getElementById('shrine-date').valueAsDate = new Date();
@@ -4053,10 +3743,6 @@
             document.getElementById('cycle-duration').value = '5';
             document.getElementById('log-date').value = todayKey();
             applyLanguage();
-            handleIncomingBookmarkShare();
-            if ('serviceWorker' in navigator && location.protocol !== 'file:') {
-                navigator.serviceWorker.register('./service-worker.js').catch(error => console.warn('service worker registration failed', error));
-            }
 
             renderGoalSuggestions();
             renderWorkoutFilters();
@@ -4118,7 +3804,6 @@
                     if (!document.getElementById('modal-sync').classList.contains('hidden')) closeSyncModal();
                     if (!document.getElementById('modal-cloud-update').classList.contains('hidden')) dismissCloudUpdate();
                     if (!document.getElementById('modal-image-viewer').classList.contains('hidden')) closeImageViewer();
-                    if (!document.getElementById('modal-bookmark').classList.contains('hidden')) closeBookmarkModal();
                 }
             });
         });
@@ -4131,7 +3816,7 @@
                 trackingView = trackingMap[tabName];
                 tabName = 'track';
             }
-            ['home', 'hub', 'track', 'dictionary', 'goals', 'workout', 'log', 'journal', 'shrine', 'meditation', 'places', 'cycle', 'items', 'links', 'inspiration', 'bookmarks', 'settings'].forEach(tab => {
+            ['home', 'hub', 'track', 'dictionary', 'goals', 'workout', 'log', 'journal', 'shrine', 'meditation', 'places', 'cycle', 'items', 'links', 'inspiration', 'settings'].forEach(tab => {
                 document.getElementById(`page-${tab}`)?.classList.add('hidden');
             });
             const targetPage = document.getElementById(`page-${tabName}`);
@@ -4143,7 +3828,6 @@
             if (isHome) updateHomeDashboard();
             if (!isHome && tabName !== 'hub' && tabName !== 'settings') rememberRecentTab(originalTab);
             if (tabName === 'track') setTrackingPanel(trackingView);
-            if (tabName === 'bookmarks') renderBookmarks();
             window.scrollTo(0,0);
         }
 
@@ -4151,7 +3835,7 @@
             currentHub = HUBS[hubKey] ? hubKey : 'today';
             renderHubPage(currentHub);
             try { closeTransientOverlays(); } catch (error) { console.warn('close overlays failed', error); }
-            ['home', 'hub', 'track', 'dictionary', 'goals', 'workout', 'log', 'journal', 'shrine', 'meditation', 'places', 'cycle', 'items', 'links', 'inspiration', 'bookmarks', 'settings'].forEach(tab => {
+            ['home', 'hub', 'track', 'dictionary', 'goals', 'workout', 'log', 'journal', 'shrine', 'meditation', 'places', 'cycle', 'items', 'links', 'inspiration', 'settings'].forEach(tab => {
                 document.getElementById(`page-${tab}`)?.classList.add('hidden');
             });
             document.getElementById('page-hub')?.classList.remove('hidden');
@@ -4187,7 +3871,7 @@
 
         function rememberRecentTab(tabName) {
             const tab = tabName === 'goals' ? 'track' : tabName;
-            const allowed = ['track', 'dictionary', 'journal', 'shrine', 'meditation', 'places', 'cycle', 'items', 'links', 'inspiration', 'bookmarks', 'workout', 'log'];
+            const allowed = ['track', 'dictionary', 'journal', 'shrine', 'meditation', 'places', 'cycle', 'items', 'links', 'inspiration', 'workout', 'log'];
             if (!allowed.includes(tab)) return;
             const recent = getStorageArray(HOME_RECENT_KEY).filter(item => item !== tab);
             recent.unshift(tab);
@@ -4324,7 +4008,6 @@
             setHomeSummary('home-items-summary', `${wardrobeCount}/${items.length} ${dashboardWord('items')}`);
             setHomeSummary('home-links-summary', `${links.length} ${dashboardWord('sites')}`);
             setHomeSummary('home-inspiration-summary', `${inspirations.length} ${dashboardWord('entries')}`);
-            updateBookmarkHomeSummary();
             updateHomeGoalWidget();
             updateHomeRecap();
             renderRecentTabs();
